@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -779,8 +778,168 @@
         @media(max-width:400px){
             .hp-title { font-size:1.9rem; }
             .hp-visual { height:200px; } 
-            .main-hero-img { width:110%; } /* Toujours centré et normal */
-            .hp-nfc { width:90px; bottom: 25px; left: 5px; right: auto; transform: rotate(-15deg); } /* Remonté pour pas toucher clavier */
+            .main-hero-img { width:110%; }
+            .hp-nfc { width:90px; bottom: 25px; left: 5px; right: auto; transform: rotate(-15deg); }
+        }
+
+        /* ═══════════════════════════════════════
+           CARTE DE VISITE NFC — SECTION
+        ═══════════════════════════════════════ */
+        #carte-nfc {
+            background: var(--bg-light);
+            padding: 100px 5% 120px;
+            position: relative;
+        }
+        .carte-nfc-inner { max-width: 1200px; margin: 0 auto; text-align: center; position: relative; z-index: 5; }
+        .carte-nfc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin: 60px auto 0;
+        }
+        .carte-nfc-images {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+        .carte-nfc-img-main {
+            width: 100%;
+            max-width: 420px;
+            border-radius: 24px;
+            box-shadow: 0 30px 70px rgba(0,87,255,0.18);
+            transition: transform 0.4s ease;
+        }
+        .carte-nfc-img-main:hover { transform: translateY(-8px) rotate(-1deg); }
+        .carte-nfc-img-secondary {
+            width: 80%;
+            max-width: 340px;
+            border-radius: 18px;
+            box-shadow: 0 20px 50px rgba(0,87,255,0.12);
+            margin-top: -20px;
+            margin-left: auto;
+            transition: transform 0.4s ease;
+        }
+        .carte-nfc-img-secondary:hover { transform: translateY(-6px) rotate(1deg); }
+        .carte-nfc-badge {
+            position: absolute;
+            top: 16px;
+            right: 0;
+            background: var(--yellow);
+            color: #000;
+            font-family: 'Fredoka One', cursive;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(252,211,77,0.4);
+            transform: rotate(3deg);
+            z-index: 10;
+        }
+        .carte-nfc-content { text-align: left; }
+        .carte-nfc-feats {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 28px 0 32px;
+        }
+        .carte-nfc-feat {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.97rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .carte-nfc-feat .feat-check {
+            background: var(--blue-main);
+            color: white;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.65rem;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .carte-nfc-price-inline {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--white);
+            border: 2px solid var(--blue-main);
+            border-radius: 18px;
+            padding: 16px 24px;
+            margin-bottom: 28px;
+        }
+        .carte-nfc-price-inline .big-price {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.2rem;
+            color: var(--blue-main);
+            line-height: 1;
+        }
+        .carte-nfc-price-inline .price-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+        .carte-nfc-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .carte-nfc-spec-pill {
+            background: rgba(0,87,255,0.07);
+            color: var(--blue-dark);
+            border-radius: 50px;
+            padding: 6px 14px;
+            font-size: 0.78rem;
+            font-weight: 800;
+        }
+
+        /* ═══════════════════════════════════════
+           ONGLETS OFFRES (NFC Boost + Carte Visite)
+        ═══════════════════════════════════════ */
+        .offer-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 16px;
+            background: rgba(0,87,255,0.06);
+            border-radius: 12px;
+            padding: 4px;
+        }
+        .offer-tab {
+            flex: 1;
+            padding: 8px 6px;
+            border-radius: 9px;
+            border: none;
+            background: transparent;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.25s;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .offer-tab.active {
+            background: var(--blue-main);
+            color: white;
+            box-shadow: 0 3px 10px rgba(0,87,255,0.25);
+        }
+        .offer-tab-content { display: none; }
+        .offer-tab-content.active { display: block; }
+
+        @media(max-width:768px){
+            .carte-nfc-grid { grid-template-columns: 1fr; gap: 40px; }
+            .carte-nfc-content { text-align: center; }
+            .carte-nfc-feats { align-items: flex-start; }
+            .carte-nfc-price-inline { justify-content: center; }
+            .carte-nfc-specs { justify-content: center; }
+            .carte-nfc-img-secondary { width: 72%; margin-left: auto; }
         }
     </style>
 </head>
@@ -1142,6 +1301,66 @@
         </div>
     </section>
 
+    <!-- ─── CARTE DE VISITE NFC ─── -->
+    <section id="carte-nfc" class="bg-white-section">
+        <div class="carte-nfc-inner">
+            <div class="section-label reveal">// Nouvelle arme secrète</div>
+            <h2 class="reveal" style="color:var(--blue-dark)">La carte de visite qui<br><span class="text-3d">connecte tout.</span></h2>
+            <p class="sub-text reveal" style="margin:0 auto 0;color:var(--text-muted);text-align:center">Fini les cartes jetées à la poubelle. Votre carte NFC s'approche d'un smartphone et envoie instantanément vos infos, votre site, vos réseaux. Une impression durable, une technologie qui convertit.</p>
+
+            <div class="carte-nfc-grid">
+                <!-- IMAGES -->
+                <div class="carte-nfc-images reveal d-2">
+                    <div class="carte-nfc-badge">✦ Nouvelle !</div>
+                    <img src="https://i.ibb.co/hRjfDHRL/Gemini-Generated-Image-trgqp7trgqp7trgq.png"
+                         alt="Carte de visite NFC KingDream" class="carte-nfc-img-main" loading="lazy">
+                    <img src="https://i.ibb.co/23twKFF1/Screenshot-2026-04-15-at-11-29-06-change-le-logo-nfc-par-ce-logo-Google-Gemini.png"
+                         alt="Carte NFC design personnalisé" class="carte-nfc-img-secondary" loading="lazy">
+                </div>
+
+                <!-- CONTENU -->
+                <div class="carte-nfc-content reveal d-3">
+                    <div class="section-label" style="display:inline-flex;margin-bottom:18px">// Carte de Visite NFC</div>
+                    <h3 style="font-family:'Fredoka One';font-size:clamp(1.6rem,3vw,2.4rem);color:var(--blue-dark);margin-bottom:12px;line-height:1.2">
+                        Une carte.<br>Mille possibilités.
+                    </h3>
+                    <p style="color:var(--text-muted);font-weight:600;line-height:1.7;margin-bottom:4px">
+                        Votre client approche son téléphone. En une seconde il reçoit votre site, votre numéro, vos réseaux sociaux, votre portfolio. Sans application. Sans friction. Juste de la magie NFC.
+                    </p>
+
+                    <div class="carte-nfc-feats">
+                        <div class="carte-nfc-feat"><div class="feat-check">✓</div><span>Puce NFC intégrée — compatible tous smartphones</span></div>
+                        <div class="carte-nfc-feat"><div class="feat-check">✓</div><span>Design personnalisé à votre image &amp; couleurs</span></div>
+                        <div class="carte-nfc-feat"><div class="feat-check">✓</div><span>Redirige vers votre site, Google, Instagram, WhatsApp…</span></div>
+                        <div class="carte-nfc-feat"><div class="feat-check">✓</div><span>Impression premium — finition mat ou brillant</span></div>
+                        <div class="carte-nfc-feat"><div class="feat-check">✓</div><span>Lien modifiable à tout moment sans changer la carte</span></div>
+                        <div class="carte-nfc-feat"><div class="feat-check">✓</div><span>Idéale pour pros, artisans, commerciaux, créateurs</span></div>
+                    </div>
+
+                    <div class="carte-nfc-price-inline">
+                        <div class="big-price">29,90€</div>
+                        <div class="price-label">par carte<br>personnalisée</div>
+                    </div>
+
+                    <div class="carte-nfc-specs">
+                        <span class="carte-nfc-spec-pill">📐 Format CB standard</span>
+                        <span class="carte-nfc-spec-pill">🎨 Design sur mesure</span>
+                        <span class="carte-nfc-spec-pill">⚡ Puce NFC NTAG213</span>
+                        <span class="carte-nfc-spec-pill">🔗 Lien modifiable</span>
+                        <span class="carte-nfc-spec-pill">📦 Livraison France</span>
+                    </div>
+
+                    <div style="margin-top:28px">
+                        <a href="#contact" class="cta-king">Commander ma carte 💳</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </section>
+
     <!-- TARIFS -->
     <section id="offers" class="bg-white-section">
         <div class="section-inner" style="text-align:center;max-width:1200px;margin:0 auto">
@@ -1149,10 +1368,39 @@
             <h2 class="reveal">Choisissez<br><span class="text-3d">votre arme.</span></h2>
             <p class="sub-text reveal" style="margin:0 auto 0">Chaque pack est pensé pour un objectif précis.</p>
             <div class="offers-grid">
-                <div class="offer-card reveal d-1">
-                    <div class="offer-title">⚡ NFC Boost</div><div class="offer-price">49,90€</div><div class="offer-sub">par panneau — livraison 48h</div>
-                    <ul class="offer-list"><li class="offer-item"><div class="offer-check">✓</div>Pancarte NFC programmée</li><li class="offer-item"><div class="offer-check">✓</div>Compatible tous smartphones</li><li class="offer-item"><div class="offer-check">✓</div>Livraison express incluse</li><li class="offer-item"><div class="offer-check">✓</div>Garantie à vie</li></ul>
-                    <a href="#contact" class="cta-king" style="width:100%;font-size:1.05rem">Je la veux →</a>
+                <div class="offer-card reveal d-1" onclick="void(0)">
+                    <div class="offer-tabs">
+                        <button class="offer-tab active" onclick="switchTab(event,'nfc-pancarte','nfc-carte');return false;">⚡ NFC Boost</button>
+                        <button class="offer-tab" onclick="switchTab(event,'nfc-carte','nfc-pancarte');return false;">💳 Carte Visite NFC</button>
+                    </div>
+
+                    <!-- ONGLET 1 : Pancarte NFC -->
+                    <div id="nfc-pancarte" class="offer-tab-content active">
+                        <div class="offer-title">⚡ NFC Boost</div>
+                        <div class="offer-price">49,90€</div>
+                        <div class="offer-sub">par panneau — livraison 48h</div>
+                        <ul class="offer-list">
+                            <li class="offer-item"><div class="offer-check">✓</div>Pancarte NFC programmée</li>
+                            <li class="offer-item"><div class="offer-check">✓</div>Compatible tous smartphones</li>
+                            <li class="offer-item"><div class="offer-check">✓</div>Livraison express incluse</li>
+                            <li class="offer-item"><div class="offer-check">✓</div>Garantie à vie</li>
+                        </ul>
+                        <a href="#contact" class="cta-king" style="width:100%;font-size:1.05rem" onclick="preselectPack('nfc')">Je la veux →</a>
+                    </div>
+
+                    <!-- ONGLET 2 : Carte de visite NFC -->
+                    <div id="nfc-carte" class="offer-tab-content">
+                        <div class="offer-title">💳 Carte de Visite NFC</div>
+                        <div class="offer-price">29,90€</div>
+                        <div class="offer-sub">par carte — personnalisée sur mesure</div>
+                        <ul class="offer-list">
+                            <li class="offer-item"><div class="offer-check">✓</div>Puce NFC intégrée NTAG213</li>
+                            <li class="offer-item"><div class="offer-check">✓</div>Design à vos couleurs</li>
+                            <li class="offer-item"><div class="offer-check">✓</div>Lien modifiable sans changer la carte</li>
+                            <li class="offer-item"><div class="offer-check">✓</div>Impression premium mat/brillant</li>
+                        </ul>
+                        <a href="#contact" class="cta-king" style="width:100%;font-size:1.05rem" onclick="preselectPack('carte-nfc')">Je la commande →</a>
+                    </div>
                 </div>
                 <div class="offer-card featured reveal d-2">
                     <div class="offer-star">🔥 BEST SELLER</div><div class="offer-title">💎 Domination</div><div class="offer-price">Sur mesure</div><div class="offer-sub">devis gratuit — inclut tout</div>
@@ -1399,6 +1647,7 @@
                         <option value="">— Choisissez votre besoin —</option>
                         <option value="domination">💎 Pack Domination (Web + NFC)</option>
                         <option value="nfc">⚡ Pancarte NFC Boost — 49,90€</option>
+                        <option value="carte-nfc">💳 Carte de Visite NFC — 29,90€</option>
                         <option value="web">🚀 Site Web Pro — dès 650€</option>
                         <option value="maintenance">🛠️ Option Maintenance — 34,90€/mois</option>
                         <option value="conseil">💡 Conseils et devis gratuit</option>
@@ -1677,7 +1926,7 @@ function showNotification() {
 }
 setTimeout(showNotification, 10000);
 </script>
-  <!-- ─── CHATBOT IA KINGDREAM COMPLET ─── -->
+<!-- ─── CHATBOT IA KINGDREAM INTELLIGENT (CLAUDE API) ─── -->
 <style>
     #ai-chat-wrapper { position: fixed; bottom: 100px; right: 25px; z-index: 10000; font-family: 'Nunito', sans-serif; }
     #ai-chat-bubble { 
@@ -1688,97 +1937,319 @@ setTimeout(showNotification, 10000);
     }
     #ai-chat-bubble:hover { transform: scale(1.1) rotate(5deg); }
     #ai-chat-bubble svg { width: 30px; height: 30px; fill: white; }
+    #ai-unread-badge {
+        position: absolute; top: -4px; right: -4px;
+        width: 18px; height: 18px; background: #FCD34D; border-radius: 50%;
+        display: none; align-items: center; justify-content: center;
+        font-size: 0.65rem; font-weight: 900; color: #000;
+    }
     #ai-chat-window { 
-        width: 370px; height: 520px; background: rgba(255, 255, 255, 0.98); 
+        width: 370px; height: 540px; background: rgba(255, 255, 255, 0.98); 
         backdrop-filter: blur(15px); border-radius: 24px; display: none; 
         flex-direction: column; box-shadow: 0 30px 80px rgba(0,0,0,0.3); 
         border: 1px solid rgba(0,87,255,0.1); margin-bottom: 15px; 
         overflow: hidden; animation: chatIn 0.4s ease-out; 
     }
     @keyframes chatIn { from { opacity: 0; transform: translateY(30px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
-    .ai-chat-header { background: linear-gradient(135deg, #0057FF, #0036A3); color: white; padding: 20px; display: flex; align-items: center; gap: 12px; }
-    .ai-chat-header img { width: 38px; height: 38px; border-radius: 50%; border: 2px solid #FCD34D; background: white; }
+    .ai-chat-header { background: linear-gradient(135deg, #0057FF, #0036A3); color: white; padding: 18px 20px; display: flex; align-items: center; gap: 12px; }
+    .ai-chat-avatar { position: relative; }
+    .ai-chat-header img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #FCD34D; background: white; object-fit: cover; }
+    .ai-online-dot { position: absolute; bottom: 1px; right: 1px; width: 11px; height: 11px; background: #22c55e; border-radius: 50%; border: 2px solid white; }
+    .ai-chat-header-info { flex: 1; }
     .ai-chat-header-info span { display: block; font-weight: 900; font-size: 1rem; }
-    .ai-chat-header-info small { font-size: 0.75rem; color: #FCD34D; }
-    #ai-chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; background: #f9fbff; }
-    .msg { max-width: 85%; padding: 12px 18px; border-radius: 20px; font-size: 0.9rem; line-height: 1.5; font-weight: 600; position: relative; }
-    .msg.bot { background: white; color: #0f172a; align-self: flex-start; border-bottom-left-radius: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
-    .msg.user { background: #0057FF; color: white; align-self: flex-end; border-bottom-right-radius: 5px; }
-    #typing-indicator { display:none; padding: 0 20px 10px; font-size: 0.8rem; color: #888; font-style: italic; background: #f9fbff; }
-    .ai-chat-input-area { padding: 15px; background: white; display: flex; gap: 10px; border-top: 1px solid #eee; align-items: center; }
-    .ai-chat-input-area input { flex: 1; border: none; padding: 12px; border-radius: 12px; background: #f1f4f9; font-weight: 600; outline: none; margin: 0 !important; }
-    .ai-chat-input-area button { background: #0057FF; border: none; width: 45px; height: 45px; border-radius: 12px; color: white; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
-    @media (max-width: 480px) { #ai-chat-window { width: 90vw; height: 70vh; right: 5vw; } }
+    .ai-chat-header-info small { font-size: 0.72rem; color: #FCD34D; }
+    .ai-header-close { background: rgba(255,255,255,0.15); border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+    .ai-header-close:hover { background: rgba(255,255,255,0.3); }
+    #ai-chat-messages { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px; background: #f9fbff; scroll-behavior: smooth; }
+    #ai-chat-messages::-webkit-scrollbar { width: 4px; }
+    #ai-chat-messages::-webkit-scrollbar-thumb { background: rgba(0,87,255,0.2); border-radius: 4px; }
+    .msg { max-width: 85%; padding: 11px 16px; border-radius: 18px; font-size: 0.88rem; line-height: 1.55; font-weight: 600; }
+    .msg.bot { background: white; color: #0f172a; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 3px 12px rgba(0,0,0,0.06); }
+    .msg.user { background: #0057FF; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .msg.bot a { color: #0057FF; font-weight: 800; }
+    .msg-timestamp { font-size: 0.65rem; color: #aaa; margin-top: 3px; align-self: flex-start; padding-left: 4px; }
+    .msg-timestamp.right { align-self: flex-end; padding-left: 0; padding-right: 4px; }
+
+    /* TYPING ANIMATION */
+    .typing-bubble { align-self: flex-start; background: white; border-radius: 18px; border-bottom-left-radius: 4px; padding: 14px 18px; box-shadow: 0 3px 12px rgba(0,0,0,0.06); display: flex; gap: 5px; align-items: center; }
+    .typing-dot { width: 7px; height: 7px; background: #0057FF; border-radius: 50%; animation: typingBounce 1.2s ease-in-out infinite; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce { 0%,60%,100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-6px); opacity: 1; } }
+
+    /* SUGGESTIONS RAPIDES */
+    .quick-suggestions { padding: 10px 18px 8px; background: #f9fbff; display: flex; flex-wrap: wrap; gap: 7px; border-top: 1px solid rgba(0,87,255,0.07); }
+    .quick-btn { background: white; border: 1.5px solid rgba(0,87,255,0.25); color: #0057FF; border-radius: 50px; padding: 6px 14px; font-size: 0.75rem; font-weight: 800; cursor: pointer; transition: 0.2s; white-space: nowrap; font-family: 'Nunito', sans-serif; }
+    .quick-btn:hover { background: #0057FF; color: white; border-color: #0057FF; }
+
+    /* INPUT */
+    .ai-chat-input-area { padding: 12px 15px; background: white; display: flex; gap: 10px; border-top: 1px solid #eee; align-items: center; }
+    .ai-chat-input-area input { flex: 1; border: 1.5px solid rgba(0,87,255,0.15); padding: 10px 14px; border-radius: 12px; background: #f8faff; font-weight: 600; outline: none; margin: 0 !important; font-size: 0.88rem; font-family: 'Nunito', sans-serif; transition: 0.2s; }
+    .ai-chat-input-area input:focus { border-color: #0057FF; background: white; }
+    .ai-send-btn { background: #0057FF; border: none; width: 42px; height: 42px; border-radius: 12px; color: white; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .ai-send-btn:hover { background: #0036A3; transform: scale(1.05); }
+    .ai-send-btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
+    .ai-send-btn svg { width: 18px; height: 18px; fill: none; stroke: white; stroke-width: 2; }
+
+    @media (max-width: 480px) { 
+        #ai-chat-window { width: calc(100vw - 30px); height: 70vh; right: 0; position: fixed; bottom: 80px; } 
+        #ai-chat-wrapper { right: 15px; bottom: 80px; }
+    }
 </style>
 
 <div id="ai-chat-wrapper">
     <div id="ai-chat-window">
         <div class="ai-chat-header">
-            <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream AI">
+            <div class="ai-chat-avatar">
+                <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream AI">
+                <div class="ai-online-dot"></div>
+            </div>
             <div class="ai-chat-header-info">
                 <span>KingDream Assistant 👑</span>
-                <small>En ligne</small>
+                <small>● En ligne — répond en quelques secondes</small>
             </div>
-            <button onclick="toggleChat()" style="background:none; border:none; color:white; font-size:1.8rem; cursor:pointer;">&times;</button>
+            <button class="ai-header-close" onclick="toggleChat()">✕</button>
         </div>
+
         <div id="ai-chat-messages">
-            <div class="msg bot">Bonjour ! Je suis l'intelligence KingDream. Mon but est de transformer votre business en empire local. Quel est votre domaine d'activité ? 🚀</div>
+            <div class="msg bot">Bonjour ! 👋 Je suis l'assistant IA de <strong>KingDream Digital</strong>.<br><br>Je suis là pour vous conseiller sur votre projet web, votre visibilité locale, vos avis Google… Dites-moi tout, je suis à votre écoute ! 🚀</div>
         </div>
-        <div id="typing-indicator">L'IA réfléchit...</div>
+
+        <div class="quick-suggestions" id="quick-suggestions">
+            <button class="quick-btn" onclick="sendQuick('Je veux créer un site web')">🌐 Créer un site</button>
+            <button class="quick-btn" onclick="sendQuick('Comment booster mes avis Google ?')">⭐ Avis Google</button>
+            <button class="quick-btn" onclick="sendQuick('Quels sont vos tarifs ?')">💰 Tarifs</button>
+            <button class="quick-btn" onclick="sendQuick('C\'est quoi une plaque NFC ?')">📡 Plaque NFC</button>
+        </div>
+
         <div class="ai-chat-input-area">
-            <input type="text" id="ai-user-input" placeholder="Écrivez ici..." onkeypress="if(event.key==='Enter') sendChatMessage()">
-            <button onclick="sendChatMessage()">➤</button>
+            <input type="text" id="ai-user-input" placeholder="Décrivez votre projet..." 
+                onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); sendChatMessage(); }">
+            <button class="ai-send-btn" id="ai-send-btn" onclick="sendChatMessage()">
+                <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
         </div>
     </div>
-    <div id="ai-chat-bubble" onclick="toggleChat()">
+
+    <div id="ai-chat-bubble" onclick="toggleChat()" style="position:relative;">
         <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2 22l5-1.338C8.47 21.513 10.179 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.477 0-2.873-.372-4.089-1.031l-2.811.751.751-2.811A7.953 7.953 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/><circle cx="8" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="16" cy="12" r="1.5"/></svg>
+        <div id="ai-unread-badge" style="display:flex;">1</div>
     </div>
 </div>
 
 <script>
-    const aiMsgs = document.getElementById('ai-chat-messages');
-    const aiTyping = document.getElementById('typing-indicator');
-    const aiInput = document.getElementById('ai-user-input');
-    const aiWin = document.getElementById('ai-chat-window');
+(function() {
+    const SYSTEM_PROMPT = `Tu es l'assistant commercial IA de KingDream Digital, une agence web spécialisée dans la création de sites internet haute conversion et les pancartes NFC pour booster les avis Google des commerces locaux.
 
-    function toggleChat() { aiWin.style.display = (aiWin.style.display === 'flex') ? 'none' : 'flex'; }
+TON RÔLE :
+- Accueillir chaleureusement les visiteurs du site
+- Comprendre leur projet, leur activité, leurs besoins
+- Les conseiller avec expertise sur les solutions KingDream
+- Les orienter vers l'offre la plus adaptée
+- Les encourager à prendre contact ou demander un devis
 
-    function sendChatMessage() {
-        const text = aiInput.value.trim();
-        if(!text) return;
-        addAiMessage(text, 'user');
-        aiInput.value = '';
-        aiTyping.style.display = 'block';
-        aiMsgs.scrollTop = aiMsgs.scrollHeight;
-        setTimeout(() => { 
-            aiTyping.style.display = 'none'; 
-            addAiMessage(getKingDreamResponse(text.toLowerCase()), 'bot'); 
-        }, 1200);
+LES OFFRES KINGDREAM :
+1. **Plaque NFC KingDream** (49,90€) : Pancarte connectée NFC + QR Code à poser en caisse ou sur table. Quand un client scanne, il est redirigé directement vers la page d'avis Google du commerce. Pas d'application nécessaire. Idéal pour restaurants, coiffeurs, garages, artisans, hôtels, boutiques. Les clients passent de 10 à 150+ avis en 2 mois en moyenne.
+
+2. **Site Web Pro** (à partir de 650€) : Site vitrine ou e-commerce sur mesure, design premium, optimisé SEO local, livré en 7 jours. Mobile-first, rapide, avec formulaire de contact et intégration réseaux sociaux.
+
+3. **Pack Domination Locale** (sur devis) : Combinaison site web + plaque NFC + stratégie SEO local + suivi mensuel. Tout pour dominer les recherches locales sur Google et devenir le N°1 de sa ville.
+
+EXEMPLES DE CONSEILS PAR SECTEUR :
+- Restaurant / Bar : Plaque NFC sur chaque table et en caisse + site avec menu en ligne. Les avis Google explosent après chaque repas.
+- Coiffeur / Esthétique : Site avec prise de RDV en ligne + NFC en caisse. Intégration possible avec Planity ou Treatwell.
+- Artisan / Plombier / Electricien : Site optimisé pour les recherches urgentes locales ("plombier disponible urgence [ville]"), formulaire devis rapide, NFC pour les avis clients.
+- Immobilier / Agence : Site vitrine luxe avec galerie biens, NFC en agence physique pour rassurer les vendeurs.
+- Garage / Auto : Site avec formulaire de prise de RDV + NFC pour récolter des avis de confiance.
+- Médecin / Professionnel de santé : Site informatif sobre + NFC pour avis.
+- Commerce de proximité : Pack complet avec NFC + site vitrine.
+
+INFOS PRATIQUES :
+- Délai de livraison : 7 jours chrono pour les sites
+- Garantie satisfait ou remboursé sur la plaque NFC
+- Livraison de la plaque NFC partout en France
+- Contact : 06 27 20 55 97
+- Site : www.kingdream.fr
+- Pour un devis : formulaire de contact sur le site
+
+STYLE DE COMMUNICATION :
+- Sois chaleureux, dynamique, enthousiaste mais professionnel
+- Utilise des emojis avec modération (1-2 par message max)
+- Pose des questions pour mieux cerner le projet du visiteur
+- Sois concret : donne des exemples, des chiffres, des bénéfices réels
+- Après 2-3 échanges, propose naturellement de prendre contact ou demander un devis
+- Ne parle JAMAIS des concurrents
+- Réponds toujours en français
+- Garde des réponses concises : 3-5 phrases maximum par réponse
+- Si quelqu'un veut parler à un humain, donne le numéro 06 27 20 55 97`;
+
+    let chatHistory = [];
+    let isLoading = false;
+    let chatOpen = false;
+
+    const messagesEl = document.getElementById('ai-chat-messages');
+    const inputEl = document.getElementById('ai-user-input');
+    const sendBtn = document.getElementById('ai-send-btn');
+    const chatWin = document.getElementById('ai-chat-window');
+    const badge = document.getElementById('ai-unread-badge');
+    const suggestionsEl = document.getElementById('quick-suggestions');
+
+    window.toggleChat = function() {
+        chatOpen = !chatOpen;
+        chatWin.style.display = chatOpen ? 'flex' : 'none';
+        if (chatOpen) {
+            badge.style.display = 'none';
+            setTimeout(() => inputEl.focus(), 300);
+        }
+    };
+
+    window.sendQuick = function(text) {
+        suggestionsEl.style.display = 'none';
+        inputEl.value = text;
+        sendChatMessage();
+    };
+
+    window.sendChatMessage = async function() {
+        const text = inputEl.value.trim();
+        if (!text || isLoading) return;
+
+        // Hide suggestions after first message
+        suggestionsEl.style.display = 'none';
+
+        addMessage(text, 'user');
+        inputEl.value = '';
+        chatHistory.push({ role: 'user', content: text });
+
+        setLoading(true);
+        const typingEl = showTyping();
+
+        try {
+            // ──────────────────────────────────────────────────
+            // CONFIGURATION OPENROUTER
+            // Remplacez la valeur ci-dessous par votre clé API OpenRouter
+            const OPENROUTER_API_KEY = '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';
+            // ──────────────────────────────────────────────────
+
+            const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + OPENROUTER_API_KEY,
+                    'HTTP-Referer': 'https://www.kingdream.fr',
+                    'X-Title': 'KingDream Digital Chatbot'
+                },
+                body: JSON.stringify({
+                    model: 'anthropic/claude-sonnet-4-5',
+                    max_tokens: 1000,
+                    messages: [
+                        { role: 'system', content: SYSTEM_PROMPT },
+                        ...chatHistory
+                    ]
+                })
+            });
+
+            const data = await response.json();
+            typingEl.remove();
+
+            if (data.choices && data.choices[0] && data.choices[0].message) {
+                const reply = data.choices[0].message.content;
+                chatHistory.push({ role: 'assistant', content: reply });
+                addMessage(formatBotMessage(reply), 'bot', true);
+            } else {
+                addMessage("Désolé, une erreur s'est produite. Appelez-nous directement au <a href='tel:0627205597'>06 27 20 55 97</a> ! 📞", 'bot', true);
+            }
+        } catch (err) {
+            typingEl.remove();
+            addMessage("Une erreur réseau s'est produite. Contactez-nous au <a href='tel:0627205597'>06 27 20 55 97</a> 📞", 'bot', true);
+        }
+
+        setLoading(false);
+    };
+
+    function formatBotMessage(text) {
+        // Convert **bold** to <strong>
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        // Convert line breaks
+        text = text.replace(/\n\n/g, '<br><br>');
+        text = text.replace(/\n/g, '<br>');
+        // Make phone numbers clickable
+        text = text.replace(/06\s?27\s?20\s?55\s?97/g, '<a href="tel:0627205597" style="color:#0057FF;font-weight:900;">06 27 20 55 97</a>');
+        // Make URLs clickable
+        text = text.replace(/www\.kingdream\.fr/g, '<a href="https://www.kingdream.fr" style="color:#0057FF;font-weight:900;">www.kingdream.fr</a>');
+        return text;
     }
 
-    function addAiMessage(text, side) {
-        const div = document.createElement('div');
-        div.className = `msg ${side}`;
-        div.innerHTML = text;
-        aiMsgs.appendChild(div);
-        aiMsgs.scrollTop = aiMsgs.scrollHeight;
+    function addMessage(text, side, isHTML = false) {
+        const wrap = document.createElement('div');
+        wrap.style.display = 'flex';
+        wrap.style.flexDirection = 'column';
+        wrap.style.alignItems = side === 'user' ? 'flex-end' : 'flex-start';
+
+        const msg = document.createElement('div');
+        msg.className = `msg ${side}`;
+        if (isHTML) {
+            msg.innerHTML = text;
+        } else {
+            msg.textContent = text;
+        }
+
+        const time = document.createElement('div');
+        time.className = 'msg-timestamp' + (side === 'user' ? ' right' : '');
+        const now = new Date();
+        time.textContent = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+
+        wrap.appendChild(msg);
+        wrap.appendChild(time);
+        messagesEl.appendChild(wrap);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-    function getKingDreamResponse(q) {
-        if (q.includes('qui es-tu')) return "Je suis l'IA de KingDream Digital. Je suis là pour bâtir votre empire local ! 👑";
-        if (q.includes('bonjour') || q.includes('salut')) return "Salut ! Prêt à écraser la concurrence ? Dites-moi votre métier !";
-        if (q.includes('prix') || q.includes('tarif') || q.includes('combien')) return "C'est simple : <br>• <strong>Plaque NFC</strong> : 49,90€<br>• <strong>Site Web Pro</strong> : dès 650€<br>• <strong>Domination</strong> : Sur devis.<br>On commence quand ? 💸";
-        if (q.includes('resto') || q.includes('manger')) return "Pour votre <strong>Empire Culinaire</strong>, la plaque NFC sur table est magique. 5 étoiles direct après le café ! 🍽️";
-        if (q.includes('coiffeur') || q.includes('salon')) return "On connecte votre salon ! On lie votre site à Planity et on booste vos avis Google à la caisse. ✂️✨";
-        if (q.includes('artisan') || q.includes('travaux') || q.includes('plombier')) return "<strong>Empire Artisan :</strong> On vous rend N°1 sur les urgences locales. Votre site devient un aimant à devis ! 🛠️";
-        if (q.includes('immo') || q.includes('agence')) return "<strong>Empire Immo :</strong> Un site luxe pour vos mandats et une plaque NFC en agence pour rassurer vos vendeurs. 🏠";
-        if (q.includes('garage') || q.includes('auto')) return "<strong>Empire Auto :</strong> Gagnez la confiance avec une pluie d'avis 5 étoiles. On remplit votre atelier ! 🚗💨";
-        if (q.includes('7 jours') || q.includes('temps') || q.includes('délai')) return "On livre en 7 jours chrono. Si on dépasse d'une minute, on vous rembourse. Efficacité totale. 🚀";
-        if (q.includes('nfc') || q.includes('plaque')) return "La plaque NFC KingDream permet de récolter des avis Google sans aucun effort. Pas d'application, pas d'abo. Magique. ⚡";
-        if (q.includes('avis') || q.includes('google')) return "Les avis sont votre meilleure arme. Nos clients passent de 10 à 150 avis en moins de 2 mois ! ⭐⭐⭐⭐⭐";
-        return "C'est un beau projet ! KingDream a une solution sur mesure. Appelez-nous au <strong>06 27 20 55 97</strong> ou utilisez le formulaire de contact ! 😊";
+    function showTyping() {
+        const el = document.createElement('div');
+        el.className = 'typing-bubble';
+        el.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+        messagesEl.appendChild(el);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+        return el;
     }
+
+    function setLoading(val) {
+        isLoading = val;
+        sendBtn.disabled = val;
+        inputEl.disabled = val;
+    }
+
+    // ─── ONGLETS OFFRES NFC ───
+    window.switchTab = function(e, showId, hideId) {
+        e.stopPropagation();
+        const showEl = document.getElementById(showId);
+        const hideEl = document.getElementById(hideId);
+        if (!showEl || !hideEl) return;
+        showEl.classList.add('active');
+        hideEl.classList.remove('active');
+        // Mise à jour des boutons onglets
+        const tabs = e.target.closest('.offer-tabs');
+        if (tabs) {
+            tabs.querySelectorAll('.offer-tab').forEach(t => t.classList.remove('active'));
+            e.target.classList.add('active');
+        }
+    };
+
+    // ─── PRÉSÉLECTION FORMULAIRE ───
+    window.preselectPack = function(val) {
+        const sel = document.querySelector('select[name="pack"]');
+        if (sel) sel.value = val;
+    };
+
+
+    setTimeout(() => {
+        if (!chatOpen && window.innerWidth > 768) {
+            badge.style.display = 'flex';
+        }
+    }, 8000);
+
+})();
 </script>
+
 </body>
 </html>
-```
