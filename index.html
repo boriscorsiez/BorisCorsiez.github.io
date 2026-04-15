@@ -1,0 +1,1784 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KINGDREAM DIGITAL ⚡ Création de Sites Web & Domination Locale</title>
+    <meta name="description" content="Agence KingDream Digital : Sites web haute conversion et Pancartes NFC connectées pour exploser vos avis Google. Devenez le N°1 de votre ville en 7 jours.">
+    <meta name="keywords" content="création site web, agence digitale, pancarte NFC, avis Google, SEO local, site internet, KingDream Digital, création site web rennes, visibilité locale">
+    <meta name="author" content="KingDream Digital">
+    <link rel="canonical" href="https://www.kingdream.fr">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Importation de la police "Inter" pour le sous-titre du Hero -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Inter:wght@300;400;500;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Palette globale */
+            --blue-main: #0057FF; 
+            --blue-dark: #0036A3; 
+            --blue-light: #4285F4; 
+            --white: #ffffff;
+            --bg-light: #f8faff; 
+            --text-dark: #0f172a; 
+            --text-muted: #475569; 
+            --yellow: #FCD34D;
+            --shadow-soft: 0 10px 40px rgba(0,87,255,0.08);
+            --shadow-float: 0 20px 50px rgba(0,87,255,0.15);
+            --shadow-btn: 0 8px 25px rgba(0,87,255,0.4);
+            --nav-h: 75px; 
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg-light); color: var(--text-dark); font-family: 'Nunito', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        img { max-width:100%; height:auto; display:block; }
+
+        /* ─── SCROLL PROGRESS ─── */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+            background: var(--yellow);
+            z-index: 9999; transition: width 0.1s linear;
+        }
+
+        /* ─── BACK TO TOP ─── */
+        #back-to-top {
+            position: fixed; bottom: 90px; right: 20px; width: 44px; height: 44px;
+            background: var(--blue-main);
+            color: white; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; text-decoration: none; opacity: 0; pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s; z-index: 998;
+            box-shadow: var(--shadow-btn);
+        }
+        #back-to-top.visible { opacity: 1; pointer-events: auto; }
+        #back-to-top:hover { transform: translateY(-3px); }
+
+        /* ─── ANIMATIONS REVEAL ─── */
+        .reveal { opacity:0; transform:translateY(30px); transition:all 0.8s cubic-bezier(0.25,1,0.5,1); }
+        .reveal.active { opacity:1; transform:translateY(0); }
+        .d-1{transition-delay:.1s}.d-2{transition-delay:.2s}.d-3{transition-delay:.3s}.d-4{transition-delay:.4s}.d-5{transition-delay:.5s}.d-6{transition-delay:.6s}
+
+        /* ─── NAVIGATION (ORDINATEUR) ─── */
+        nav#navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: var(--white) !important;
+            padding: 0 5%;
+            height: var(--nav-h);
+            display: flex; align-items: center; justify-content: space-between;
+            transition: transform 0.4s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        nav.nav-hidden { transform: translateY(-100%); }
+        nav.nav-scrolled { box-shadow: 0 10px 30px rgba(0,87,255,0.1); }
+
+        .nav-logo-link {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 180px; 
+            height: var(--nav-h);
+            text-decoration: none;
+            z-index: 50; 
+            flex-shrink: 0;
+        }
+        .nav-logo-link img {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            left: 0;
+            transform: translateY(-40%) scale(2.2);
+            transform-origin: left center;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            pointer-events: none; 
+        }
+
+        .nav-links { display:flex; gap:28px; list-style:none; position: relative; z-index: 100; margin-top: 5px; }
+        .nav-links a {
+            color: var(--blue-dark);
+            text-decoration: none; font-weight: 800;
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s;
+        }
+        .nav-links a:hover { color: var(--blue-main); }
+
+        .nav-actions { display: flex; align-items: center; gap: 14px; position: relative; z-index: 100; margin-top: 5px; }
+        .nav-cta {
+            background: var(--blue-main);
+            color: var(--white); padding: 10px 22px; border-radius: 50px;
+            font-weight: 900; font-size: 0.85rem; text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,87,255,0.2); transition: 0.3s; white-space: nowrap;
+        }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(0,87,255,0.4); background: var(--blue-dark); color: white; }
+
+        /* BOUTON HAMBURGER NAVBAR */
+        .nav-hamburger {
+            display: none; flex-direction: column; justify-content: space-between;
+            width: 32px; height: 22px; cursor: pointer;
+            background: none; border: none; padding: 0; z-index: 1010;
+        }
+        .nav-hamburger span {
+            display: block; height: 3px; border-radius: 3px; width: 100%;
+            background: var(--blue-main);
+            transition: all 0.3s ease;
+        }
+
+        /* ─── MENU MOBILE CLAIR COULISSANT ─── */
+        .mobile-menu {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg-light); 
+            z-index: 1050; 
+            display: flex; flex-direction: column;
+            transform: translateX(100%); 
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            padding: 20px 0; 
+        }
+        .mobile-menu.open { transform: translateX(0); }
+        
+        .mobile-close-btn {
+            position: absolute; top: 20px; right: 25px;
+            background: none; border: none;
+            font-size: 3rem; color: var(--text-dark);
+            cursor: pointer; font-family: 'Nunito', sans-serif;
+            line-height: 1; padding: 10px; z-index: 1051;
+            transition: color 0.3s;
+        }
+        .mobile-close-btn:hover { color: var(--blue-main); }
+
+        .mobile-menu-links { display: flex; flex-direction: column; align-items: center; gap: 35px; width: 100%; }
+        .mobile-menu-links a { color: var(--text-dark); text-decoration: none; font-family: 'Nunito', sans-serif; font-size: 1.8rem; font-weight: 800; letter-spacing: 0.5px; transition: 0.2s; }
+        .mobile-menu-links a:hover { color: var(--blue-main); transform: scale(1.05); }
+        
+        .mobile-menu-links .mobile-cta { background: var(--blue-main); color: var(--white); padding: 16px 40px; border-radius: 50px; font-weight:900; font-size: 1.2rem; box-shadow: 0 10px 25px rgba(0,87,255,0.2); margin-top: 10px; text-shadow: none; }
+        .mobile-menu-links .mobile-cta:hover { color: white; background: var(--blue-dark); }
+
+        .mobile-menu-logo-container { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; }
+        .mobile-menu-logo-container img { width: 250px; max-width: 80%; }
+
+        /* ─── VAGUES SÉPARATRICES ─── */
+        .wave-bottom { position: absolute; bottom: -1px; left: 0; width: 100%; overflow: hidden; line-height: 0; z-index: 10; pointer-events: none; }
+        .wave-bottom svg { display: block; width: 100%; height: 60px; }
+        .bg-blue-section .wave-bottom path { fill: var(--bg-light); }
+        .bg-white-section .wave-bottom path { fill: var(--blue-main); }
+
+        /* ─── LAYOUT GLOBALS ─── */
+        section { scroll-margin-top: calc(var(--nav-h) + 10px); padding: 100px 5% 120px; position: relative; overflow: hidden; }
+        .section-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 5; }
+        
+        h2 { font-family:'Fredoka One', cursive; font-size: clamp(2rem,5vw,4rem); line-height: 1.15; margin-bottom: 20px; }
+        h3, h4 { font-family:'Fredoka One', cursive; line-height: 1.2; }
+        
+        /* ─── TEXTE HERO ─── */
+        .hp-subtitle { 
+            font-family: 'Inter', sans-serif; 
+            font-size: 1.15rem; 
+            font-weight: 400; 
+            max-width: 600px; 
+            line-height: 1.6; 
+            margin-bottom: 35px;
+            color: rgba(255,255,255,0.9); /* Blanc clair adapté au fond bleu */
+        }
+        .hp-subtitle strong {
+            color: var(--yellow); /* JAUNE POUR RESSORTIR SUR LE BLEU */
+            font-weight: 700;
+        }
+
+        .sub-text { font-size: clamp(0.95rem,1.8vw,1.05rem); font-weight: 600; max-width: 640px; line-height: 1.8; margin-bottom: 36px; }
+
+        .bg-white-section { background: var(--bg-light); color: var(--text-dark); }
+        .bg-white-section h2 { color: var(--blue-dark); }
+        .bg-white-section .sub-text { color: var(--text-muted); }
+        .bg-white-section .section-label { display: inline-flex; align-items: center; gap: 8px; background: var(--blue-light); color: white; padding: 7px 20px; border-radius: 50px; font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+        .bg-white-section .text-3d { color: var(--blue-main); text-shadow: 2px 2px 0 #fff, 4px 4px 0 rgba(0,87,255,0.2); display: inline-block; animation: floatTitle 3s ease-in-out infinite alternate;}
+
+        .bg-blue-section { background: linear-gradient(160deg, var(--blue-main) 0%, var(--blue-dark) 100%); color: var(--white); }
+        .bg-blue-section h2 { color: var(--white); }
+        .bg-blue-section .sub-text { color: rgba(255,255,255,0.9); }
+        .bg-blue-section .section-label { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.2); color: white; padding: 7px 20px; border-radius: 50px; font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.3); }
+        .bg-blue-section .text-3d { color: var(--yellow); text-shadow: 2px 2px 0 var(--blue-dark), 4px 4px 0 rgba(0,0,0,0.2); display: inline-block; animation: floatTitle 3s ease-in-out infinite alternate;}
+
+        @keyframes floatTitle { 0%{transform:translateY(0) rotate(0)} 100%{transform:translateY(-6px) rotate(-2deg)} }
+
+        .cta-king { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 36px; background: var(--blue-main); color: white; font-family: 'Fredoka One'; font-size: 1.15rem; text-decoration: none; border-radius: 50px; transition: 0.3s; cursor: pointer; box-shadow: var(--shadow-btn); border: none; text-align: center; }
+        .cta-king:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(0,87,255,.5); color: white; }
+        .cta-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 32px; background: transparent; color: var(--blue-main); font-family: 'Fredoka One'; font-size: 1.05rem; text-decoration: none; border-radius: 50px; transition: 0.3s; cursor: pointer; border: 2px solid var(--blue-main); }
+        .cta-ghost:hover { background: rgba(0,87,255,.1); transform: translateY(-3px); }
+        .bg-blue-section .cta-king { background: var(--yellow); color: #000; box-shadow: 0 8px 25px rgba(252, 211, 77, 0.4); }
+        .bg-blue-section .cta-king:hover { box-shadow: 0 15px 35px rgba(252, 211, 77, 0.6); color: #000;}
+        .bg-blue-section .cta-ghost { color: var(--white); border-color: var(--white); }
+        .bg-blue-section .cta-ghost:hover { background: rgba(255,255,255,0.1); }
+
+        /* ─── HERO ─── */
+        #hero-premium {
+            scroll-margin-top: 0;
+            position: relative;
+            padding: calc(var(--nav-h) + 60px) 5% 140px; 
+            min-height: 100vh;
+            display: flex; align-items: center;
+        }
+        .hp-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; width: 100%; position: relative; z-index: 10; }
+
+        .hp-content { position: relative; z-index: 20; }
+
+        .hp-trust {
+            display: inline-flex; align-items: center; gap: 12px;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            padding: 6px 20px 6px 6px; border-radius: 50px; margin-bottom: 28px;
+        }
+        .hp-avatars { display:flex; align-items:center; }
+        .hp-avatars img { width:34px; height:34px; border-radius:50%; border:2px solid var(--blue-main); margin-left:-10px; object-fit:cover; }
+        .hp-avatars img:first-child { margin-left:0; }
+        .hp-trust-text { font-size:0.82rem; font-weight:800; color:var(--white); }
+        .hp-trust-text span { color:var(--yellow); }
+
+        .hp-title { font-family:'Fredoka One'; font-size:clamp(2.4rem,4.5vw,4.5rem); line-height:1.1; color:var(--white); margin-bottom:15px; text-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        
+        .hp-cta-group { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:28px; }
+        .hp-badges { display:flex; gap:20px; font-size:0.82rem; font-weight:800; color:rgba(255,255,255,0.8); flex-wrap:wrap; }
+        .hp-badge-item { display:flex; align-items:center; gap:8px; }
+        .hp-badge-icon { width:22px; height:22px; border-radius:50%; background:rgba(255,255,255,.2); color:var(--white); display:flex; align-items:center; justify-content:center; font-size:0.65rem; }
+
+        /* REGLAGES VISUEL HERO (IMAC NORMALISÉ ET CENTRÉ) */
+        .hp-visual { position:relative; width:100%; height:560px; display:flex; align-items:center; justify-content:center; z-index: 5;}
+        
+        .backlight-glow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:480px; height:380px; background:rgba(255,255,255,0.1); filter:blur(100px); border-radius:50%; z-index:2; pointer-events:none; }
+        
+        .main-hero-img {
+            position:absolute; top:50%; 
+            left: 50%; /* PARFAITEMENT CENTRÉ */
+            transform:translate(-50%,-50%);
+            width: 135%; /* TAILLE NORMALE */
+            max-width: 850px; z-index:5;
+            filter:drop-shadow(0 40px 60px rgba(0,0,0,.4));
+        }
+        
+        .hp-nfc {
+            position:absolute; 
+            width: 150px; 
+            bottom: 120px; /* REMONTÉE SUR PC POUR NE PAS TOUCHER LE CLAVIER */
+            left: -30px; /* À GAUCHE */
+            right: auto;
+            z-index:10; 
+            transform:rotate(-12deg); 
+            filter:drop-shadow(0 25px 40px rgba(0,0,0,.4));
+        }
+
+        /* ─── TICKER (BLANC) ─── */
+        .logo-ticker-section { padding:40px 0; text-align:center; position: relative; background: var(--bg-light); border-top: 1px solid rgba(0,0,0,0.05);}
+        .ticker-title { font-size:0.72rem; font-weight:800; color:var(--text-muted); letter-spacing:4px; text-transform:uppercase; margin-bottom:20px; }
+        .logo-ticker { overflow:hidden; position:relative; width:100%; max-width:1400px; margin:0 auto; pointer-events:none; user-select:none; mask-image:linear-gradient(to right, transparent, black 15%, black 85%, transparent); -webkit-mask-image:linear-gradient(to right, transparent, black 15%, black 85%, transparent); z-index: 5;}
+        .ticker-track { display:flex; width:max-content; align-items:center; gap:70px; padding:0 40px; animation:tickerScroll 25s linear infinite; }
+        @keyframes tickerScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+        .ticker-logo { font-family:'Fredoka One'; font-size:1.5rem; color:var(--blue-main); opacity:0.8; }
+
+        /* ─── STATS (BLEU) ─── */
+        .stats-strip { padding:80px 5% 100px; }
+        .stats-grid { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:15px; position:relative; z-index:5;}
+        .stat-box { background:rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding:36px 20px; text-align:center; transition:.3s; backdrop-filter: blur(10px); }
+        .stat-box:hover{transform:translateY(-5px); background:rgba(255,255,255,0.15);}
+        .stat-number{font-family:'Fredoka One';font-size:3rem;color:var(--yellow);line-height:1;display:inline-block}
+        .stat-label{font-size:0.82rem;font-weight:700;color:rgba(255,255,255,.9);margin-top:10px;line-height:1.5}
+
+
+        /* ════════════════════════════════════════════════════════════
+           ─── POURQUOI NOUS (BLANC) - DESIGN "PILULES" ET GRILLE ─── 
+        ════════════════════════════════════════════════════════════ */
+        #why {
+            text-align: center;
+            padding-top: 100px;
+            padding-bottom: 120px;
+            background: var(--bg-light); 
+            position: relative;
+        }
+
+        .why-custom-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px 40px; 
+            margin-top: 60px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .why-item {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .why-pill {
+            background: var(--white);
+            border: 1px solid rgba(0, 87, 255, 0.15);
+            border-radius: 50px;
+            padding: 12px 30px 12px 55px; 
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 280px;
+            transition: transform 0.3s ease;
+        }
+
+        .why-item:hover .why-pill { transform: translateY(-5px); }
+
+        .why-icon-wrapper {
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 65px;
+            height: 65px;
+            background: var(--white);
+            border-radius: 18px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            background-clip: padding-box;
+            transition: transform 0.3s ease;
+        }
+
+        .why-item:hover .why-icon-wrapper { transform: translateY(-50%) scale(1.08) rotate(-5deg); }
+
+        .icon-color-1 { border: 4px solid #d946ef; color: #d946ef; } 
+        .icon-color-2 { border: 4px solid #f97316; color: #f97316; } 
+        .icon-color-3 { border: 4px solid #3b82f6; color: #3b82f6; } 
+        .icon-color-4 { border: 4px solid #eab308; color: #eab308; } 
+        .icon-color-5 { border: 4px solid #6366f1; color: #6366f1; } 
+        .icon-color-6 { border: 4px solid #22c55e; color: #22c55e; } 
+
+        .why-pill-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .why-desc-box {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 45px 30px 30px; 
+            margin-top: -25px; 
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 87, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .why-item:hover .why-desc-box {
+            box-shadow: var(--shadow-float);
+            border-color: rgba(0, 87, 255, 0.15);
+        }
+
+        .why-desc-box p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; font-weight: 600; margin: 0; }
+
+        .why-footer-text {
+            margin-top: 70px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.7;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 5;
+        }
+        .why-footer-text span { color: var(--blue-main); }
+
+
+        /* ─── POUR QUI (BLEU) ─── */
+        #pour-qui { text-align:center; padding-top: 100px; padding-bottom: 150px; }
+        .network-wrapper { position:relative; width:100%; max-width:900px; height:400px; margin:60px auto 0; }
+        .network-svg { position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; pointer-events:none; opacity:.4; }
+        .net-line { stroke:var(--white); stroke-width:2; stroke-dasharray:8 8; animation:energyFlow 2s linear infinite; }
+        @keyframes energyFlow { from{stroke-dashoffset:32} to{stroke-dashoffset:0} }
+        .net-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:130px; height:130px; background:var(--white); border-radius:50%; box-shadow:0 10px 30px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; z-index:10; animation:pulseCenter 2.5s infinite; }
+        .net-center img { width:90px; transform:scale(2.5) rotate(-2deg); }
+        @keyframes pulseCenter { 0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.4)} 50%{box-shadow:0 0 0 20px rgba(255,255,255,0)} }
+        .net-node { position:absolute; background:var(--white); color:var(--blue-dark); padding:11px 22px; border-radius:50px; font-family:'Nunito'; font-weight:800; box-shadow:0 8px 20px rgba(0,0,0,.2); z-index:5; transition:.3s; cursor:default; font-size:0.9rem; }
+        .net-node:hover { transform:scale(1.05); color:var(--blue-main); }
+        .node-tl{top:15%;left:5%;transform:translateY(-50%)} .node-tr{top:15%;right:5%;transform:translateY(-50%)}
+        .node-ml{top:50%;left:0%;transform:translateY(-50%)} .node-mr{top:50%;right:0%;transform:translateY(-50%)}
+        .node-bl{top:85%;left:5%;transform:translateY(-50%)} .node-br{top:85%;right:5%;transform:translateY(-50%)}
+        .showcase-bottom { margin-top:40px; display:flex; justify-content:center; position:relative; z-index: 5;}
+        .showcase-bottom img { width:100%; max-width:480px; filter:drop-shadow(0 20px 30px rgba(0,0,0,.3)); animation:floatPhonesShowcase 6s ease-in-out infinite alternate; }
+        @keyframes floatPhonesShowcase { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
+
+        /* ─── SITE WEB (BLANC) ─── */
+        #site-web { padding-top: 100px; padding-bottom: 120px; }
+        .service-inner { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; position: relative; z-index: 5; }
+        .service-inner.reverse { direction:rtl; }
+        .service-inner.reverse > * { direction:ltr; }
+        .service-visual { border-radius:28px; overflow:hidden; box-shadow:var(--shadow-float); position:relative; border:1px solid rgba(0,87,255,0.1); }
+        .slider-container { aspect-ratio:4/3; position:relative; overflow:hidden; background:var(--white); width:100%; }
+        .slider-track { display:flex; width:100%; height:100%; transition:transform .5s cubic-bezier(0.25,1,0.5,1); will-change: transform; }
+        .slider-track img { width:100%; flex: 0 0 100%; height:100%; object-fit:cover; display:block; opacity:.95; }
+        .slider-arrow { position:absolute; top:50%; transform:translateY(-50%); width:42px; height:42px; background:var(--white); border:1px solid rgba(0,0,0,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 15px rgba(0,0,0,.1); z-index:5; color:var(--blue-main); cursor:pointer; transition:all .3s; }
+        .slider-arrow:hover { background:var(--blue-main); color: white; transform:translateY(-50%) scale(1.1); }
+        .arrow-left{left:12px} .arrow-right{right:12px}
+        .slider-dots { position:absolute; bottom:12px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:6; }
+        .slider-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.5); border:none; cursor:pointer; transition:all .3s; padding:0; box-shadow: 0 1px 3px rgba(0,0,0,0.3);}
+        .slider-dot.active { background:var(--blue-main); width:22px; border-radius:4px; }
+        
+        .service-feats { display:flex; flex-direction:column; gap:12px; margin:22px 0 30px; }
+        .service-feat { display:flex; align-items:center; gap:12px; }
+        .feat-check { width:24px; height:24px; flex-shrink:0; background:rgba(0,87,255,0.1); color:var(--blue-main); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:900; }
+        .feat-text { font-weight:700; font-size:0.93rem; }
+        .bg-blue-section .feat-check { background: rgba(255,255,255,0.2); color: white; }
+
+        /* ─── PROCESS (BLEU) ─── */
+        #how { text-align:center; padding-top:100px; padding-bottom:120px;}
+        .steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:56px; position:relative; z-index:5; }
+        .steps-grid::before { content:''; position:absolute; top:40px; left:10%; right:10%; height:2px; background:rgba(255,255,255,0.3); z-index:1; }
+        .step-card { background:var(--white); border-radius:24px; padding:38px 24px; text-align:center; box-shadow:0 15px 35px rgba(0,0,0,0.2); position:relative; z-index:2; transition:.3s; color: var(--text-dark);}
+        .step-card:hover { transform:translateY(-8px); }
+        .step-num-wrap { width:60px; height:60px; border-radius:50%; background:var(--blue-main); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; box-shadow:var(--shadow-btn); color:white; }
+        .step-num { font-family:'Fredoka One'; font-size:1.7rem; }
+        .step-title { font-family:'Fredoka One'; font-size:1.25rem; margin-bottom:10px; color:var(--blue-dark); }
+        .step-desc { font-size:0.88rem; color:var(--text-muted); line-height:1.6; font-weight:600; }
+
+        /* ─── RANKING WINDOW (BLANC) ─── */
+        #ranking { padding-top: 100px; padding-bottom: 120px; }
+        .ranking-window { background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:var(--shadow-float); border:1px solid rgba(0,87,255,0.1); }
+        .rw-header { background:#f1f5f9; padding:12px 16px; display:flex; align-items:center; gap:8px; border-bottom:1px solid #e2e8f0; }
+        .rw-dot { width:12px; height:12px; border-radius:50%; }
+        .rw-search { flex:1; background:#fff; margin-left:12px; padding:7px 16px; border-radius:50px; display:flex; align-items:center; border:1px solid #e2e8f0; }
+        .rw-search-line { height:6px; background:#cbd5e1; border-radius:4px; width:40%; margin-left:10px; }
+        .rw-body { position:relative; height:310px; background:#f8fafc; padding:15px; overflow:hidden; }
+        .g-listing { position:absolute; left:15px; right:15px; height:80px; background:white; border-radius:12px; padding:0 16px; box-shadow:0 4px 10px rgba(0,0,0,.05); border:1px solid #e2e8f0; display:flex; align-items:center; gap:15px; animation-duration:10s; animation-timing-function:cubic-bezier(0.4,0,0.2,1); animation-iteration-count:infinite; }
+        .g-info { flex:1; }
+        .g-title-row { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+        .g-bar-title { height:10px; background:#94a3b8; border-radius:4px; width:50%; }
+        .g-stars { font-size:0.78rem; color:#fbbc04; margin-bottom:6px; font-weight:800; display:flex; align-items:center; gap:6px; }
+        .g-stars span { color:#94a3b8; font-weight:600; }
+        .g-bar-desc { height:6px; background:#e2e8f0; border-radius:4px; width:70%; }
+        .g-actions { display:flex; gap:8px; }
+        .g-circle { width:34px; height:34px; border-radius:50%; border:1px solid #e2e8f0; display:flex; align-items:center; justify-content:center; font-size:.85rem; color:var(--blue-main); }
+        .client-listing { border-color:var(--blue-main)!important; border-width:2px; box-shadow:0 8px 20px rgba(0,87,255,.2); background:#f0f4ff; z-index:10; }
+        .g-title-text { font-family:'Nunito'; font-weight:900; color:#1e293b; font-size:.93rem; }
+        .client-listing .g-circle { background:var(--blue-main); color:white; border:none; }
+        .g-badge { font-size:.63rem; font-weight:800; padding:3px 8px; border-radius:4px; background:#f1f5f9; color:#64748b; }
+        .comp-1{top:15px;animation-name:animComp1} .comp-2{top:110px;animation-name:animComp2} .client-listing{top:205px;animation-name:animClient}
+        @keyframes animClient { 0%,20%{transform:translateY(0)} 30%,50%{transform:translateY(-95px)} 60%,80%{transform:translateY(-190px)} 90%,100%{transform:translateY(0)} }
+        @keyframes animComp2 { 0%,20%{transform:translateY(0)} 30%,80%{transform:translateY(95px)} 90%,100%{transform:translateY(0)} }
+        @keyframes animComp1 { 0%,50%{transform:translateY(0)} 60%,80%{transform:translateY(95px)} 90%,100%{transform:translateY(0)} }
+        .client-badge::after { content:"Position 3"; animation:badgeAnim 10s infinite; }
+        @keyframes badgeAnim { 0%,20%{content:"Position 3";background:#f1f5f9;color:#64748b} 30%,50%{content:"Position 2";background:#fef08a;color:#b45309} 60%,80%{content:"Position 1 🏆";background:#dcfce7;color:#047857} 90%,100%{content:"Position 3";background:#f1f5f9;color:#64748b} }
+
+        /* ─── NFC SECTION (BLEU) ─── */
+        .nfc-visual { padding-top: 100px; padding-bottom: 120px; }
+        .nfc-steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:48px; position:relative; z-index:5;}
+        .nfc-step-card { background:var(--white); border-radius:24px; padding:36px 20px; position:relative; box-shadow:0 15px 30px rgba(0,0,0,0.15); text-align:center; color:var(--text-dark); transition:.3s; }
+        .nfc-step-card:hover { transform:translateY(-8px); }
+        .n-step-badge { position:absolute; top:-18px; left:50%; transform:translateX(-50%); width:38px; height:38px; background:var(--blue-main); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Fredoka One'; font-size:1.05rem; box-shadow:var(--shadow-btn); }
+        .n-step-img { height:95px; object-fit:contain; margin:0 auto 18px; filter:drop-shadow(0 10px 15px rgba(0,0,0,.2)); display:block; }
+        .n-step-icon { height:95px; display:flex; align-items:center; justify-content:center; font-size:3.2rem; margin-bottom:18px; color:var(--blue-main);}
+        .nfc-step-title { font-family:'Fredoka One'; font-size:1.15rem; margin-bottom:10px; color:var(--blue-dark); }
+        .nfc-step-desc { font-size:.86rem; color:var(--text-muted); font-weight:600; line-height:1.6; }
+        
+        .service-visual-inner-static { aspect-ratio:4/3; position:relative; overflow:hidden; background:var(--white); border-radius:28px; }
+        .service-visual-inner-static img { width:100%; height:100%; object-fit:cover; display:block; opacity:.95; }
+        .float-badge-nfc { position:absolute; top:20px; right:20px; z-index:3; background:var(--white); padding:7px 14px; border-radius:50px; font-weight:800; font-size:.78rem; box-shadow:0 5px 15px rgba(0,0,0,0.1); display:flex; align-items:center; gap:8px; color:var(--blue-dark); }
+
+        /* ─── TARIFS (BLANC) ─── */
+        #offers { text-align:center; padding-top: 100px; padding-bottom: 120px; }
+        .offers-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:48px; max-width:1100px; margin-left:auto; margin-right:auto; position: relative; z-index: 5;}
+        .offer-card { background:var(--white); border:1px solid rgba(0,87,255,0.1); border-radius:28px; padding:38px 28px; text-align:left; transition:.35s; position:relative; overflow:hidden; box-shadow:var(--shadow-soft); }
+        .offer-card:hover { border-color:var(--blue-light); transform:translateY(-8px); box-shadow:var(--shadow-float); }
+        
+        .offer-card.featured { background:var(--blue-main); border-color:var(--blue-main); transform:scale(1.04); z-index:2; box-shadow:0 20px 40px rgba(0,87,255,0.3); color:white; }
+        .offer-card.featured:hover { transform:scale(1.04) translateY(-8px); }
+        .offer-card.featured .offer-title, .offer-card.featured .offer-price, .offer-card.featured .offer-item { color: white; }
+        .offer-card.featured .offer-sub { color: rgba(255,255,255,0.8); }
+        .offer-card.featured .offer-item { border-bottom-color: rgba(255,255,255,0.1); }
+        .offer-card.featured .offer-check { background: rgba(255,255,255,0.2); color: white; }
+
+        .offer-star { display:inline-block; background:var(--yellow); color:black; padding:5px 14px; border-radius:50px; font-weight:800; font-size:.72rem; margin-bottom:14px; text-transform:uppercase; letter-spacing:1px; box-shadow: 0 4px 10px rgba(252, 211, 77, 0.4);}
+        .offer-title { font-family:'Fredoka One'; font-size:1.7rem; margin-bottom:7px; color:var(--blue-dark); }
+        .offer-price { font-family:'Fredoka One'; font-size:2.6rem; color:var(--blue-main); margin:10px 0 3px; line-height:1; }
+        .offer-sub { font-size:.75rem; font-weight:700; margin-bottom:22px; color:var(--text-muted); }
+        .offer-list { list-style:none; margin:22px 0 28px; }
+        .offer-item { padding:11px 0; font-weight:700; font-size:.86rem; border-bottom:1px solid rgba(0,0,0,.05); display:flex; align-items:center; gap:12px; }
+        .offer-item:last-child { border-bottom:none; }
+        .offer-check { width:20px; height:20px; border-radius:50%; background:rgba(0,87,255,.1); display:flex; align-items:center; justify-content:center; font-size:.58rem; color:var(--blue-main); flex-shrink:0; }
+        
+        .addon-banner { background:var(--white); border:1px solid rgba(0,87,255,0.1); border-radius:24px; padding:32px 36px; margin:28px auto 0; max-width:1100px; display:flex; align-items:center; justify-content:space-between; gap:20px; transition:.3s; text-align:left; box-shadow:var(--shadow-soft); position: relative; z-index: 5;}
+        .addon-banner:hover { border-color:var(--blue-light); transform:translateY(-4px); box-shadow:var(--shadow-float); }
+        .addon-info { flex:1; } .addon-price-block { text-align:right; flex-shrink:0; }
+
+        /* ─── GARANTIE (BLEU) ─── */
+        #guarantee { padding-top: 100px; padding-bottom: 120px; }
+        .guarantee-wrapper { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1.3fr; gap:60px; align-items:center; position:relative; z-index:5;}
+        .guarantee-text-block { padding-right:20px; }
+        .guarantee-big-seal { display:flex; align-items:center; gap:22px; margin-top:36px; background:var(--white); color:var(--text-dark); padding:18px 22px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.15); }
+        .seal-ring { width:56px; height:56px; background:var(--yellow); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.4rem; box-shadow:0 5px 15px rgba(252, 211, 77, 0.4); flex-shrink:0; }
+        .seal-text { font-family:'Fredoka One'; font-size:1.1rem; line-height:1.2; color:var(--blue-dark);}
+        .seal-text span { color:var(--text-muted); font-size:.82rem; font-family:'Nunito'; text-transform:uppercase; letter-spacing:2px; }
+        
+        .guarantee-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+        .g-card { background:var(--white); border-radius:24px; padding:28px 22px; text-align:left; transition:.3s; box-shadow:0 10px 25px rgba(0,0,0,0.1); color:var(--text-dark); }
+        .g-card:hover { transform:translateY(-8px); box-shadow:0 15px 35px rgba(0,0,0,0.2); }
+        .g-icon { width:42px; height:42px; border-radius:12px; background:rgba(0,87,255,0.1); display:flex; align-items:center; justify-content:center; font-size:1.1rem; margin-bottom:14px; color:var(--blue-main); }
+        .g-title { font-family:'Fredoka One'; font-size:1.05rem; margin-bottom:7px; color:var(--blue-dark); }
+        .g-desc { font-size:.83rem; color:var(--text-muted); font-weight:600; line-height:1.6; }
+
+        /* ─── FAQ (BLANC) ─── */
+        #faq { padding-top: 100px; padding-bottom: 120px; }
+        .faq-inner { max-width:800px; margin:0 auto; text-align:center; position: relative; z-index: 5;}
+        .faq-list { margin-top:46px; text-align:left; }
+        .faq-item { background:var(--white); border:1px solid rgba(0,87,255,0.1); border-radius:16px; margin-bottom:14px; overflow:hidden; transition:.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
+        .faq-item.active { border-color:var(--blue-main); box-shadow:0 10px 25px rgba(0,87,255,.1); }
+        .faq-question { padding:22px; font-weight:800; font-size:1rem; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:16px; user-select:none; }
+        .faq-icon { width:30px; height:30px; border-radius:50%; background:rgba(0,87,255,0.1); color:var(--blue-main); display:flex; align-items:center; justify-content:center; transition:.3s; flex-shrink:0; font-size:1.1rem; }
+        .faq-item.active .faq-icon { transform:rotate(45deg); background:var(--blue-main); color:white; }
+        .faq-answer { padding:0 22px; max-height:0; overflow:hidden; transition:all .4s cubic-bezier(0.3,1,0.3,1); }
+        .faq-answer-inner { padding-bottom:22px; font-weight:600; color:var(--text-muted); line-height:1.7; font-size:.93rem; }
+
+        /* ════════════════════════════════════════════════════════════
+           ─── TEMOIGNAGES (BLEU) - CARTES CARRÉES + LOGO GOOGLE OFFICIEL ─── 
+        ════════════════════════════════════════════════════════════ */
+        #testimonials { text-align:center; padding-top: 100px; padding-bottom: 120px; }
+        
+        .testimonials-slider { width:100%; overflow:hidden; margin-top:46px; position:relative; z-index:5;}
+        
+        .testimonials-slider::before, .testimonials-slider::after {
+            content: ''; position: absolute; top: 0; width: 100px; height: 100%; z-index: 2; pointer-events: none;
+        }
+        .testimonials-slider::before { left: 0; background: linear-gradient(to right, var(--blue-main), transparent); }
+        .testimonials-slider::after { right: 0; background: linear-gradient(to left, var(--blue-dark), transparent); }
+
+        .testimonials-track { display:flex; gap:15px; animation:scrollTestim 35s linear infinite; width:max-content; padding: 10px 0; }
+        @keyframes scrollTestim { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+        .testimonials-track:hover { animation-play-state:paused; }
+        
+        /* Design des cartes transparentes CARRÉES */
+        .tcard { 
+            width: 320px; 
+            height: 320px; /* Force un ratio carré */
+            background: transparent; 
+            border: 1px solid rgba(255,255,255,0.4); 
+            border-radius: 20px; 
+            padding: 30px 25px; 
+            flex-shrink: 0; 
+            text-align: left; 
+            transition: .3s; 
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .tcard:hover { 
+            background: rgba(255,255,255,0.05);
+            border-color: var(--white);
+        }
+        
+        .tcard-text { 
+            font-size: 0.95rem; 
+            line-height: 1.5; 
+            flex-grow: 1; /* Pousse l'auteur vers le bas, garde le texte en haut */
+            overflow: hidden; /* Empêche le débordement si texte trop long */
+            font-weight: 500; 
+            color: var(--white); 
+        }
+        
+        .tcard-author-block { display: flex; align-items: center; gap: 12px; margin-top: 15px;}
+        .tcard-icon-wrap { display: flex; align-items: center; justify-content: center; }
+        .tcard-icon-wrap svg { width: 26px; height: 26px; stroke: var(--white); fill: none; stroke-width: 1.5; }
+        .tcard-author-info { display: flex; flex-direction: column; }
+        .tcard-name { font-weight: 800; font-size: 1.05rem; color: var(--white); } 
+        .tcard-role { font-size: 0.85rem; color: rgba(255,255,255,0.7); font-weight: 400; }
+
+        /* Le bloc Google Officiel en bas */
+        .google-rating-block {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 60px;
+            position: relative;
+            z-index: 5;
+        }
+        
+        /* Nouveau logo Google SVG Parfait */
+        .g-logo-svg { height: 32px; color: var(--white); }
+        .g-stars-row { display: flex; gap: 4px; }
+        .g-stars-row svg { width: 22px; height: 22px; fill: var(--white); }
+        .g-rating-text { color: var(--white); font-size: 1.2rem; font-weight: 500; }
+
+        /* ─── CONTACT (BLANC) ─── */
+        #contact { text-align:center; padding-top: 100px; padding-bottom: 120px;}
+        .contact-card { background:var(--white); border:1px solid rgba(0,87,255,0.1); border-radius:32px; padding:46px; max-width:800px; margin:0 auto; box-shadow:var(--shadow-float); text-align:left; position: relative; z-index: 5;}
+        .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+        input, select, textarea { width:100%; padding:15px 18px; border:1px solid #cbd5e1; border-radius:14px; font-family:'Nunito'; font-weight:700; font-size:.88rem; background:#f8fafc; color:var(--text-dark); transition:.3s; outline:none; margin-bottom:12px; }
+        select option { background:var(--white); color:var(--text-dark); }
+        input::placeholder, textarea::placeholder { color:#94a3b8; }
+        input:focus, select:focus, textarea:focus { border-color:var(--blue-main); background:var(--white); box-shadow:0 0 0 4px rgba(0,87,255,.1); }
+        textarea { margin-bottom:0; resize:vertical; }
+        .trust-row { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:18px; }
+        .trust-item { font-size:.73rem; font-weight:800; color:var(--text-muted); display:flex; align-items:center; gap:6px; }
+        .hp-field { opacity:0; position:absolute; top:0; left:0; height:0; width:0; z-index:-1; }
+
+        /* ─── FOOTER (BLEU FONCÉ / BLANC) ─── */
+        footer { background:var(--blue-main); color:white; padding:50px 5% 100px; text-align:center; position: relative; z-index: 10; border-top: none;}
+        .footer-logo-wrap { display:flex; align-items:center; justify-content:center; margin-bottom:30px; height:120px; }
+        .footer-logo-wrap img { height:100%; width:auto; object-fit:contain; transform: scale(2.2); filter: drop-shadow(0 0 20px rgba(255,255,255,0.4)) brightness(1.3); }
+        .footer-tagline { color:var(--white); font-size:.85rem; font-weight:800; letter-spacing:2px; text-transform:uppercase; margin-bottom:28px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .instagram-link { display:inline-flex; justify-content:center; align-items:center; margin:0 auto 22px; color:white; transition:transform .3s cubic-bezier(0.34,1.56,0.64,1),color .3s; background:linear-gradient(45deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); padding:12px; border-radius:14px; box-shadow:0 4px 15px rgba(220,39,67,.3); z-index:20; cursor:pointer; text-decoration:none; }
+        .instagram-link:hover { transform:scale(1.15) rotate(5deg); box-shadow:0 8px 25px rgba(220,39,67,.6); color:white; }
+        .footer-links { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-bottom:22px; }
+        .footer-links a { color:var(--white); text-decoration:none; font-size:.88rem; font-weight:800; transition:.2s; }
+        .footer-links a:hover { color:var(--yellow); }
+        .footer-copy { font-size:.75rem; color:rgba(255,255,255,0.8); font-weight:800; letter-spacing:1px; }
+
+        /* ─── POPUP ─── */
+        #lead-popup { position:fixed; inset:0; background:rgba(0,0,0,.8); backdrop-filter:blur(8px); display:none; justify-content:center; align-items:center; z-index:99999; padding:20px; }
+        .popup-box { background:var(--white); border-radius:24px; padding:38px; max-width:420px; width:100%; text-align:center; position:relative; box-shadow:0 30px 80px rgba(0,87,255,.3); }
+        .popup-title { font-family:'Fredoka One'; font-size:1.7rem; color:var(--blue-dark); margin-bottom:10px; }
+        .popup-title span { color:var(--blue-main); }
+        .popup-desc { font-size:.83rem; font-weight:700; color:var(--text-muted); line-height:1.6; margin-bottom:14px; }
+        #countdown { font-family:'Fredoka One'; font-size:2.4rem; color:var(--blue-main); margin-bottom:14px; }
+        .popup-input { width:100%; padding:15px 18px; border:1px solid rgba(0,87,255,.1); border-radius:14px; font-family:'Nunito'; font-weight:700; font-size:.88rem; background:var(--bg-light); color:var(--text-dark); margin-bottom:14px; outline:none; }
+        .popup-close { position:absolute; top:14px; right:18px; cursor:pointer; font-size:1.1rem; color:var(--muted); font-weight:900; transition:.2s; background:none; border:none; }
+        .popup-close:hover { color:var(--text-dark); }
+
+        /* ─── NOTIF ─── */
+        #notif { position:fixed; bottom:80px; left:16px; background:var(--white); border:1px solid rgba(0,87,255,0.1); color:var(--text-dark); padding:12px 20px; border-radius:14px; display:none; z-index:9999; font-weight:800; font-size:.78rem; box-shadow:0 10px 30px rgba(0,0,0,0.15); animation:slideInNotif .5s cubic-bezier(0.34,1.56,0.64,1); max-width:calc(100vw - 32px); border-left: 4px solid var(--blue-main);}
+        @keyframes slideInNotif { from{transform:translateX(-100px);opacity:0} to{transform:translateX(0);opacity:1} }
+
+        /* ─── STICKY MOBILE CTA ─── */
+        #sticky-cta { position:fixed; bottom:0; width:100%; background:var(--white); border-top:1px solid rgba(0,0,0,0.05); padding:12px 16px; text-align:center; z-index:997; box-shadow:0 -10px 30px rgba(0,0,0,.05); }
+        #sticky-cta a { color:var(--blue-main); font-weight:900; text-decoration:none; font-size:.92rem; text-transform:uppercase; letter-spacing:1px; display:block; }
+
+
+        /* ═══════════════════════════════════════
+           RESPONSIVE — TABLETTE (max 1024px)
+        ═══════════════════════════════════════ */
+        @media(max-width:1024px){
+            .hp-inner { grid-template-columns:1fr; text-align:center; gap:40px; }
+            .hp-subtitle { margin:0 auto 30px; }
+            .hp-cta-group { justify-content:center; }
+            .hp-badges { justify-content:center; }
+            
+            /* Ajustement Tablette */
+            .hp-visual { height:460px; margin-top:30px; }
+            .main-hero-img { width:110%; max-width:650px; left:50%; transform:translate(-50%,-50%); }
+            .hp-nfc { top: auto; bottom: 80px; left: -10px; right: auto; width: 140px; transform:rotate(-12deg); }
+            
+            .service-inner { grid-template-columns:1fr; gap:36px; }
+            .service-inner.reverse { direction:ltr; }
+            .offer-card.featured { transform:scale(1); }
+            .offer-card.featured:hover { transform:translateY(-8px); }
+            .guarantee-wrapper { grid-template-columns:1fr; text-align:center; }
+            .guarantee-text-block { padding-right:0; }
+            .guarantee-big-seal { justify-content:center; }
+        }
+
+        /* ═══════════════════════════════════════
+           RESPONSIVE — MOBILE (max 768px)
+        ═══════════════════════════════════════ */
+        @media(max-width:768px){
+            :root { --nav-h: 70px; }
+
+            nav#navbar { padding: 0 20px; display: flex; justify-content: space-between; background: var(--white) !important; box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+            .nav-links { display: none !important; }
+            .nav-actions .nav-cta { display: none !important; }
+            .nav-actions { display: flex !important; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); width: auto !important; margin: 0 !important; }
+            .nav-hamburger { display: flex !important; z-index: 1010; }
+            
+            /* Logo Navbar - BEAUCOUP PLUS DESCENDU SUR MOBILE */
+            .nav-logo-link { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 140px; height: 100%; margin: 0; display: flex; justify-content: center; align-items: center; }
+            .nav-logo-link img { position: absolute; top: auto; left: 0; transform: scale(2.8); transform-origin: center center; margin-top: 35px; } /* Marge fortement augmentée ici */
+
+            section, .service-section, #offers, #guarantee, #faq, #testimonials, #contact { padding: 70px 18px 90px; scroll-margin-top: calc(var(--nav-h) + 8px); }
+            #hero-premium { padding: calc(var(--nav-h) + 50px) 18px 100px; min-height:auto; }
+            
+            .hp-title { font-size:2.2rem; }
+            .hp-subtitle { font-size: 1.05rem; margin: 0 auto 30px; text-align: center; }
+            
+            /* HERO MOBILE: PC INTACT, NFC A GAUCHE */
+            .hp-visual { height:260px; margin-top: 40px; }
+            .main-hero-img { 
+                width: 105%; 
+                max-width: 500px; 
+                left: 50%; 
+                transform: translate(-50%, -50%); 
+            }
+            .hp-nfc { 
+                width: 110px; 
+                top: auto;
+                bottom: 35px; /* REMONTÉE POUR NE PAS TOUCHER LE CLAVIER */
+                left: 10px; /* PLACÉE À GAUCHE */
+                right: auto;
+                transform: rotate(-15deg); 
+            }
+
+            .backlight-glow { width:300px; height:240px; }
+            .hp-cta-group { flex-direction:column; align-items:center; }
+            .cta-king, .cta-ghost { width:100%; max-width:360px; text-align:center; font-size:1.05rem; padding:15px 28px; }
+
+            .why-custom-grid { grid-template-columns: 1fr; gap: 35px; }
+            .why-pill { min-width: 240px; padding: 12px 20px 12px 55px; }
+            .why-icon-wrapper { width: 50px; height: 50px; font-size: 1.4rem; left: -10px; }
+            .why-pill-title { font-size: 1.1rem; }
+            .why-desc-box { max-width: 100%; padding-top: 35px; }
+            .why-footer-text { font-size: 1rem; margin-top: 40px; }
+
+            .nfc-steps-grid { grid-template-columns:1fr; gap:40px; }
+            .steps-grid { grid-template-columns:1fr; gap:20px; }
+            .steps-grid::before { display:none; }
+            .offers-grid { grid-template-columns:1fr; gap:16px; }
+            .guarantee-grid { grid-template-columns:1fr; gap:14px; }
+            .stats-grid { grid-template-columns:repeat(2,1fr); }
+            .stat-box:first-child{border-radius:20px 0 0 0} .stat-box:nth-child(2){border-radius:0 20px 0 0}
+            .stat-box:nth-child(3){border-radius:0 0 0 20px} .stat-box:last-child{border-radius:0 0 20px 0}
+            .stat-number { font-size:2.4rem; }
+            .network-wrapper { height:auto; display:flex; flex-direction:column; align-items:center; gap:12px; margin-top:36px; }
+            .network-svg { display:none; }
+            .net-center { position:relative; top:0; left:0; transform:none; margin-bottom:20px; width:110px; height:110px; }
+            .net-center img { width:80px; transform:scale(2.5) rotate(-2deg); }
+            .net-node { position:relative; top:0!important; left:0!important; right:0!important; transform:none!important; width:100%; max-width:320px; justify-content:center; font-size:.88rem; padding:10px 20px; }
+            .contact-card { padding:28px 18px; }
+            .form-row { grid-template-columns:1fr; gap:0; }
+            .ticker-track { gap:40px; }
+            .ticker-logo { font-size:1.1rem; }
+            .addon-banner { flex-direction:column; text-align:center; padding:22px; }
+            .addon-price-block { text-align:center; margin-top:18px; border-top:1px solid rgba(0,0,0,.05); padding-top:18px; width:100%; }
+            footer { padding:46px 18px 100px; }
+            .footer-logo-wrap { height:90px; margin-bottom:30px; }
+            .footer-logo-wrap img { height:100%; transform: scale(1.8); }
+            .service-visual { width:100%; border-radius:15px; margin:0 auto; }
+            .slider-container { aspect-ratio: 16/9; }
+            .footer-links { gap:14px; flex-direction:column; align-items:center; }
+            .guarantee-big-seal { flex-direction:column; text-align:center; }
+            
+            /* Ajustements Testimonials pour Mobile (Cartes carrées) */
+            .tcard { width: 280px; height: 280px; padding: 25px 20px; }
+            .tcard-text { font-size: 0.92rem; margin-bottom: 0;}
+            .testimonials-slider::before, .testimonials-slider::after { width: 40px; }
+            .google-rating-block { flex-direction: column; gap: 8px; margin-top: 40px; }
+            .g-logo-svg { height: 28px; }
+
+            .ranking-window { font-size:.85rem; }
+            .g-circle { width:28px; height:28px; font-size:.75rem; }
+            h2 { font-size:1.85rem; }
+            .section-label { font-size:.7rem; }
+        }
+
+        @media(max-width:400px){
+            .hp-title { font-size:1.9rem; }
+            .hp-visual { height:200px; } 
+            .main-hero-img { width:110%; } /* Toujours centré et normal */
+            .hp-nfc { width:90px; bottom: 25px; left: 5px; right: auto; transform: rotate(-15deg); } /* Remonté pour pas toucher clavier */
+        }
+    </style>
+</head>
+<body id="top">
+
+<div id="scroll-progress"></div>
+
+<a href="#top" id="back-to-top" aria-label="Retour en haut">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+</a>
+
+<!-- ─── MENU MOBILE CLAIR COULISSANT ─── -->
+<nav id="mobile-drawer" class="mobile-menu" role="dialog" aria-label="Menu principal">
+    <button id="mobile-close-btn" class="mobile-close-btn" aria-label="Fermer le menu">&times;</button>
+    <div style="flex: 1;"></div> <!-- Espace au dessus pour centrer -->
+    <div class="mobile-menu-links">
+        <a href="#hero-premium" class="nav-link-m">Accueil</a>
+        <a href="#why" class="nav-link-m">Pourquoi nous</a>
+        <a href="#how" class="nav-link-m">Processus</a>
+        <a href="#offers" class="nav-link-m">Tarifs</a>
+        <a href="#testimonials" class="nav-link-m">Avis</a>
+        <a href="#contact" class="mobile-cta nav-link-m">Devis gratuit</a>
+    </div>
+    <!-- LE LOGO EST PARFAITEMENT CENTRÉ ENTRE LE BOUTON ET LE BAS -->
+    <div class="mobile-menu-logo-container">
+        <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream Digital Logo">
+    </div>
+</nav>
+
+<main id="main-site">
+
+    <!-- NAVIGATION -->
+    <nav id="navbar">
+        <a href="#hero-premium" class="nav-logo-link" aria-label="KingDream Digital - Accueil">
+            <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream Digital Logo">
+        </a>
+        <ul class="nav-links">
+            <li><a href="#why">Pourquoi nous</a></li>
+            <li><a href="#how">Processus</a></li>
+            <li><a href="#offers">Tarifs</a></li>
+            <li><a href="#testimonials">Avis</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="#contact" class="nav-cta">Devis gratuit →</a>
+            <button class="nav-hamburger" id="hamburger-btn" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ─── HERO ─── -->
+    <header id="hero-premium" class="bg-blue-section">
+        <div class="hp-inner">
+            <div class="hp-content">
+                <div class="hp-trust reveal d-1">
+                    <div class="hp-avatars">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" alt="" loading="eager" width="34" height="34">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop" alt="" loading="eager" width="34" height="34">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="" loading="eager" width="34" height="34">
+                    </div>
+                    <div class="hp-trust-text">
+                        <span>⭐⭐⭐⭐⭐</span> +160 Avis Générés
+                    </div>
+                </div>
+                <h1 class="hp-title reveal d-2">
+                    Vos clients <br>
+                    <span class="text-3d">vous ignorent ?</span>
+                </h1>
+                <!-- SOUS-TITRE POLICE INTER -->
+                <p class="hp-subtitle reveal d-3">
+                    Vos concurrents cartonnent sur Google pendant que vous restez invisible. KingDream déploie une machine de guerre : un site web <strong>premium</strong> et des avis Google en <strong>rafale</strong>. En 7 jours.
+                </p>
+                <div class="hp-cta-group reveal d-4">
+                    <a href="#contact" class="cta-king">Dominer ma ville 🚀</a>
+                    <a href="#how" class="cta-ghost">Voir comment ça marche</a>
+                </div>
+                <div class="hp-badges reveal d-5">
+                    <div class="hp-badge-item"><div class="hp-badge-icon">✓</div> Livraison 7 Jours</div>
+                    <div class="hp-badge-item"><div class="hp-badge-icon">✓</div> 100% Garanti</div>
+                </div>
+            </div>
+
+            <div class="hp-visual reveal d-3">
+                <div class="backlight-glow"></div>
+                <!-- IMAGE IMAC CENTRÉE PC -->
+                <img src="https://i.ibb.co/jPS5VB5Q/Sans-titre-1.png" class="main-hero-img" alt="Création de sites web premium iMac" loading="eager">
+                <!-- PANCARTE A GAUCHE -->
+                <img src="https://i.ibb.co/0y1GVsp6/plaue-nfc-KIND-DREAM-removebg-preview.png" class="hp-nfc" alt="Plaque NFC KingDream" loading="eager">
+            </div>
+        </div>
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </header>
+
+    <!-- TICKER -->
+    <section class="logo-ticker-section bg-white-section reveal">
+        <div class="ticker-title">ILS NOUS FONT CONFIANCE</div>
+        <div class="logo-ticker" role="marquee" aria-label="Partenaires">
+            <div class="ticker-track">
+                <span class="ticker-logo">techstars_</span>
+                <span class="ticker-logo" style="font-family:serif;font-weight:bold;letter-spacing:-1px;">The New York Times</span>
+                <span class="ticker-logo">web<span style="color:var(--yellow)">summit</span></span>
+                <span class="ticker-logo" style="letter-spacing:-2px;font-weight:900;font-size:1.9rem;">CES</span>
+                <span class="ticker-logo"><span style="background:var(--blue-main);color:white;padding:2px 8px;border-radius:4px;margin-right:5px;">Y</span> Combinator</span>
+                <span class="ticker-logo">techstars_</span>
+                <span class="ticker-logo" style="font-family:serif;font-weight:bold;letter-spacing:-1px;">The New York Times</span>
+                <span class="ticker-logo">web<span style="color:var(--yellow)">summit</span></span>
+                <span class="ticker-logo" style="letter-spacing:-2px;font-weight:900;font-size:1.9rem;">CES</span>
+                <span class="ticker-logo"><span style="background:var(--blue-main);color:white;padding:2px 8px;border-radius:4px;margin-right:5px;">Y</span> Combinator</span>
+            </div>
+        </div>
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats-strip bg-blue-section reveal">
+        <div class="stats-grid">
+            <div class="stat-box"><span class="stat-number" data-target="97" data-suffix="%">97%</span><div class="stat-label">Des clients vérifient les avis avant achat</div></div>
+            <div class="stat-box"><span class="stat-number" data-target="160" data-suffix="+">160+</span><div class="stat-label">Avis Google générés en 2 mois (record)</div></div>
+            <div class="stat-box"><span class="stat-number" data-target="7" data-suffix=" J">7 J</span><div class="stat-label">Délai livraison site web complet</div></div>
+            <div class="stat-box"><span class="stat-number" data-target="3" data-suffix=" sec">3 sec</span><div class="stat-label">Temps de jugement d'un visiteur</div></div>
+        </div>
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </section>
+
+    <!-- ─── POURQUOI NOUS (BLANC) - DESIGN "PILULES" ─── -->
+    <section id="why" class="bg-white-section">
+        <div class="section-inner">
+            <div class="section-label reveal">// Pas une agence classique</div>
+            <h2 class="reveal">Pourquoi <span class="text-3d">nous choisir ?</span></h2>
+            
+            <div class="why-custom-grid">
+                
+                <div class="why-item reveal d-1">
+                    <div class="why-pill">
+                        <div class="why-icon-wrapper icon-color-1">🎨</div>
+                        <h3 class="why-pill-title">Design sur mesure</h3>
+                    </div>
+                    <div class="why-desc-box">
+                        <p>Nous concevons des interfaces uniques intuitives et esthétiques, où votre identité est au cœur de chaque création.</p>
+                    </div>
+                </div>
+
+                <div class="why-item reveal d-2">
+                    <div class="why-pill">
+                        <div class="why-icon-wrapper icon-color-2">💻</div>
+                        <h3 class="why-pill-title">Interface dédiée</h3>
+                    </div>
+                    <div class="why-desc-box">
+                        <p>Gérez vos réservations et/ou boutique en ligne facilement, sur une interface 360° dédiée.</p>
+                    </div>
+                </div>
+
+                <div class="why-item reveal d-3">
+                    <div class="why-pill">
+                        <div class="why-icon-wrapper icon-color-3">⚙️</div>
+                        <h3 class="why-pill-title">SEO organique</h3>
+                    </div>
+                    <div class="why-desc-box">
+                        <p>Stratégies de référencement naturel intelligentes intégrées à votre site pour dominer Google.</p>
+                    </div>
+                </div>
+
+                <div class="why-item reveal d-4">
+                    <div class="why-pill">
+                        <div class="why-icon-wrapper icon-color-4">📈</div>
+                        <h3 class="why-pill-title">Analytics en direct</h3>
+                    </div>
+                    <div class="why-desc-box">
+                        <p>Suivez en un coup d'œil le trafic, le SEO et les résultats de votre site en temps réel.</p>
+                    </div>
+                </div>
+
+                <div class="why-item reveal d-5">
+                    <div class="why-pill">
+                        <div class="why-icon-wrapper icon-color-5">💬</div>
+                        <h3 class="why-pill-title">Assistance dédiée</h3>
+                    </div>
+                    <div class="why-desc-box">
+                        <p>Parce qu'un projet web ne dort jamais, nous restons disponibles pour vous accompagner et vous guider.</p>
+                    </div>
+                </div>
+
+                <div class="why-item reveal d-6">
+                    <div class="why-pill">
+                        <div class="why-icon-wrapper icon-color-6">🌿</div>
+                        <h3 class="why-pill-title">Eco-responsable</h3>
+                    </div>
+                    <div class="why-desc-box">
+                        <p>Des sites éco-responsables, optimisés pour consommer moins de ressources, en garantissant la performance.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <p class="why-footer-text reveal">
+                Nous concevons des sites sur mesure, conçus pour durer et évoluer avec votre activité.<br>
+                <span>Design, performance, référencement et technologies intelligentes</span> sont pensés ensemble, 
+                avec un accompagnement humain du début jusqu'à la mise en ligne de votre projet.
+            </p>
+
+        </div>
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </section>
+
+    <!-- POUR QUI -->
+    <section id="pour-qui" class="bg-blue-section">
+        <div class="section-inner">
+            <div class="section-label reveal">// Pour qui ?</div>
+            <h2 class="reveal">À qui s'adresse<br><span class="text-3d">notre magie ?</span></h2>
+            <p class="sub-text reveal" style="margin:0 auto">Si votre business dépend d'une clientèle locale, c'est pour vous.</p>
+            <div class="network-wrapper reveal d-2">
+                <svg class="network-svg" aria-hidden="true"><line x1="50%" y1="50%" x2="25%" y2="15%" class="net-line"/><line x1="50%" y1="50%" x2="75%" y2="15%" class="net-line"/><line x1="50%" y1="50%" x2="15%" y2="50%" class="net-line"/><line x1="50%" y1="50%" x2="85%" y2="50%" class="net-line"/><line x1="50%" y1="50%" x2="25%" y2="85%" class="net-line"/><line x1="50%" y1="50%" x2="75%" y2="85%" class="net-line"/></svg>
+                <div class="net-center"><img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream" loading="lazy" width="90"></div>
+                <div class="net-node node-tl">🛠️ Artisans & BTP</div>
+                <div class="net-node node-tr">✂️ Salons & Beauté</div>
+                <div class="net-node node-ml">🍽️ Restaurants & Bars</div>
+                <div class="net-node node-mr">🏨 Hôtels & BnB</div>
+                <div class="net-node node-bl">🚗 Garages Auto</div>
+                <div class="net-node node-br">⚕️ Professions Libérales</div>
+            </div>
+            <div class="showcase-bottom reveal d-3">
+                <img src="https://i.ibb.co/JFgpnsf3/Adobe-Express-file.png" alt="Exemples de sites créés" loading="lazy">
+            </div>
+        </div>
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </section>
+
+    <!-- SITE WEB -->
+    <section id="site-web" class="bg-white-section">
+        <div class="service-inner section-inner">
+            <div class="service-content reveal">
+                <div class="section-label">// Site Web</div>
+                <h2 class="reveal">Un site qui<br><span class="text-3d">travaille</span><br>pour vous.</h2>
+                <p class="sub-text">Pas une vitrine décorative. Une machine à convertir — ultra-rapide, optimisée SEO, pensée pour transformer vos visiteurs en clients.</p>
+                <div class="service-feats">
+                    <div class="service-feat"><div class="feat-check">✓</div><span class="feat-text">Design unique sur mesure à vos couleurs</span></div>
+                    <div class="service-feat"><div class="feat-check">✓</div><span class="feat-text">100% optimisé mobile et SEO local</span></div>
+                    <div class="service-feat"><div class="feat-check">✓</div><span class="feat-text">Hébergement 1 an offert</span></div>
+                    <div class="service-feat"><div class="feat-check">✓</div><span class="feat-text">Google Analytics inclus</span></div>
+                </div>
+                <a href="#contact" class="cta-king">Je veux mon site 🚀</a>
+            </div>
+            <div class="service-visual reveal d-2">
+                <div class="slider-container" id="slider-wrapper">
+                    <div class="slider-track" id="web-slider">
+                        <img src="https://i.ibb.co/SDtrS8Kn/creation-site-internet-rennes-bruz-goven.jpg" alt="Site internet Rennes" loading="lazy">
+                        <img src="https://i.ibb.co/F4G95GQN/michelet-elagage.png" alt="Site web élagage" loading="lazy">
+                        <img src="https://i.ibb.co/7N25K7MW/Screenshot-2026-04-04-at-15-06-06-Templates-de-sites-web-Templates-de-sites-HTML-gratuits-Wix-com.png" alt="Template site web" loading="lazy">
+                        <img src="https://i.ibb.co/DPpmsdL7/Screenshot-2026-04-04-at-15-06-42-Templates-de-sites-web-Templates-de-sites-HTML-gratuits-Wix-com.png" alt="Template moderne" loading="lazy">
+                        <img src="https://i.ibb.co/1G5DbZyD/Screenshot-2026-04-04-at-15-07-13-Templates-de-sites-web-Templates-de-sites-HTML-gratuits-Wix-com.png" alt="Template premium" loading="lazy">
+                    </div>
+                    <button class="slider-arrow arrow-left" id="arrow-left" aria-label="Précédent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                    <button class="slider-arrow arrow-right" id="arrow-right" aria-label="Suivant"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                    <div class="slider-dots" id="slider-dots" role="tablist"></div>
+                </div>
+            </div>
+        </div>
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </section>
+
+    <!-- PROCESSUS -->
+    <section id="how" class="bg-blue-section">
+        <div class="section-inner" style="text-align:center">
+            <div class="section-label reveal">// Processus</div>
+            <h2 class="reveal">3 étapes.<br><span class="text-3d">C'est tout.</span></h2>
+            <p class="sub-text reveal" style="margin:0 auto">Simple, rapide, sans surprise.</p>
+            <div class="steps-grid">
+                <div class="step-card reveal d-1">
+                    <div class="step-num-wrap"><span class="step-num">01</span></div>
+                    <h3 class="step-title">Brief express</h3>
+                    <p class="step-desc">Un appel de 20 min. On comprend votre business et vos objectifs.</p>
+                </div>
+                <div class="step-card reveal d-2">
+                    <div class="step-num-wrap"><span class="step-num">02</span></div>
+                    <h3 class="step-title">Création & livraison</h3>
+                    <p class="step-desc">On conçoit, on valide, on livre en 7 jours. Retouches incluses.</p>
+                </div>
+                <div class="step-card reveal d-3">
+                    <div class="step-num-wrap"><span class="step-num">03</span></div>
+                    <h3 class="step-title">Vous dominez</h3>
+                    <p class="step-desc">Vos clients vous trouvent, vos avis montent en flèche.</p>
+                </div>
+            </div>
+        </div>
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </section>
+
+    <!-- CLASSEMENT GOOGLE -->
+    <section id="ranking" class="bg-white-section">
+        <div class="service-inner section-inner">
+            <div class="service-content reveal">
+                <div class="section-label">// Classement Local</div>
+                <h2 class="reveal">Prenez la place du<br><span class="text-3d">Numéro 1.</span></h2>
+                <p class="sub-text">L'algorithme de Google est clair : il favorise les entreprises ayant le plus d'avis récents et positifs.</p>
+                <div class="service-feats">
+                    <div class="service-feat"><div class="feat-check">✓</div><span class="feat-text">Dépassez vos concurrents historiques</span></div>
+                    <div class="service-feat"><div class="feat-check">✓</div><span class="feat-text">Atteignez le Top 3 sur Google Maps</span></div>
+                    <div class="service-feat"><div class="feat-check">✓</div><span class="feat-text">Raflez tous les clients de votre secteur</span></div>
+                </div>
+                <a href="#contact" class="cta-king">Atteindre le sommet 🚀</a>
+            </div>
+            <div class="service-visual reveal d-2" style="background:transparent;border:none;box-shadow:none">
+                <div class="ranking-window">
+                    <div class="rw-header"><span class="rw-dot" style="background:#ff5f56"></span><span class="rw-dot" style="background:#ffbd2e"></span><span class="rw-dot" style="background:#27c93f"></span><div class="rw-search"><span style="color:var(--blue-main)">🔍</span><div class="rw-search-line"></div></div></div>
+                    <div class="rw-body">
+                        <div class="g-listing comp-1"><div class="g-info"><div class="g-title-row"><div class="g-bar-title"></div><div class="g-badge">Position 1</div></div><div class="g-stars">4.6 ⭐⭐⭐⭐ <span>(142)</span></div><div class="g-bar-desc"></div></div><div class="g-actions"><div class="g-circle">📍</div><div class="g-circle">🌐</div></div></div>
+                        <div class="g-listing comp-2"><div class="g-info"><div class="g-title-row"><div class="g-bar-title" style="width:40%"></div><div class="g-badge">Position 2</div></div><div class="g-stars">4.3 ⭐⭐⭐⭐ <span>(84)</span></div><div class="g-bar-desc" style="width:50%"></div></div><div class="g-actions"><div class="g-circle">📍</div><div class="g-circle">🌐</div></div></div>
+                        <div class="g-listing client-listing"><div class="g-info"><div class="g-title-row"><div class="g-title-text">Votre Business</div><div class="g-badge client-badge"></div></div><div class="g-stars">5.0 ⭐⭐⭐⭐⭐ <span style="color:var(--blue-main)">(160+)</span></div><div class="g-bar-desc" style="width:80%;background:#c7d2fe"></div></div><div class="g-actions"><div class="g-circle">📍</div><div class="g-circle">🌐</div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </section>
+
+    <!-- NFC SECTION -->
+    <section class="nfc-visual bg-blue-section">
+        <div class="section-inner reveal" style="text-align:center;margin-bottom:70px">
+            <div class="section-label reveal">// Activation Ultra Simple</div>
+            <h2>Lancer les avis en <span class="text-3d">3 étapes</span></h2>
+            <div class="nfc-steps-grid">
+                <div class="nfc-step-card reveal d-1"><div class="n-step-badge">1</div><img src="https://i.ibb.co/0y1GVsp6/plaue-nfc-KIND-DREAM-removebg-preview.png" alt="Plaque NFC" class="n-step-img" loading="lazy"><h4 class="nfc-step-title">Recevez la pancarte</h4><p class="nfc-step-desc">Directement programmée pour votre établissement et prête à l'emploi.</p></div>
+                <div class="nfc-step-card reveal d-2"><div class="n-step-badge">2</div><div class="n-step-icon">📍</div><h4 class="nfc-step-title">Placez-la en évidence</h4><p class="nfc-step-desc">Sur votre comptoir, pour que chaque client puisse la voir en payant.</p></div>
+                <div class="nfc-step-card reveal d-3"><div class="n-step-badge">3</div><div class="n-step-icon" style="color:var(--yellow)">⭐⭐⭐⭐⭐</div><h4 class="nfc-step-title">Récoltez les avis !</h4><p class="nfc-step-desc">Le client approche son téléphone, atterrit sur Google et laisse 5 étoiles.</p></div>
+            </div>
+        </div>
+        <div class="service-inner section-inner reverse">
+            <div class="service-visual reveal d-2"><div class="service-visual-inner-static"><img src="https://i.ibb.co/Fb14F4Vk/Gemini-Generated-Image-v21jj2v21jj2v21j.png" alt="Pancarte NFC sur comptoir" loading="lazy"><div class="float-badge-nfc"><span>⭐</span> 5 avis/semaine</div></div></div>
+            <div class="service-content reveal">
+                <div class="section-label">// NFC Boost</div>
+                <h2>La pancarte qui<br><span class="text-3d">fait tout</span><br>le boulot.</h2>
+                <p class="sub-text">Posée sur votre comptoir. Vos clients tapent leur téléphone. Ils atterrissent direct sur votre fiche Google. Sans effort.</p>
+                <div class="service-feats">
+                    <div class="service-feat"><div class="feat-check">✓</div><span class="feat-text">5 à 10 avis Google par semaine</span></div>
+                    <div class="service-feat"><div class="feat-check">✓</div><span class="feat-text">Compatible iPhone & Android</span></div>
+                    <div class="service-feat"><div class="feat-check">✓</div><span class="feat-text">Puce NFC ultra-rapide</span></div>
+                </div>
+                <a href="#contact" class="cta-king">Commander ma plaque ⚡</a>
+            </div>
+        </div>
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </section>
+
+    <!-- TARIFS -->
+    <section id="offers" class="bg-white-section">
+        <div class="section-inner" style="text-align:center;max-width:1200px;margin:0 auto">
+            <div class="section-label reveal">// Tarifs</div>
+            <h2 class="reveal">Choisissez<br><span class="text-3d">votre arme.</span></h2>
+            <p class="sub-text reveal" style="margin:0 auto 0">Chaque pack est pensé pour un objectif précis.</p>
+            <div class="offers-grid">
+                <div class="offer-card reveal d-1">
+                    <div class="offer-title">⚡ NFC Boost</div><div class="offer-price">49,90€</div><div class="offer-sub">par panneau — livraison 48h</div>
+                    <ul class="offer-list"><li class="offer-item"><div class="offer-check">✓</div>Pancarte NFC programmée</li><li class="offer-item"><div class="offer-check">✓</div>Compatible tous smartphones</li><li class="offer-item"><div class="offer-check">✓</div>Livraison express incluse</li><li class="offer-item"><div class="offer-check">✓</div>Garantie à vie</li></ul>
+                    <a href="#contact" class="cta-king" style="width:100%;font-size:1.05rem">Je la veux →</a>
+                </div>
+                <div class="offer-card featured reveal d-2">
+                    <div class="offer-star">🔥 BEST SELLER</div><div class="offer-title">💎 Domination</div><div class="offer-price">Sur mesure</div><div class="offer-sub">devis gratuit — inclut tout</div>
+                    <ul class="offer-list"><li class="offer-item"><div class="offer-check">✓</div>Site web ultra-performant</li><li class="offer-item"><div class="offer-check">✓</div>Pancarte NFC incluse</li><li class="offer-item"><div class="offer-check">✓</div>Stratégie SEO complète</li><li class="offer-item"><div class="offer-check">✓</div>Support premium 24/7</li><li class="offer-item" style="border-bottom:none"><div class="offer-check">✓</div>Garantie résultats</li></ul>
+                    <a href="#contact" class="cta-king" style="width:100%;font-size:1.1rem; background: var(--yellow); color: #000; box-shadow: 0 5px 15px rgba(252,211,77,0.3);">Je domine →</a>
+                </div>
+                <div class="offer-card reveal d-3">
+                    <div class="offer-title">🚀 Site Web Pro</div><div class="offer-price">650€</div><div class="offer-sub">à partir de — héberg. offert</div>
+                    <ul class="offer-list"><li class="offer-item"><div class="offer-check">✓</div>Design sur mesure</li><li class="offer-item"><div class="offer-check">✓</div>Optimisé mobile & SEO</li><li class="offer-item"><div class="offer-check">✓</div>Hébergement 1 an offert</li><li class="offer-item"><div class="offer-check">✓</div>Modifications illimitées</li></ul>
+                    <a href="#contact" class="cta-king" style="width:100%;font-size:1.05rem">Je décolle →</a>
+                </div>
+            </div>
+            <div class="addon-banner reveal d-4">
+                <div class="addon-info">
+                    <h3 style="font-family:'Fredoka One';font-size:1.4rem;margin-bottom:8px; color: var(--blue-dark);">🛠️ Service Maintenance & Évolution</h3>
+                    <p style="color:var(--text-muted);font-size:.88rem;font-weight:700;margin-bottom:14px">Gardez votre site à jour, sécurisé et performant toute l'année.</p>
+                    <div style="display:flex;gap:14px;flex-wrap:wrap">
+                        <span class="offer-item" style="padding:0;border:none;font-size:.78rem"><div class="offer-check" style="width:16px;height:16px;font-size:.5rem">✓</div>Modifications</span>
+                        <span class="offer-item" style="padding:0;border:none;font-size:.78rem"><div class="offer-check" style="width:16px;height:16px;font-size:.5rem">✓</div>Mises à jour sécurité</span>
+                        <span class="offer-item" style="padding:0;border:none;font-size:.78rem"><div class="offer-check" style="width:16px;height:16px;font-size:.5rem">✓</div>Sauvegardes</span>
+                    </div>
+                </div>
+                <div class="addon-price-block">
+                    <div class="offer-price" style="margin:0;font-size:2.1rem">34,90€</div><div class="offer-sub" style="margin-bottom:12px">par mois — sans engagement</div>
+                    <a href="#contact" class="cta-ghost" style="padding:10px 22px;font-size:.95rem;">Ajouter l'option</a>
+                </div>
+            </div>
+        </div>
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </section>
+
+    <!-- GARANTIE -->
+    <section id="guarantee" class="bg-blue-section">
+        <div class="guarantee-wrapper">
+            <div class="guarantee-text-block">
+                <div class="section-label reveal">// NOTRE PROMESSE</div>
+                <h2 class="reveal" style="margin-top:18px">On garantit<br><span class="text-3d">vos résultats.</span></h2>
+                <p class="sub-text reveal" style="max-width:400px;margin-bottom:0">Pas de belles paroles. Des engagements concrets. On livre, ou on vous rembourse intégralement.</p>
+                <div class="guarantee-big-seal reveal d-1"><div class="seal-ring">🛡️</div><div class="seal-text">100% GARANTI<br><span>Sans aucun risque</span></div></div>
+            </div>
+            <div class="guarantee-grid">
+                <div class="g-card reveal d-1"><div class="g-icon">📅</div><h4 class="g-title">7 jours ou remboursé</h4><p class="g-desc">Votre site livré en 7 jours max. Si on dépasse, on rembourse.</p></div>
+                <div class="g-card reveal d-2"><div class="g-icon">✏️</div><h4 class="g-title">Modifs illimitées</h4><p class="g-desc">On corrige jusqu'à ce que ce soit parfait. Sans surcoût.</p></div>
+                <div class="g-card reveal d-3"><div class="g-icon">📞</div><h4 class="g-title">Réponse sous 24h</h4><p class="g-desc">Un problème ? On vous répond sous 24h maximum.</p></div>
+                <div class="g-card reveal d-4"><div class="g-icon">⭐</div><h4 class="g-title">Résultats dès J+7</h4><p class="g-desc">Augmentation mesurable de vos avis avec notre plaque NFC.</p></div>
+            </div>
+        </div>
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="bg-white-section">
+        <div class="faq-inner">
+            <div class="section-label reveal">// Vos questions</div>
+            <h2 class="reveal">Tout ce que vous<br><span class="text-3d">devez savoir.</span></h2>
+            <div class="faq-list reveal d-2">
+                <div class="faq-item">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false"><span>Comment se passe le paiement ?</span><div class="faq-icon">+</div></div>
+                    <div class="faq-answer"><div class="faq-answer-inner">Le règlement se fait en deux fois : <strong>50 % à la commande</strong> pour démarrer votre projet, et les <strong>50 % restants à la livraison</strong>. Vous ne payez le solde que lorsque le site est en ligne et que vous êtes 100 % satisfait.</div></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false"><span>En combien de temps mon site sera-t-il en ligne ?</span><div class="faq-icon">+</div></div>
+                    <div class="faq-answer"><div class="faq-answer-inner">Dès que nous validons ensemble le brief initial (environ 20 minutes), notre équipe s'y met. Votre site sera en ligne dans un délai maximum garanti de <strong>7 jours</strong>.</div></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false"><span>Comment fonctionne exactement la plaque NFC ?</span><div class="faq-icon">+</div></div>
+                    <div class="faq-answer"><div class="faq-answer-inner">Il suffit que votre client approche son smartphone de la plaque. Il est automatiquement redirigé vers votre page d'avis Google. <strong>Aucune application requise.</strong></div></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false"><span>Y a-t-il un abonnement caché pour la plaque NFC ?</span><div class="faq-icon">+</div></div>
+                    <div class="faq-answer"><div class="faq-answer-inner"><strong>Absolument aucun.</strong> Vous payez la plaque une seule fois (49,90€) et elle vous appartient à vie. Aucun abonnement mensuel.</div></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false"><span>Dois-je m'occuper de la rédaction ou du design ?</span><div class="faq-icon">+</div></div>
+                    <div class="faq-answer"><div class="faq-answer-inner">Non, on s'occupe de tout. Vous nous donnez vos informations de base et quelques photos. Notre équipe crée le design et rédige les textes optimisés pour Google.</div></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false"><span>Que se passe-t-il si je veux modifier mon site plus tard ?</span><div class="faq-icon">+</div></div>
+                    <div class="faq-answer"><div class="faq-answer-inner">Vous êtes 100% propriétaire de votre site. Pour des modifications régulières, nous proposons un service de maintenance sans engagement à seulement 34,90€/mois.</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </section>
+
+    <!-- ─── TEMOIGNAGES (BLEU) - CARTES CARRÉES + LOGO GOOGLE OFFICIEL ─── -->
+    <section id="testimonials" class="bg-blue-section">
+        <div class="section-inner reveal">
+            <div class="section-label">// Témoignages</div>
+            <h2>Nos clients<br><span class="text-3d">en parlent.</span></h2>
+        </div>
+        
+        <div class="testimonials-slider reveal d-2">
+            <div class="testimonials-track">
+                
+                <div class="tcard">
+                    <p class="tcard-text">"Le personnel qualifié est à l'écoute et conseille au mieux le client afin de mettre en place une stratégie optimisée. Encore merci."</p>
+                    <div class="tcard-author-block">
+                        <div class="tcard-icon-wrap">
+                            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                        </div>
+                        <div class="tcard-author-info">
+                            <div class="tcard-name">Nathalie Thomas</div>
+                            <div class="tcard-role">Entrepreneuse</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tcard">
+                    <p class="tcard-text">"De 15 à 160 avis en 2 mois grâce à la plaque NFC. Mon carnet de commandes est plein pour 3 mois d'avance, je recommande vivement !"</p>
+                    <div class="tcard-author-block">
+                        <div class="tcard-icon-wrap">
+                            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                        </div>
+                        <div class="tcard-author-info">
+                            <div class="tcard-name">Julien R.</div>
+                            <div class="tcard-role">Garage Auto</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tcard">
+                    <p class="tcard-text">"Site web livré en 5 jours. Mes réservations ont doublé dès le premier mois. L'équipe est très professionnelle et réactive."</p>
+                    <div class="tcard-author-block">
+                        <div class="tcard-icon-wrap">
+                            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                        </div>
+                        <div class="tcard-author-info">
+                            <div class="tcard-name">Amélie D.</div>
+                            <div class="tcard-role">Gérante Restaurant</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tcard">
+                    <p class="tcard-text">"N°1 sur Google Maps en 3 semaines dans ma ville. Le téléphone ne s'arrête plus de sonner. Un investissement rentabilisé très vite."</p>
+                    <div class="tcard-author-block">
+                        <div class="tcard-icon-wrap">
+                            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                        </div>
+                        <div class="tcard-author-info">
+                            <div class="tcard-name">Sophie K.</div>
+                            <div class="tcard-role">Artisan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DUPLICATES FOR INFINITE SCROLL -->
+                <div class="tcard">
+                    <p class="tcard-text">"Le personnel qualifié est à l'écoute et conseille au mieux le client afin de mettre en place une stratégie optimisée. Encore merci."</p>
+                    <div class="tcard-author-block">
+                        <div class="tcard-icon-wrap">
+                            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                        </div>
+                        <div class="tcard-author-info">
+                            <div class="tcard-name">Nathalie Thomas</div>
+                            <div class="tcard-role">Entrepreneuse</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tcard">
+                    <p class="tcard-text">"De 15 à 160 avis en 2 mois grâce à la plaque NFC. Mon carnet de commandes est plein pour 3 mois d'avance, je recommande vivement !"</p>
+                    <div class="tcard-author-block">
+                        <div class="tcard-icon-wrap">
+                            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                        </div>
+                        <div class="tcard-author-info">
+                            <div class="tcard-name">Julien R.</div>
+                            <div class="tcard-role">Garage Auto</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tcard">
+                    <p class="tcard-text">"Site web livré en 5 jours. Mes réservations ont doublé dès le premier mois. L'équipe est très professionnelle et réactive."</p>
+                    <div class="tcard-author-block">
+                        <div class="tcard-icon-wrap">
+                            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                        </div>
+                        <div class="tcard-author-info">
+                            <div class="tcard-name">Amélie D.</div>
+                            <div class="tcard-role">Gérante Restaurant</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tcard">
+                    <p class="tcard-text">"N°1 sur Google Maps en 3 semaines dans ma ville. Le téléphone ne s'arrête plus de sonner. Un investissement rentabilisé très vite."</p>
+                    <div class="tcard-author-block">
+                        <div class="tcard-icon-wrap">
+                            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                        </div>
+                        <div class="tcard-author-info">
+                            <div class="tcard-name">Sophie K.</div>
+                            <div class="tcard-role">Artisan</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Le Logo Officiel Google -->
+        <div class="google-rating-block reveal d-3">
+            <svg class="g-logo-svg" viewBox="0 0 256 84" width="100">
+                <path fill="currentColor" d="M33.16,65.31C14.86,65.31 0,50.93 0,32.66C0,14.38 14.86,0 33.16,0C43.1,0 50.25,3.91 55.59,8.59L49.25,14.93C45.43,11.37 40.23,8.59 33.16,8.59C20.01,8.59 9.71,19.34 9.71,32.66C9.71,45.98 20.01,56.73 33.16,56.73C41.64,56.73 46.51,53.33 49.65,50.18C52.2,47.64 53.9,43.91 54.67,38.56L33.16,38.56L33.16,30.34L63.02,30.34C63.32,31.96 63.48,33.86 63.48,35.95C63.48,42.79 61.66,51.27 55.99,57.06C50.25,62.4 42.92,65.31 33.16,65.31ZM86.74,43.76C86.74,56.12 77.06,65.31 64.91,65.31C52.75,65.31 43.08,56.12 43.08,43.76C43.08,31.39 52.75,22.21 64.91,22.21C77.06,22.21 86.74,31.39 86.74,43.76ZM77.34,43.76C77.34,35.37 71.58,29.74 64.91,29.74C58.24,29.74 52.48,35.37 52.48,43.76C52.48,52.14 58.24,57.78 64.91,57.78C71.58,57.78 77.34,52.14 77.34,43.76ZM132.88,43.76C132.88,56.12 123.2,65.31 111.05,65.31C98.89,65.31 89.22,56.12 89.22,43.76C89.22,31.39 98.89,22.21 111.05,22.21C123.2,22.21 132.88,31.39 132.88,43.76ZM123.47,43.76C123.47,35.37 117.72,29.74 111.05,29.74C104.38,29.74 98.62,35.37 98.62,43.76C98.62,52.14 104.38,57.78 111.05,57.78C117.72,57.78 123.47,52.14 123.47,43.76ZM178.11,23.36L178.11,62.16C178.11,72.77 168.64,77.13 157.06,77.13C146.1,77.13 139.5,69.78 136.98,63.66L145.19,60.25C146.75,64.07 150.77,68.54 157.06,68.54C163.64,68.54 169.05,64.48 169.05,58.07L169.05,55.19L168.73,55.19C166.42,58.01 161.9,60.67 156.88,60.67C146.28,60.67 136.27,51.84 136.27,41.48C136.27,31.02 146.28,22.21 156.88,22.21C161.9,22.21 166.42,24.87 168.73,27.69L169.05,27.69L169.05,23.36L178.11,23.36ZM169.64,41.48C169.64,33.09 163.64,26.74 157.54,26.74C151.15,26.74 145.68,33.09 145.68,41.48C145.68,49.82 151.15,56.14 157.54,56.14C163.64,56.14 169.64,49.82 169.64,41.48ZM186.2,2.88L195.6,2.88L195.6,63.85L186.2,63.85L186.2,2.88ZM236.72,50.74L244.02,55.61C241.69,59.08 235.37,65.31 224.28,65.31C211.59,65.31 202.2,55.77 202.2,43.76C202.2,30.34 211.75,22.21 222.86,22.21C234.09,22.21 241.69,30.5 243.68,35.12L244.6,37.45L213.9,50.16C216.03,54.37 219.46,56.73 224.28,56.73C229.09,56.73 233.34,54.33 236.72,50.74ZM211.45,42.54L232.06,34.01C230.93,31.55 227.35,29.74 223.35,29.74C218.4,29.74 211.29,33.56 211.45,42.54Z"/>
+            </svg>
+            <div class="g-stars-row">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div class="g-rating-text">160+ avis</div>
+        </div>
+
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="bg-white-section">
+        <div class="section-inner">
+            <div class="section-label reveal">// Contact</div>
+            <h2 class="reveal">Prêt à<br><span class="text-3d">régner ?</span></h2>
+            <p class="sub-text reveal" style="margin:0 auto 28px">Devis gratuit — réponse sous 24h — aucun engagement.</p>
+            <div class="contact-card reveal d-2">
+                <form id="contact-form" action="https://formsubmit.co/Contact@kingdream.fr" method="POST">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" value="Nouveau Lead - Site KingDream !">
+                    <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+                    <div class="form-row">
+                        <input type="text" name="prenom" placeholder="Prénom" required autocomplete="given-name" minlength="2">
+                        <input type="text" name="nom" placeholder="Nom" required autocomplete="family-name" minlength="2">
+                    </div>
+                    <input type="email" name="email" placeholder="Votre email" required autocomplete="email">
+                    <input type="tel" name="tel" placeholder="Téléphone" required autocomplete="tel" pattern="[0-9\s\+\-]{7,20}">
+                    <select name="pack" required>
+                        <option value="">— Choisissez votre besoin —</option>
+                        <option value="domination">💎 Pack Domination (Web + NFC)</option>
+                        <option value="nfc">⚡ Pancarte NFC Boost — 49,90€</option>
+                        <option value="web">🚀 Site Web Pro — dès 650€</option>
+                        <option value="maintenance">🛠️ Option Maintenance — 34,90€/mois</option>
+                        <option value="conseil">💡 Conseils et devis gratuit</option>
+                    </select>
+                    <textarea name="message" placeholder="Parlez-nous de votre projet..." rows="4" required minlength="10"></textarea>
+                    <button type="submit" class="cta-king" id="submit-btn" style="width:100%;margin-top:10px">Démarrer maintenant 🚀</button>
+                    <div class="trust-row">
+                        <span class="trust-item">🔒 100% Sécurisé</span>
+                        <span class="trust-item">⚡ Réponse sous 24h</span>
+                        <span class="trust-item">✅ Devis gratuit</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z"></path></svg>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo-wrap">
+            <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream Digital" loading="lazy">
+        </div>
+        <div class="footer-tagline">L'agence qui transforme votre nom en empire</div>
+        <a href="https://www.instagram.com/kingdream_digital/" target="_blank" rel="noopener noreferrer" class="instagram-link" aria-label="Instagram KingDream Digital">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        </a>
+        <div class="footer-links">
+            <a href="#contact">Contact</a>
+            <a href="mailto:Contact@kingdream.fr">Contact@kingdream.fr</a>
+            <a href="tel:+33627205597">06 27 20 55 97</a>
+        </div>
+        <div class="footer-copy">© 2026 KINGDREAM DIGITAL — TOUS DROITS RÉSERVÉS</div>
+    </footer>
+
+</main>
+
+<!-- POPUP -->
+<div id="lead-popup" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+    <div class="popup-box">
+        <button class="popup-close" onclick="closePopup()" aria-label="Fermer">✕</button>
+        <div style="font-size:2.2rem;margin-bottom:8px">⚡</div>
+        <div class="popup-title" id="popup-title">Une <span>seconde</span> !</div>
+        <p class="popup-desc">On t'offre une stratégie GRATUITE pour exploser tes avis Google. Offre valable encore :</p>
+        <div id="countdown">02:00</div>
+        <input type="email" class="popup-input" placeholder="Ton meilleur email..." autocomplete="email">
+        <button class="cta-king" onclick="closePopup()" style="width:100%">Je veux ma stratégie 🚀</button>
+    </div>
+</div>
+
+<!-- NOTIF -->
+<div id="notif" role="status" aria-live="polite"></div>
+
+<!-- STICKY MOBILE CTA -->
+<div id="sticky-cta"><a href="#contact">⚡ Devis gratuit — Démarrer maintenant</a></div>
+
+<script>
+/* ─── HAMBURGER MENU (MOBILE) ─── */
+const hamburgerBtn = document.getElementById('hamburger-btn');
+const mobileDrawer = document.getElementById('mobile-drawer');
+const mobileCloseBtn = document.getElementById('mobile-close-btn');
+let menuOpen = false;
+
+function toggleMenu(force) {
+    menuOpen = (force !== undefined) ? force : !menuOpen;
+    mobileDrawer.classList.toggle('open', menuOpen);
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+}
+
+// Ouvrir au clic sur le hamburger
+hamburgerBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleMenu(true);
+});
+
+// Fermer au clic sur la croix (X)
+mobileCloseBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleMenu(false);
+});
+
+// Fermer au clic sur un lien du menu
+document.querySelectorAll('.nav-link-m').forEach(link => {
+    link.addEventListener('click', () => toggleMenu(false));
+});
+
+// Échap pour fermer
+document.addEventListener('keydown', e => { 
+    if (e.key === 'Escape') { toggleMenu(false); closePopup(); }
+});
+
+/* ─── SCROLL & NAV ─── */
+let lastScrollY = 0;
+let ticking = false;
+const navbar = document.getElementById('navbar');
+const scrollProgress = document.getElementById('scroll-progress');
+const backToTop = document.getElementById('back-to-top');
+
+function updateOnScroll() {
+    const currentScrollY = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (currentScrollY / docHeight) * 100 : 0;
+    
+    scrollProgress.style.width = progress + '%';
+
+    if (!menuOpen) {
+        if (window.innerWidth > 768) {
+            if (currentScrollY > lastScrollY && currentScrollY > 100) navbar.classList.add('nav-hidden');
+            else navbar.classList.remove('nav-hidden');
+        }
+        navbar.classList.toggle('nav-scrolled', currentScrollY > 10);
+    }
+    
+    lastScrollY = currentScrollY;
+    backToTop.classList.toggle('visible', currentScrollY > 400);
+    ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(updateOnScroll); ticking = true; }
+}, { passive: true });
+
+/* ─── SLIDER ─── */
+const SLIDE_COUNT = 5;
+let currentSlideIdx = 0;
+let sliderTimer = null;
+const sliderTrackEl = document.getElementById('web-slider');
+const dotsContainer = document.getElementById('slider-dots');
+
+for (let i = 0; i < SLIDE_COUNT; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Image ' + (i + 1));
+    dot.setAttribute('role', 'tab');
+    dot.addEventListener('click', () => { goToSlide(i); resetAutoPlay(); });
+    dotsContainer.appendChild(dot);
+}
+
+function updateDots() {
+    document.querySelectorAll('.slider-dot').forEach((dot, i) => dot.classList.toggle('active', i === currentSlideIdx));
+}
+
+function goToSlide(idx) {
+    currentSlideIdx = ((idx % SLIDE_COUNT) + SLIDE_COUNT) % SLIDE_COUNT;
+    sliderTrackEl.style.transform = `translateX(-${currentSlideIdx * 100}%)`;
+    updateDots();
+}
+
+function startAutoPlay() { sliderTimer = setInterval(() => goToSlide(currentSlideIdx + 1), 3500); }
+function resetAutoPlay() { clearInterval(sliderTimer); startAutoPlay(); }
+
+document.getElementById('arrow-left').addEventListener('click', () => { goToSlide(currentSlideIdx - 1); resetAutoPlay(); });
+document.getElementById('arrow-right').addEventListener('click', () => { goToSlide(currentSlideIdx + 1); resetAutoPlay(); });
+
+const sliderWrapper = document.getElementById('slider-wrapper');
+sliderWrapper.addEventListener('mouseenter', () => clearInterval(sliderTimer));
+sliderWrapper.addEventListener('mouseleave', startAutoPlay);
+
+let touchStartX = 0;
+sliderWrapper.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+sliderWrapper.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { goToSlide(currentSlideIdx + (diff > 0 ? 1 : -1)); resetAutoPlay(); }
+}, { passive: true });
+
+startAutoPlay();
+
+/* ─── STATS ANIMATION ─── */
+function animateCounter(el) {
+    const target = parseFloat(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1500;
+    const startTime = performance.now();
+    function update(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(eased * target) + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+}
+
+const statsObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.stat-number[data-target]').forEach(el => {
+                if (!el.dataset.animated) { el.dataset.animated = 'true'; animateCounter(el); }
+            });
+        }
+    });
+}, { threshold: 0.5 });
+const statsGrid = document.querySelector('.stats-grid');
+if (statsGrid) statsObserver.observe(statsGrid.parentElement);
+
+/* ─── REVEAL ─── */
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('active'); revealObserver.unobserve(entry.target); }
+    });
+}, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+setTimeout(() => { document.querySelectorAll('.reveal:not(.active)').forEach(el => el.classList.add('active')); }, 400);
+
+/* ─── FAQ ─── */
+document.querySelectorAll('.faq-question').forEach(q => {
+    function toggleFaq() {
+        const item = q.parentElement;
+        const answer = item.querySelector('.faq-answer');
+        const isActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(other => {
+            other.classList.remove('active');
+            other.querySelector('.faq-answer').style.maxHeight = null;
+            other.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+        if (!isActive) {
+            item.classList.add('active');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+            q.setAttribute('aria-expanded', 'true');
+        }
+    }
+    q.addEventListener('click', toggleFaq);
+    q.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFaq(); } });
+});
+
+/* ─── FORM ─── */
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!this.checkValidity()) { this.reportValidity(); return; }
+    const form = this;
+    const btn = document.getElementById('submit-btn');
+    const orig = btn.innerHTML;
+    btn.innerHTML = 'Envoi en cours... ⏳';
+    btn.disabled = true;
+    fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
+    .then(res => {
+        if (res.ok) {
+            btn.innerHTML = '🎉 Demande envoyée !';
+            setTimeout(() => { form.reset(); btn.innerHTML = orig; btn.disabled = false; alert('✅ Reçu ! On vous contacte sous 24h pour faire décoller votre business 🚀'); }, 3000);
+        } else throw new Error();
+    })
+    .catch(() => {
+        btn.innerHTML = 'Erreur ❌';
+        setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 3000);
+        alert('Erreur. Contactez-nous à Contact@kingdream.fr');
+    });
+});
+
+/* ─── POPUP ─── */
+let popupShown = false;
+const isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
+if (!isMobileDevice) {
+    document.addEventListener('mouseleave', e => {
+        if (e.clientY < 0 && !popupShown) { document.getElementById('lead-popup').style.display = 'flex'; popupShown = true; }
+    });
+}
+function closePopup() { document.getElementById('lead-popup').style.display = 'none'; }
+document.getElementById('lead-popup').addEventListener('click', e => { if (e.target === document.getElementById('lead-popup')) closePopup(); });
+let time = 120;
+const cdEl = document.getElementById('countdown');
+const cdInterval = setInterval(() => {
+    if (time > 0) { time--; const m = Math.floor(time / 60), s = time % 60; cdEl.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s; } else clearInterval(cdInterval);
+}, 1000);
+
+/* ─── NOTIFS ─── */
+const notifMessages = [ "🔥 Quelqu'un vient de commander un Pack Domination !", "⚡ Une plaque NFC vient d'être expédiée vers Lyon !", "🚀 Un nouveau client a demandé son devis gratuit !", "⭐ Un commerce vient d'atteindre les 150 avis Google !" ];
+let notifIndex = 0;
+const notifEl = document.getElementById('notif');
+function showNotification() {
+    notifEl.innerHTML = notifMessages[notifIndex];
+    notifIndex = (notifIndex + 1) % notifMessages.length;
+    notifEl.style.display = 'block';
+    setTimeout(() => { notifEl.style.display = 'none'; }, 4500);
+    setTimeout(showNotification, Math.floor(Math.random() * 10000) + 15000);
+}
+setTimeout(showNotification, 10000);
+</script>
+  <!-- ─── CHATBOT IA KINGDREAM COMPLET ─── -->
+<style>
+    #ai-chat-wrapper { position: fixed; bottom: 100px; right: 25px; z-index: 10000; font-family: 'Nunito', sans-serif; }
+    #ai-chat-bubble { 
+        width: 65px; height: 65px; background: #0057FF; border-radius: 50%; 
+        display: flex; align-items: center; justify-content: center; cursor: pointer; 
+        box-shadow: 0 12px 30px rgba(0,87,255,0.4); border: 2.5px solid #FCD34D; 
+        transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    }
+    #ai-chat-bubble:hover { transform: scale(1.1) rotate(5deg); }
+    #ai-chat-bubble svg { width: 30px; height: 30px; fill: white; }
+    #ai-chat-window { 
+        width: 370px; height: 520px; background: rgba(255, 255, 255, 0.98); 
+        backdrop-filter: blur(15px); border-radius: 24px; display: none; 
+        flex-direction: column; box-shadow: 0 30px 80px rgba(0,0,0,0.3); 
+        border: 1px solid rgba(0,87,255,0.1); margin-bottom: 15px; 
+        overflow: hidden; animation: chatIn 0.4s ease-out; 
+    }
+    @keyframes chatIn { from { opacity: 0; transform: translateY(30px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .ai-chat-header { background: linear-gradient(135deg, #0057FF, #0036A3); color: white; padding: 20px; display: flex; align-items: center; gap: 12px; }
+    .ai-chat-header img { width: 38px; height: 38px; border-radius: 50%; border: 2px solid #FCD34D; background: white; }
+    .ai-chat-header-info span { display: block; font-weight: 900; font-size: 1rem; }
+    .ai-chat-header-info small { font-size: 0.75rem; color: #FCD34D; }
+    #ai-chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; background: #f9fbff; }
+    .msg { max-width: 85%; padding: 12px 18px; border-radius: 20px; font-size: 0.9rem; line-height: 1.5; font-weight: 600; position: relative; }
+    .msg.bot { background: white; color: #0f172a; align-self: flex-start; border-bottom-left-radius: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
+    .msg.user { background: #0057FF; color: white; align-self: flex-end; border-bottom-right-radius: 5px; }
+    #typing-indicator { display:none; padding: 0 20px 10px; font-size: 0.8rem; color: #888; font-style: italic; background: #f9fbff; }
+    .ai-chat-input-area { padding: 15px; background: white; display: flex; gap: 10px; border-top: 1px solid #eee; align-items: center; }
+    .ai-chat-input-area input { flex: 1; border: none; padding: 12px; border-radius: 12px; background: #f1f4f9; font-weight: 600; outline: none; margin: 0 !important; }
+    .ai-chat-input-area button { background: #0057FF; border: none; width: 45px; height: 45px; border-radius: 12px; color: white; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+    @media (max-width: 480px) { #ai-chat-window { width: 90vw; height: 70vh; right: 5vw; } }
+</style>
+
+<div id="ai-chat-wrapper">
+    <div id="ai-chat-window">
+        <div class="ai-chat-header">
+            <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream AI">
+            <div class="ai-chat-header-info">
+                <span>KingDream Assistant 👑</span>
+                <small>En ligne</small>
+            </div>
+            <button onclick="toggleChat()" style="background:none; border:none; color:white; font-size:1.8rem; cursor:pointer;">&times;</button>
+        </div>
+        <div id="ai-chat-messages">
+            <div class="msg bot">Bonjour ! Je suis l'intelligence KingDream. Mon but est de transformer votre business en empire local. Quel est votre domaine d'activité ? 🚀</div>
+        </div>
+        <div id="typing-indicator">L'IA réfléchit...</div>
+        <div class="ai-chat-input-area">
+            <input type="text" id="ai-user-input" placeholder="Écrivez ici..." onkeypress="if(event.key==='Enter') sendChatMessage()">
+            <button onclick="sendChatMessage()">➤</button>
+        </div>
+    </div>
+    <div id="ai-chat-bubble" onclick="toggleChat()">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2 22l5-1.338C8.47 21.513 10.179 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.477 0-2.873-.372-4.089-1.031l-2.811.751.751-2.811A7.953 7.953 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/><circle cx="8" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="16" cy="12" r="1.5"/></svg>
+    </div>
+</div>
+
+<script>
+    const aiMsgs = document.getElementById('ai-chat-messages');
+    const aiTyping = document.getElementById('typing-indicator');
+    const aiInput = document.getElementById('ai-user-input');
+    const aiWin = document.getElementById('ai-chat-window');
+
+    function toggleChat() { aiWin.style.display = (aiWin.style.display === 'flex') ? 'none' : 'flex'; }
+
+    function sendChatMessage() {
+        const text = aiInput.value.trim();
+        if(!text) return;
+        addAiMessage(text, 'user');
+        aiInput.value = '';
+        aiTyping.style.display = 'block';
+        aiMsgs.scrollTop = aiMsgs.scrollHeight;
+        setTimeout(() => { 
+            aiTyping.style.display = 'none'; 
+            addAiMessage(getKingDreamResponse(text.toLowerCase()), 'bot'); 
+        }, 1200);
+    }
+
+    function addAiMessage(text, side) {
+        const div = document.createElement('div');
+        div.className = `msg ${side}`;
+        div.innerHTML = text;
+        aiMsgs.appendChild(div);
+        aiMsgs.scrollTop = aiMsgs.scrollHeight;
+    }
+
+    function getKingDreamResponse(q) {
+        if (q.includes('qui es-tu')) return "Je suis l'IA de KingDream Digital. Je suis là pour bâtir votre empire local ! 👑";
+        if (q.includes('bonjour') || q.includes('salut')) return "Salut ! Prêt à écraser la concurrence ? Dites-moi votre métier !";
+        if (q.includes('prix') || q.includes('tarif') || q.includes('combien')) return "C'est simple : <br>• <strong>Plaque NFC</strong> : 49,90€<br>• <strong>Site Web Pro</strong> : dès 650€<br>• <strong>Domination</strong> : Sur devis.<br>On commence quand ? 💸";
+        if (q.includes('resto') || q.includes('manger')) return "Pour votre <strong>Empire Culinaire</strong>, la plaque NFC sur table est magique. 5 étoiles direct après le café ! 🍽️";
+        if (q.includes('coiffeur') || q.includes('salon')) return "On connecte votre salon ! On lie votre site à Planity et on booste vos avis Google à la caisse. ✂️✨";
+        if (q.includes('artisan') || q.includes('travaux') || q.includes('plombier')) return "<strong>Empire Artisan :</strong> On vous rend N°1 sur les urgences locales. Votre site devient un aimant à devis ! 🛠️";
+        if (q.includes('immo') || q.includes('agence')) return "<strong>Empire Immo :</strong> Un site luxe pour vos mandats et une plaque NFC en agence pour rassurer vos vendeurs. 🏠";
+        if (q.includes('garage') || q.includes('auto')) return "<strong>Empire Auto :</strong> Gagnez la confiance avec une pluie d'avis 5 étoiles. On remplit votre atelier ! 🚗💨";
+        if (q.includes('7 jours') || q.includes('temps') || q.includes('délai')) return "On livre en 7 jours chrono. Si on dépasse d'une minute, on vous rembourse. Efficacité totale. 🚀";
+        if (q.includes('nfc') || q.includes('plaque')) return "La plaque NFC KingDream permet de récolter des avis Google sans aucun effort. Pas d'application, pas d'abo. Magique. ⚡";
+        if (q.includes('avis') || q.includes('google')) return "Les avis sont votre meilleure arme. Nos clients passent de 10 à 150 avis en moins de 2 mois ! ⭐⭐⭐⭐⭐";
+        return "C'est un beau projet ! KingDream a une solution sur mesure. Appelez-nous au <strong>06 27 20 55 97</strong> ou utilisez le formulaire de contact ! 😊";
+    }
+</script>
+</body>
+</html>
+```
