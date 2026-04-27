@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KingDream Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-page: #0a0a0a;
+            --card-bg: #ffffff;
+            --king-blue: #0046be;
+            --text-main: #1a1a1a;
+            --text-secondary: #555;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: var(--bg-page);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .phone-card {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 45px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: 40px;
+            position: relative;
+        }
+
+        /* BANNIÈRE NOIRE AVEC LOGO */
+        .header-banner {
+            height: 220px;
+            background: #000;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .logo-img {
+            width: 90%;
+            height: auto;
+            position: relative;
+            z-index: 1; /* Derrière la vague */
+            opacity: 0.95;
+            margin-top: -20px;
+        }
+
+        /* Vague de transition */
+        .wave-container {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            line-height: 0;
+            z-index: 5;
+        }
+
+        .wave-container svg {
+            width: 100%;
+            height: 80px;
+            fill: var(--card-bg);
+        }
+
+        /* Zone de contenu */
+        .info-content {
+            padding: 40px 25px 25px 25px; /* Plus d'espace en haut car plus de photo */
+            position: relative;
+            z-index: 10;
+        }
+
+        /* TITRE PROFESSIONNEL SOMBRE */
+        .job-title {
+            font-size: 18px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 800;
+            margin-bottom: 25px;
+        }
+
+        .bio {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 35px;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* BOUTON CONTACT */
+        .btn-main {
+            background: #000;
+            color: #fff;
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 35px;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: 0.2s;
+        }
+        .btn-main:active { transform: scale(0.95); }
+
+        /* Grille des icônes actives */
+        .grid-active {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .icon-card {
+            width: 82px;
+            height: 82px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 24px;
+            font-size: 26px;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Couleurs standards */
+        .phone { background: #4CD964; }
+        .sms { background: #FF2D55; }
+        .mail { background: #5AC8FA; }
+        .insta { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+        .web { background: linear-gradient(135deg, #0046be, #002d7a); }
+
+        /* Section "En cours" */
+        .pending-section {
+            border-top: 1px solid #f2f2f2;
+            padding-top: 25px;
+        }
+        .pending-title {
+            font-size: 10px;
+            font-weight: 800;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+        .grid-pending {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            opacity: 0.15;
+            filter: grayscale(1);
+        }
+        .icon-pending {
+            width: 45px; height: 45px;
+            display: flex; justify-content: center; align-items: center;
+            border-radius: 14px; background: #eee; color: #666; font-size: 18px;
+        }
+
+        .brand-footer {
+            margin-top: 30px;
+            font-size: 11px;
+            color: #ddd;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-card">
+        <!-- BANNIÈRE NOIRE ÉPURÉE -->
+        <div class="header-banner">
+            <img src="https://i.ibb.co/237GdNW6/a298a2bb-7e2d-4af5-9688-5e07d30d8991.png" alt="" class="logo-img">
+            
+            <div class="wave-container">
+                <svg viewBox="0 0 500 150" preserveAspectRatio="none">
+                    <path d="M0.00,49.98 C150.00,150.00 349.20,-50.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z"></path>
+                </svg>
+            </div>
+        </div>
+
+        <div class="info-content">
+            <!-- TITRE PROFESSIONNEL -->
+            <p class="job-title">Digital Solutions</p>
+            
+            <p class="bio">
+                Propulsez votre présence en ligne avec des stratégies digitales innovantes et un design haute performance.
+            </p>
+
+            <button class="btn-main" onclick="downloadVCard()">Ajouter au contact</button>
+
+            <div class="grid-active">
+                <a href="tel:0627205597" class="icon-card phone"><i class="fa-solid fa-phone"></i></a>
+                <a href="sms:0627205597" class="icon-card sms"><i class="fa-solid fa-comment-dots"></i></a>
+                <a href="mailto:Contact@Kingdream.fr" class="icon-card mail"><i class="fa-solid fa-envelope"></i></a>
+                <a href="https://www.instagram.com/kingdream_digital/" target="_blank" class="icon-card insta"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://Kingdream.fr" target="_blank" class="icon-card web"><i class="fa-solid fa-globe"></i></a>
+            </div>
+
+            <!-- SECTION EN ATTENTE -->
+            <div class="pending-section">
+                <p class="pending-title">En cours de production</p>
+                <div class="grid-pending">
+                    <div class="icon-pending"><i class="fa-brands fa-whatsapp"></i></div>
+                    <div class="icon-pending"><i class="fa-brands fa-linkedin-in"></i></div>
+                    <div class="icon-pending"><i class="fa-brands fa-tiktok"></i></div>
+                    <div class="icon-pending"><i class="fa-brands fa-facebook-f"></i></div>
+                </div>
+            </div>
+
+            <div class="brand-footer">KINGDREAM DIGITAL</div>
+        </div>
+    </div>
+
+    <script>
+        function downloadVCard() {
+            const contact = {
+                name: "KingDream Digital",
+                phone: "0627205597",
+                email: "Contact@Kingdream.fr",
+                url: "https://Kingdream.fr"
+            };
+            const vcard = "BEGIN:VCARD\nVERSION:3.0\nFN:" + contact.name + "\nORG:KingDream Digital\nTEL;TYPE=CELL:" + contact.phone + "\nEMAIL:" + contact.email + "\nURL:" + contact.url + "\nEND:VCARD";
+            const blob = new Blob([vcard], { type: "text/vcard" });
+            const url = window.URL.createObjectURL(blob);
+            const newLink = document.createElement('a');
+            newLink.download = contact.name + ".vcf";
+            newLink.href = url;
+            newLink.click();
+        }
+    </script>
+
+</body>
+</html>
