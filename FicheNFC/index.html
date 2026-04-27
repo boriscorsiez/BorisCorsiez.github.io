@@ -12,31 +12,42 @@
             --bg-page: #0a0a0a;
             --card-bg: #ffffff;
             --text-main: #1a1a1a;
+            --king-blue: #0046be;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
         body { background: var(--bg-page); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
         .phone-card { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 45px; box-shadow: 0 40px 100px rgba(0,0,0,0.6); overflow: hidden; text-align: center; padding-bottom: 40px; position: relative; }
         
+        /* BANNIÈRE */
         .header-banner { height: 280px; background: #000; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .logo-img { width: 90%; height: auto; max-width: 350px; position: relative; z-index: 1; margin-top: -20px; }
         
+        /* VAGUE */
         .wave-container { position: absolute; bottom: -1px; left: 0; width: 100%; line-height: 0; z-index: 5; }
         .wave-container svg { width: 100%; height: 90px; fill: var(--card-bg); }
         
+        /* CONTENU */
         .info-content { padding: 40px 25px; position: relative; z-index: 10; }
         .job-title { font-size: 18px; color: var(--text-main); text-transform: uppercase; letter-spacing: 5px; font-weight: 800; margin-bottom: 25px; }
         .bio { font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 35px; }
         
-        .btn-main { background: #000; color: #fff; padding: 18px 45px; border-radius: 50px; text-decoration: none; font-weight: 700; display: inline-block; margin-bottom: 35px; cursor: pointer; border: none; font-size: 16px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); transition: 0.2s; }
-        .btn-main:active { transform: scale(0.95); }
-
+        .btn-main { background: #000; color: #fff; padding: 18px 45px; border-radius: 50px; text-decoration: none; font-weight: 700; display: inline-block; margin-bottom: 35px; cursor: pointer; border: none; font-size: 16px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        
+        /* ICÔNES */
         .grid-active { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 40px; }
         .icon-card { width: 82px; height: 82px; display: flex; justify-content: center; align-items: center; border-radius: 24px; font-size: 26px; color: white; text-decoration: none; }
         .phone { background: #4CD964; }
         .sms { background: #FF2D55; }
         .mail { background: #5AC8FA; }
         .insta { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
-        .web { background: #0046be; }
+        .web { background: var(--king-blue); }
+
+        /* SECTION EN COURS */
+        .pending-section { border-top: 1px solid #f0f0f0; padding-top: 25px; }
+        .pending-title { font-size: 10px; font-weight: 800; color: #ccc; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
+        .grid-pending { display: flex; justify-content: center; gap: 12px; opacity: 0.2; filter: grayscale(1); }
+        .icon-pending { width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; border-radius: 14px; background: #eee; color: #666; font-size: 18px; }
+
         .brand-footer { margin-top: 30px; font-size: 11px; color: #ddd; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
     </style>
 </head>
@@ -44,8 +55,7 @@
 
     <div class="phone-card">
         <div class="header-banner">
-            <!-- On utilise l'URL pour l'affichage écran -->
-            <img id="logoDisp" src="https://i.ibb.co/237GdNW6/a298a2bb-7e2d-4af5-9688-5e07d30d8991.png" alt="" class="logo-img">
+            <img src="https://i.ibb.co/237GdNW6/a298a2bb-7e2d-4af5-9688-5e07d30d8991.png" alt="" class="logo-img">
             <div class="wave-container">
                 <svg viewBox="0 0 500 150" preserveAspectRatio="none">
                     <path d="M0.00,49.98 C150.00,150.00 349.20,-50.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z"></path>
@@ -57,7 +67,7 @@
             <p class="job-title">Digital Solutions</p>
             <p class="bio">Propulsez votre présence en ligne avec des stratégies digitales innovantes et un design haute performance.</p>
 
-            <button class="btn-main" onclick="generateContact()">Ajouter au contact</button>
+            <button class="btn-main" onclick="downloadVCard()">Ajouter au contact</button>
 
             <div class="grid-active">
                 <a href="tel:0627205597" class="icon-card phone"><i class="fa-solid fa-phone"></i></a>
@@ -66,64 +76,50 @@
                 <a href="https://www.instagram.com/kingdream_digital/" target="_blank" class="icon-card insta"><i class="fa-brands fa-instagram"></i></a>
                 <a href="https://Kingdream.fr" target="_blank" class="icon-card web"><i class="fa-solid fa-globe"></i></a>
             </div>
+
+            <div class="pending-section">
+                <p class="pending-title">En cours de production</p>
+                <div class="grid-pending">
+                    <div class="icon-pending"><i class="fa-brands fa-whatsapp"></i></div>
+                    <div class="icon-pending"><i class="fa-brands fa-linkedin-in"></i></div>
+                    <div class="icon-pending"><i class="fa-brands fa-tiktok"></i></div>
+                    <div class="icon-pending"><i class="fa-brands fa-facebook-f"></i></div>
+                </div>
+            </div>
             <div class="brand-footer">KINGDREAM DIGITAL</div>
         </div>
     </div>
 
-    <!-- Élément invisible pour la conversion d'image -->
-    <canvas id="canvas" style="display:none;"></canvas>
-
     <script>
-        function generateContact() {
-            const img = new Image();
-            img.crossOrigin = "Anonymous";
-            // Ton code base64 réduit
-            img.src = "data:image/png;base64,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";
+        function downloadVCard() {
+            // Ton code Base64 optimisé
+            const logoBase64 = "iVBORw0KGgoAAAANSUhEUgAAAPoAAACnCAMAAAAPIrEmAAAAOVBMVEUAAAD+///3+f7R3vepvuV9lsZIeNBEccMyac9CZacpXsMlWLwyVJQwRW8YQIobM2IOIksGEzIDCBcZuse0AAAFOUlEQVR42u2Y147kOAxF6VDKVuD/f+yKlBzQjQX2ZYxB7T01LVPBD8cUHYYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfw3l6BTuUTtKp1YdIJb2kHGd6XONFK6H76TZ5wld8Mlz4NeyXx2mH90/TduXdVnWQsQ9WtfFfJbebu1Y5PghweuapOv93mNl2w+mw9iOF45KQjV20EcadZKZ/f5njinn+7RNNChG5splbk0nv6C+DPXP8Ckf8RR1xQ/1Zaof26JM/UTJBcUFZ0xi9QgT50ySs104iTadslF6lZTD9V4wjYR5go38TtYzJc3yGvmp3gfKM+tzkdLHtnyqRzEJztZTPXZ6Y9I0iQOXHnbR+Yd6DGfPRLlu6QV1cSlt00zaRre6uu9N1IVERXwvejm0oe6EIIFpQ91Za9TOFNHUAflnhnq1MQimXepqq3Pj0rm3si7bXFwqXeqXn6qvor4P8+3T2bdljaTqzqaURLX/0lC3OWevDnYs8XlQSTj3ij0udcm76V22QXlHXWRGhgs91dez3L2GqSzKJzfm1mrybUo4JuJiRx6HuqQzO9Fpqp7oQZOkq73lU10xTffIKIaXsr4uWrr8VL8oSdXzRw97fT6/1GsI1B4Gc9RLval6Heqs1+tR295K2suddfU91PzFDb+of2z0U13LYLca5rHUEvG+6W/fJaUqKoy7UzFnEddbPTgrjFJnr5tbLf1TvTcuvKyurJl+qJ8zm4bpfBhQ285T6qFZb7OCb/XSWrFazkM9DlR9Xpy5KR67oKOX71X1seF/ZX3dh73GtzpvZ4nU45F1P9Wfd3jn2Usw7EO61nm5VDJ/qsfDxJHv9Kb63POfX1n30puIuhz+Letsw1RXz6DY+XCzgrdpPtmiKbMg5Nwi6oGTHKLzxb6ovknb8T/Vbdsu9/wZlS/Faqx0zqw7pk5Rk1xNuLGZyWtyW62t1UZEauh8R7N7zKyHRtbFGGxtNr6onofhWn6oGyo6LmP58W7LdIwNf97hNYcdUzXr1lvpOs801BOdiNgTy6oeXetTcu3oVfW1TMO9/cg6Ubpqnef1+Ry11k+PrlpPx5EkENehXtm7+fCSIPgyaM/bubb2uNSpOpu5q79Z6wf5We6/1FkGVP26CvIWf9e64Jw7S1vVTaVqdILJq5g1zur3jBVpqxir54j6vFeWzKTq4R31dVmzGopsOj9adZebuUR+SYpBF2lzZ/3+fjGRL3VKqpzIh36cyF1QRnMtnZrG861c6sTzPqi18tZHa9Vo2eSg6oKhTt40TkRsdMcLvR1ZjyfB2dyIiu2xqLNV2ZpCvAhJe6IpNKOX43BjbFJfqvXP1tlzD8um7Nq0QzuWBK9x6hHn55N+M+0wtmOkdbGM73WhaiRT3hurgRyM1+OlpXM+mT74UNeVf1ydHh9UJd+0loVCAj/ils1nFz4m5EpNZ7SpjZQssERzPCtFl41OpUm7V5RbdaynPw4LGmiowX24F91xq0pj+i8wfRmM/9D9v8HyYGINpG1lFG9tMlNradKRIT18Fc3F6IK+ffWmhJRdIuJQiGUiFuk4lQ7p29SbSA51dmLahjppt5Njjt+pXomKY1HXv5IyP9V7XNnVL8065Zn11l259OCpXqQk0leqpxxdGeqUXa5Z1F2e6hLWmiXtMeSc6Xvg842sZZYUp6g9abSd47kQlZxSpm+C8cIDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADw9/APRjVg3oCXfhMAAAAASUVORK5CYII=";
 
-            img.onload = function() {
-                const canvas = document.getElementById("canvas");
-                const ctx = canvas.getContext("2d");
-                
-                // On définit une taille carrée de 200px (format contact idéal)
-                canvas.width = 250;
-                canvas.height = 250;
+            const name = "KingDream Digital";
+            const phone = "0627205597";
+            const email = "Contact@Kingdream.fr";
+            const url = "https://Kingdream.fr";
 
-                // 1. On remplit le fond en BLANC (pour supprimer le noir)
-                ctx.fillStyle = "#FFFFFF";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Format vCard 3.0 avec syntaxe PHOTO corrigée pour iPhone
+            const vcard = [
+                "BEGIN:VCARD",
+                "VERSION:3.0",
+                "N:Digital;KingDream;;;",
+                "FN:" + name,
+                "ORG:KingDream Digital",
+                "TEL;TYPE=CELL,VOICE:" + phone,
+                "EMAIL;TYPE=PREF,INTERNET:" + email,
+                "URL:" + url,
+                "PHOTO;ENCODING=b;TYPE=PNG:" + logoBase64,
+                "END:VCARD"
+            ].join("\r\n");
 
-                // 2. On dessine ton logo par dessus
-                // On centre le logo dans le carré
-                const scale = Math.min(canvas.width / img.width, canvas.height / img.height) * 0.9;
-                const x = (canvas.width / 2) - (img.width / 2) * scale;
-                const y = (canvas.height / 2) - (img.height / 2) * scale;
-                ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-
-                // 3. On récupère l'image finale en JPEG (plus compatible et sans transparence)
-                const finalJpeg = canvas.toDataURL("image/jpeg", 0.9).split(',')[1];
-
-                // 4. On crée la vCard
-                const name = "KingDream Digital";
-                const vcard = [
-                    "BEGIN:VCARD",
-                    "VERSION:3.0",
-                    "N:Digital;KingDream;;;",
-                    "FN:" + name,
-                    "ORG:KingDream Digital",
-                    "TEL;TYPE=CELL,VOICE:0627205597",
-                    "EMAIL;TYPE=PREF,INTERNET:Contact@Kingdream.fr",
-                    "URL:https://Kingdream.fr",
-                    "PHOTO;ENCODING=b;TYPE=JPEG:" + finalJpeg,
-                    "END:VCARD"
-                ].join("\r\n");
-
-                const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
-                const urlObj = window.URL.createObjectURL(blob);
-                const newLink = document.createElement('a');
-                newLink.download = "KingDream.vcf";
-                newLink.href = urlObj;
-                newLink.click();
-            };
+            const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+            const urlObj = window.URL.createObjectURL(blob);
+            const newLink = document.createElement('a');
+            newLink.download = "KingDream.vcf";
+            newLink.href = urlObj;
+            newLink.click();
         }
     </script>
 
