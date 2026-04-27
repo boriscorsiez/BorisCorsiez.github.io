@@ -59,8 +59,8 @@
             width: 90%;
             height: auto;
             position: relative;
-            z-index: 1; /* Derrière la vague */
-            opacity: 0.95;
+            z-index: 1; /* Repasse derrière la vague */
+            opacity: 1;
             margin-top: -20px;
         }
 
@@ -82,12 +82,12 @@
 
         /* Zone de contenu */
         .info-content {
-            padding: 40px 25px 25px 25px; /* Plus d'espace en haut car plus de photo */
+            padding: 40px 25px 25px 25px;
             position: relative;
             z-index: 10;
         }
 
-        /* TITRE PROFESSIONNEL SOMBRE */
+        /* TITRE PROFESSIONNEL (Couleur d'origine sombre) */
         .job-title {
             font-size: 18px;
             color: var(--text-main);
@@ -123,9 +123,8 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             transition: 0.2s;
         }
-        .btn-main:active { transform: scale(0.95); }
 
-        /* Grille des icônes actives */
+        /* Grille des icônes */
         .grid-active {
             display: flex;
             flex-wrap: wrap;
@@ -143,17 +142,14 @@
             font-size: 26px;
             color: white;
             text-decoration: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        /* Couleurs standards */
         .phone { background: #4CD964; }
         .sms { background: #FF2D55; }
         .mail { background: #5AC8FA; }
         .insta { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
-        .web { background: linear-gradient(135deg, #0046be, #002d7a); }
+        .web { background: var(--king-blue); }
 
-        /* Section "En cours" */
         .pending-section {
             border-top: 1px solid #f2f2f2;
             padding-top: 25px;
@@ -185,16 +181,14 @@
             color: #ddd;
             font-weight: 700;
             letter-spacing: 2px;
-            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
     <div class="phone-card">
-        <!-- BANNIÈRE NOIRE ÉPURÉE -->
         <div class="header-banner">
-            <img src="https://i.ibb.co/237GdNW6/a298a2bb-7e2d-4af5-9688-5e07d30d8991.png" alt="" class="logo-img">
+            <img id="logoSource" src="https://i.ibb.co/237GdNW6/a298a2bb-7e2d-4af5-9688-5e07d30d8991.png" alt="" class="logo-img">
             
             <div class="wave-container">
                 <svg viewBox="0 0 500 150" preserveAspectRatio="none">
@@ -204,7 +198,6 @@
         </div>
 
         <div class="info-content">
-            <!-- TITRE PROFESSIONNEL -->
             <p class="job-title">Digital Solutions</p>
             
             <p class="bio">
@@ -221,7 +214,6 @@
                 <a href="https://Kingdream.fr" target="_blank" class="icon-card web"><i class="fa-solid fa-globe"></i></a>
             </div>
 
-            <!-- SECTION EN ATTENTE -->
             <div class="pending-section">
                 <p class="pending-title">En cours de production</p>
                 <div class="grid-pending">
@@ -237,14 +229,50 @@
     </div>
 
     <script>
-        function downloadVCard() {
+        async function downloadVCard() {
+            const logoUrl = "https://i.ibb.co/237GdNW6/a298a2bb-7e2d-4af5-9688-5e07d30d8991.png";
+            
+            // Fonction pour convertir l'image en Base64
+            const toBase64 = async (url) => {
+                try {
+                    const response = await fetch(url);
+                    const blob = await response.blob();
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onloadend = () => resolve(reader.result.split(',')[1]);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(blob);
+                    });
+                } catch (e) {
+                    console.error("Erreur logo base64", e);
+                    return "";
+                }
+            };
+
+            const logoBase64 = await toBase64(logoUrl);
+
             const contact = {
                 name: "KingDream Digital",
                 phone: "0627205597",
                 email: "Contact@Kingdream.fr",
                 url: "https://Kingdream.fr"
             };
-            const vcard = "BEGIN:VCARD\nVERSION:3.0\nFN:" + contact.name + "\nORG:KingDream Digital\nTEL;TYPE=CELL:" + contact.phone + "\nEMAIL:" + contact.email + "\nURL:" + contact.url + "\nEND:VCARD";
+
+            let vcard = "BEGIN:VCARD\n" +
+                        "VERSION:3.0\n" +
+                        "FN:" + contact.name + "\n" +
+                        "ORG:" + contact.name + "\n" +
+                        "TEL;TYPE=CELL:" + contact.phone + "\n" +
+                        "EMAIL:" + contact.email + "\n" +
+                        "URL:" + contact.url + "\n";
+
+            // Si on a réussi à convertir le logo, on l'ajoute
+            if (logoBase64) {
+                vcard += "PHOTO;ENCODING=b;TYPE=PNG:" + logoBase64 + "\n";
+            }
+
+            vcard += "END:VCARD";
+
             const blob = new Blob([vcard], { type: "text/vcard" });
             const url = window.URL.createObjectURL(blob);
             const newLink = document.createElement('a');
