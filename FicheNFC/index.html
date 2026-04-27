@@ -9,7 +9,7 @@
     
     <style>
         :root {
-            --bg-page: #000000;
+            --bg-page: #000000; /* FOND DE PAGE NOIR */
             --card-bg: #ffffff;
             --text-main: #1a1a1a;
             --text-secondary: #555;
@@ -43,7 +43,7 @@
             position: relative;
         }
 
-        /* BANNIÈRE NOIRE AGRANDIE */
+        /* BANNIÈRE NOIRE */
         .header-banner {
             height: 300px;
             background: #000;
@@ -63,14 +63,14 @@
             margin-top: -20px;
         }
 
-        /* VAGUE */
+        /* VAGUE DE TRANSITION */
         .wave-container {
             position: absolute;
             bottom: -1px;
             left: 0;
             width: 100%;
             line-height: 0;
-            z-index: 5;
+            z-index: 5; /* Devant le logo */
         }
 
         .wave-container svg {
@@ -79,7 +79,7 @@
             fill: var(--card-bg);
         }
 
-        /* CONTENU */
+        /* CONTENU TEXTE */
         .info-content {
             padding: 40px 25px 25px 25px;
             position: relative;
@@ -115,8 +115,8 @@
             cursor: pointer;
             border: none;
             font-size: 16px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: 0.2s;
         }
         .btn-main:active { transform: scale(0.95); }
 
@@ -139,37 +139,12 @@
             color: white;
             text-decoration: none;
         }
+
         .phone { background: #4CD964; }
         .sms { background: #FF2D55; }
         .mail { background: #5AC8FA; }
         .insta { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
         .web { background: #0046be; }
-
-        /* SECTION EN COURS */
-        .pending-section {
-            border-top: 1px solid #f2f2f2;
-            padding-top: 25px;
-        }
-        .pending-title {
-            font-size: 10px;
-            font-weight: 800;
-            color: #ccc;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-        }
-        .grid-pending {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            opacity: 0.15;
-            filter: grayscale(1);
-        }
-        .icon-pending {
-            width: 45px; height: 45px;
-            display: flex; justify-content: center; align-items: center;
-            border-radius: 14px; background: #eee; color: #666; font-size: 18px;
-        }
 
         .brand-footer {
             margin-top: 30px;
@@ -185,7 +160,8 @@
 
     <div class="phone-card">
         <div class="header-banner">
-            <img src="https://i.ibb.co/237GdNW6/a298a2bb-7e2d-4af5-9688-5e07d30d8991.png" alt="Logo KingDream" class="logo-img">
+            <!-- On garde le lien direct pour l'affichage web si tu veux, ou on peut mettre le base64 -->
+            <img src="https://i.ibb.co/237GdNW6/a298a2bb-7e2d-4af5-9688-5e07d30d8991.png" alt="" class="logo-img">
             <div class="wave-container">
                 <svg viewBox="0 0 500 150" preserveAspectRatio="none">
                     <path d="M0.00,49.98 C150.00,150.00 349.20,-50.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z"></path>
@@ -207,49 +183,32 @@
                 <a href="https://Kingdream.fr" target="_blank" class="icon-card web"><i class="fa-solid fa-globe"></i></a>
             </div>
 
-            <div class="pending-section">
-                <p class="pending-title">En cours de production</p>
-                <div class="grid-pending">
-                    <div class="icon-pending"><i class="fa-brands fa-whatsapp"></i></div>
-                    <div class="icon-pending"><i class="fa-brands fa-linkedin-in"></i></div>
-                    <div class="icon-pending"><i class="fa-brands fa-tiktok"></i></div>
-                    <div class="icon-pending"><i class="fa-brands fa-facebook-f"></i></div>
-                </div>
-            </div>
             <div class="brand-footer">KINGDREAM DIGITAL</div>
         </div>
     </div>
 
     <script>
         function downloadVCard() {
-            // Ton code Base64 optimisé
-            const logoBase64 = "iVBORw0KGgoAAAANSUhEUgAAAPoAAACnCAMAAAAPIrEmAAAAOVBMVEUAAAD+///3+f7R3vepvuV9lsZIeNBEccMyac9CZacpXsMlWLwyVJQwRW8YQIobM2IOIksGEzIDCBcZuse0AAAFOUlEQVR42u2Y147kOAxF6VDKVuD/f+yKlBzQjQX2ZYxB7T01LVPBD8cUHYYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfw3l6BTuUTtKp1YdIJb2kHGd6XONFK6H76TZ5wld8Mlz4NeyXx2mH90/TduXdVnWQsQ9WtfFfJbebu1Y5PghweuapOv93mNl2w+mw9iOF45KQjV20EcadZKZ/f5njinn+7RNNChG5splbk0nv6C+DPXP8Ckf8RR1xQ/1Zaof26JM/UTJBcUFZ0xi9QgT50ySs104iTadslF6lZTD9V4wjYR5go38TtYzJc3yGvmp3gfKM+tzkdLHtnyqRzEJztZTPXZ6Y9I0iQOXHnbR+Yd6DGfPRLlu6QV1cSlt00zaRre6uu9N1IVERXwvejm0oe6EIIFpQ91Za9TOFNHUAflnhnq1MQimXepqq3Pj0rm3si7bXFwqXeqXn6qvor4P8+3T2bdljaTqzqaURLX/0lC3OWevDnYs8XlQSTj3ij0udcm76V22QXlHXWRGhgs91dez3L2GqSzKJzfm1mrybUo4JuJiRx6HuqQzO9Fpqp7oQZOkq73lU10xTffIKIaXsr4uWrr8VL8oSdXzRw97fT6/1GsI1B4Gc9RLval6Heqs1+tR295K2suddfU91PzFDb+of2z0U13LYLca5rHUEvG+6W/fJaUqKoy7UzFnEddbPTgrjFJnr5tbLf1TvTcuvKyurJl+qJ8zm4bpfBhQ285T6qFZb7OCb/XSWrFazkM9DlR9Xpy5KR67oKOX71X1seF/ZX3dh73GtzpvZ4nU45F1P9Wfd3jn2Usw7EO61nm5VDJ/qsfDxJHv9Kb63POfX1n30puIuhz+Letsw1RXz6DY+XCzgrdpPtmiKbMg5Nwi6oGTHKLzxb6ovknb8T/Vbdsu9/wZlS/Faqx0zqw7pk5Rk1xNuLGZyWtyW62t1UZEauh8R7N7zKyHRtbFGGxtNr6onofhWn6oGyo6LmP58W7LdIwNf97hNYcdUzXr1lvpOs801BOdiNgTy6oeXetTcu3oVfW1TMO9/cg6Ubpqnef1+Ry11k+PrlpPx5EkENehXtm7+fCSIPgyaM/bubb2uNSpOpu5q79Z6wf5We6/1FkGVP26CvIWf9e64Jw7S1vVTaVqdILJq5g1zur3jBVpqxir54j6vFeWzKTq4R31dVmzGopsOj9adZebuUR+SYpBF2lzZ/3+fjGRL3VKqpzIh36cyF1QRnMtnZrG861c6sTzPqi18tZHa9Vo2eSg6oKhTt40TkRsdMcLvR1ZjyfB2dyIiu2xqLNV2ZpCvAhJe6IpNKOX43BjbFJfqvXP1tlzD8um7Nq0QzuWBK9x6hHn55N+M+0wtmOkdbGM73WhaiRT3hurgRyM1+OlpXM+mT74UNeVf1ydHh9UJd+0loVCAj/ils1nFz4m5EpNZ7SpjZQssERzPCtFl41OpUm7V5RbdaynPw4LGmiowX24F91xq0pj+i8wfRmM/9D9v8HyYGINpG1lFG9tMlNradKRIT18Fc3F6IK+ffWmhJRdIuJQiGUiFuk4lQ7p29SbSA51dmLahjppt5Njjt+pXomKY1HXv5IyP9V7XNnVL8065Zn11l259OCpXqQk0leqpxxdGeqUXa5Z1F2e6hLWmiXtMeSc6Xvg842sZZYUp6g9abSd47kQlZxSpm+C8cIDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADw9/APRjVg3oCXfhMAAAAASUVORK5CYII=";
-
-            const name = "KingDream Digital";
-            const phone = "0627205597";
-            const email = "Contact@Kingdream.fr";
-            const url = "https://Kingdream.fr";
-
-            // Format vCard 3.0 avec syntaxe PHOTO corrigée pour iPhone
-            const vcard = [
-                "BEGIN:VCARD",
-                "VERSION:3.0",
-                "N:Digital;KingDream;;;",
-                "FN:" + name,
-                "ORG:KingDream Digital",
-                "TEL;TYPE=CELL,VOICE:" + phone,
-                "EMAIL;TYPE=PREF,INTERNET:" + email,
-                "URL:" + url,
-                "PHOTO;ENCODING=b;TYPE=PNG:" + logoBase64,
-                "END:VCARD"
-            ].join("\r\n");
+            // Ton nouveau code Base64 (Logo sur fond noir)
+            const logoBase64 = "iVBORw0KGgoAAAANSUhEUgAAAPoAAACnCAYAAAA4/EEUAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAGYktHRAD/AP8A/6C9p5MAAAAHdElNRQfqBBsKKTERnP4dAACAAElEQVR42uy9d6AcV3U/fs69M9tef0+9WM2yLRdJtuXeu8EQOpiYGkJPAiGkQvJNT2iB5Pf9kgQCBOJgescGF9y7JVuWLcnqvb5et8w95/fHnZmdrW+2z672w8Pat2/3zrnntnNPRQQABGDIg5z3835qVmCB99nzAc7/wIKkFXrQrB/GzOeW0wEfBPFsbfhBkedgod/Z19crREmDUkk76JOTOFuHZ/1Ao1Fo/lcRWY3jbAwrY2gqp9DLjdz3vfDzdE1kwcXis5XCH8d8m1hJ/eVSdoas4Qso/PSKfb5XRjNpEmC2v/rkYU2XZMarfKetz3lVyVxqCMobWchZvi7nEP30nrP+rQ7RAedmSaT7nG15WypdUiqwO9dFjgkCMM+rwt2u4OiqNQJGTuOB/o60kvhWcLaU3lY9TjXfTw+QNFPxRa2Ea5u/b1WR8JoPelUvonmOBt+CYz2Ry/lSF7VXHmUARCi81+d7v+wzuzzU7uZX0RdmE2XyjlOpl4DK2eiTez5nVUly9KzEl01bKyHv7bAWu0x514lqDaL/ZrnArWvWj+VtPP/Xqyfa+tEB+2yn6ed5qR2o/Vnq514TcLZzfn1NwR5V5VmN7awfhZn7Sa8Q6IgyfljF7n9mQZBFmXLIq8NRUwOUbZgrbm/EfAsMaynKeBWtAd96KkeNJlclNhrIHALIeV0GMVUcygaaXfxr/nPfbDUERpThopMT8x2EAUe1JOZCjec6XVSLORW2U9L9X5bgL+KbqLqpE8pDs8zgShAEcSuvBFi5j0UrDV89hymwAnmFm10VW6vw0fXvfrAQAE+NMi2PAUYDtddVabPUSZFXC+VHNWuUQVkdNsFCDoBVbDngyNKzlWR1CsgplVc7GhDaGo7686F219AGOiPlagfr+eiqdLYkF9RAIxiKjtqdHY3tjhdVnPD1OdBnBee8KOlbUIYo09QIwEIrgVQua5KVYVWt9VQOyGoJDoLAjVYalEat61biYf1QS5Zhgdcthup2rXbTuKZDkO0XUZ7VsA5eSFkPKjt2q3a01RSlcrgSH6b6xGW0FfIuqhXKnrfN4rfSCgMHSqKk7BaaC+2JXVof2tJfINGo+LgKvW9dpaasBd1Vd+ibtUGfnjz13yzK0wRWN5VOi6HZd/xayDHgLIH6r4KqS6vNPr6nesercumsAK1jsPPd31o4p1bYZtXvUbPSU31RprpOfH6abQqVzKmztOqAU5yZQet+1ekJWgeLoIpHcxP1ug49qYNYHAzfnopQFbmtjNQbpbZWLRShyij7Wh/gxGOlsaB2yHJ3bfZlExy0mRkoBH/5V6WD7SnnF1ymFbzqE6nlN4paCDGBatB/TwU7FFQSxoYF3q9WH3C2D1TIheqCC/CzJGVaa6/AytHyx2cbQUCRjbE8r/xTBaXf9JuImU1Ean16wTVeDiXbzat+fJaRvSpv+rWSnlUHIcBPbt+sv5bnVNUaa6ZGqHomxlrPnPq7kjTv/Gm4KF/8LC7PtbnC3MrNh1KcI+oQR5n7uPJ43pDg/6qjWrOxPpvMrDErMu8XKh+qapnf/H/Fv9tjhaindbxunWpSVCslpZ82qzKlKxzNU2QmBLmbVbHIN2PHy0ewI6SrRVHwetY63fFjlskjylS4ZZcq69UtrrsS4mcthFEhGu3138QoY5LUUxhtrFtooPajQFFeZy8KdP5boa28WRHsjlVL0xnsXmbQ31xTsRxRpvJ2S/p6ozSuwdQQBoqYZkHDmVYfAsp+SsP5E0yyi9eaKVvvUkiNijkfa2DfG4BgK2Z80lXn+oMlYVbRvFQPh5LsIbWGn/VSTrbfCtd/oGKnq1UYqIrEtFE71ILDXKKusVQELUihZcCe/0KVknNUJQCiOeJuaq2prjtqxPbiE2xWd9Lc6pjFdxv2pyyors9vEFCOVkaj1tXpGr6Yi9yx2ggOWnt0ApLwqak7XjeCZz1ywPd5GcBYh/wkVvXyHoTNFsv6U6HP5E09V6h2t/8bUZHafFVhYEmNNFwtrf8k6kJG4FCj+O0gLMU22nDRLuRZBA20BTRRPo/6IG9OkDK201rkvfXzJ/+f4cIfKyTcZDla5Rorg5msv24kab4FVJRpirDYvM02+57SRuuhLWHXFJh5Jy5+upSqy/CPhm0+pWqQfFNZRo+qWKu8Dl/3o4bJmjA1Wsg+3dL9d6T+KL8yNudTc1WO5oqmbqONICMgTmAtjLLDytC3AiDvgReEw6M48iRuKdzhoE1Unx4nxfteHH6mQY2Avt9sIlRKfxVHom6sLFVqDtQaayMXQcvm1JCu1ZkDta5bEsDdoBYUlhEDEaA8e4XvsqUmRw3mwqypnFGSMqtaCd7qEBRcXYbM2n33ueVrZarVgSCjtXt3KoBzTMun+Ji2ORAQlDQKAR0y9vV2qXHCwUFwEomVIdAEiqvFDTiVu1pz5aJMG20EEEWiE2thFW0uVF2aOUXEo6oXyqg/6mCZKuLQWoecBYFKrpGXQvBtWMz716ZTcWHOr9UNu3MbaYsy9Uatg9hPQczqttUUvgXNhZrO2+oOVlUKbLXA/MmNnakFn4t/oD6ZD6HGYlMlhEGNmRD8ZMRY7ZkQuML1wbeO16iPbWmmPmhSIbKmabuCiVroP0oqrVV1MmYlr4rIm8h41gwl9exFjXwQ61lFpIpUlURhhaa6OvvK1C3PLba1MvVEgMTGNto4xVDq1a15V2tW1POsoVIVJiauw7d8ej3P2pf6h3HUcxaVlPam6oQ10HBfdTVP1XhRazTqSlrGvbAlUaT8Ta1ZUeu4mzqQXRUEv++10xYEKhooCANRreiY+lA1q3wWNG+S2vnqVrKbBejgrwxVi2CqP9GzjMFswmGjZMYmQn1CEFtmLdUB9bxzBETaq12X69ap5o3c8dm7GqEOskgw9+R65gMMZkHlStBMoowXwVIozYZgrpxCpELjtIW1ZlSQAxxmpbxaE96/d0ij8io10dIuBK+PrX8FeKlyZBVnsp+SQCXRVh7qJvwFZxNoLBnNdZLmEu8ioIULilOft2BHnk9UA1VJ+h6QNVNe9+vc2imi1Q8giuTab8bNrvJRLtsRhMtqJ1eO9OP5UTtLHAevEsusJYeabqIGgb1BoKFyBGXoS63jUd4Xy7hllmRZL8OSA2V0fOad+Ut4HAAizAN4HwBvPoSdSPTaBwmIxpw+APgDANwkAmcjJ6/v34zID/L84PgCuyamwnenhP1IMgPfQAN4HwPOiDwB9ACDOTxDnASkAJB5HBACgJhp6/HHmGn6ETP5LMQS45HCgAEhsYCD2nMz87egDQEwHeQqE/0aiD0A3h8yG+A/WaMf/fQ+CAJDADHkAAJR8PpKC2JwOwEIRoLEEjFLwE5+blpNDhprWB5BBpy1SFQCo0bGd4pPOZxmV0dghgcG0UBz77gHQBwAAwAVp/y9jJtuzJsytmwMHAOBLFpXcFf0iAAD2rTNVVNtoNAOkAABGiSMCAAB9AFdEQQ9gAgUQBtjr2se9i+1EiKsA+gAAhTso5CfwID0ApGgAAPipFMQAAFiaV36aQx/P+wCwnQhAXKWzu1OgoHcmkGAAURUAAABAk4M5JgDAojHwp9IHgMwAAPoAsAbwWwwNFO4GBmCNFikAkAAAADBGZEsxxPDlBgBgr21DUc8DAJidwzYdRBlAfgFAAgAAAH6w9ybqbeNMunA7jpexezK2xW7AdkiQBCAvUmQRIu//1n68VQWAiuPu/s7Mfx7P+ViSCC5Y6aQKtS+wwAILLLDAItJZYFEBL7DAAv97SMCSD2CBhZYssMACCyywwBJJfoFlQ7y8iWXjvjAGCyywYNUFFlhggQUWArDAAgsssLBzCyywwAL/1sj2dKEInzTT7sJSLLBs6hZYYIEFFlhggQUWWLQSCyywwP8wnJwuHOMCCyywwL+FH8CJoP3jm3I4XQSIizfHAv/rdQAni45hgX/wtzs9uzgHnJ1dLEhtEbgsQHCyTH6B/4fh4vL65vbb7d3qjz/aBOaPqlqt7m5vri/Plze0EICF5VngfyXZO/nwH+ypFKflaWlzdvLPhjl71+n7OifxLktSfjWUlP/XyPvpvOHp1bebu1VljAnDMDR10zRqaAhQDEMYgqlWN9dXRAW+fv0qzOTXDzHUyT96TyV/+emXr/8K8jvlV4oCcHa0qg96iiOc/s0YX/7pCz6T21ldUsYvQjM+/GvL+gi+fjk9w+O/6+hUCmkkz/Att/nZPyY6pfLJu3/Tpdcv9IYXlLPAZ4SzM/zOTk/Pk4jjNB5P4r3zUzz7GIkKojlBmwjcHhcnZ7iRLjHG5cXFxXks47PT+CAeUoXY/OQcBEDGwDxQ4RT1gE243kl8gGFO/xYfAPNR1dhrrI9PJFZYXzw9P/2XXs3VtzulgglBNXUTT9oxwpRgHMEHqCHEJxHU6ubqHGN/xX9+xnt84BLrPuN1fz2jmQF5ECGNl/HWR+gOL+XL31ItftF487/UX2D4ApgfoaiTfwnvnQOwDllTHA1Tl8XS/a8ncUFM0DHvk9Ov5yfoGQvEv6n4/XqKNkzd/hZry/vCuOiQ1of+v6KPk3hEn6f/lAdAP7E6z4P+DPECvZzjiPLkX2M84jLP43y+omn5u52i/zO8ZPx1F/5wgU8KV7d3VQRjKlNV4Q/TGkAFCFVAsbq7On+H/0+Bl6/ixnhVMRjuhKCcriLcXl9dfbtFd3Rf+i8VpVxdn/8GlH8SZ5Q7TScFWuy1L/9KY3Mdm8/aycAF4oyu/hZLED47vbqtjAnY5gczjoTwx9YM9eP96/39/eP3um5wn24HNfDq7q4vhAqdHimYru6qAvPlvwdT5goB07f/uDyjPr58iC6/CJX4PQ6i3r1|
+            "BEGIN:VCARD\r\n" +
+            "VERSION:3.0\r\n" +
+            "FN:KingDream Digital\r\n" +
+            "ORG:KingDream Digital\r\n" +
+            "TEL;TYPE=CELL,VOICE:0627205597\r\n" +
+            "EMAIL;TYPE=PREF,INTERNET:Contact@Kingdream.fr\r\n" +
+            "URL:https://Kingdream.fr\r\n" +
+            "PHOTO;ENCODING=b;TYPE=JPEG:" + logoBase64 + "\r\n" +
+            "END:VCARD";
 
             const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
             const urlObj = window.URL.createObjectURL(blob);
+            
             const newLink = document.createElement('a');
-            newLink.download = name + ".vcf";
+            newLink.download = "KingDream.vcf";
             newLink.href = urlObj;
             newLink.click();
+            window.URL.revokeObjectURL(urlObj);
         }
     </script>
 
