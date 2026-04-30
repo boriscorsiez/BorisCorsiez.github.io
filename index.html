@@ -1987,51 +1987,16 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
 
 <script>
 (function() {
-    const SYSTEM_PROMPT = `Tu es l'assistant commercial IA de KingDream Digital, une agence web spécialisée dans la création de sites internet haute conversion et les pancartes NFC pour booster les avis Google des commerces locaux.
+    const SYSTEM_PROMPT = const SYSTEM_PROMPT = `Tu es l'assistant commercial IA de KingDream Digital, une agence web spécialisée dans la création de sites internet haute conversion et les pancartes NFC pour booster les avis Google.
 
 TON RÔLE :
-- Accueillir chaleureusement les visiteurs du site
-- Comprendre leur projet, leur activité, leurs besoins
-- Les conseiller avec expertise sur les solutions KingDream
-- Les orienter vers l'offre la plus adaptée
-- Les encourager à prendre contact ou demander un devis
+- Accueillir chaleureusement les visiteurs.
+- Expliquer les offres : Plaque NFC (49,90€), Site Web Pro (dès 650€), Pack Domination (sur devis).
+- Encourager à remplir le formulaire de contact ou appeler le 06 27 20 55 97.
+- Style : Dynamique, pro, utilise quelques emojis. Réponses courtes (3-5 phrases).
+- Ne parle jamais des concurrents. Réponds en Français.`;
 
-LES OFFRES KINGDREAM :
-1. **Plaque NFC KingDream** (49,90€) : Pancarte connectée NFC + QR Code à poser en caisse ou sur table. Quand un client scanne, il est redirigé directement vers la page d'avis Google du commerce. Pas d'application nécessaire. Idéal pour restaurants, coiffeurs, garages, artisans, hôtels, boutiques. Les clients passent de 10 à 150+ avis en 2 mois en moyenne.
-
-2. **Site Web Pro** (à partir de 650€) : Site vitrine ou e-commerce sur mesure, design premium, optimisé SEO local, livré en 7 jours. Mobile-first, rapide, avec formulaire de contact et intégration réseaux sociaux.
-
-3. **Pack Domination Locale** (sur devis) : Combinaison site web + plaque NFC + stratégie SEO local + suivi mensuel. Tout pour dominer les recherches locales sur Google et devenir le N°1 de sa ville.
-
-EXEMPLES DE CONSEILS PAR SECTEUR :
-- Restaurant / Bar : Plaque NFC sur chaque table et en caisse + site avec menu en ligne. Les avis Google explosent après chaque repas.
-- Coiffeur / Esthétique : Site avec prise de RDV en ligne + NFC en caisse. Intégration possible avec Planity ou Treatwell.
-- Artisan / Plombier / Electricien : Site optimisé pour les recherches urgentes locales ("plombier disponible urgence [ville]"), formulaire devis rapide, NFC pour les avis clients.
-- Immobilier / Agence : Site vitrine luxe avec galerie biens, NFC en agence physique pour rassurer les vendeurs.
-- Garage / Auto : Site avec formulaire de prise de RDV + NFC pour récolter des avis de confiance.
-- Médecin / Professionnel de santé : Site informatif sobre + NFC pour avis.
-- Commerce de proximité : Pack complet avec NFC + site vitrine.
-
-INFOS PRATIQUES :
-- Délai de livraison : 7 jours chrono pour les sites
-- Garantie satisfait ou remboursé sur la plaque NFC
-- Livraison de la plaque NFC partout en France
-- Contact : 06 27 20 55 97
-- Site : www.kingdream.fr
-- Pour un devis : formulaire de contact sur le site
-
-STYLE DE COMMUNICATION :
-- Sois chaleureux, dynamique, enthousiaste mais professionnel
-- Utilise des emojis avec modération (1-2 par message max)
-- Pose des questions pour mieux cerner le projet du visiteur
-- Sois concret : donne des exemples, des chiffres, des bénéfices réels
-- Après 2-3 échanges, propose naturellement de prendre contact ou demander un devis
-- Ne parle JAMAIS des concurrents
-- Réponds toujours en français
-- Garde des réponses concises : 3-5 phrases maximum par réponse
-- Si quelqu'un veut parler à un humain, donne le numéro 06 27 20 55 97`;
-
-    let chatHistory = [];
+    let chatHistory = []; // Stockage de l'historique pour Gemini
     let isLoading = false;
     let chatOpen = false;
 
@@ -2041,13 +2006,11 @@ STYLE DE COMMUNICATION :
     const chatWin = document.getElementById('ai-chat-window');
     const badge = document.getElementById('ai-unread-badge');
     const suggestionsEl = document.getElementById('quick-suggestions');
-
     const bubbleEl = document.getElementById('ai-chat-bubble');
 
     window.toggleChat = function() {
         chatOpen = !chatOpen;
         chatWin.style.display = chatOpen ? 'flex' : 'none';
-        // Cacher la bulle quand le chat est ouvert (surtout sur mobile)
         bubbleEl.style.display = chatOpen ? 'none' : 'flex';
         if (chatOpen) {
             badge.style.display = 'none';
@@ -2056,7 +2019,6 @@ STYLE DE COMMUNICATION :
     };
 
     window.sendQuick = function(text) {
-        suggestionsEl.style.display = 'none';
         inputEl.value = text;
         sendChatMessage();
     };
@@ -2065,63 +2027,66 @@ STYLE DE COMMUNICATION :
         const text = inputEl.value.trim();
         if (!text || isLoading) return;
 
-        // Hide suggestions after first message
         suggestionsEl.style.display = 'none';
-
         addMessage(text, 'user');
         inputEl.value = '';
-        chatHistory.push({ role: 'user', content: text });
+        
+        // On ajoute le message utilisateur à l'historique local
+        chatHistory.push({ role: "user", parts: [{ text: text }] });
 
         setLoading(true);
         const typingEl = showTyping();
 
         try {
-            const GROQ_API_KEY = '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';
+            // TA CLÉ API GEMINI INTEGRÉE
+            const API_KEY = "AIzaSyBMJwdAfNkHGqpqJD7H0HBRnHcVcOWdEqU"; 
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            const response = await fetch(url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + GROQ_API_KEY
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    model: 'llama-3.3-70b-versatile',
-                    max_tokens: 1000,
-                    messages: [
-                        { role: 'system', content: SYSTEM_PROMPT },
-                        ...chatHistory
-                    ]
+                    contents: [
+                        { role: "user", parts: [{ text: "CONSIGNE SYSTEME : " + SYSTEM_PROMPT }] },
+                        { role: "model", parts: [{ text: "Compris. Je suis l'assistant KingDream Digital. Je vais aider le client avec enthousiasme." }] },
+                        ...chatHistory.map(msg => ({
+                            role: msg.role === 'assistant' ? 'model' : 'user',
+                            parts: msg.parts
+                        }))
+                    ],
+                    generationConfig: {
+                        temperature: 0.7,
+                        maxOutputTokens: 800,
+                    }
                 })
             });
 
             const data = await response.json();
-            typingEl.remove();
+            if (typingEl) typingEl.remove();
 
-            if (data.choices && data.choices[0] && data.choices[0].message) {
-                const reply = data.choices[0].message.content;
-                chatHistory.push({ role: 'assistant', content: reply });
+            if (data.candidates && data.candidates[0].content.parts[0].text) {
+                const reply = data.candidates[0].content.parts[0].text;
+                
+                // On stocke la réponse de l'IA dans l'historique
+                chatHistory.push({ role: "assistant", parts: [{ text: reply }] });
+                
                 addMessage(formatBotMessage(reply), 'bot', true);
             } else {
-                addMessage("Désolé, une erreur s'est produite. Appelez-nous directement au <a href='tel:0627205597'>06 27 20 55 97</a> ! 📞", 'bot', true);
+                throw new Error("Réponse vide");
             }
         } catch (err) {
-            typingEl.remove();
-            addMessage("Une erreur réseau s'est produite. Contactez-nous au <a href='tel:0627205597'>06 27 20 55 97</a> 📞", 'bot', true);
+            if (typingEl) typingEl.remove();
+            console.error("Erreur Chat:", err);
+            addMessage("Désolé, j'ai une petite coupure. 🚀 Appelez-moi au 06 27 20 55 97 !", 'bot', true);
         }
 
         setLoading(false);
     };
 
     function formatBotMessage(text) {
-        // Convert **bold** to <strong>
         text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        // Convert line breaks
-        text = text.replace(/\n\n/g, '<br><br>');
         text = text.replace(/\n/g, '<br>');
-        // Make phone numbers clickable
         text = text.replace(/06\s?27\s?20\s?55\s?97/g, '<a href="tel:0627205597" style="color:#0057FF;font-weight:900;">06 27 20 55 97</a>');
-        // Make URLs clickable
-        text = text.replace(/www\.kingdream\.fr/g, '<a href="https://www.kingdream.fr" style="color:#0057FF;font-weight:900;">www.kingdream.fr</a>');
         return text;
     }
 
@@ -2133,11 +2098,8 @@ STYLE DE COMMUNICATION :
 
         const msg = document.createElement('div');
         msg.className = `msg ${side}`;
-        if (isHTML) {
-            msg.innerHTML = text;
-        } else {
-            msg.textContent = text;
-        }
+        if (isHTML) msg.innerHTML = text;
+        else msg.textContent = text;
 
         const time = document.createElement('div');
         time.className = 'msg-timestamp' + (side === 'user' ? ' right' : '');
@@ -2165,33 +2127,9 @@ STYLE DE COMMUNICATION :
         inputEl.disabled = val;
     }
 
-    // ─── ONGLETS OFFRES NFC ───
-    window.switchTab = function(e, showId, hideId) {
-        e.stopPropagation();
-        const showEl = document.getElementById(showId);
-        const hideEl = document.getElementById(hideId);
-        if (!showEl || !hideEl) return;
-        showEl.classList.add('active');
-        hideEl.classList.remove('active');
-        // Mise à jour des boutons onglets
-        const tabs = e.target.closest('.offer-tabs');
-        if (tabs) {
-            tabs.querySelectorAll('.offer-tab').forEach(t => t.classList.remove('active'));
-            e.target.classList.add('active');
-        }
-    };
-
-    // ─── PRÉSÉLECTION FORMULAIRE ───
-    window.preselectPack = function(val) {
-        const sel = document.querySelector('select[name="pack"]');
-        if (sel) sel.value = val;
-    };
-
-
+    // Badge de notification après 8 secondes
     setTimeout(() => {
-        if (!chatOpen && window.innerWidth > 768) {
-            badge.style.display = 'flex';
-        }
+        if (!chatOpen) badge.style.display = 'flex';
     }, 8000);
 
 })();
