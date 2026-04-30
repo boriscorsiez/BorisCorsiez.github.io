@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KingDream Digital - Carte de visite</title>
     <style>
-        /* Styles globaux */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f0f0f5; 
@@ -30,7 +29,6 @@
             align-items: center;
             padding: 20px 20px 30px 20px; 
             box-sizing: border-box;
-            
             overflow-y: auto;
             overflow-x: hidden; 
             -ms-overflow-style: none;
@@ -41,7 +39,6 @@
             display: none;
         }
 
-        /* Logo Zoomé à 150% */
         .header-logo {
             width: 100%; 
             position: relative;
@@ -52,7 +49,6 @@
             margin-bottom: -10px; 
         }
 
-        /* Photo de Profil */
         .profile-pic-container {
             width: 100px;
             height: 100px;
@@ -71,7 +67,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Retire le contour de l'image cassée si c'est vide */
             color: transparent; 
         }
 
@@ -93,7 +88,6 @@
             z-index: 2;
         }
 
-        /* Bouton d'action */
         .action-btn {
             background-color: #007aff; 
             color: white;
@@ -128,7 +122,6 @@
             padding: 0 10px;
         }
 
-        /* Grille des applications */
         .links-grid {
             display: flex;
             justify-content: center;
@@ -169,7 +162,6 @@
             white-space: nowrap;
         }
 
-        /* Image du site */
         .website-preview-card {
             width: 90%;
             display: block;
@@ -196,10 +188,8 @@
 <body>
 
     <div class="phone-container">
-        <!-- Logo KingDream Digital (Zoom 150%) -->
         <img src="https://i.ibb.co/Lz9Txv6K/3-avr-2026-11-56-47.png" alt="Logo KingDream Digital" class="header-logo">
 
-        <!-- Photo de profil -->
         <div class="profile-pic-container">
             <img src="" alt="" class="profile-pic" id="web-profile-pic">
         </div>
@@ -207,7 +197,6 @@
         <h1 class="name">Boris Corsiez</h1>
         <p class="title">KingDream Digital</p>
 
-        <!-- Bouton Ajouter aux contacts -->
         <button class="action-btn" id="downloadContactBtn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" y1="8" x2="19" y2="14"></line><line x1="22" y1="11" x2="16" y2="11"></line></svg>
             Se connecter avec Boris
@@ -217,7 +206,6 @@
             Créateur digital passionné chez KingDream Digital.<br>Développement, Design & Solutions web.
         </div>
 
-        <!-- Vraies Icônes iOS (4 icônes) -->
         <div class="links-grid">
             <a href="tel:+33627205597" class="link-item">
                 <div class="app-icon phone-app">
@@ -245,7 +233,6 @@
             </a>
         </div>
 
-        <!-- IMAGE DU SITE WEB -->
         <a href="https://kingdream.fr" target="_blank" class="website-preview-card">
             <img src="https://i.ibb.co/5hpYnvh8/Screenshot-2026-04-30-at-09-44-40-KINGDREAM-DIGITAL-Cr-ation-de-Sites-Web-Domination-Locale.png" alt="Aperçu du site web KingDream Digital">
         </a>
@@ -254,12 +241,10 @@
     <script>
        const maPhotoBase64 = "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";
 
-        // On affiche l'image sur le site web
         if (maPhotoBase64.trim() !== "") {
             document.getElementById('web-profile-pic').src = maPhotoBase64;
         }
 
-        // Action quand on clique sur le bouton "Se connecter"
         document.getElementById('downloadContactBtn').addEventListener('click', function() {
             
             const contact = {
@@ -273,35 +258,32 @@
                 instagram: "https://www.instagram.com/kingdream_digital/"
             };
 
-            // Création de la vCard
-            let vcard = "BEGIN:VCARD\n";
-            vcard += "VERSION:3.0\n";
-            vcard += `N:${contact.lastName};${contact.firstName};;;\n`;
-            vcard += `FN:${contact.firstName} ${contact.lastName}\n`;
-            vcard += `ORG:${contact.company}\n`;
-            vcard += `TEL;TYPE=CELL,VOICE:${contact.phone}\n`;
-            vcard += `EMAIL;TYPE=WORK,INTERNET:${contact.emailPro}\n`;
-            vcard += `EMAIL;TYPE=HOME,INTERNET:${contact.emailPerso}\n`;
-            vcard += `URL:${contact.website}\n`;
-            vcard += `URL;type=Instagram:${contact.instagram}\n`; 
+            // ✅ CORRECTION : utilisation de \r\n (CRLF) obligatoire pour iOS
+            let vcard = "BEGIN:VCARD\r\n";
+            vcard += "VERSION:3.0\r\n";
+            vcard += `N:${contact.lastName};${contact.firstName};;;\r\n`;
+            vcard += `FN:${contact.firstName} ${contact.lastName}\r\n`;
+            vcard += `ORG:${contact.company}\r\n`;
+            vcard += `TEL;TYPE=CELL,VOICE:${contact.phone}\r\n`;
+            vcard += `EMAIL;TYPE=WORK,INTERNET:${contact.emailPro}\r\n`;
+            vcard += `EMAIL;TYPE=HOME,INTERNET:${contact.emailPerso}\r\n`;
+            vcard += `URL:${contact.website}\r\n`;
+            vcard += `URL;type=Instagram:${contact.instagram}\r\n`;
             
-            // Partie traitement de la photo
             if (maPhotoBase64.trim() !== "") {
                 let cleanBase64 = maPhotoBase64;
-                // Si le code contient "data:image...", on ne garde que le code pur
                 if (cleanBase64.includes(",")) {
                     cleanBase64 = cleanBase64.split(",")[1];
                 }
                 
-                // LA MAGIE EST ICI : On découpe le code par morceaux de 72 caractères
-                // et on ajoute un espace au début de chaque nouvelle ligne (\n )
-                const wrappedPhoto = cleanBase64.match(/.{1,72}/g).join("\n ");
-                vcard += `PHOTO;ENCODING=b;TYPE=JPEG:${wrappedPhoto}\n`;
+                // ✅ CORRECTION : syntaxe ENCODING=BASE64 compatible iPhone
+                // + lignes de 75 caractères max avec espace de continuation
+                const wrappedPhoto = cleanBase64.match(/.{1,75}/g).join("\r\n ");
+                vcard += `PHOTO;TYPE=JPEG;ENCODING=BASE64:\r\n ${wrappedPhoto}\r\n`;
             }
 
             vcard += "END:VCARD";
 
-            // Téléchargement du fichier .vcf
             const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
