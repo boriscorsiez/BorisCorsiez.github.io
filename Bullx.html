@@ -299,8 +299,8 @@
         if(app.bestVoice) utterance.voice = app.bestVoice;
         
         utterance.lang = 'fr-FR';
-        utterance.pitch = 1.0; 
-        utterance.rate = 1.5; // VITESSE AUGMENTÉE ICI COMME DEMANDÉ
+        utterance.pitch = 1.05; // Un soupçon plus haut pour l'énergie
+        utterance.rate = 1.15;  // VITESSE DYNAMIQUE (Ni trop lente, ni brouillonne)
         
         window.speechSynthesis.speak(utterance);
     }
