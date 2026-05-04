@@ -72,15 +72,15 @@
         .mult-btn[data-val="3"].active { background: #064e3b; border-color: var(--accent-green); box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); }
 
         .numpad { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 5px; }
-        .num-btn { background: #1e293b; border: 1px solid var(--border-color); color: white; padding: 12px 0; border-radius: 10px; font-size: 20px; font-weight: bold; transition: 0.15s;}
+        .num-btn { background: #1e293b; border: 1px solid var(--border-color); color: white; padding: 12px 0; border-radius: 10px; font-size: 20px; font-weight: bold; transition: 0.1s;}
         
         .special-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 5px; }
-        .btn-bottom { border: none; border-radius: 10px; font-weight: bold; font-size: 15px; padding: 15px 0; text-transform: uppercase; color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: 0.15s;}
+        .btn-bottom { border: none; border-radius: 10px; font-weight: bold; font-size: 15px; padding: 15px 0; text-transform: uppercase; color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: 0.1s;}
         .btn-miss { background: #334155; }
         .btn-bull-outer { background: #059669; } 
         .btn-bull-inner { background: #dc2626; } 
 
-        /* Classe dynamique pour le flash du bouton lors du clic */
+        /* FLASH ANIMATION AU CLIC */
         .active-flash {
             background: var(--accent-green) !important;
             color: black !important;
@@ -89,7 +89,7 @@
             transform: scale(0.92);
         }
 
-        /* NOUVELLE ZONE ACTIONS BASSES */
+        /* ACTIONS BASSES */
         .bottom-actions { display: flex; gap: 10px; margin-top: 5px; }
         
         .btn-undo { 
@@ -126,15 +126,6 @@
         .theme-god { background: rgba(0,0,0,0.95); color: #fbbf24; animation: shake 0.5s infinite; text-shadow: 0 0 50px #ea580c;} 
         .theme-bust { background: rgba(255,0,0,0.9); color: white; animation: shake 0.2s infinite; } 
 
-        @keyframes shake {
-            0% { transform: translate(2px, 1px) rotate(0deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
-        }
-
         /* === ÉCRAN DE VICTOIRE === */
         #victory-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -149,13 +140,11 @@
         .btn-restart { background: var(--accent-green); border: none; padding: 20px 40px; font-size: 24px; font-weight: bold; border-radius: 50px; margin-top: 30px; cursor: pointer; box-shadow: 0 0 20px var(--accent-green); }
 
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-
     </style>
 </head>
 <body>
 
 <div id="app-container">
-
     <!-- SETUP VIEW -->
     <div id="setup-view" class="view active">
         <h1 class="setup-title">🎯 BullX Party</h1>
@@ -211,7 +200,6 @@
             <div class="numpad">
                 <script>
                     for(let i=1; i<=20; i++) {
-                        // Le paramètre 'this' permet d'envoyer le bouton lui-même à la fonction pour l'éclairer
                         document.write(`<button class="num-btn" onclick="addDart(${i}, this)">${i}</button>`);
                     }
                 </script>
@@ -294,14 +282,12 @@
         }
     }
 
-    // --- GESTION DE LA VOIX (Plus naturelle) ---
+    // --- GESTION DE LA VOIX ---
     function initBestVoice() {
         let voices = window.speechSynthesis.getVoices();
         if(voices.length === 0) return;
-        
         let frVoices = voices.filter(v => v.lang.startsWith('fr'));
-        // On cherche des prénoms ou mentions premium pour avoir une voix humaine
-        app.bestVoice = frVoices.find(v => v.name.includes('Thomas') || v.name.includes('Audrey') || v.name.includes('Aurélie') || v.name.includes('Premium') || v.name.includes('Enhanced')) || frVoices[0];
+        app.bestVoice = frVoices.find(v => v.name.includes('Thomas') || v.name.includes('Audrey') || v.name.includes('Aurélie') || v.name.includes('Premium')) || frVoices[0];
     }
     window.speechSynthesis.onvoiceschanged = initBestVoice;
 
@@ -313,64 +299,108 @@
         if(app.bestVoice) utterance.voice = app.bestVoice;
         
         utterance.lang = 'fr-FR';
-        utterance.pitch = 1.0; // Ton normal
-        utterance.rate = 1.0;  // Vitesse normale
+        utterance.pitch = 1.0; 
+        utterance.rate = 1.5; // VITESSE AUGMENTÉE ICI COMME DEMANDÉ
         
         window.speechSynthesis.speak(utterance);
     }
 
-    // --- BANQUE DE PHRASES (Ambiance Famille / Amis) ---
+    // --- MEGA BANQUE DE PHRASES (Plus de 60 vannes familiales) ---
     const phrases = {
         trash: {
-            visuel: ["CATASTROPHE", "ZÉRO POINTÉ", "AÏE AÏE AÏE", "TU VISES OÙ ?", "AU SECOURS"],
+            visuel: ["CATASTROPHE", "ZÉRO POINTÉ", "AÏE AÏE AÏE", "TU VISES OÙ ?", "AU SECOURS", "LAMENTABLE", "ON A VU PIRE", "AOUCH", "TRISTESSE"],
             vocal: [
                 "Sérieusement {nom} ? {score} points ? Même ma grand-mère fait mieux.", 
                 "C'est honteux {nom}. Ferme les yeux, ça sera peut-être mieux.", 
-                "Ouh là là, {score} points. Faut changer de lunettes {nom}."
+                "Ouh là là, {score} points. Faut changer de lunettes {nom}.",
+                "C'est un lancer ça, {nom} ? On dirait un jet de fléchette en mousse.",
+                "{score} points... Tu le fais exprès {nom} ou tu es vraiment nul ?",
+                "Le prix du pire lancer de la soirée est attribué à {nom}.",
+                "On t'a payé pour rater la cible {nom} ?",
+                "Avec {score} points, {nom} ferait mieux de jouer à la pétanque.",
+                "Cata totale pour {nom}. Rappel : la cible est devant toi, pas derrière.",
+                "Un magnifique {score} pour {nom}. Quel talent caché... très bien caché.",
+                "Tu veux qu'on rapproche la cible pour toi, {nom} ?",
+                "Aïe aïe aïe, {nom}. {score} points. C'est dur à regarder."
             ]
         },
         low: {
-            visuel: ["MOUAIS...", "PEUT MIEUX FAIRE", "BOF BOF", "PETIT BRAS"],
+            visuel: ["MOUAIS...", "PEUT MIEUX FAIRE", "BOF BOF", "PETIT BRAS", "TIMIDE", "DOUCEMENT", "ÉCHAUFFEMENT"],
             vocal: [
                 "{nom}, {score} points. Tu t'échauffes ou quoi ?", 
                 "Seulement {score} pour {nom}. C'est pas terrible, mais on a vu pire.", 
-                "Petit bras {nom}, petit bras."
+                "Petit bras {nom}, très petit bras.",
+                "{score} points. Faut manger plus de soupe, {nom}.",
+                "C'est le minimum syndical pour {nom} aujourd'hui.",
+                "Allez {nom}, on se réveille ! C'est que {score} points.",
+                "Un petit {score} pour {nom}. Ça manque de conviction tout ça.",
+                "Pas ouf {nom}. La prochaine fois, essaie de viser le milieu.",
+                "{nom} nous fait un score de touriste : {score} points.",
+                "On est sur un rythme de sénateur pour {nom} avec {score}.",
+                "C'est mou {nom}, c'est mou ! Seulement {score}."
             ]
         },
         mid: {
-            visuel: ["PAS MAL", "PROPRE", "SOLIDE", "C'EST OK"],
+            visuel: ["PAS MAL", "PROPRE", "SOLIDE", "C'EST OK", "BIEN JOUÉ", "DANS LE RYTHME", "TACTIQUE"],
             vocal: [
                 "Ok {nom}, {score} points. C'est du travail propre.", 
                 "Pas mal du tout {nom}, on progresse.", 
-                "C'est validé pour {nom} avec {score}. Solide."
+                "C'est validé pour {nom} avec {score}. Solide.",
+                "Joli {score} pour {nom}. La machine commence à chauffer.",
+                "Belle régularité {nom}. {score} points bien mérités.",
+                "On est dans le match ! {score} points pour {nom}.",
+                "{nom} assure l'essentiel avec {score} points.",
+                "Pas de chichi, {score} points direct. Bien joué {nom}.",
+                "Ça commence à ressembler à quelque chose, {nom}.",
+                "Un {score} très tactique de la part de {nom}."
             ]
         },
         high: {
-            visuel: ["ÉNORME !", "MACHINE !", "MAGNIFIQUE", "QUEL TALENT"],
+            visuel: ["ÉNORME !", "MACHINE !", "MAGNIFIQUE", "QUEL TALENT", "ON FIRE", "LE SHOW", "BIM BAM BOUM"],
             vocal: [
                 "Ouh là là ! {nom} lâche un {score} ! Quel monstre !", 
                 "Incroyable {nom} ! La machine est lancée !", 
-                "{score} points ! Respect {nom}, la classe."
+                "{score} points ! Respect {nom}, la classe à Dallas.",
+                "Attention, {nom} est chaud bouillant avec {score} points !",
+                "Gros niveau pour {nom} ! Ça rigole plus du tout là !",
+                "Magnifique volée de {nom} qui score {score}.",
+                "Mais qui va l'arrêter ? {nom} frappe très fort !",
+                "Poussez-vous, {nom} vient de balancer {score} points !",
+                "Le vrai patron de la partie c'est {nom} pour l'instant !",
+                "Quel lancer exceptionnel de {nom} ! Boum !"
             ]
         },
         god: {
-            visuel: ["180 !!!", "PERFECT !!", "LE PATRON"],
+            visuel: ["180 !!!", "PERFECT !!", "LE PATRON", "LÉGENDE", "MASTERCLASS"],
             vocal: [
                 "Cents quatre vingts !!! {nom} est le roi du monde !", 
-                "Exceptionnel ! 180 pour {nom} ! Paye ta tournée !"
+                "Exceptionnel ! 180 pour {nom} ! Paye ta tournée direct !",
+                "Perfect ! Le Graal absolu pour {nom} ! ONE HUNDRED AND EIGHTY !",
+                "C'est un génie ! {nom} rentre dans l'histoire ce soir !",
+                "Incroyable, majestueux, parfait ! 180 signé {nom} !",
+                "On se lève tous pour {nom} ! 180 points !"
             ]
         },
         bust: {
-            visuel: ["BUST !!", "TROP FORT...", "DOMMAGE"],
+            visuel: ["BUST !!", "TROP FORT...", "DOMMAGE", "DÉPASSEMENT", "MATHÉMATIQUES ?"],
             vocal: [
-                "Et c'est un Bust pour {nom} ! Faut apprendre à compter !", 
-                "Dommage {nom}, tu as explosé le compteur. Va te rasseoir."
+                "Et c'est un Bust pour {nom} ! Faut retourner à l'école pour apprendre à compter !", 
+                "Dommage {nom}, tu as explosé le compteur. Va te rasseoir.",
+                "Trop gourmand {nom} ! Retour à la case départ pour ce tour.",
+                "Bust ! {nom} a voulu faire le malin et s'est brûlé les ailes.",
+                "Aïe, c'est raté ! {nom} ne sait apparemment pas faire de soustractions.",
+                "Explosion en vol pour {nom}. C'est un gros Bust.",
+                "Le seum intergalactique pour {nom}. Score annulé !"
             ]
         },
         win: {
             vocal: [
                 "Terminé ! {nom} remporte la partie ! Applaudissements !", 
-                "Et c'est la victoire pour {nom} ! Le patron incontesté !"
+                "Et c'est la victoire pour {nom} ! Le patron incontesté !",
+                "Game, Set et Match pour {nom} ! Fin du suspense !",
+                "On s'incline devant le grand gagnant : {nom} !",
+                "{nom} a plié le game ! Bravo champion !",
+                "C'est dans la poche pour {nom} ! Une victoire totalement méritée !"
             ]
         }
     };
@@ -451,7 +481,6 @@
                 </div>`;
         });
         
-        // Scroll horizontal auto pour voir le joueur actif
         const activeCard = document.querySelector('.dash-card.active');
         if(activeCard) activeCard.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
@@ -462,11 +491,10 @@
         document.querySelector(`.mult-btn[data-val="${val}"]`).classList.add('active');
     }
 
-    // Paramètre 'element' pour éclairer la touche
+    // ANIMATION DU BOUTON
     function addDart(base, element) {
         if(app.turnDarts.length >= 3) return;
         
-        // Joue le son et fait flasher le bouton
         playSfx('dart'); 
         if(element) {
             element.classList.add('active-flash');
