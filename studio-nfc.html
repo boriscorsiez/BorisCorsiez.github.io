@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Design NFC Studio - KingDream Digital</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Inter:wght@300;400;500;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --blue-main: #0057FF; --blue-dark: #0036A3; --blue-light: #4285F4; 
+            --white: #ffffff; --bg-light: #f8faff; --text-dark: #0f172a; 
+            --text-muted: #475569; --yellow: #FCD34D;
+            --shadow-soft: 0 10px 40px rgba(0,87,255,0.08);
+            --shadow-float: 0 20px 50px rgba(0,87,255,0.15);
+            --shadow-btn: 0 8px 25px rgba(0,87,255,0.4);
+            --shadow-pro: 0 20px 50px rgba(0,0,0,0.1);
+            --nav-h: 75px; 
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background: var(--bg-light); color: var(--text-dark); font-family: 'Nunito', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        
+        /* ─── NAVIGATION (Identique au site officiel) ─── */
+        nav#navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: var(--white) !important; padding: 0 5%; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; transition: transform 0.4s ease, box-shadow 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        nav.nav-hidden { transform: translateY(-100%); }
+        nav.nav-scrolled { box-shadow: 0 10px 30px rgba(0,87,255,0.1); }
+        .nav-logo-link { position: relative; display: flex; align-items: center; width: 180px; height: var(--nav-h); text-decoration: none; z-index: 50; flex-shrink: 0; }
+        .nav-logo-link img { position: absolute; width: 100%; top: 50%; left: 0; transform: translateY(-40%) scale(2.2); transform-origin: left center; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); pointer-events: none; }
+
+        .nav-links { display:flex; gap:28px; list-style:none; position: relative; z-index: 100; margin-top: 5px; }
+        .nav-links a { color: var(--blue-dark); text-decoration: none; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; }
+        .nav-links a:hover { color: var(--blue-main); }
+        .nav-actions { display: flex; align-items: center; gap: 14px; position: relative; z-index: 100; margin-top: 5px; }
+        .nav-cta { background: var(--blue-main); color: var(--white); padding: 10px 22px; border-radius: 50px; font-weight: 900; font-size: 0.85rem; text-decoration: none; box-shadow: 0 4px 15px rgba(0,87,255,0.2); transition: 0.3s; white-space: nowrap; }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(0,87,255,0.4); background: var(--blue-dark); color: white; }
+
+        .nav-hamburger { display: none; flex-direction: column; justify-content: space-between; width: 32px; height: 22px; cursor: pointer; background: none; border: none; padding: 0; z-index: 1010; }
+        .nav-hamburger span { display: block; height: 3px; border-radius: 3px; width: 100%; background: var(--blue-main); transition: all 0.3s ease; }
+
+        .mobile-menu { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-light); z-index: 1050; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: -10px 0 30px rgba(0,0,0,0.1); padding: 20px 0; }
+        .mobile-menu.open { transform: translateX(0); }
+        .mobile-close-btn { position: absolute; top: 20px; right: 25px; background: none; border: none; font-size: 3rem; color: var(--text-dark); cursor: pointer; font-family: 'Nunito', sans-serif; line-height: 1; padding: 10px; z-index: 1051; transition: color 0.3s; }
+        .mobile-close-btn:hover { color: var(--blue-main); }
+        .mobile-menu-links { display: flex; flex-direction: column; align-items: center; gap: 35px; width: 100%; }
+        .mobile-menu-links a { color: var(--text-dark); text-decoration: none; font-family: 'Nunito', sans-serif; font-size: 1.8rem; font-weight: 800; letter-spacing: 0.5px; transition: 0.2s; }
+        .mobile-menu-links a:hover { color: var(--blue-main); transform: scale(1.05); }
+        .mobile-menu-links .mobile-cta { background: var(--blue-main); color: var(--white); padding: 16px 40px; border-radius: 50px; font-weight:900; font-size: 1.2rem; box-shadow: 0 10px 25px rgba(0,87,255,0.2); margin-top: 10px; text-shadow: none; }
+        .mobile-menu-logo-container { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; }
+        .mobile-menu-logo-container img { width: 250px; max-width: 80%; }
+
+        /* ─── HEADER STUDIO ─── */
+        .bg-blue-section { background: linear-gradient(160deg, var(--blue-main) 0%, var(--blue-dark) 100%); padding-top: 130px; padding-bottom: 60px; }
+        .header-top { text-align: center; margin-bottom: 40px; }
+        h1 { font-family:'Fredoka One', cursive; font-size: clamp(2.5rem,6vw,4rem); color: white; margin-bottom: 5px; }
+        .header-top p { color: rgba(255,255,255,0.9); font-weight: 700; font-size: 1.1rem; }
+        .text-3d { color: var(--yellow); text-shadow: 2px 2px 0 var(--blue-dark); }
+
+        .section-inner { max-width: 1260px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; padding: 0 20px; align-items: flex-start; }
+
+        /* ─── STUDIO VISUEL GAUCHE (PERSONNALISATION) ─── */
+        .sticky-visual { position: sticky; top: 110px; text-align: center; }
+        .card-3d-scene { perspective: 1500px; width: 100%; max-width: 440px; margin: 0 auto 20px; }
+        .card-3d-inner { position: relative; width: 100%; padding-bottom: 63.1%; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .card-3d-inner.is-flipped { transform: rotateY(180deg); }
+        .card-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 15px; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.35); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .face-front { transform: rotateY(0deg); z-index: 2; }
+        .face-back { transform: rotateY(180deg); z-index: 1; }
+
+        #p-logo-img { position: absolute; max-width: 160px; transform-origin: center; pointer-events: none; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .logo-placeholder { font-family:'Fredoka One'; opacity:0.15; text-transform:uppercase; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; text-align: center; font-size: 1.3rem; pointer-events: none; }
+        .nfc-waves { position: absolute; top: 15px; right: 15px; width: 35px; height: 35px; fill: currentColor; opacity: 0.7; display: none; }
+        
+        .v-text-block { position: absolute; display: flex; flex-direction: column; text-align: center; pointer-events: none; width: 100%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .v-name { font-weight: 900; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 1px; }
+        .v-company { font-weight: 700; font-size: 0.9rem; opacity: 0.8; text-transform: uppercase; }
+        .v-slogan { font-weight: 500; font-size: 0.75rem; font-style: italic; opacity: 0.8; margin-top: 5px; }
+
+        .flip-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 20px;
+        }
+        .flip-btn:hover { background: white; color: var(--blue-main); }
+
+        .cat-row { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+        .cat-btn { padding: 8px 20px; border: 1px solid rgba(255,255,255,0.3); border-radius: 50px; background: transparent; color: white; font-weight: 800; font-size: 0.75rem; cursor: pointer; transition: 0.3s; }
+        .cat-btn.active { background: white; color: var(--blue-main); border-color: white; }
+        .mat-grid { display: flex; justify-content: center; gap: 10px; margin-top: 15px; flex-wrap: wrap; background: rgba(0,0,0,0.15); padding: 15px; border-radius: 20px; }
+        .mat-item { width: 70px; cursor: pointer; text-align: center; }
+        .mat-dot { width: 100%; height: 44px; border-radius: 8px; border: 2.5px solid transparent; background-size: cover; background-position: center; transition: 0.3s; }
+        .mat-item.active .mat-dot { border-color: var(--blue-main); box-shadow: 0 0 20px var(--blue-main); transform: scale(1.1); }
+        .mat-item span { font-size: 0.5rem; color: white; font-weight: 800; display: block; margin-top: 5px; text-transform: uppercase; line-height: 1; }
+
+        /* PANNEAU DE CONTROLE DROITE */
+        .config-pane { background: white; border-radius: 24px; padding: 30px; box-shadow: var(--shadow-pro); color: var(--text-dark); }
+        .step-title { display: block; font-size: 0.85rem; font-weight: 900; color: var(--blue-main); margin-bottom: 15px; text-transform: uppercase; margin-top: 25px; }
+        .step-title:first-child { margin-top: 0; }
+        
+        .upload-btn {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            width: 100%; padding: 25px; border: 2px dashed #cbd5e1; border-radius: 15px;
+            background: #f8fafc; cursor: pointer; transition: 0.3s; margin-bottom: 15px;
+            color: var(--blue-main); font-weight: 800; font-size: 0.9rem; text-align: center;
+        }
+        .upload-btn:hover { background: #eff6ff; border-color: var(--blue-main); }
+        .upload-btn svg { width: 35px; height: 35px; margin-bottom: 10px; fill: var(--blue-main); }
+
+        .ctrl-box { background: #f1f5f9; border-radius: 15px; padding: 20px; margin-bottom: 25px; border: 1px solid #e2e8f0; }
+        .ctrl-row { margin-bottom: 20px; }
+        .ctrl-head { display: flex; justify-content: space-between; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; color: var(--text-dark); margin-bottom: 10px; }
+        input[type="range"] { -webkit-appearance: none; width: 100%; height: 10px; background: #cbd5e1; border-radius: 10px; outline: none; position: relative; overflow: hidden; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; background: var(--blue-main); border-radius: 50%; cursor: pointer; border: 3px solid white; box-shadow: -407px 0 0 400px var(--blue-main); transition: 0.2s; }
+
+        .field-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; position: relative; }
+        input[type="text"] { flex: 1; padding: 12px 15px; border-radius: 12px; border: 1px solid #cbd5e1; font-family: inherit; font-weight: 700; background: #f8fafc; font-size: 0.9rem; color: var(--text-dark); }
+        .color-toggle { width: 38px; height: 38px; border-radius: 50%; border: 2.5px solid #eee; cursor: pointer; background: white url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%230057FF" stroke-width="2.5"><path d="M12 19l7-7 3 3-7 7-3-3zM18 13l-1.5-1.5M2 22h5l11-11-5-5L2 17v5z"/></svg>') center/20px no-repeat; flex-shrink: 0; }
+        .color-popover { position: absolute; right: 0; top: 48px; background: white; border-radius: 15px; padding: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); display: none; grid-template-columns: repeat(5, 1fr); gap: 8px; z-index: 100; border: 1px solid #eee; }
+        .color-popover.open { display: grid; }
+        .swatch { width: 24px; height: 24px; border-radius: 50%; cursor: pointer; border: 1px solid #ddd; }
+
+        .cta-king { width: 100%; padding: 18px; background: var(--yellow); color: #000; font-family: 'Fredoka One'; font-size: 1.3rem; border-radius: 50px; border: none; cursor: pointer; box-shadow: 0 10px 30px rgba(252, 211, 77, 0.4); margin-top: 20px; transition: 0.3s; }
+        .cta-king:hover { transform: scale(1.02); }
+
+        /* ─── SECTION BAS DE PAGE (SHOWROOM) ─── */
+        .black-pro-section { background: #000; padding: 100px 5%; text-align: center; color: white; overflow: hidden; }
+        
+        .reasons-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto 80px; }
+        .reason-item { display: flex; flex-direction: column; align-items: center; text-align: center; cursor: default; }
+        .reason-item h3 { font-family: 'Fredoka One'; font-size: 1.8rem; margin-bottom: 15px; color: white; }
+        .reason-item p { color: #94a3b8; font-size: 1rem; line-height: 1.6; font-weight: 600; max-width: 320px; margin: 0 auto; }
+        
+        .reason-item:hover .trust-icon-3d { 
+            transform: translateY(-10px) scale(1.1); 
+            filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.6));
+        }
+
+        .showroom-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; max-width: 1100px; margin: 0 auto 100px; }
+        
+        .showroom-3d-container { display: flex; flex-direction: column; align-items: center; position: relative; }
+
+        @keyframes levitate {
+            0%   { transform: translateY(0px); }
+            50%  { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .showroom-card-box { 
+            perspective: 1500px; width: 100%; max-width: 440px; 
+            position: relative; z-index: 5;
+            animation: levitate 4s ease-in-out infinite;
+        }
+
+        .showroom-card-inner { position: relative; width: 100%; padding-bottom: 63.1%; transform-style: preserve-3d; }
+        
+        .showroom-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 18px; background-size: cover; background-position: center; box-shadow: 0 20px 40px rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .showroom-back { transform: rotateY(180deg); }
+        
+        .s-logo-on-card { width: 130px; height: 130px; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.6)); }
+        
+        .s-v-name { font-weight: 900; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 2px; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .s-v-company { font-weight: 800; font-size: 0.9rem; opacity: 0.9; text-transform: uppercase; margin-bottom: 10px; }
+        .s-v-slogan { font-weight: 600; font-size: 0.75rem; font-style: italic; opacity: 0.7; }
+
+        /* SOCLE PREMIUM EXPOSITION */
+        .showroom-podium {
+            width: 280px; height: 35px; margin-top: 40px;
+            background: linear-gradient(to bottom, #334155 0%, #0f172a 100%);
+            border-radius: 50%; position: relative; z-index: 2;
+            box-shadow: 0 35px 50px rgba(0,0,0,0.9), inset 0 2px 4px rgba(255,255,255,0.2);
+        }
+        .showroom-podium-surface {
+            position: absolute; inset: 2px 2px 8px 2px;
+            background: radial-gradient(ellipse at center, #1e293b 0%, #0f172a 100%);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+        }
+        .showroom-podium-ring {
+            width: 180px; height: 10px; border-radius: 50%;
+            border: 2px solid var(--accent, #0057FF); opacity: 0.6;
+            box-shadow: 0 0 15px var(--accent, #0057FF), inset 0 0 15px var(--accent, #0057FF);
+            transition: all 0.6s ease;
+        }
+        .showroom-podium-glow {
+            position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+            width: 200px; height: 80px; background: var(--accent, #0057FF);
+            border-radius: 50%; filter: blur(40px); opacity: 0.25; pointer-events: none;
+            transition: all 0.6s ease; z-index: -1;
+        }
+
+        /* ─── THEMES SMARTPHONE DYNAMIQUES ─── */
+        .phone-frame { width: 300px; height: 600px; background: #1a1a1a; border-radius: 45px; padding: 12px; border: 6px solid #333; margin: 0 auto; box-shadow: 0 30px 60px rgba(0,0,0,0.5); overflow: hidden; position: relative; }
+        
+        .phone-screen { 
+            --ui-bg: #e8ecef; --ui-text: #1e293b; --ui-mut: #64748b; --ui-accent: #0057FF;
+            background: var(--ui-bg); width: 100%; height: 100%; border-radius: 32px; overflow-y: auto; font-family: 'Nunito'; padding: 25px 20px; scrollbar-width: none; position: relative; transition: all 0.6s ease;
+        }
+        .phone-screen::-webkit-scrollbar { display: none; }
+        .phone-screen * { transition: all 0.6s ease; }
+        
+        .phone-top-logo { width: 65px; height: 65px; object-fit: contain; margin: 0 auto 15px; display: block; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1)); }
+        .phone-avatar { width: 95px; height: 95px; margin: 0 auto 12px; display: block; object-fit: cover; border-radius: 50%; border: 4px solid var(--ui-bg); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        
+        .phone-name { text-align: center; font-size: 1.3rem; font-weight: 900; color: var(--ui-text); margin-bottom: 2px; }
+        .phone-job { text-align: center; font-size: 0.75rem; color: var(--ui-mut); font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .phone-btn { background: var(--ui-accent); color: white; padding: 12px; border-radius: 50px; font-weight: 800; width: 100%; margin-bottom: 15px; border: none; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+        .phone-btn svg { width: 18px; height: 18px; fill: white; }
+        
+        .phone-bio { text-align: center; font-size: 0.75rem; color: var(--ui-text); font-weight: 600; line-height: 1.5; margin-bottom: 20px; padding: 0 5px; opacity: 0.85; }
+
+        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px; }
+        .app-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .app-icon { width: 45px; height: 45px; border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
+        .app-icon svg { width: 22px; height: 22px; fill: white; }
+        .app-label { font-size: 0.55rem; font-weight: 800; color: var(--ui-mut); text-align: center; text-transform: uppercase; }
+        
+        .bg-accent { background: var(--ui-accent); }
+        .bg-insta { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%); }
+        .bg-white { background: #ffffff; }
+        .bg-white svg { fill: var(--ui-accent); }
+
+        .phone-banner { width: 100%; height: 120px; border-radius: 16px; object-fit: cover; box-shadow: 0 6px 15px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        .phone-footer { text-align: center; font-size: 0.55rem; color: var(--ui-mut); font-weight: 700; margin-top: 5px; text-transform: uppercase; line-height: 1.5; opacity: 0.8; }
+
+        .trust-grid-simple { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; text-align: center; }
+        .trust-item-simple { display: flex; flex-direction: column; align-items: center; cursor: default; }
+        
+        .trust-icon-3d { width: 85px; height: 85px; object-fit: contain; margin-bottom: 20px; filter: drop-shadow(0 15px 20px rgba(0, 0, 0, 0.4)); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s; }
+        .trust-item-simple:hover .trust-icon-3d { transform: translateY(-10px) scale(1.1); filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.6)); }
+        
+        .trust-item-simple h4 { font-family: 'Fredoka One'; color: white; margin-bottom: 8px; font-size: 1.3rem; }
+        .trust-item-simple p { color: #94a3b8; font-size: 0.95rem; font-weight: 700; line-height: 1.5; }
+
+        /* FOOTER (Identique au site officiel) */
+        footer { background:var(--blue-main); color:white; padding:50px 5% 100px; text-align:center; position: relative; z-index: 10; border-top: none;}
+        .footer-logo-wrap { display:flex; align-items:center; justify-content:center; margin-bottom:30px; height:120px; }
+        .footer-logo-wrap img { height:100%; width:auto; object-fit:contain; transform: scale(2.2); filter: drop-shadow(0 0 20px rgba(255,255,255,0.4)) brightness(1.3); }
+        .footer-tagline { color:var(--white); font-size:.85rem; font-weight:800; letter-spacing:2px; text-transform:uppercase; margin-bottom:28px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .instagram-link { display:inline-flex; justify-content:center; align-items:center; margin:0 auto 22px; color:white; transition:transform .3s cubic-bezier(0.34,1.56,0.64,1),color .3s; background:linear-gradient(45deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); padding:12px; border-radius:14px; box-shadow:0 4px 15px rgba(220,39,67,.3); z-index:20; cursor:pointer; text-decoration:none; }
+        .instagram-link:hover { transform:scale(1.15) rotate(5deg); box-shadow:0 8px 25px rgba(220,39,67,.6); color:white; }
+        .footer-links { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-bottom:22px; }
+        .footer-links a { color:var(--white); text-decoration:none; font-size:.88rem; font-weight:800; transition:.2s; }
+        .footer-links a:hover { color:var(--yellow); }
+        .footer-copy { font-size:.75rem; color:rgba(255,255,255,0.8); font-weight:800; letter-spacing:1px; }
+
+        /* ─── TEXTURES CARTES ─── */
+        .mat-pvc-noir { background-color: #1a1a1a; color: #fff; }
+        .mat-pvc-blanc { background-color: #fdfdfd; color: #111; }
+        .mat-pvc-bleu { background-color: #003049; color: #fff; }
+        .mat-pvc-rouge { background-color: #b91c1c; color: #fff; }
+        .mat-pvc-jaune { background-color: #eab308; color: #111; }
+        .mat-pvc-vert { background-color: #15803d; color: #fff; }
+        .mat-pvc-orange { background-color: #c2410c; color: #fff; }
+        .mat-pvc-violet { background-color: #6d28d9; color: #fff; }
+        
+        .mat-metal-or { background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728); color: #222; }
+        .mat-metal-argent { background: linear-gradient(135deg, #e0e0e0, #ffffff, #9e9e9e); color: #111; }
+        .mat-metal-noir { background: linear-gradient(135deg, #333, #111, #000); color: #fff; }
+
+        /* === INTÉGRATION DE VOS TEXTURES DE BOIS === */
+        .mat-bois-birch { background-image: url('https://i.ibb.co/Y7bYk3bf/birch.png'); background-color: #d7ccc8; background-size: cover; background-position: center; color: #111; }
+        .mat-bois-walnut { background-image: url('https://i.ibb.co/WvHKS309/walnut.png'); background-color: #8D6E63; background-size: cover; background-position: center; color: #fff; }
+        .mat-bois-treestump { background-image: url('https://i.ibb.co/VpT3PtQL/tree-stump.png'); background-color: #5D4037; background-size: cover; background-position: center; color: #fff; }
+
+        @media(max-width:1024px){
+            .section-inner, .showroom-layout, .reasons-grid, .trust-grid-simple { grid-template-columns: 1fr; }
+        }
+
+        @media(max-width:768px){
+            :root { --nav-h: 70px; }
+            nav#navbar { padding: 0 20px; display: flex; justify-content: space-between; background: var(--white) !important; box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important; }
+            .nav-links { display: none !important; }
+            .nav-actions .nav-cta { display: none !important; }
+            .nav-actions { display: flex !important; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); width: auto !important; margin: 0 !important; }
+            .nav-hamburger { display: flex !important; z-index: 1010; }
+            .nav-logo-link { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 140px; height: 100%; margin: 0; display: flex; justify-content: center; align-items: center; }
+            .nav-logo-link img { position: absolute; top: auto; left: 0; transform: scale(2.8); transform-origin: center center; margin-top: 35px; }
+
+            .bg-blue-section { padding-top: calc(var(--nav-h) + 40px); }
+            footer { padding:46px 18px 100px; }
+            .footer-logo-wrap { height:90px; margin-bottom:30px; }
+            .footer-logo-wrap img { height:100%; transform: scale(1.8); }
+            .footer-links { gap:14px; flex-direction:column; align-items:center; }
+        }
+    </style>
+</head>
+<body id="top">
+
+<div id="scroll-progress"></div>
+
+<!-- MENU MOBILE -->
+<nav id="mobile-drawer" class="mobile-menu" role="dialog" aria-label="Menu principal">
+    <button id="mobile-close-btn" class="mobile-close-btn" aria-label="Fermer le menu">&times;</button>
+    <div style="flex: 1;"></div>
+    <div class="mobile-menu-links">
+        <a href="index.html#hero-premium" class="nav-link-m">Accueil</a>
+        <a href="index.html#why" class="nav-link-m">Pourquoi nous</a>
+        <a href="index.html#how" class="nav-link-m">Processus</a>
+        <a href="#" class="nav-link-m" style="color:var(--blue-main)">Cartes NFC</a>
+        <a href="index.html#offers" class="nav-link-m">Tarifs</a>
+        <a href="index.html#testimonials" class="nav-link-m">Avis</a>
+        <a href="index.html#contact" class="mobile-cta nav-link-m">Devis gratuit</a>
+    </div>
+    <div class="mobile-menu-logo-container">
+        <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream Digital Logo">
+    </div>
+</nav>
+
+<!-- NAVIGATION DESKTOP -->
+<nav id="navbar">
+    <a href="index.html" class="nav-logo-link" aria-label="KingDream Digital - Accueil">
+        <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream Digital Logo">
+    </a>
+    <ul class="nav-links">
+        <li><a href="index.html#why">Pourquoi nous</a></li>
+        <li><a href="index.html#how">Processus</a></li>
+        <li><a href="#" style="color:var(--blue-main)">Cartes NFC</a></li>
+        <li><a href="index.html#offers">Tarifs</a></li>
+        <li><a href="index.html#testimonials">Avis</a></li>
+    </ul>
+    <div class="nav-actions">
+        <a href="index.html#contact" class="nav-cta">Devis gratuit →</a>
+        <button class="nav-hamburger" id="hamburger-btn" aria-label="Ouvrir le menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<main class="bg-blue-section">
+    <div class="header-top">
+        <h1>Design <span class="text-3d">NFC Studio</span></h1>
+        <p>Votre carte NFC professionnelle.</p>
+    </div>
+
+    <div class="section-inner">
+        <!-- STUDIO GAUCHE -->
+        <div class="sticky-visual">
+            <div class="card-3d-scene">
+                <div class="card-3d-inner" id="card-3d">
+                    <div class="card-face face-front mat-pvc-noir" id="f-recto">
+                        <svg class="nfc-waves" id="nfc-waves" viewBox="0 0 24 24"><path d="M18.8 20.3c-.3 0-.6-.1-.8-.4-.4-.5-.4-1.2.1-1.6 1.7-1.4 2.6-3.4 2.6-5.5s-.9-4.1-2.6-5.5c-.5-.4-.5-1.1-.1-1.6.4-.5 1.1-.5 1.6-.1 2.2 1.8 3.4 4.3 3.4 7.2s-1.2 5.4-3.4 7.2c-.3.2-.5.3-.8.3z"/><path d="M14.9 17.8c-.3 0-.6-.1-.8-.4-.4-.5-.3-1.2.1-1.6 1.1-.9 1.7-2.1 1.7-3.4s-.6-2.5-1.7-3.4c-.5-.4-.5-1.1-.1-1.6.4-.5 1.1-.5 1.6-.1 1.5 1.2 2.3 2.8 2.3 4.9s-.8 3.7-2.3 4.9c-.3.2-.5.3-.8.3z"/><path d="M11.1 15.2c-.3 0-.6-.1-.8-.4-.4-.5-.3-1.2.1-1.6.5-.4.8-1 .8-1.7s-.3-1.2-.8-1.7c-.5-.4-.5-1.1-.1-1.6.4-.5 1.1-.5 1.6-.1 1 1 1.4 2.1 1.4 3.4s-.5 2.4-1.4 3.4c-.3.2-.5.3-.8.3z"/></svg>
+                        <span class="logo-placeholder" id="txt-empty">VOTRE LOGO</span>
+                        <img id="p-logo-img" src="" style="display:none;">
+                    </div>
+                    <div class="card-face face-back mat-pvc-noir" id="f-verso">
+                        <div class="v-text-block">
+                            <div class="v-name" id="v-name">NOM PRÉNOM</div>
+                            <div class="v-company" id="v-company">ENTREPRISE / POSTE</div>
+                            <div class="v-slogan" id="v-slogan">VOTRE SLOGAN ICI</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="flip-btn" onclick="document.getElementById('card-3d').classList.toggle('is-flipped')">
+                Voir le Verso
+            </button>
+            
+            <div class="cat-row">
+                <button class="cat-btn active" onclick="loadCat('pvc', this)">PVC</button>
+                <button class="cat-btn" onclick="loadCat('bois', this)">Bois</button>
+                <button class="cat-btn" onclick="loadCat('metal', this)">Métal</button>
+            </div>
+            <div class="mat-grid" id="mat-grid"></div>
+        </div>
+
+        <!-- PANNEAU DE CONTROLE DROITE -->
+        <div class="config-pane">
+            <form id="studio-form" action="https://formsubmit.co/Contact@kingdream.fr" method="POST" enctype="multipart/form-data">
+                
+                <span class="step-title">1. Importer votre logo</span>
+                <input type="file" id="i-logo" accept="image/*" onchange="handleLogo(this)" style="display:none;">
+                <label for="i-logo" class="upload-btn">
+                    <svg viewBox="0 0 24 24"><path d="M19 13v5c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2v-5H3.5c-.45 0-.67-.54-.35-.85l8.15-8.15c.39-.39 1.02-.39 1.41 0l8.15 8.15c.31.31.09.85-.35.85H19zM7 18h10v-5h-3.5v-3h-3v3H7v5z"/></svg>
+                    <span id="upload-txt">Cliquez pour insérer votre logo</span>
+                </label>
+
+                <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:0.75rem; color:var(--text-muted); font-weight:900; margin-bottom:25px;">
+                    <input type="checkbox" onchange="document.getElementById('nfc-waves').style.display=this.checked?'block':'none'"> AFFICHER L'ICÔNE SANS CONTACT (RECTO)
+                </label>
+
+                <span class="step-title">2. Ajuster le logo</span>
+                <div class="ctrl-box">
+                    <div class="ctrl-row"><div class="ctrl-head">Horizontal <span id="lx">0</span></div><input type="range" id="rx" min="-180" max="180" value="0" oninput="applyMove()"></div>
+                    <div class="ctrl-row"><div class="ctrl-head">Vertical <span id="ly">0</span></div><input type="range" id="ry" min="-120" max="120" value="0" oninput="applyMove()"></div>
+                    <div class="ctrl-row"><div class="ctrl-head">Taille <span id="ls">100%</span></div><input type="range" id="rs" min="20" max="300" value="100" oninput="applyMove()"></div>
+                </div>
+
+                <span class="step-title">3. Infos Verso</span>
+                <div class="field-wrap"><input type="text" name="nom" placeholder="Nom Prénom" oninput="upTxt('v-name', this.value, 'Nom Prénom')"><div class="color-toggle" onclick="togglePal('pal-nom')"></div><div class="color-popover" id="pal-nom"></div></div>
+                <div class="field-wrap"><input type="text" name="entreprise" placeholder="Entreprise" oninput="upTxt('v-company', this.value, 'Entreprise')"><div class="color-toggle" onclick="togglePal('pal-ent')"></div><div class="color-popover" id="pal-ent"></div></div>
+                <div class="field-wrap"><input type="text" name="slogan" placeholder="Slogan" oninput="upTxt('v-slogan', this.value, 'Slogan')"><div class="color-toggle" onclick="togglePal('pal-slo')"></div><div class="color-popover" id="pal-slo"></div></div>
+
+                <input type="hidden" name="materiau" id="hidden-mat" value="mat-pvc-noir">
+                <div style="text-align:right; font-family:'Fredoka One'; color:var(--blue-main); font-size:1.7rem; margin-top:20px;" id="total-p">34.99 €</div>
+                <button type="submit" class="cta-king">VALIDER MA CARTE 🚀</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<!-- BLACK SECTION (SHOWROOM) -->
+<section class="black-pro-section">
+    
+    <div class="reasons-grid">
+        <div class="reason-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/4305/4305432.png" class="trust-icon-3d" alt="Économies">
+            <h3>Faites des économies</h3>
+            <p>Plus besoin d'imprimer, votre carte NFC est réutilisable à vie et modifiable en ligne.</p>
+        </div>
+        <div class="reason-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/6168/6168875.png" class="trust-icon-3d" alt="Réseau">
+            <h3>Développez votre réseau</h3>
+            <p>Échangez vos coordonnées d'un simple contact. Vos prospects vous enregistrent instantanément.</p>
+        </div>
+        <div class="reason-item">
+            <img src="https://cdn-icons-png.flaticon.com/512/8653/8653200.png" class="trust-icon-3d" alt="Partage">
+            <h3>Partagez tout</h3>
+            <p>Numéros, réseaux sociaux, liens, plaquettes... centralisez tout votre univers sur une puce.</p>
+        </div>
+    </div>
+
+    <div class="showroom-layout">
+        <div class="showroom-3d-container">
+            <div class="showroom-card-box">
+                <div class="showroom-card-inner" id="showroom-inner">
+                    <div class="showroom-face showroom-front mat-pvc-noir" id="s-front">
+                        <img src="" class="s-logo-on-card" id="s-img">
+                    </div>
+                    <div class="showroom-face showroom-back mat-pvc-noir" id="s-back">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="showroom-podium" id="showroom-stage" style="--accent: #d4af37;">
+                <div class="showroom-podium-surface">
+                    <div class="showroom-podium-ring"></div>
+                </div>
+                <div class="showroom-podium-glow"></div>
+            </div>
+        </div>
+
+        <!-- Mobile UI Adaptatif -->
+        <div class="phone-frame">
+            <div class="phone-screen" id="ui-screen">
+                <img src="" id="ui-top-logo" class="phone-top-logo">
+                <img src="" id="ui-avatar" class="phone-avatar">
+                
+                <h2 class="phone-name" id="ui-name">Nom</h2>
+                <p class="phone-job" id="ui-job">Entreprise</p>
+                
+                <button class="phone-btn">
+                    <svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    <span id="ui-btn-txt">Se connecter</span>
+                </button>
+                
+                <p class="phone-bio" id="ui-bio">Biographie</p>
+                
+                <div class="app-grid">
+                    <div class="app-item">
+                        <div class="app-icon bg-accent"><svg viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg></div>
+                        <span class="app-label">Appel</span>
+                    </div>
+                    <div class="app-item">
+                        <div class="app-icon bg-accent"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+                        <span class="app-label">Email</span>
+                    </div>
+                    <div class="app-item">
+                        <div class="app-icon bg-insta"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg></div>
+                        <span class="app-label">Insta</span>
+                    </div>
+                    <div class="app-item">
+                        <div class="app-icon bg-white"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+                        <span class="app-label">Web</span>
+                    </div>
+                </div>
+                
+                <img src="" id="ui-banner" class="phone-banner">
+                
+                <div class="phone-footer">Carte de visite digitale créée par<br><strong style="color:var(--ui-text); font-size:0.65rem;">KINGDREAM DIGITAL</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="trust-grid-simple">
+        <div class="trust-item-simple">
+            <img src="https://cdn-icons-png.flaticon.com/512/2550/2550270.png" class="trust-icon-3d" alt="Qualité Premium">
+            <h4>Qualité Premium</h4>
+            <p>Finitions luxe Métal, Bois ou PVC.</p>
+        </div>
+        <div class="trust-item-simple">
+            <img src="https://cdn-icons-png.flaticon.com/512/6190/6190296.png" class="trust-icon-3d" alt="Écologique">
+            <h4>Écologique</h4>
+            <p>Zéro papier, une carte pour la vie.</p>
+        </div>
+        <div class="trust-item-simple">
+            <img src="https://cdn-icons-png.flaticon.com/512/2950/2950711.png" class="trust-icon-3d" alt="Technologie NFC">
+            <h4>Technologie NFC</h4>
+            <p>Puce ultra-rapide sans application.</p>
+        </div>
+        <div class="trust-item-simple">
+            <img src="https://cdn-icons-png.flaticon.com/512/3081/3081084.png" class="trust-icon-3d" alt="Support Dédié">
+            <h4>Support Dédié</h4>
+            <p>Nos designers vous accompagnent.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER OFFICIEL KINGDREAM -->
+<footer>
+    <div class="footer-logo-wrap">
+        <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream Digital" loading="lazy">
+    </div>
+    <div class="footer-tagline">L'agence qui transforme votre nom en empire</div>
+    <a href="https://www.instagram.com/kingdream_digital/" target="_blank" rel="noopener noreferrer" class="instagram-link" aria-label="Instagram KingDream Digital">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+    </a>
+    <div class="footer-links">
+        <a href="index.html#contact">Contact</a>
+        <a href="mailto:Contact@kingdream.fr">Contact@kingdream.fr</a>
+        <a href="tel:+33627205597">06 27 20 55 97</a>
+    </div>
+    <div class="footer-copy">© 2026 KINGDREAM DIGITAL — TOUS DROITS RÉSERVÉS</div>
+</footer>
+
+<script>
+    /* ─── HAMBURGER MENU ─── */
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+    const mobileCloseBtn = document.getElementById('mobile-close-btn');
+    let menuOpen = false;
+    function toggleMenu(force) {
+        menuOpen = (force !== undefined) ? force : !menuOpen;
+        mobileDrawer.classList.toggle('open', menuOpen);
+        document.body.style.overflow = menuOpen ? 'hidden' : '';
+    }
+    hamburgerBtn.addEventListener('click', (e) => { e.preventDefault(); toggleMenu(true); });
+    mobileCloseBtn.addEventListener('click', (e) => { e.preventDefault(); toggleMenu(false); });
+    document.querySelectorAll('.nav-link-m').forEach(link => { link.addEventListener('click', () => toggleMenu(false)); });
+    
+    /* ─── SCROLL & NAV ─── */
+    let lastScrollY = 0; let ticking = false;
+    const navbar = document.getElementById('navbar');
+    const scrollProgress = document.getElementById('scroll-progress');
+    const backToTop = document.getElementById('back-to-top');
+
+    function updateOnScroll() {
+        const currentScrollY = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (currentScrollY / docHeight) * 100 : 0;
+        if(scrollProgress) scrollProgress.style.width = progress + '%';
+        if (!menuOpen) {
+            if (window.innerWidth > 768) {
+                if (currentScrollY > lastScrollY && currentScrollY > 100) navbar.classList.add('nav-hidden');
+                else navbar.classList.remove('nav-hidden');
+            }
+            navbar.classList.toggle('nav-scrolled', currentScrollY > 10);
+        }
+        lastScrollY = currentScrollY;
+        if(backToTop) backToTop.classList.toggle('visible', currentScrollY > 400);
+        ticking = false;
+    }
+    window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(updateOnScroll); ticking = true; } }, { passive: true });
+
+    /* ─── STUDIO LOGIC ─── */
+    const settings = { x:0, y:0, s:100 };
+    const luxuryColors = ['#ffffff','#111111','#bf953f','#e0e0e0','#0057FF','#ef4444','#FCD34D','#22c55e','#f472b6','#fb923c'];
+    
+    const mats = {
+        pvc: [{id:'mat-pvc-noir', n:'Noir', p:34.99}, {id:'mat-pvc-blanc', n:'Blanc', p:34.99}, {id:'mat-pvc-bleu', n:'Bleu', p:34.99}, {id:'mat-pvc-rouge', n:'Rouge', p:34.99}, {id:'mat-pvc-jaune', n:'Jaune', p:34.99}, {id:'mat-pvc-vert', n:'Vert', p:34.99}, {id:'mat-pvc-orange', n:'Orange', p:34.99}, {id:'mat-pvc-violet', n:'Violet', p:34.99}],
+        bois: [{id:'mat-bois-birch', n:'Birch', p:44.99}, {id:'mat-bois-treestump', n:'Stump', p:44.99}, {id:'mat-bois-walnut', n:'Walnut', p:44.99}],
+        metal: [{id:'mat-metal-noir', n:'Brossé Noir', p:54.99}, {id:'mat-metal-or', n:'Brossé Or', p:54.99}, {id:'mat-metal-argent', n:'Brossé Argent', p:54.99}]
+    };
+
+    const logoImmo = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 10 L110 60 L60 110 L10 60 Z' fill='none' stroke='%23d4af37' stroke-width='4'/%3E%3Cpath d='M60 25 L95 60 L60 95 L25 60 Z' fill='none' stroke='%23d4af37' stroke-width='2'/%3E%3Ctext x='60' y='76' font-family='Georgia, serif' font-size='42' font-style='italic' font-weight='bold' fill='%23d4af37' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E";
+    const logoTech = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpolygon points='60,10 105,35 105,85 60,110 15,85 15,35' fill='none' stroke='%230ea5e9' stroke-width='5'/%3E%3Cpolygon points='60,30 85,45 85,75 60,90 35,75 35,45' fill='%230ea5e9'/%3E%3Ccircle cx='60' cy='60' r='8' fill='%23ffffff'/%3E%3C/svg%3E";
+    const logoFood = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='50' fill='none' stroke='%23ffffff' stroke-width='3'/%3E%3Cpath d='M60 25 C 85 25, 90 55, 60 85 C 30 55, 35 25, 60 25 Z' fill='%23ea580c'/%3E%3Ccircle cx='60' cy='45' r='5' fill='%23ffffff'/%3E%3C/svg%3E";
+    const logoArch = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect x='25' y='25' width='40' height='70' fill='none' stroke='%231e293b' stroke-width='8'/%3E%3Crect x='55' y='50' width='40' height='45' fill='none' stroke='%231e293b' stroke-width='8'/%3E%3Cline x1='15' y1='25' x2='105' y2='25' stroke='%231e293b' stroke-width='8'/%3E%3C/svg%3E";
+
+    const showroomProfiles = [
+        {
+            m: 'mat-pvc-noir', 
+            l: logoImmo, 
+            n: 'Sophie Martin', 
+            j: 'Agence Immo Prestige', 
+            s: 'L\'excellence immobilière', 
+            b: 'Je vous accompagne dans vos projets d\'exception. Vente et conseil en immobilier de luxe.', 
+            a: 'https://randomuser.me/api/portraits/women/68.jpg', 
+            ban: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=400&q=80',
+            ui: { bg: '#111111', text: '#ffffff', mut: '#a1a1aa', accent: '#d4af37' } 
+        },
+        {
+            m: 'mat-metal-noir', 
+            l: logoTech, 
+            n: 'Alexandre Chen', 
+            j: 'TechNova Solutions', 
+            s: 'Innovating the digital future', 
+            b: 'Création d\'applications web et mobiles performantes pour propulser votre entreprise vers l\'avenir.', 
+            a: 'https://randomuser.me/api/portraits/men/44.jpg', 
+            ban: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=400&q=80',
+            ui: { bg: '#0f172a', text: '#e2e8f0', mut: '#94a3b8', accent: '#0ea5e9' } 
+        },
+        {
+            m: 'mat-bois-walnut', 
+            l: logoFood, 
+            n: 'Chef Julien', 
+            j: 'Le Gastronome', 
+            s: 'Une explosion de saveurs', 
+            b: 'Cuisine gastronomique française, produits de saison et créativité sans limite. Réservez votre table.', 
+            a: 'https://randomuser.me/api/portraits/men/32.jpg', 
+            ban: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=400&q=80',
+            ui: { bg: '#fff7ed', text: '#431407', mut: '#9a3412', accent: '#ea580c' } 
+        },
+        {
+            m: 'mat-pvc-blanc', 
+            l: logoArch, 
+            n: 'Lucas Dubois', 
+            j: 'Studio Architexture', 
+            s: 'L\'espace qui vous ressemble', 
+            b: 'Spécialiste en rénovation haut de gamme et design d\'intérieur moderne et minimaliste.', 
+            a: 'https://randomuser.me/api/portraits/men/52.jpg', 
+            ban: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=400&q=80',
+            ui: { bg: '#ffffff', text: '#0f172a', mut: '#64748b', accent: '#1e293b' } 
+        }
+    ];
+
+    function applyMove() {
+        settings.x = document.getElementById('rx').value; settings.y = document.getElementById('ry').value; settings.s = document.getElementById('rs').value;
+        document.getElementById('lx').innerText = settings.x; document.getElementById('ly').innerText = settings.y; document.getElementById('ls').innerText = settings.s + "%";
+        document.getElementById('p-logo-img').style.transform = `translate(calc(-50% + ${settings.x}px), calc(-50% + ${settings.y}px)) scale(${settings.s/100})`;
+        document.querySelectorAll('input[type="range"]').forEach(el => {
+            const val = (el.value - el.min) / (el.max - el.min) * 100;
+            el.style.background = `linear-gradient(to right, var(--blue-main) ${val}%, #cbd5e1 ${val}%)`;
+        });
+    }
+
+    function loadCat(c, btn) {
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+        const grid = document.getElementById('mat-grid'); grid.innerHTML = '';
+        mats[c].forEach((m, i) => {
+            const item = document.createElement('div'); item.className = 'mat-item' + (i===0?' active':'');
+            item.innerHTML = `<div class="mat-dot ${m.id}"></div><span>${m.n}</span>`;
+            item.onclick = () => { document.querySelectorAll('.mat-item').forEach(x => x.classList.remove('active')); item.classList.add('active'); applyStyle(m.id, m.p); };
+            grid.appendChild(item); if(i===0) applyStyle(m.id, m.p);
+        });
+    }
+
+    function applyStyle(id, p) {
+        document.getElementById('hidden-mat').value = id;
+        document.getElementById('f-recto').className = 'card-face face-front ' + id;
+        document.getElementById('f-verso').className = 'card-face face-back ' + id;
+        document.getElementById('total-p').innerText = p.toFixed(2) + " €";
+        const isLight = (id.includes('blanc') || id.includes('argent') || id.includes('birch') || id.includes('jaune'));
+        const color = isLight ? '#111' : '#fff';
+        ['v-name', 'v-company', 'v-slogan'].forEach(t => document.getElementById(t).style.color = color);
+    }
+
+    let lastTime = 0; let currentRot = 0; let lastEdge = 0; let sIdx = 0; const ROTATION_SPEED = 70;
+
+    function updateMobile(idx) {
+        const data = showroomProfiles[idx];
+        document.getElementById('ui-top-logo').src = data.l;
+        document.getElementById('ui-avatar').src = data.a;
+        document.getElementById('ui-banner').src = data.ban;
+        document.getElementById('ui-name').innerText = data.n;
+        document.getElementById('ui-job').innerText = data.j;
+        document.getElementById('ui-btn-txt').innerText = "Se connecter avec " + data.n.split(' ')[0];
+        document.getElementById('ui-bio').innerText = data.b;
+
+        const screen = document.getElementById('ui-screen');
+        screen.style.setProperty('--ui-bg', data.ui.bg);
+        screen.style.setProperty('--ui-text', data.ui.text);
+        screen.style.setProperty('--ui-mut', data.ui.mut);
+        screen.style.setProperty('--ui-accent', data.ui.accent);
+        
+        document.getElementById('showroom-stage').style.setProperty('--accent', data.ui.accent);
+    }
+
+    function updateFrontCard(idx) {
+        const data = showroomProfiles[idx];
+        document.getElementById('s-front').className = 'showroom-face showroom-front ' + data.m;
+        document.getElementById('s-img').src = data.l;
+    }
+
+    function updateBackCard(idx) {
+        const data = showroomProfiles[idx];
+        document.getElementById('s-back').className = 'showroom-face showroom-back ' + data.m;
+        const isLight = data.m.includes('blanc') || data.m.includes('argent') || data.m.includes('birch') || data.m.includes('jaune');
+        const tCol = isLight ? '#111' : '#fff';
+        document.getElementById('s-back').innerHTML = `
+            <div style="color:${tCol}; text-align:center; width:100%; pointer-events:none; padding:20px;">
+                <div class="s-v-name">${data.n}</div>
+                <div class="s-v-company">${data.j}</div>
+                <div class="s-v-slogan">${data.s}</div>
+            </div>
+        `;
+    }
+
+    updateFrontCard(0); updateBackCard(0); updateMobile(0);
+
+    function animateCard(time) {
+        if (!lastTime) lastTime = time;
+        const deltaTime = (time - lastTime) / 1000;
+        lastTime = time;
+
+        currentRot += ROTATION_SPEED * deltaTime;
+        document.getElementById('showroom-inner').style.transform = `rotateY(${currentRot}deg)`;
+
+        let currentEdge = Math.floor((currentRot + 90) / 180);
+        
+        if (currentEdge > lastEdge) {
+            lastEdge = currentEdge;
+            if (currentEdge % 2 === 1) {
+                updateBackCard(sIdx);
+            } else {
+                sIdx = (sIdx + 1) % showroomProfiles.length;
+                updateFrontCard(sIdx);
+                updateMobile(sIdx);
+            }
+        }
+        requestAnimationFrame(animateCard);
+    }
+    
+    requestAnimationFrame(animateCard);
+
+    function handleLogo(i) {
+        if (i.files && i.files[0]) {
+            const r = new FileReader(); r.onload = e => {
+                document.getElementById('p-logo-img').src = e.target.result;
+                document.getElementById('p-logo-img').style.display = 'block';
+                document.getElementById('txt-empty').style.display = 'none';
+                document.getElementById('upload-txt').innerText = "Logo chargé avec succès !";
+            }; r.readAsDataURL(i.files[0]);
+        }
+    }
+
+    function upTxt(id, v, d) { document.getElementById(id).innerText = v || d; }
+    function togglePal(id) { document.querySelectorAll('.color-popover').forEach(p => p.classList.toggle('open', p.id === id && !p.classList.contains('open'))); }
+
+    function setupColorPickers() {
+        ['pal-nom', 'pal-ent', 'pal-slo'].forEach((id, idx) => {
+            const pop = document.getElementById(id); const target = ['v-name', 'v-company', 'v-slogan'][idx];
+            luxuryColors.forEach(c => {
+                const s = document.createElement('div'); s.className = 'swatch'; s.style.background = c;
+                s.onclick = () => { document.getElementById(target).style.color = c; pop.classList.remove('open'); };
+                pop.appendChild(s);
+            });
+        });
+    }
+
+    applyMove();
+    loadCat('pvc', document.querySelector('.cat-btn'));
+    setupColorPickers();
+</script>
+
+</body>
+</html>
