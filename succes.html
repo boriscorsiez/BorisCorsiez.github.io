@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Studio NFC - Configuration Profil | KingDream Digital</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Inter:wght@300;400;500;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { 
+            /* COULEURS OFFICIELLES KINGDREAM */
+            --blue-main: #0057FF; 
+            --blue-dark: #0036A3; 
+            --blue-light: #4285F4; 
+            --yellow: #FCD34D; 
+            --white: #ffffff; 
+            --bg-light: #f8faff; 
+            --text-dark: #0f172a; 
+            --text-muted: #475569; 
+            --border-color: #e2e8f0;
+            --phone-bg: #f8fafc; 
+            --nav-h: 75px;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background: var(--bg-light); color: var(--text-dark); font-family: 'Nunito', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; padding-top: var(--nav-h); }
+
+        /* NAVBAR OFFICIELLE (Avec bouton retour) */
+        nav#navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: var(--white); padding: 0 5%; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        .nav-logo-link { position: relative; display: flex; align-items: center; width: 180px; height: var(--nav-h); text-decoration: none; z-index: 50; }
+        .nav-logo-link img { position: absolute; width: 100%; top: 50%; left: 0; transform: translateY(-40%) scale(2.2); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); pointer-events: none; }
+        .nav-back-btn { font-weight: 800; font-size: 0.9rem; color: var(--blue-main); text-decoration: none; border: 2px solid var(--blue-main); padding: 8px 20px; border-radius: 50px; transition: 0.3s; background: transparent; display: flex; align-items: center; gap: 8px; }
+        .nav-back-btn:hover { background: var(--blue-main); color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,87,255,0.2); }
+
+        /* HEADER DE SUCCES (DESIGN KINGDREAM OFFICIEL) */
+        .success-header { background: linear-gradient(160deg, var(--blue-main) 0%, var(--blue-dark) 100%); padding: 60px 20px; text-align: center; margin-bottom: 50px; color: var(--white); position: relative; overflow: hidden; }
+        .success-header::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 30px; background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z" fill="%23f8faff"/></svg>') no-repeat bottom; background-size: cover; z-index: 1; pointer-events: none; }
+        .success-header-inner { position: relative; z-index: 2; }
+        .success-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 24px; border-radius: 50px; font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+        .success-header h1 { font-family: 'Fredoka One'; font-size: 2.8rem; color: var(--yellow); margin-bottom: 15px; text-shadow: 0 4px 15px rgba(0,0,0,0.2); line-height: 1.1; }
+        .success-header p { font-size: 1.1rem; font-weight: 600; color: rgba(255,255,255,0.9); max-width: 700px; margin: 0 auto; line-height: 1.6; }
+
+        /* LAYOUT PRINCIPAL */
+        .studio-wrapper { max-width: 1300px; margin: 0 auto 100px; padding: 0 20px; display: grid; grid-template-columns: 380px 1fr; gap: 50px; align-items: start; }
+
+        /* PREVIEW TELEPHONE (GAUCHE) */
+        .phone-container { position: sticky; top: calc(var(--nav-h) + 30px); display: flex; justify-content: center; }
+        .phone-frame { width: 350px; height: 720px; background: #1a1a1a; border-radius: 50px; padding: 14px; border: 8px solid #333; box-shadow: 0 30px 60px rgba(0,0,0,0.2); position: relative; }
+        .phone-notch { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 120px; height: 25px; background: #333; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; z-index: 10; }
+        
+        /* ECRAN DU TELEPHONE */
+        .phone-screen { --ui-accent: #0057FF; background: var(--phone-bg); width: 100%; height: 100%; border-radius: 36px; overflow-y: auto; scrollbar-width: none; position: relative; display: flex; flex-direction: column; align-items: center; transition: background 0.5s ease; background-position: center; }
+        .phone-screen::-webkit-scrollbar { display: none; }
+        
+        /* ADAPTATION THEME SOMBRE */
+        .phone-screen.dark-mode .ui-name, .phone-screen.dark-mode .ui-job, .phone-screen.dark-mode .ui-bio, .phone-screen.dark-mode .ui-footer { color: #ffffff !important; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
+        .phone-screen.dark-mode .ui-app-label { color: #f8fafc !important; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
+        .phone-screen.dark-mode .ui-avatar { border-color: rgba(255,255,255,0.2); }
+        
+        /* BANNIERE LOGO & AVATAR */
+        .pv-banner-container { width: 100%; height: 160px; background: rgba(255,255,255,0.7); padding-top: 35px; display: flex; align-items: center; justify-content: center; display: none; backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.4); }
+        .pv-banner-logo { max-width: 80%; max-height: 80px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
+        
+        .ui-avatar-container { margin-top: 40px; width: 100%; text-align: center; position: relative; z-index: 2; transition: margin-top 0.3s; }
+        .ui-avatar { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 5px solid rgba(255,255,255,0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: #ccc; transition: border-color 0.4s ease; }
+        
+        .phone-content { width: 100%; padding: 0 20px 30px; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 5; }
+        .ui-name { font-family: 'Fredoka One'; font-size: 1.4rem; color: #1e293b; margin-bottom: 2px; text-align: center; margin-top: 10px; transition: color 0.4s; }
+        .ui-job { font-size: 0.85rem; font-weight: 800; color: #475569; margin-bottom: 20px; text-align: center; transition: color 0.4s; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .ui-btn { background: var(--ui-accent); color: white; width: 100%; padding: 14px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); margin-bottom: 20px; transition: background 0.3s; }
+        .ui-btn svg { width: 22px; height: 22px; fill: white; }
+        
+        .ui-bio { text-align: center; font-size: 0.85rem; color: #475569; font-weight: 600; line-height: 1.6; margin-bottom: 25px; width: 100%; transition: color 0.4s; }
+        
+        /* GRILLE APPS */
+        .ui-links-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px 12px; width: 100%; margin-bottom: 25px; }
+        .ui-app { display: flex; flex-direction: column; align-items: center; gap: 8px; display: none; }
+        .ui-app.active { display: flex; }
+        .ui-icon { width: 55px; height: 55px; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 15px rgba(0,0,0,0.1); background: white; }
+        .ui-icon svg { width: 30px; height: 30px; fill: white; }
+        .ui-app-label { font-size: 0.65rem; font-weight: 800; color: #334155; text-align: center; overflow: hidden; text-overflow: ellipsis; width: 100%; white-space: nowrap; transition: color 0.4s; }
+
+        /* DEGRADES D'APPLICATIONS */
+        .bg-tel { background: linear-gradient(135deg, #4ade80, #22c55e); }
+        .bg-mail { background: linear-gradient(135deg, #38bdf8, #0ea5e9); }
+        .bg-insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .bg-web { background: white; border: 2px solid #e2e8f0; } .bg-web svg { fill: var(--ui-accent); width: 30px; height: 30px; }
+        .bg-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); }
+        .bg-linkedin { background: linear-gradient(135deg, #0077b5, #005582); }
+        .bg-facebook { background: linear-gradient(135deg, #1877F2, #0d5cbf); }
+        .bg-tiktok { background: #000; }
+        .bg-youtube { background: linear-gradient(135deg, #FF0000, #cc0000); }
+        .bg-calendly { background: linear-gradient(135deg, #006BFF, #004ecc); }
+
+        /* APERCU SITE WEB EN GRAND */
+        .visual-links-container { width: 100%; display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        .ui-featured-web { width: 100%; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.08); display: none; border: 2px solid white; text-decoration: none; position: relative; }
+        .ui-featured-web img { width: 100%; height: 160px; object-fit: cover; object-position: top; display: block; border-bottom: 1px solid #f1f5f9; background: #e2e8f0; }
+        .ui-featured-web-title { padding: 12px; font-size: 0.85rem; font-weight: 800; color: #1e293b; text-align: center; display: none; } 
+
+        .ui-footer { margin-top: auto; text-align: center; font-size: 0.65rem; color: #94a3b8; font-weight: 700; padding-top: 20px; transition: color 0.4s; }
+        .ui-footer strong { color: #475569; font-size: 0.75rem; display: block; margin: 4px 0; font-family: 'Fredoka One'; transition: color 0.4s; }
+
+        /* FORMULAIRE (DROITE) */
+        .config-box { background: white; border-radius: 24px; padding: 40px; box-shadow: 0 20px 60px rgba(0,87,255,0.05); border: 1px solid var(--border-color); }
+        .step-title { font-family: 'Fredoka One'; font-size: 1.3rem; color: var(--blue-dark); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-light); display: flex; align-items: center; gap: 10px; margin-top: 40px; }
+        .step-title:first-child { margin-top: 0; }
+        .step-title span { background: var(--yellow); color: #000; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-family: 'Nunito', sans-serif; font-weight: 900; }
+        .subtitle { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px; font-weight: 700; line-height: 1.5; }
+        
+        .input-group { margin-bottom: 20px; width: 100%; }
+        .input-group label { display: block; font-size: 0.85rem; font-weight: 800; color: var(--text-dark); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .input-group input, .input-group textarea { width: 100%; padding: 14px 18px; border: 2px solid var(--border-color); border-radius: 12px; font-weight: 700; background: var(--bg-light); font-size: 1rem; color: var(--text-dark); outline: none; transition: 0.3s; font-family: inherit; }
+        .input-group input:focus, .input-group textarea:focus { border-color: var(--blue-main); background: white; box-shadow: 0 0 0 4px rgba(0,87,255,0.1); }
+        .input-group textarea { resize: vertical; min-height: 90px; }
+
+        /* CHECKBOX TITLE */
+        .checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 800; color: var(--text-dark); cursor: pointer; margin-top: 10px; }
+        .checkbox-label input { width: 18px; height: 18px; accent-color: var(--blue-main); cursor: pointer; }
+
+        /* UPLOADS & LOGO STATUS */
+        .logo-success-status, .avatar-success-status { display: none; background: #ecfdf5; border: 2px solid #34d399; color: #065f46; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-weight: 800; font-size: 0.9rem; align-items: center; gap: 10px; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* BOUTON MAGIQUE HARMONISATION IA */
+        .magic-theme-btn { display: none; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #0057FF, #8b5cf6); color: white; border: none; padding: 15px; border-radius: 12px; font-family: 'Fredoka One'; font-size: 1.1rem; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 25px rgba(0,87,255,0.3); margin-bottom: 20px; }
+        .magic-theme-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0,87,255,0.4); }
+
+        .file-upload-wrapper { position: relative; width: 100%; padding: 25px; border: 2px dashed #cbd5e1; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; color: var(--text-muted); font-weight: 800; cursor: pointer; transition: 0.3s; margin-bottom: 10px; text-align: center; }
+        .file-upload-wrapper:hover { background: #f1f5f9; border-color: var(--blue-main); color: var(--blue-main); }
+        .file-upload-wrapper input[type="file"] { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+
+        /* PALETTES (Boutons et Fonds) */
+        .color-picker, .bg-picker { display: flex; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+        .color-dot, .bg-swatch { width: 38px; height: 38px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .color-dot.active, .bg-swatch.active { transform: scale(1.15); border-color: var(--text-dark); }
+        .bg-swatch { border-radius: 12px; width: 45px; height: 45px; }
+
+        /* RESEAUX EN 2 COLONNES */
+        .social-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
+        .social-item { background: #f8fafc; border: 2px solid var(--border-color); border-radius: 12px; padding: 15px; transition: 0.3s; }
+        .social-item.active { border-color: var(--blue-main); background: white; box-shadow: 0 10px 20px rgba(0,87,255,0.05); }
+        .social-header { display: flex; align-items: center; cursor: pointer; font-weight: 800; color: var(--text-dark); font-size: 0.85rem; gap: 10px; }
+        .social-header input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--blue-main); flex-shrink: 0; }
+        .social-input-container { display: none; margin-top: 15px; }
+        .social-item.active .social-input-container { display: block; }
+        
+        .social-icon-preview { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.05); flex-shrink: 0; }
+        .social-icon-preview svg { width: 18px; height: 18px; fill: white; }
+
+        /* Blocs Liens Visuels (Etape 4) */
+        .visual-link-box { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 15px; transition: 0.3s; }
+        .visual-link-box:focus-within { border-color: var(--blue-main); background: white; }
+        .visual-title-input { display: none; margin-top: 10px; }
+
+        /* BOUTON SOUMISSION & ASSISTANCE */
+        .submit-btn { width: 100%; padding: 20px; background: var(--yellow); color: #000; font-family: 'Fredoka One'; font-size: 1.3rem; border-radius: 50px; border: none; cursor: pointer; box-shadow: 0 10px 30px rgba(252, 211, 77, 0.4); margin-top: 30px; transition: 0.3s; }
+        .submit-btn:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(252, 211, 77, 0.6); }
+        
+        .support-text { font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-top: 15px; font-weight: 600; line-height: 1.5; }
+        .support-text a { color: var(--blue-main); font-weight: 800; text-decoration: none; }
+        .support-text a:hover { text-decoration: underline; }
+
+        /* FOOTER OFFICIEL */
+        footer { background:var(--blue-main); color:white; padding:50px 5% 100px; text-align:center; position: relative; z-index: 10; border-top: none; }
+        .footer-logo-wrap { display:flex; align-items:center; justify-content:center; margin-bottom:30px; height:120px; }
+        .footer-logo-wrap img { height:100%; width:auto; object-fit:contain; transform: scale(2.2); filter: drop-shadow(0 0 20px rgba(255,255,255,0.4)) brightness(1.3); }
+        .footer-tagline { color:var(--white); font-size:.85rem; font-weight:800; letter-spacing:2px; text-transform:uppercase; margin-bottom:28px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .instagram-link { display:inline-flex; justify-content:center; align-items:center; margin:0 auto 22px; color:white; transition:transform .3s cubic-bezier(0.34,1.56,0.64,1),color .3s; background:linear-gradient(45deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); padding:12px; border-radius:14px; box-shadow:0 4px 15px rgba(220,39,67,.3); z-index:20; cursor:pointer; text-decoration:none; }
+        .instagram-link:hover { transform:scale(1.15) rotate(5deg); box-shadow:0 8px 25px rgba(220,39,67,.6); color:white; }
+        .footer-links { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-bottom:22px; }
+        .footer-links a { color:var(--white); text-decoration:none; font-size:.88rem; font-weight:800; transition:.2s; }
+        .footer-links a:hover { color:var(--yellow); }
+        .footer-copy { font-size:.75rem; color:rgba(255,255,255,0.8); font-weight:800; letter-spacing:1px; }
+
+        @media(max-width: 950px) {
+            .studio-wrapper { grid-template-columns: 1fr; flex-direction: column-reverse; display: flex; }
+            .phone-container { position: relative; top: 0; margin-bottom: 30px; }
+            .social-grid { grid-template-columns: 1fr; }
+            .config-box { padding: 30px 20px; }
+            nav#navbar .nav-logo-link img { transform: translateY(-50%) scale(1.6); }
+            .nav-back-btn span { display: none; } /* Cache le texte "Retour au site" sur mobile pour garder la place */
+            .success-header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR ÉPURÉE AVEC BOUTON RETOUR -->
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo-link" aria-label="KingDream Digital - Accueil">
+            <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream Digital Logo">
+        </a>
+        <a href="index.html" class="nav-back-btn">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <span>Retour au site</span>
+        </a>
+    </nav>
+
+    <!-- EN TÊTE FÉLICITATIONS (BLEU KINGDREAM) -->
+    <div class="success-header">
+        <div class="success-header-inner">
+            <div class="success-badge">Commande Confirmée ✅</div>
+            <h1>Félicitations pour votre commande ! 🎉</h1>
+            <p>Votre carte physique NFC est actuellement en cours de fabrication dans nos ateliers.<br>D'ici sa livraison, vous pouvez <strong>dès à présent configurer le profil digital</strong> qui s'affichera sur les téléphones de vos futurs clients !</p>
+        </div>
+    </div>
+
+    <main class="studio-wrapper">
+        
+        <!-- TELEPHONE (PREVIEW) -->
+        <div class="phone-container">
+            <div class="phone-frame">
+                <div class="phone-notch"></div>
+                <div class="phone-screen" id="preview-screen">
+                    
+                    <!-- BANNIERE LOGO -->
+                    <div class="pv-banner-container" id="pv-banner-container">
+                        <img src="" alt="Logo" class="pv-banner-logo" id="pv-banner-logo">
+                    </div>
+                    
+                    <!-- AVATAR -->
+                    <div class="ui-avatar-container" id="ui-avatar-container">
+                        <img src="https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg" alt="Avatar" class="ui-avatar" id="pv-avatar">
+                    </div>
+                    
+                    <div class="phone-content">
+                        <!-- TEXTES -->
+                        <div class="ui-name" id="pv-name">Prénom Nom</div>
+                        <div class="ui-job" id="pv-job">Votre Poste & Entreprise</div>
+                        
+                        <!-- BOUTON CONNEXION -->
+                        <div class="ui-btn" id="pv-btn">
+                            <svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            <span id="pv-btn-text">Se connecter avec moi</span>
+                        </div>
+                        
+                        <div class="ui-bio" id="pv-bio">Votre biographie ou votre texte de présentation apparaîtra ici.</div>
+                        
+                        <!-- GRILLE APPS -->
+                        <div class="ui-links-grid">
+                            <div class="ui-app" id="app-web"><div class="ui-icon bg-web"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div><span class="ui-app-label">Site Web</span></div>
+                            <div class="ui-app" id="app-tel"><div class="ui-icon bg-tel"><svg viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg></div><span class="ui-app-label">Téléphone</span></div>
+                            <div class="ui-app" id="app-mail"><div class="ui-icon bg-mail"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div><span class="ui-app-label">Email</span></div>
+                            <div class="ui-app" id="app-insta"><div class="ui-icon bg-insta"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg></div><span class="ui-app-label">Instagram</span></div>
+                            <div class="ui-app" id="app-whatsapp"><div class="ui-icon bg-whatsapp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></div><span class="ui-app-label">WhatsApp</span></div>
+                            <div class="ui-app" id="app-linkedin"><div class="ui-icon bg-linkedin"><svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-1.85 0-2.56 1.05-2.96 1.68V10h-2.6v8.5h2.6v-4.73c0-1.25.25-2.46 1.8-2.46 1.51 0 1.54 1.43 1.54 2.54v4.65h2.58M7.66 8.56c-.9 0-1.61-.73-1.61-1.61 0-.9.71-1.62 1.61-1.62.88 0 1.61.72 1.61 1.62 0 .88-.73 1.61-1.61 1.61M6.36 18.5h2.6V10h-2.6v8.5z"/></svg></div><span class="ui-app-label">LinkedIn</span></div>
+                            <div class="ui-app" id="app-facebook"><div class="ui-icon bg-facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div><span class="ui-app-label">Facebook</span></div>
+                            <div class="ui-app" id="app-tiktok"><div class="ui-icon bg-tiktok"><svg viewBox="0 0 24 24"><path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 3.06-1.54 6.08-4.02 7.91-2.58 1.9-6.2 2.37-9.08 1.24-2.81-1.11-4.9-3.69-5.27-6.66-.4-3.14.73-6.4 2.87-8.58 2.08-2.12 5.16-3.11 8.08-2.61v4.13c-1.37-.2-2.73-.02-3.95.53-1.23.54-2.22 1.58-2.74 2.81-.54 1.27-.55 2.72-.05 3.99.49 1.25 1.56 2.21 2.82 2.65 1.25.43 2.64.29 3.8-.35 1.15-.63 1.98-1.74 2.22-3.03.11-.6.1-1.2.1-1.8V.02z"/></svg></div><span class="ui-app-label">TikTok</span></div>
+                            <div class="ui-app" id="app-youtube"><div class="ui-icon bg-youtube"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM9.5 15.5v-7l6.5 3.5-6.5 3.5z"/></svg></div><span class="ui-app-label">YouTube</span></div>
+                            <div class="ui-app" id="app-calendly"><div class="ui-icon bg-calendly"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg></div><span class="ui-app-label">RDV</span></div>
+                        </div>
+
+                        <!-- 3 CARTES APERCU WEB -->
+                        <div class="visual-links-container">
+                            <div class="ui-featured-web" id="preview-card-1">
+                                <img src="" id="preview-img-1" alt="Aperçu Site 1">
+                                <div class="ui-featured-web-title" id="preview-title-1">Titre de mon site</div>
+                            </div>
+                            <div class="ui-featured-web" id="preview-card-2">
+                                <img src="" id="preview-img-2" alt="Aperçu Site 2">
+                                <div class="ui-featured-web-title" id="preview-title-2">Titre de mon site</div>
+                            </div>
+                            <div class="ui-featured-web" id="preview-card-3">
+                                <img src="" id="preview-img-3" alt="Aperçu Site 3">
+                                <div class="ui-featured-web-title" id="preview-title-3">Titre de mon site</div>
+                            </div>
+                        </div>
+
+                        <div class="ui-footer">
+                            Carte de visite digitale créée par
+                            <strong>KingDream Digital</strong>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- FORMULAIRE (DROITE) -->
+        <div class="config-box">
+            <form id="digital-form" action="https://formsubmit.co/Contact@kingdream.fr" method="POST" enctype="multipart/form-data">
+                
+                <input type="hidden" name="_subject" value="Nouveau Profil Digital NFC !">
+                <input type="hidden" name="Couleur_Bouton" id="hidden-color" value="#0057FF">
+                <input type="hidden" name="Couleur_Fond" id="hidden-bg" value="#f8fafc">
+                <textarea name="Logo_Entreprise_Base64" id="hidden-logo-data" style="display:none;"></textarea>
+
+                <h2 class="step-title"><span>1</span> Base & Design</h2>
+
+                <!-- BOX SUCCES LOGO -->
+                <div class="logo-success-status" id="logo-success-status">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    <span>Logo de votre entreprise importé avec succès !</span>
+                </div>
+
+                <!-- BOUTON IA LOGO -->
+                <button type="button" class="magic-theme-btn" id="magic-theme-btn" onclick="applyLogoTheme()">
+                    ✨ Harmoniser les couleurs avec mon logo
+                </button>
+                
+                <div class="file-upload-wrapper">
+                    <span style="font-size:1.1rem; margin-bottom:5px;">📸 Votre Photo de Profil</span>
+                    <span style="font-size:0.8rem;">S'affichera dans le cercle central</span>
+                    <input type="file" name="Avatar" accept="image/*" onchange="previewImage(this, 'pv-avatar')">
+                </div>
+
+                <!-- BOX SUCCES PHOTO DE PROFIL -->
+                <div class="avatar-success-status" id="avatar-success-status" style="margin-bottom: 20px; display: none;">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    <span>Photo de profil bien importée !</span>
+                </div>
+
+                <!-- CHOIX DU FOND -->
+                <div class="input-group">
+                    <label>Couleur / Thème du fond d'écran</label>
+                    <div class="bg-picker" id="bg-picker-container">
+                        <div class="bg-swatch active" style="background: #f8fafc;" onclick="setPhoneBg('#f8fafc', false, this)"></div>
+                        <div class="bg-swatch" style="background: #e2e8f0;" onclick="setPhoneBg('#e2e8f0', false, this)"></div>
+                        <div class="bg-swatch" style="background: #1e293b;" onclick="setPhoneBg('#1e293b', true, this)"></div>
+                        <div class="bg-swatch" style="background: #000000;" onclick="setPhoneBg('#000000', true, this)"></div>
+                        <div class="bg-swatch" style="background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);" onclick="setPhoneBg('linear-gradient(135deg, #fdfbfb, #ebedee)', false, this)"></div>
+                        <div class="bg-swatch" style="background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);" onclick="setPhoneBg('linear-gradient(135deg, #f6d365, #fda085)', false, this)"></div>
+                        <div class="bg-swatch" style="background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);" onclick="setPhoneBg('linear-gradient(135deg, #84fab0, #8fd3f4)', false, this)"></div>
+                        <div class="bg-swatch" style="background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);" onclick="setPhoneBg('linear-gradient(135deg, #a18cd1, #fbc2eb)', false, this)"></div>
+                        <div class="bg-swatch" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);" onclick="setPhoneBg('linear-gradient(135deg, #1e3c72, #2a5298)', true, this)"></div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Couleur principale de vos boutons</label>
+                    <div class="color-picker">
+                        <div class="color-dot active" style="background: #0057FF;" onclick="setColor('#0057FF', this)"></div>
+                        <div class="color-dot" style="background: #10b981;" onclick="setColor('#10b981', this)"></div>
+                        <div class="color-dot" style="background: #f43f5e;" onclick="setColor('#f43f5e', this)"></div>
+                        <div class="color-dot" style="background: #f97316;" onclick="setColor('#f97316', this)"></div>
+                        <div class="color-dot" style="background: #8b5cf6;" onclick="setColor('#8b5cf6', this)"></div>
+                        <div class="color-dot" style="background: #eab308;" onclick="setColor('#eab308', this)"></div>
+                        <div class="color-dot" style="background: #0f172a;" onclick="setColor('#0f172a', this)"></div>
+                        <div class="color-dot" style="background: #d4af37;" onclick="setColor('#d4af37', this)"></div>
+                        <div class="color-dot" style="background: #14b8a6;" onclick="setColor('#14b8a6', this)"></div>
+                        <div class="color-dot" style="background: #ec4899;" onclick="setColor('#ec4899', this)"></div>
+                        <div class="color-dot" style="background: #64748b;" onclick="setColor('#64748b', this)"></div>
+                        <div class="color-dot" style="background: #000000;" onclick="setColor('#000000', this)"></div>
+                    </div>
+                </div>
+
+                <h2 class="step-title"><span>2</span> Textes de présentation</h2>
+                
+                <div class="input-group">
+                    <label>Prénom & Nom</label>
+                    <input type="text" name="Nom_Complet" placeholder="Ex: Jean Dupont" required oninput="updateName(this.value)">
+                </div>
+                <div class="input-group">
+                    <label>Poste / Entreprise</label>
+                    <input type="text" name="Poste" placeholder="Ex: CEO chez MonEntreprise" required oninput="updateText('pv-job', this.value, 'Votre Poste & Entreprise')">
+                </div>
+                <div class="input-group">
+                    <label>Courte Biographie / Accroche</label>
+                    <textarea name="Biographie" placeholder="Créateur passionné, développement & solutions..." oninput="updateText('pv-bio', this.value, 'Votre biographie ou votre texte de présentation apparaîtra ici.')"></textarea>
+                </div>
+
+                <h2 class="step-title"><span>3</span> Réseaux & Contacts (Cochez)</h2>
+                
+                <div class="social-grid">
+                    
+                    <!-- LIEN EXTERNE BOUSSOLE -->
+                    <div class="social-item">
+                        <label class="social-header">
+                            <input type="checkbox" onchange="toggleSocialBox(this)">
+                            <div class="social-icon-preview bg-web" style="border:1px solid #ccc;"><svg viewBox="0 0 24 24" style="fill:var(--blue-main); width:18px; height:18px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+                            Lien (Bouton Web)
+                        </label>
+                        <div class="social-input-container">
+                            <input type="url" name="Lien_Web_Bouton" style="width:100%; padding:10px; border-radius:8px; border:2px solid var(--border-color); margin-bottom:8px;" placeholder="https://..." oninput="toggleApp('app-web', this.value)">
+                            <input type="text" name="Lien_Web_Nom" style="width:100%; padding:10px; border-radius:8px; border:2px solid var(--border-color);" placeholder="Nom (Ex: Kingdream)" oninput="updateAppLabel('app-web', this.value, 'Site Web')">
+                        </div>
+                    </div>
+
+                    <!-- APPEL -->
+                    <div class="social-item">
+                        <label class="social-header">
+                            <input type="checkbox" onchange="toggleSocialBox(this)">
+                            <div class="social-icon-preview bg-tel"><svg viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg></div>
+                            Téléphone
+                        </label>
+                        <div class="social-input-container">
+                            <input type="tel" name="Telephone" style="width:100%; padding:10px; border-radius:8px; border:2px solid var(--border-color);" placeholder="+33 6..." oninput="toggleApp('app-tel', this.value)">
+                        </div>
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div class="social-item">
+                        <label class="social-header">
+                            <input type="checkbox" onchange="toggleSocialBox(this)">
+                            <div class="social-icon-preview bg-mail"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+                            Email
+                        </label>
+                        <div class="social-input-container">
+                            <input type="email" name="Email" style="width:100%; padding:10px; border-radius:8px; border:2px solid var(--border-color);" placeholder="contact@..." oninput="toggleApp('app-mail', this.value)">
+                        </div>
+                    </div>
+
+                    <!-- INSTAGRAM -->
+                    <div class="social-item">
+                        <label class="social-header">
+                            <input type="checkbox" onchange="toggleSocialBox(this)">
+                            <div class="social-icon-preview bg-insta"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg></div>
+                            Instagram
+                        </label>
+                        <div class="social-input-container">
+                            <input type="text" name="Instagram" style="width:100%; padding:10px; border-radius:8px; border:2px solid var(--border-color);" placeholder="@pseudo" oninput="toggleApp('app-insta', this.value)">
+                        </div>
+                    </div>
+
+                    <!-- WHATSAPP -->
+                    <div class="social-item">
+                        <label class="social-header">
+                            <input type="checkbox" onchange="toggleSocialBox(this)">
+                            <div class="social-icon-preview bg-whatsapp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></div>
+                            WhatsApp
+                        </label>
+                        <div class="social-input-container">
+                            <input type="text" name="WhatsApp" style="width:100%; padding:10px; border-radius:8px; border:2px solid var(--border-color);" placeholder="Numéro" oninput="toggleApp('app-whatsapp', this.value)">
+                        </div>
+                    </div>
+
+                    <!-- LINKEDIN -->
+                    <div class="social-item">
+                        <label class="social-header">
+                            <input type="checkbox" onchange="toggleSocialBox(this)">
+                            <div class="social-icon-preview bg-linkedin"><svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-1.85 0-2.56 1.05-2.96 1.68V10h-2.6v8.5h2.6v-4.73c0-1.25.25-2.46 1.8-2.46 1.51 0 1.54 1.43 1.54 2.54v4.65h2.58M7.66 8.56c-.9 0-1.61-.73-1.61-1.61 0-.9.71-1.62 1.61-1.62.88 0 1.61.72 1.61 1.62 0 .88-.73 1.61-1.61 1.61M6.36 18.5h2.6V10h-2.6v8.5z"/></svg></div>
+                            LinkedIn
+                        </label>
+                        <div class="social-input-container">
+                            <input type="url" name="LinkedIn" style="width:100%; padding:10px; border-radius:8px; border:2px solid var(--border-color);" placeholder="Lien profil" oninput="toggleApp('app-linkedin', this.value)">
+                        </div>
+                    </div>
+
+                    <!-- CALENDLY / RDV -->
+                    <div class="social-item">
+                        <label class="social-header">
+                            <input type="checkbox" onchange="toggleSocialBox(this)">
+                            <div class="social-icon-preview bg-calendly"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg></div>
+                            Prise de RDV
+                        </label>
+                        <div class="social-input-container">
+                            <input type="url" name="Calendly" style="width:100%; padding:10px; border-radius:8px; border:2px solid var(--border-color);" placeholder="Lien de RDV" oninput="toggleApp('app-calendly', this.value)">
+                        </div>
+                    </div>
+
+                </div>
+
+                <h2 class="step-title"><span>4</span> Aperçus Visuels Automatiques</h2>
+                <p class="subtitle">Entrez l'URL de votre site (ou boutique). Nous générons automatiquement une capture d'écran du site ! Vous pouvez en ajouter jusqu'à 3.</p>
+
+                <!-- CARTE 1 -->
+                <div class="visual-link-box">
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label>Lien Visuel N°1 (URL)</label>
+                        <input type="url" name="Visual_URL_1" placeholder="https://votresite.com" oninput="updateVisualCard(1, this.value)">
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" onchange="toggleVisualTitle(1, this.checked)">
+                        Ajouter un titre (optionnel) sous l'image
+                    </label>
+                    <div class="visual-title-input" id="title-input-container-1">
+                        <input type="text" name="Visual_Titre_1" class="input-group" style="width:100%; padding:10px; border-radius:8px; border:2px solid var(--border-color);" placeholder="Ex: Découvrez notre agence" oninput="updateVisualTitleText(1, this.value)">
+                    </div>
+                </div>
+
+                <!-- CARTE 2 -->
+                <div class="visual-link-box">
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label>Lien Visuel N°2 (URL)</label>
+                        <input type="url" name="Visual_URL_2" placeholder="https://..." oninput="updateVisualCard(2, this.value)">
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" onchange="toggleVisualTitle(2, this.checked)">
+                        Ajouter un titre (optionnel) sous l'image
+                    </label>
+                    <div class="visual-title-input" id="title-input-container-2">
+                        <input type="text" name="Visual_Titre_2" class="input-group" style="width:100%; padding:10px; border-radius:8px; border:2px solid var(--border-color);" placeholder="Ex: Voir la boutique" oninput="updateVisualTitleText(2, this.value)">
+                    </div>
+                </div>
+
+                <!-- CARTE 3 -->
+                <div class="visual-link-box">
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label>Lien Visuel N°3 (URL)</label>
+                        <input type="url" name="Visual_URL_3" placeholder="https://..." oninput="updateVisualCard(3, this.value)">
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" onchange="toggleVisualTitle(3, this.checked)">
+                        Ajouter un titre (optionnel) sous l'image
+                    </label>
+                    <div class="visual-title-input" id="title-input-container-3">
+                        <input type="text" name="Visual_Titre_3" class="input-group" style="width:100%; padding:10px; border-radius:8px; border:2px solid var(--border-color);" placeholder="Ex: Notre Portfolio" oninput="updateVisualTitleText(3, this.value)">
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="final-btn">🚀 Valider ma carte Digital</button>
+                <p class="support-text">Un problème sur votre design ou une personnalisation vraiment plus personnelle ? <br><a href="mailto:Contact@kingdream.fr">Contactez-nous</a></p>
+            </form>
+        </div>
+    </main>
+
+    <!-- FOOTER OFFICIEL KINGDREAM -->
+    <footer>
+        <div class="footer-logo-wrap">
+            <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream Digital" loading="lazy">
+        </div>
+        <div class="footer-tagline">L'agence qui transforme votre nom en empire</div>
+        <a href="https://www.instagram.com/kingdream_digital/" target="_blank" rel="noopener noreferrer" class="instagram-link" aria-label="Instagram KingDream Digital">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        </a>
+        <div class="footer-links">
+            <a href="index.html#contact">Contact</a>
+            <a href="mailto:Contact@kingdream.fr">Contact@kingdream.fr</a>
+            <a href="tel:+33627205597">06 27 20 55 97</a>
+        </div>
+        <div class="footer-copy">© 2026 KINGDREAM DIGITAL — TOUS DROITS RÉSERVÉS</div>
+    </footer>
+
+<script>
+    // 1. GESTION AUTOMATIQUE DU LOGO TÉLÉCHARGÉ DEPUIS LA PAGE PRECEDENTE
+    window.onload = function() {
+        const savedLogo = localStorage.getItem('kd_logo_client');
+        if (savedLogo) {
+            document.getElementById('pv-banner-container').style.display = 'flex';
+            document.getElementById('pv-banner-logo').src = savedLogo;
+            document.getElementById('ui-avatar-container').style.marginTop = '-50px';
+            document.getElementById('logo-success-status').style.display = 'flex';
+            document.getElementById('hidden-logo-data').value = savedLogo;
+            
+            // Affiche le bouton "Magie IA : Harmoniser avec mon logo"
+            document.getElementById('magic-theme-btn').style.display = 'flex';
+        } else {
+            document.getElementById('ui-avatar-container').style.marginTop = '40px';
+        }
+    };
+
+    // MAGIE IA : EXTRACTION DE COULEUR ET CRÉATION DE FOND
+    function applyLogoTheme() {
+        const img = document.getElementById('pv-banner-logo');
+        if(!img.src) return;
+        
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = img.width || 100;
+        canvas.height = img.height || 100;
+        
+        try {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+            
+            let r=0, g=0, b=0, count=0;
+            for(let i=0; i<data.length; i+=4) {
+                if(data[i+3] > 0) {
+                    if((data[i]>240 && data[i+1]>240 && data[i+2]>240) || (data[i]<15 && data[i+1]<15 && data[i+2]<15)) continue;
+                    r += data[i]; g += data[i+1]; b += data[i+2];
+                    count++;
+                }
+            }
+            if(count > 0) {
+                r = Math.floor(r/count); g = Math.floor(g/count); b = Math.floor(b/count);
+            } else {
+                r=0; g=87; b=255; 
+            }
+            
+            const colorTop = `rgba(${r}, ${g}, ${b}, 0.15)`;
+            const colorBottom = `rgba(${r}, ${g}, ${b}, 0.02)`;
+            const hexColor = ((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);
+            
+            const pattern = `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20z' fill='%23${hexColor}' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E")`;
+            
+            const finalBg = `${pattern}, linear-gradient(135deg, ${colorTop} 0%, ${colorBottom} 100%), #ffffff`;
+            
+            const screen = document.getElementById('preview-screen');
+            screen.style.background = finalBg;
+            document.getElementById('hidden-bg').value = finalBg;
+            screen.classList.remove('dark-mode'); 
+            
+            setColor(`rgb(${r},${g},${b})`, null);
+            
+            const magicBtn = document.getElementById('magic-theme-btn');
+            magicBtn.innerHTML = "✅ Thème harmonisé avec succès !";
+            magicBtn.style.background = "#10b981"; 
+            setTimeout(() => {
+                magicBtn.innerHTML = "✨ Harmoniser les couleurs avec mon logo";
+                magicBtn.style.background = "linear-gradient(135deg, #0057FF, #8b5cf6)";
+            }, 3000);
+
+        } catch(e) {
+            const fallbackBg = `url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='40' stroke='rgba(0,87,255,0.05)' stroke-width='2' fill='none'/%3E%3C/svg%3E"), linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)`;
+            document.getElementById('preview-screen').style.background = fallbackBg;
+            document.getElementById('hidden-bg').value = fallbackBg;
+        }
+    }
+
+    // CHANGER LE FOND DU TELEPHONE VIA LES PASTILLES
+    function setPhoneBg(bgValue, isDark, element) {
+        const screen = document.getElementById('preview-screen');
+        screen.style.background = bgValue;
+        document.getElementById('hidden-bg').value = bgValue;
+        
+        if(isDark) screen.classList.add('dark-mode');
+        else screen.classList.remove('dark-mode');
+
+        document.querySelectorAll('.bg-swatch').forEach(el => el.classList.remove('active'));
+        if(element) element.classList.add('active');
+    }
+
+    // Textes normaux
+    function updateText(id, value, defaultValue) {
+        document.getElementById(id).innerText = value.trim() === '' ? defaultValue : value;
+    }
+
+    // Gestion du Prénom + Bouton 
+    function updateName(value) {
+        document.getElementById('pv-name').innerText = value.trim() === '' ? 'Prénom Nom' : value;
+        let firstName = value.trim().split(' ')[0];
+        if (firstName) {
+            document.getElementById('pv-btn-text').innerText = `Se connecter avec ${firstName}`;
+        } else {
+            document.getElementById('pv-btn-text').innerText = 'Se connecter avec moi';
+        }
+    }
+
+    // Couleurs Bouton principal
+    function setColor(color, element) {
+        document.getElementById('preview-screen').style.setProperty('--ui-accent', color);
+        document.getElementById('hidden-color').value = color;
+        document.querySelectorAll('.bg-web svg').forEach(svg => svg.style.fill = color);
+        
+        document.querySelectorAll('.color-dot').forEach(el => el.classList.remove('active'));
+        if(element) element.classList.add('active');
+    }
+
+    // Case à cocher des réseaux
+    function toggleSocialBox(checkbox) {
+        const itemBox = checkbox.closest('.social-item');
+        if(checkbox.checked) {
+            itemBox.classList.add('active');
+        } else {
+            itemBox.classList.remove('active');
+            const inputs = itemBox.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.value = "";
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            });
+        }
+    }
+
+    // Affichage des Apps tel
+    function toggleApp(appId, value) {
+        const appIcon = document.getElementById(appId);
+        if (value.trim().length > 0) {
+            appIcon.classList.add('active');
+        } else {
+            appIcon.classList.remove('active');
+        }
+    }
+
+    // Libellé de l'app
+    function updateAppLabel(appId, value, defaultName) {
+        const label = document.querySelector(`#${appId} .ui-app-label`);
+        label.innerText = value.trim() === '' ? defaultName : value;
+    }
+
+    // Upload photo visage + SUCCESS MESSAGE
+    function previewImage(input, imgId) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById(imgId).src = e.target.result;
+                // Affiche le message de succès !
+                document.getElementById('avatar-success-status').style.display = 'flex';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // -----------------------------------------------------
+    // CARTES VISUELLES WEB (Génération Screenshot)
+    // -----------------------------------------------------
+    let timeoutTokens = [null, null, null]; 
+
+    function updateVisualCard(index, url) {
+        const card = document.getElementById(`preview-card-${index}`);
+        const img = document.getElementById(`preview-img-${index}`);
+        
+        if (timeoutTokens[index-1]) clearTimeout(timeoutTokens[index-1]);
+
+        if (url.trim().startsWith('http://') || url.trim().startsWith('https://')) {
+            timeoutTokens[index-1] = setTimeout(() => {
+                img.src = `https://image.thum.io/get/width/600/crop/800/${url.trim()}`;
+                card.style.display = 'block';
+            }, 600); 
+        } else {
+            card.style.display = 'none'; 
+        }
+    }
+
+    function toggleVisualTitle(index, isChecked) {
+        const inputContainer = document.getElementById(`title-input-container-${index}`);
+        const phoneTitleDiv = document.getElementById(`preview-title-${index}`);
+        
+        if (isChecked) {
+            inputContainer.style.display = 'block';
+            phoneTitleDiv.style.display = 'block';
+            const inputVal = document.querySelector(`input[name="Visual_Titre_${index}"]`).value;
+            updateVisualTitleText(index, inputVal);
+        } else {
+            inputContainer.style.display = 'none';
+            phoneTitleDiv.style.display = 'none';
+        }
+    }
+
+    function updateVisualTitleText(index, title) {
+        const titleDiv = document.getElementById(`preview-title-${index}`);
+        titleDiv.innerText = title.trim() === '' ? 'Mon Site Web' : title;
+    }
+
+    // Bouton de soumission
+    document.getElementById('digital-form').addEventListener('submit', function() {
+        const btn = document.getElementById('final-btn');
+        btn.innerHTML = 'Création en cours... ⏳';
+        btn.style.pointerEvents = 'none';
+        btn.style.opacity = '0.8';
+    });
+</script>
+
+</body>
+</html>
