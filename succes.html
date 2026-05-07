@@ -823,6 +823,35 @@
     }
 
    // ---------------------------------------------------------------------------------
+    // FONCTIONS MANQUANTES : COMPRESSION ET CONVERSION DES IMAGES
+    // ---------------------------------------------------------------------------------
+    function compressBase64(base64, maxWidth) {
+        return new Promise((resolve) => {
+            let img = new Image();
+            img.onload = () => {
+                let canvas = document.createElement('canvas');
+                let ratio = maxWidth / img.width;
+                if (ratio > 1) ratio = 1; // Ne pas agrandir si l'image est petite
+                canvas.width = img.width * ratio;
+                canvas.height = img.height * ratio;
+                let ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                resolve(canvas.toDataURL('image/jpeg', 0.8)); // Qualité 80%
+            };
+            img.src = base64;
+        });
+    }
+
+    function base64ToFile(dataurl, filename) {
+        let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1];
+        let bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, {type: mime});
+    }
+
+    // ---------------------------------------------------------------------------------
     // SOUMISSION DU FORMULAIRE (CORRIGÉ POUR FORMSUBMIT)
     // ---------------------------------------------------------------------------------
     document.getElementById('digital-form').addEventListener('submit', async function(e) {
@@ -834,62 +863,46 @@
         btn.style.opacity = '0.8';
 
         try {
-            // 1. Désactiver l'input fichier natif pour éviter d'envoyer la photo originale très lourde
-            const fileInput = document.querySelector('input[type="file"][name="Avatar_Fichier"]');
-            if(fileInput) fileInput.removeAttribute('name');
+            // 1. Initialiser le FormData avec les champs textes du formulaire
+            let formData = new FormData(this);
+            
+            // 2. Désactiver le captcha pour l'AJAX
+            formData.append('_captcha', 'false');
 
-            // FONCTION MAGIQUE : Crée un vrai champ d'upload invisible pour forcer FormSubmit à lire l'image
-            const addFileToForm = (fileName, fileObj) => {
-                let input = document.createElement('input');
-                input.type = 'file';
-                input.name = fileName;
-                input.style.display = 'none';
-                
-                // Utilisation de DataTransfer pour injecter le fichier JS dans l'input HTML
-                let dt = new DataTransfer();
-                dt.items.add(fileObj);
-                input.files = dt.files;
-                
-                this.appendChild(input); // On l'ajoute au formulaire
-            };
+            // 3. Supprimer le fichier original non compressé pour éviter un email trop lourd
+            formData.delete('Avatar_Fichier');
 
-            // 2. Traitement et compression de la photo de Profil
+            // 4. Traitement et compression de la photo de Profil
             if (savedAvatarData) {
                 const compressedAvatar = await compressBase64(savedAvatarData, 600);
-                addFileToForm('Photo_De_Profil', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
+                formData.append('Photo_De_Profil', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
             }
             
-            // 3. Rendu visuel Mobile généré
+            // 5. Rendu visuel Mobile généré
             const imgMobileData = await generateNativeSnapshot();
-            addFileToForm('Apercu_Visuel_Mobile', base64ToFile(imgMobileData, 'Visuel_Mobile.jpg'));
+            formData.append('Apercu_Visuel_Mobile', base64ToFile(imgMobileData, 'Visuel_Mobile.jpg'));
             
-            // 4. Logo importé (si existant depuis la page d'avant)
+            // 6. Logo importé (si existant depuis la page d'avant)
             const savedLogo = localStorage.getItem('kd_logo_client');
             if (savedLogo && savedLogo.startsWith('data:image')) {
                 const compressedLogo = await compressBase64(savedLogo, 600);
-                addFileToForm('Fichier_Logo_Client', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
+                formData.append('Fichier_Logo_Client', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
             }
 
-            // 5. Carte NFC (si existante depuis la page d'avant)
+            // 7. Carte NFC (si existante depuis la page d'avant)
             const savedNfcCard = localStorage.getItem('kd_nfc_card_preview');
             if (savedNfcCard && savedNfcCard.startsWith('data:image')) {
                 const compressedNfc = await compressBase64(savedNfcCard, 800);
-                addFileToForm('Fichier_Carte_NFC', base64ToFile(compressedNfc, 'Apercu_Carte_NFC.jpg'));
+                formData.append('Fichier_Carte_NFC', base64ToFile(compressedNfc, 'Apercu_Carte_NFC.jpg'));
             }
 
             btn.innerHTML = 'Envoi sécurisé en cours... 🚀';
 
-            // 6. On crée le FormData SEULEMENT MAINTENANT, pour qu'il capture les nouveaux inputs invisibles
-            let formData = new FormData(this);
-
-            // Optionnel mais recommandé pour l'AJAX FormSubmit : Désactiver le captcha pour éviter un blocage
-            formData.append('_captcha', 'false');
-
-            // 7. Envoi final via FormSubmit
+            // 8. Envoi final via FormSubmit en AJAX
             const response = await fetch(this.action, {
                 method: 'POST',
                 headers: { 'Accept': 'application/json' },
-                body: formData
+                body: formData // On envoie le FormData directement (pas besoin de faux inputs)
             });
 
             if (response.ok) {
