@@ -705,7 +705,6 @@
     
     requestAnimationFrame(animateCard);
 
-    // MODIFICATION : ON SAUVEGARDE LE LOGO POUR SUCCESS.HTML DIRECTEMENT
     function handleLogo(i) {
         if (i.files && i.files[0]) {
             const r = new FileReader(); r.onload = e => {
@@ -738,7 +737,7 @@
     loadCat('pvc', document.querySelector('.cat-btn'));
     setupColorPickers();
 
-    /* ─── MODIFICATION : CAPTURE PHOTO DE LA CARTE AVANT REDIRECTION ─── */
+    /* ─── MODIFICATION : CAPTURE PHOTO DE LA CARTE RECTO ET VERSO ─── */
     document.getElementById('studio-form').addEventListener('submit', async function(e) {
         e.preventDefault(); 
         
@@ -753,20 +752,46 @@
         btn.style.opacity = '0.8';
 
         try {
-            // Prendre en photo le recto de la carte configurée
+            // Eléments à capturer
             const cardFront = document.getElementById('f-recto');
-            
-            const canvas = await html2canvas(cardFront, {
+            const cardBack = document.getElementById('f-verso');
+
+            // Astuce technique : on remet temporairement les cartes "à plat" et visibles 
+            // pour que html2canvas puisse les photographier même si l'utilisateur regarde la face opposée.
+            const oldFrontTransform = cardFront.style.transform;
+            const oldBackTransform = cardBack.style.transform;
+            const oldFrontBfv = cardFront.style.backfaceVisibility;
+            const oldBackBfv = cardBack.style.backfaceVisibility;
+
+            cardFront.style.transform = 'rotateY(0deg)';
+            cardFront.style.backfaceVisibility = 'visible';
+            cardBack.style.transform = 'rotateY(0deg)';
+            cardBack.style.backfaceVisibility = 'visible';
+
+            // Prendre en photo le RECTO
+            const canvasFront = await html2canvas(cardFront, {
                 useCORS: true,
                 scale: 2, 
                 backgroundColor: null
             });
-            
-            // On sauvegarde l'image de la carte en mémoire pour que success.html l'envoie !
-            localStorage.setItem('kd_nfc_card_preview', canvas.toDataURL('image/jpeg', 0.85));
+            localStorage.setItem('kd_nfc_card_preview', canvasFront.toDataURL('image/jpeg', 0.85));
+
+            // Prendre en photo le VERSO
+            const canvasBack = await html2canvas(cardBack, {
+                useCORS: true,
+                scale: 2, 
+                backgroundColor: null
+            });
+            localStorage.setItem('kd_nfc_card_preview_verso', canvasBack.toDataURL('image/jpeg', 0.85));
+
+            // Restauration de l'état CSS (optionnel car la page va changer, mais plus propre)
+            cardFront.style.transform = oldFrontTransform;
+            cardFront.style.backfaceVisibility = oldFrontBfv;
+            cardBack.style.transform = oldBackTransform;
+            cardBack.style.backfaceVisibility = oldBackBfv;
 
         } catch(error) {
-            console.error("Erreur capture", error);
+            console.error("Erreur capture recto/verso", error);
         }
 
         // 3. Redirection automatique vers le paiement 
