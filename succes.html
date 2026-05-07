@@ -54,7 +54,8 @@
         .phone-screen.dark-mode .ui-avatar { border-color: rgba(255,255,255,0.2); }
         
         .pv-banner-container { width: 100%; padding-top: 45px; padding-bottom: 0px; display: none; align-items: center; justify-content: center; position: relative; z-index: 1; }
-        .pv-banner-logo { width: 150px; height: auto; max-height: 100px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); transition: width 0.1s ease-out; }
+        /* AJUSTEMENT : On retire le max-height strict pour laisser le logo grossir jusqu'à 350px */
+        .pv-banner-logo { width: 150px; height: auto; max-height: 250px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); transition: width 0.1s ease-out; }
         
         .ui-avatar-container { margin-top: 40px; width: 100%; text-align: center; position: relative; z-index: 2; transition: margin-top 0.1s ease-out; }
         .ui-avatar { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 5px solid rgba(255,255,255,0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: #ccc; transition: border-color 0.4s ease; }
@@ -158,7 +159,6 @@
         .footer-links a:hover { color:var(--yellow); }
         .footer-copy { font-size:.75rem; color:rgba(255,255,255,0.8); font-weight:800; letter-spacing:1px; }
 
-        /* OPTIMISATION PARFAITE POUR MOBILE */
         @media(max-width: 950px) {
             .studio-wrapper { 
                 grid-template-columns: 1fr; 
@@ -168,22 +168,20 @@
                 gap: 0;
             }
             .phone-container { 
-                position: relative; /* On enlève le sticky pour scroller librement */
+                position: relative; 
                 top: 0; 
                 width: 100%;
                 height: auto;
                 background: transparent;
                 z-index: 100;
-                margin-bottom: 25px; /* Espace entre le téléphone et le formulaire */
+                margin-bottom: 25px; 
                 display: flex;
                 justify-content: center;
                 padding-top: 10px;
             }
             .phone-frame {
-                /* Mise à l'échelle parfaite : lisible, mais compact */
                 transform: scale(0.85); 
                 transform-origin: top center;
-                /* On compense l'espace vide créé par le scale pour coller le formulaire en dessous */
                 margin-bottom: -108px; 
             }
             .config-box { 
@@ -201,7 +199,6 @@
             .success-header h1 { font-size: 1.8rem; }
         }
         
-        /* Pour les très petits écrans (ex: iPhone SE) */
         @media(max-width: 380px) {
             .phone-frame {
                 transform: scale(0.75);
@@ -319,7 +316,7 @@
                         Taille du logo
                         <span style="font-size: 0.8rem; color: var(--blue-main); font-weight: 900;"><span id="logo-size-display">150</span>px</span>
                     </label>
-                    <input type="range" id="logo-size-slider" min="50" max="280" value="150" oninput="updateLogoSize(this.value)" style="margin-bottom: 25px;">
+                    <input type="range" id="logo-size-slider" min="50" max="350" value="150" oninput="updateLogoSize(this.value)" style="margin-bottom: 25px;">
                     
                     <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; color: var(--text-dark);">
                         Espacement sous le logo (Remonter le profil)
@@ -671,6 +668,7 @@
         }
     }
 
+    /* MOTEUR DE CAPTURE DE SITE GARANTI (API OFFICIELLE WORDPRESS) */
     function updateVisualCard(index, url) {
         const card = document.getElementById(`preview-card-${index}`);
         const img = document.getElementById(`preview-img-${index}`);
@@ -701,7 +699,8 @@
                 this.style.opacity = '1';
             }
 
-            img.src = `https://image.thum.io/get/width/600/crop/800/${cleanUrl}`; 
+            // Utilise l'API WordPress MShots (Trés fiable)
+            img.src = `https://s0.wordpress.com/mshots/v1/${encodeURIComponent(cleanUrl)}?w=600`; 
         }, 600); 
     }
 
@@ -714,6 +713,7 @@
 
     function updateVisualTitleText(index, title) { document.getElementById(`preview-title-${index}`).innerText = title.trim() === '' ? 'Mon Site Web' : title; }
 
+    /* GENERATION DU SNAPSHOT (OPTIMISEE POUR LA VITESSE) */
     async function generateNativeSnapshot() {
         const element = document.getElementById('preview-screen');
         const phoneFrame = document.querySelector('.phone-frame');
@@ -726,13 +726,12 @@
         element.style.overflow = 'visible';
         element.style.height = 'auto';
 
-        await new Promise(r => setTimeout(r, 50));
-
         const canvas = await html2canvas(element, {
             useCORS: true, 
-            scale: 1.5, 
+            scale: 1, /* Mis à 1 au lieu de 1.5 pour une exécution quasi-instantanée */
             backgroundColor: window.getComputedStyle(element).backgroundColor || '#f8fafc',
-            allowTaint: true
+            allowTaint: true,
+            logging: false
         });
 
         element.style.overflow = originalOverflow;
@@ -756,6 +755,7 @@
         let bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n); while(n--){ u8arr[n] = bstr.charCodeAt(n); } return new File([u8arr], filename, {type: mime});
     }
 
+    /* VALIDATION SANS LATENCE */
     document.getElementById('digital-form').addEventListener('submit', async function(e) {
         e.preventDefault(); 
         
@@ -767,7 +767,7 @@
         }
 
         const btn = document.getElementById('final-btn');
-        btn.innerHTML = 'Génération de votre design... 📸⏳';
+        btn.innerHTML = 'Validation en cours... 🚀';
         btn.style.pointerEvents = 'none';
 
         try {
@@ -795,7 +795,6 @@
                 addFileToForm('Logo_Entreprise', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
             }
 
-            // RECUPERE MAINTENANT LE RECTO ET LE VERSO
             const savedNfcCard = localStorage.getItem('kd_nfc_card_preview');
             const savedNfcCardVerso = localStorage.getItem('kd_nfc_card_preview_verso');
 
@@ -808,10 +807,9 @@
                 addFileToForm('Design_Carte_NFC_VERSO', base64ToFile(compressedNfcVerso, 'Design_Carte_NFC_VERSO.jpg'));
             }
 
-            btn.innerHTML = 'Envoi en cours... 🚀';
-
             HTMLFormElement.prototype.submit.call(this);
 
+            /* Affichage du message de succès quasi-immédiat (500ms au lieu de 1500) */
             setTimeout(() => {
                 const configBox = document.getElementById('main-config-box');
                 configBox.innerHTML = `
@@ -832,7 +830,7 @@
                     </div>
                 `;
                 configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 1500); 
+            }, 500); 
 
         } catch (error) {
             console.error(error);
