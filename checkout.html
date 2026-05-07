@@ -35,18 +35,17 @@
             top: 0; 
             z-index: 100;
             box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
-            overflow: hidden; /* Empêche le logo de dépasser visuellement de la barre */
+            overflow: hidden; 
         }
         
         .nav-logo { display: flex; align-items: center; text-decoration: none; }
         
-        /* TECHNIQUE DU ZOOM POUR ANNULER L'ESPACE BLANC DE L'IMAGE */
         .nav-logo img { 
             height: 80px; 
             width: auto; 
             object-fit: contain; 
-            transform: scale(2.5); /* ZOOM ENCORE PLUS FORT (250%) */
-            mix-blend-mode: multiply; /* Assure que le fond blanc de l'image devienne transparent */
+            transform: scale(2.5); 
+            mix-blend-mode: multiply; 
         }
         
         .nav-back { 
@@ -123,9 +122,19 @@
             width: 260px; height: 164px; border-radius: 12px; background-size: cover; background-position: center; 
             transform: rotateY(-15deg) rotateX(10deg); box-shadow: -15px 20px 30px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.2); 
             display: flex; align-items: center; justify-content: center; position: relative; transition: 0.5s;
+            overflow: hidden; /* Assure que l'image ne dépasse pas des bords arrondis */
         }
+        
+        /* La vraie image générée de la carte */
+        .cart-card-img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            display: none; /* Caché par défaut si aucune image */
+        }
+
         .cart-card::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%); border-radius: 12px; pointer-events: none; }
-        .cart-card svg { width: 40px; height: 40px; fill: white; opacity: 0.5; }
+        .cart-card svg { width: 40px; height: 40px; fill: white; opacity: 0.5; position: relative; z-index: 2; }
 
         /* TEXTES PANIER */
         .cart-product-title { font-family: 'Fredoka One'; font-size: 1.4rem; color: var(--text-dark); margin-bottom: 5px; }
@@ -145,7 +154,7 @@
         @media(max-width: 600px) {
             .nav-back span { display: none; } 
             .nav-back { padding: 10px; left: 15px; }
-            .nav-logo img { transform: scale(2.0); } /* ZOOM PLUS FORT SUR MOBILE AUSSI */
+            .nav-logo img { transform: scale(2.0); } 
         }
     </style>
 </head>
@@ -232,7 +241,8 @@
                 <!-- PREVIEW DE LA CARTE -->
                 <div class="cart-card-preview">
                     <div class="cart-card" id="cart-visual">
-                        <svg viewBox="0 0 24 24"><path d="M18.8 20.3c-.3 0-.6-.1-.8-.4-.4-.5-.4-1.2.1-1.6 1.7-1.4 2.6-3.4 2.6-5.5s-.9-4.1-2.6-5.5c-.5-.4-.5-1.1-.1-1.6.4-.5 1.1-.5 1.6-.1 2.2 1.8 3.4 4.3 3.4 7.2s-1.2 5.4-3.4 7.2c-.3.2-.5.3-.8.3z"/><path d="M14.9 17.8c-.3 0-.6-.1-.8-.4-.4-.5-.3-1.2.1-1.6 1.1-.9 1.7-2.1 1.7-3.4s-.6-2.5-1.7-3.4c-.5-.4-.5-1.1-.1-1.6.4-.5 1.1-.5 1.6-.1 1.5 1.2 2.3 2.8 2.3 4.9s-.8 3.7-2.3 4.9c-.3.2-.5.3-.8.3z"/><path d="M11.1 15.2c-.3 0-.6-.1-.8-.4-.4-.5-.3-1.2.1-1.6.5-.4.8-1 .8-1.7s-.3-1.2-.8-1.7c-.5-.4-.5-1.1-.1-1.6.4-.5 1.1-.5 1.6-.1 1 1 1.4 2.1 1.4 3.4s-.5 2.4-1.4 3.4c-.3.2-.5.3-.8.3z"/></svg>
+                        <img src="" alt="Aperçu Carte" class="cart-card-img" id="cart-real-img">
+                        <svg id="cart-svg" viewBox="0 0 24 24"><path d="M18.8 20.3c-.3 0-.6-.1-.8-.4-.4-.5-.4-1.2.1-1.6 1.7-1.4 2.6-3.4 2.6-5.5s-.9-4.1-2.6-5.5c-.5-.4-.5-1.1-.1-1.6.4-.5 1.1-.5 1.6-.1 2.2 1.8 3.4 4.3 3.4 7.2s-1.2 5.4-3.4 7.2c-.3.2-.5.3-.8.3z"/><path d="M14.9 17.8c-.3 0-.6-.1-.8-.4-.4-.5-.3-1.2.1-1.6 1.1-.9 1.7-2.1 1.7-3.4s-.6-2.5-1.7-3.4c-.5-.4-.5-1.1-.1-1.6.4-.5 1.1-.5 1.6-.1 1.5 1.2 2.3 2.8 2.3 4.9s-.8 3.7-2.3 4.9c-.3.2-.5.3-.8.3z"/><path d="M11.1 15.2c-.3 0-.6-.1-.8-.4-.4-.5-.3-1.2.1-1.6.5-.4.8-1 .8-1.7s-.3-1.2-.8-1.7c-.5-.4-.5-1.1-.1-1.6.4-.5 1.1-.5 1.6-.1 1 1 1.4 2.1 1.4 3.4s-.5 2.4-1.4 3.4c-.3.2-.5.3-.8.3z"/></svg>
                     </div>
                 </div>
 
@@ -289,21 +299,35 @@
     document.getElementById('price-sub').innerText = orderData.base.toFixed(2).replace('.', ',') + ' €';
 
     const cartVisual = document.getElementById('cart-visual');
+    const realImg = document.getElementById('cart-real-img');
+    const svgIcon = document.getElementById('cart-svg');
     
-    if (cat === 'bois') {
-        cartVisual.style.backgroundImage = "url('https://i.ibb.co/WvHKS309/walnut.png')";
-        cartVisual.style.backgroundColor = "#5c4033";
-    } else if (cat === 'metal') {
-        cartVisual.style.backgroundImage = "none";
-        cartVisual.style.background = "linear-gradient(135deg, #333333, #111111, #000000)"; 
-        if(matChoisi.includes('or')) cartVisual.style.background = "linear-gradient(135deg, #bf953f, #fcf6ba, #b38728)";
-        if(matChoisi.includes('argent')) cartVisual.style.background = "linear-gradient(135deg, #e0e0e0, #ffffff, #9e9e9e)";
+    // ON TENTE D'AFFICHER LA VRAIE PHOTO PRISE DANS LE STUDIO
+    const savedCardImage = localStorage.getItem('kd_nfc_card_preview');
+    
+    if (savedCardImage && savedCardImage.startsWith('data:image')) {
+        // La capture d'écran a fonctionné, on l'affiche et on cache le faux design !
+        realImg.src = savedCardImage;
+        realImg.style.display = "block";
+        svgIcon.style.display = "none";
+        cartVisual.style.background = "transparent"; // Enlève le fond par défaut car la photo l'a déjà
     } else {
-        cartVisual.style.backgroundImage = "none";
-        cartVisual.style.backgroundColor = "#1a1a1a";
-        if(matChoisi.includes('blanc')) { 
-            cartVisual.style.backgroundColor = "#fdfdfd"; 
-            cartVisual.querySelector('svg').style.fill = "#111"; 
+        // Sécurité : Si le client a un bug sur son téléphone, on remet le design par défaut
+        if (cat === 'bois') {
+            cartVisual.style.backgroundImage = "url('https://i.ibb.co/WvHKS309/walnut.png')";
+            cartVisual.style.backgroundColor = "#5c4033";
+        } else if (cat === 'metal') {
+            cartVisual.style.backgroundImage = "none";
+            cartVisual.style.background = "linear-gradient(135deg, #333333, #111111, #000000)"; 
+            if(matChoisi.includes('or')) cartVisual.style.background = "linear-gradient(135deg, #bf953f, #fcf6ba, #b38728)";
+            if(matChoisi.includes('argent')) cartVisual.style.background = "linear-gradient(135deg, #e0e0e0, #ffffff, #9e9e9e)";
+        } else {
+            cartVisual.style.backgroundImage = "none";
+            cartVisual.style.backgroundColor = "#1a1a1a";
+            if(matChoisi.includes('blanc')) { 
+                cartVisual.style.backgroundColor = "#fdfdfd"; 
+                svgIcon.style.fill = "#111"; 
+            }
         }
     }
 
