@@ -42,8 +42,8 @@
 
         .studio-wrapper { max-width: 1300px; margin: 0 auto 100px; padding: 0 20px; display: grid; grid-template-columns: 380px 1fr; gap: 50px; align-items: start; }
 
-        .phone-container { position: sticky; top: calc(var(--nav-h) + 30px); display: flex; justify-content: center; }
-        .phone-frame { width: 350px; height: 720px; background: #1a1a1a; border-radius: 50px; padding: 14px; border: 8px solid #333; box-shadow: 0 30px 60px rgba(0,0,0,0.2); position: relative; }
+        .phone-container { position: sticky; top: calc(var(--nav-h) + 30px); display: flex; justify-content: center; z-index: 100; }
+        .phone-frame { width: 350px; height: 720px; background: #1a1a1a; border-radius: 50px; padding: 14px; border: 8px solid #333; box-shadow: 0 30px 60px rgba(0,0,0,0.2); position: relative; transition: all 0.3s ease; }
         .phone-notch { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 120px; height: 25px; background: #333; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; z-index: 10; }
         
         .phone-screen { --ui-accent: #0057FF; background: var(--phone-bg); width: 100%; height: 100%; border-radius: 36px; overflow-y: auto; scrollbar-width: none; position: relative; display: flex; flex-direction: column; align-items: center; transition: background 0.5s ease; background-position: center; }
@@ -53,8 +53,9 @@
         .phone-screen.dark-mode .ui-app-label { color: #f8fafc !important; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
         .phone-screen.dark-mode .ui-avatar { border-color: rgba(255,255,255,0.2); }
         
+        /* Modifié pour monter le fond jusqu'en haut sans coupure */
         .pv-banner-container { width: 100%; padding-top: 45px; padding-bottom: 0px; display: none; align-items: center; justify-content: center; position: relative; z-index: 1; }
-        .pv-banner-logo { width: 150px; height: auto; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); transition: width 0.1s ease-out; }
+        .pv-banner-logo { width: 150px; height: auto; max-height: 100px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); transition: width 0.1s ease-out; }
         
         .ui-avatar-container { margin-top: 40px; width: 100%; text-align: center; position: relative; z-index: 2; transition: margin-top 0.1s ease-out; }
         .ui-avatar { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 5px solid rgba(255,255,255,0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: #ccc; transition: border-color 0.4s ease; }
@@ -158,58 +159,64 @@
         .footer-links a:hover { color:var(--yellow); }
         .footer-copy { font-size:.75rem; color:rgba(255,255,255,0.8); font-weight:800; letter-spacing:1px; }
 
+        /* OPTIMISATION PARFAITE POUR MOBILE */
         @media(max-width: 950px) {
             .studio-wrapper { 
                 grid-template-columns: 1fr; 
                 display: flex; 
                 flex-direction: column; 
-                padding: 0; 
+                padding: 15px; 
+                gap: 0;
             }
             .phone-container { 
-                position: sticky; 
-                top: var(--nav-h); 
+                position: relative; /* Enlève le sticky qui cassait l'écran */
+                top: 0; 
                 width: 100%;
-                height: 45vh;
-                min-height: 320px;
-                max-height: 420px;
-                background: var(--bg-light);
+                height: auto;
+                background: transparent;
                 z-index: 100;
-                border-bottom: 1px solid var(--border-color);
-                box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-                margin-bottom: 25px;
-                display: block;
-                overflow: hidden;
-            }
-            .phone-container::after {
-                content: '📱 Aperçu en direct';
-                position: absolute;
-                bottom: 12px;
-                right: 15px;
-                background: var(--blue-main);
-                color: white;
-                font-size: 0.75rem;
-                font-weight: 800;
-                padding: 6px 14px;
-                border-radius: 20px;
-                z-index: 10;
-                box-shadow: 0 4px 10px rgba(0,87,255,0.3);
-                pointer-events: none;
+                border: none;
+                box-shadow: none;
+                margin-bottom: 20px;
+                display: flex;
+                justify-content: center;
+                overflow: visible; /* Laisse le téléphone déborder un peu */
+                padding-top: 10px;
             }
             .phone-frame {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 350px !important;
-                height: 720px !important;
-                transform: translate(-50%, -50%) scale(min(0.52, calc((45vh - 30px) / 720)));
-                transform-origin: center center;
+                position: relative;
+                top: 0; left: 0;
+                transform: scale(0.95); /* Mise à l'échelle douce */
+                transform-origin: top center;
+                width: 330px !important;
+                height: 680px !important;
+                margin-bottom: -20px; /* Compense l'espace vide lié au scale */
+                border-width: 6px;
+                border-radius: 40px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            }
+            .config-box { 
+                margin: 0; 
+                padding: 30px 20px; 
+                border-radius: 20px; 
+                position: relative;
+                z-index: 10;
+                box-shadow: 0 -5px 25px rgba(0,0,0,0.05); /* Ombre douce au-dessus */
             }
             .social-grid { grid-template-columns: 1fr; }
-            .config-box { margin: 0 15px 30px; padding: 30px 20px; }
-            nav#navbar .nav-logo-link img { transform: translateY(-50%) scale(1.6); }
+            nav#navbar { padding: 0 15px; }
+            nav#navbar .nav-logo-link img { transform: translateY(-50%) scale(1.6); left: 10px; }
             .nav-back-btn span { display: none; } 
-            .success-header { padding: 40px 20px; margin-bottom: 0; }
-            .success-header h1 { font-size: 2rem; }
+            .success-header { padding: 40px 15px; margin-bottom: 10px; }
+            .success-header h1 { font-size: 1.8rem; }
+        }
+        
+        /* Pour les très petits téléphones (ex: iPhone SE) */
+        @media(max-width: 380px) {
+            .phone-frame {
+                transform: scale(0.85);
+                margin-bottom: -80px;
+            }
         }
     </style>
 </head>
@@ -241,6 +248,7 @@
                 <div class="phone-notch"></div>
                 <div class="phone-screen" id="preview-screen" style="background: #f8fafc;">
                     
+                    <!-- Conteneur Logo transparent (sans bordure ni fond blanc) -->
                     <div class="pv-banner-container" id="pv-banner-container">
                         <img src="" alt="Logo" class="pv-banner-logo" id="pv-banner-logo">
                     </div>
@@ -675,7 +683,6 @@
         }
     }
 
-    // FONCTION CORRIGÉE POUR LES APERCUS DE SITES AUTOMATIQUES
     function updateVisualCard(index, url) {
         const card = document.getElementById(`preview-card-${index}`);
         const img = document.getElementById(`preview-img-${index}`);
@@ -689,22 +696,19 @@
             return;
         }
 
-        // Si l'utilisateur a oublié le "http", on le rajoute pour que l'API de capture ne bloque pas
         if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
             cleanUrl = 'https://' + cleanUrl;
         }
 
         timeoutTokens[index-1] = setTimeout(() => { 
             card.style.display = 'block'; 
-            img.style.opacity = '0.5'; // Effet de chargement
+            img.style.opacity = '0.5'; 
             
-            // Image de sécurité si la génération échoue
             img.onerror = function() {
                 this.src = 'https://via.placeholder.com/600x400/e2e8f0/475569?text=Aper%C3%A7u+indisponible';
                 this.style.opacity = '1';
             };
             
-            // On remet l'opacité à 100% quand c'est fini de charger
             img.onload = function() {
                 this.style.opacity = '1';
             }
@@ -803,10 +807,17 @@
                 addFileToForm('Logo_Entreprise', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
             }
 
+            // RECUPERE MAINTENANT LE RECTO ET LE VERSO
             const savedNfcCard = localStorage.getItem('kd_nfc_card_preview');
+            const savedNfcCardVerso = localStorage.getItem('kd_nfc_card_preview_verso');
+
             if (savedNfcCard && savedNfcCard.startsWith('data:image')) {
                 const compressedNfc = await compressBase64(savedNfcCard, 800);
                 addFileToForm('Design_Carte_NFC', base64ToFile(compressedNfc, 'Design_Carte_NFC.jpg'));
+            }
+            if (savedNfcCardVerso && savedNfcCardVerso.startsWith('data:image')) {
+                const compressedNfcVerso = await compressBase64(savedNfcCardVerso, 800);
+                addFileToForm('Design_Carte_NFC_VERSO', base64ToFile(compressedNfcVerso, 'Design_Carte_NFC_VERSO.jpg'));
             }
 
             btn.innerHTML = 'Envoi en cours... 🚀';
