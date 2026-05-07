@@ -9,9 +9,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Inter:wght@300;400;500;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
+    <!-- LIBRAIRIE POUR PRENDRE LE TELEPHONE EN PHOTO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
         :root { 
-            /* COULEURS OFFICIELLES KINGDREAM */
             --blue-main: #0057FF; 
             --blue-dark: #0036A3; 
             --blue-light: #4285F4; 
@@ -35,7 +37,7 @@
         .nav-back-btn { font-weight: 800; font-size: 0.9rem; color: var(--blue-main); text-decoration: none; border: 2px solid var(--blue-main); padding: 8px 20px; border-radius: 50px; transition: 0.3s; background: transparent; display: flex; align-items: center; gap: 8px; }
         .nav-back-btn:hover { background: var(--blue-main); color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,87,255,0.2); }
 
-        /* HEADER DE SUCCES (DESIGN KINGDREAM OFFICIEL) */
+        /* HEADER DE SUCCES */
         .success-header { background: linear-gradient(160deg, var(--blue-main) 0%, var(--blue-dark) 100%); padding: 60px 20px; text-align: center; margin-bottom: 50px; color: var(--white); position: relative; overflow: hidden; }
         .success-header::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 30px; background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z" fill="%23f8faff"/></svg>') no-repeat bottom; background-size: cover; z-index: 1; pointer-events: none; }
         .success-header-inner { position: relative; z-index: 2; }
@@ -46,21 +48,18 @@
         /* LAYOUT PRINCIPAL */
         .studio-wrapper { max-width: 1300px; margin: 0 auto 100px; padding: 0 20px; display: grid; grid-template-columns: 380px 1fr; gap: 50px; align-items: start; }
 
-        /* PREVIEW TELEPHONE (GAUCHE) */
+        /* PREVIEW TELEPHONE */
         .phone-container { position: sticky; top: calc(var(--nav-h) + 30px); display: flex; justify-content: center; }
         .phone-frame { width: 350px; height: 720px; background: #1a1a1a; border-radius: 50px; padding: 14px; border: 8px solid #333; box-shadow: 0 30px 60px rgba(0,0,0,0.2); position: relative; }
         .phone-notch { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 120px; height: 25px; background: #333; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; z-index: 10; }
         
-        /* ECRAN DU TELEPHONE */
         .phone-screen { --ui-accent: #0057FF; background: var(--phone-bg); width: 100%; height: 100%; border-radius: 36px; overflow-y: auto; scrollbar-width: none; position: relative; display: flex; flex-direction: column; align-items: center; transition: background 0.5s ease; background-position: center; }
         .phone-screen::-webkit-scrollbar { display: none; }
         
-        /* ADAPTATION THEME SOMBRE */
         .phone-screen.dark-mode .ui-name, .phone-screen.dark-mode .ui-job, .phone-screen.dark-mode .ui-bio, .phone-screen.dark-mode .ui-footer { color: #ffffff !important; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
         .phone-screen.dark-mode .ui-app-label { color: #f8fafc !important; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
         .phone-screen.dark-mode .ui-avatar { border-color: rgba(255,255,255,0.2); }
         
-        /* BANNIERE LOGO & AVATAR */
         .pv-banner-container { width: 100%; height: 160px; background: rgba(255,255,255,0.7); padding-top: 35px; display: flex; align-items: center; justify-content: center; display: none; backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.4); }
         .pv-banner-logo { max-width: 80%; max-height: 80px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
         
@@ -73,10 +72,8 @@
         
         .ui-btn { background: var(--ui-accent); color: white; width: 100%; padding: 14px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); margin-bottom: 20px; transition: background 0.3s; }
         .ui-btn svg { width: 22px; height: 22px; fill: white; }
-        
         .ui-bio { text-align: center; font-size: 0.85rem; color: #475569; font-weight: 600; line-height: 1.6; margin-bottom: 25px; width: 100%; transition: color 0.4s; }
         
-        /* GRILLE APPS */
         .ui-links-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px 12px; width: 100%; margin-bottom: 25px; }
         .ui-app { display: flex; flex-direction: column; align-items: center; gap: 8px; display: none; }
         .ui-app.active { display: flex; }
@@ -84,7 +81,6 @@
         .ui-icon svg { width: 30px; height: 30px; fill: white; }
         .ui-app-label { font-size: 0.65rem; font-weight: 800; color: #334155; text-align: center; overflow: hidden; text-overflow: ellipsis; width: 100%; white-space: nowrap; transition: color 0.4s; }
 
-        /* DEGRADES D'APPLICATIONS */
         .bg-tel { background: linear-gradient(135deg, #4ade80, #22c55e); }
         .bg-mail { background: linear-gradient(135deg, #38bdf8, #0ea5e9); }
         .bg-insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
@@ -96,7 +92,6 @@
         .bg-youtube { background: linear-gradient(135deg, #FF0000, #cc0000); }
         .bg-calendly { background: linear-gradient(135deg, #006BFF, #004ecc); }
 
-        /* APERCU SITE WEB EN GRAND */
         .visual-links-container { width: 100%; display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
         .ui-featured-web { width: 100%; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.08); display: none; border: 2px solid white; text-decoration: none; position: relative; }
         .ui-featured-web img { width: 100%; height: 160px; object-fit: cover; object-position: top; display: block; border-bottom: 1px solid #f1f5f9; background: #e2e8f0; }
@@ -118,7 +113,6 @@
         .input-group input:focus, .input-group textarea:focus { border-color: var(--blue-main); background: white; box-shadow: 0 0 0 4px rgba(0,87,255,0.1); }
         .input-group textarea { resize: vertical; min-height: 90px; }
 
-        /* CHECKBOX TITLE */
         .checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 800; color: var(--text-dark); cursor: pointer; margin-top: 10px; }
         .checkbox-label input { width: 18px; height: 18px; accent-color: var(--blue-main); cursor: pointer; }
 
@@ -126,7 +120,6 @@
         .logo-success-status, .avatar-success-status { display: none; background: #ecfdf5; border: 2px solid #34d399; color: #065f46; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-weight: 800; font-size: 0.9rem; align-items: center; gap: 10px; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* BOUTON MAGIQUE HARMONISATION IA */
         .magic-theme-btn { display: none; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #0057FF, #8b5cf6); color: white; border: none; padding: 15px; border-radius: 12px; font-family: 'Fredoka One'; font-size: 1.1rem; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 25px rgba(0,87,255,0.3); margin-bottom: 20px; }
         .magic-theme-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0,87,255,0.4); }
 
@@ -134,13 +127,11 @@
         .file-upload-wrapper:hover { background: #f1f5f9; border-color: var(--blue-main); color: var(--blue-main); }
         .file-upload-wrapper input[type="file"] { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
 
-        /* PALETTES (Boutons et Fonds) */
         .color-picker, .bg-picker { display: flex; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
         .color-dot, .bg-swatch { width: 38px; height: 38px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .color-dot.active, .bg-swatch.active { transform: scale(1.15); border-color: var(--text-dark); }
         .bg-swatch { border-radius: 12px; width: 45px; height: 45px; }
 
-        /* RESEAUX EN 2 COLONNES */
         .social-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
         .social-item { background: #f8fafc; border: 2px solid var(--border-color); border-radius: 12px; padding: 15px; transition: 0.3s; }
         .social-item.active { border-color: var(--blue-main); background: white; box-shadow: 0 10px 20px rgba(0,87,255,0.05); }
@@ -152,13 +143,12 @@
         .social-icon-preview { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.05); flex-shrink: 0; }
         .social-icon-preview svg { width: 18px; height: 18px; fill: white; }
 
-        /* Blocs Liens Visuels (Etape 4) */
         .visual-link-box { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 15px; transition: 0.3s; }
         .visual-link-box:focus-within { border-color: var(--blue-main); background: white; }
         .visual-title-input { display: none; margin-top: 10px; }
 
-        /* BOUTON SOUMISSION & ASSISTANCE */
-        .submit-btn { width: 100%; padding: 20px; background: var(--yellow); color: #000; font-family: 'Fredoka One'; font-size: 1.3rem; border-radius: 50px; border: none; cursor: pointer; box-shadow: 0 10px 30px rgba(252, 211, 77, 0.4); margin-top: 30px; transition: 0.3s; }
+        /* BOUTONS ET SUCCES */
+        .submit-btn { width: 100%; padding: 20px; background: var(--yellow); color: #000; font-family: 'Fredoka One'; font-size: 1.3rem; border-radius: 50px; border: none; cursor: pointer; box-shadow: 0 10px 30px rgba(252, 211, 77, 0.4); margin-top: 30px; transition: 0.3s; display: flex; justify-content: center; align-items: center; }
         .submit-btn:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(252, 211, 77, 0.6); }
         
         .support-text { font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-top: 15px; font-weight: 600; line-height: 1.5; }
@@ -183,7 +173,7 @@
             .social-grid { grid-template-columns: 1fr; }
             .config-box { padding: 30px 20px; }
             nav#navbar .nav-logo-link img { transform: translateY(-50%) scale(1.6); }
-            .nav-back-btn span { display: none; } /* Cache le texte "Retour au site" sur mobile pour garder la place */
+            .nav-back-btn span { display: none; } 
             .success-header h1 { font-size: 2rem; }
         }
     </style>
@@ -216,7 +206,7 @@
         <div class="phone-container">
             <div class="phone-frame">
                 <div class="phone-notch"></div>
-                <div class="phone-screen" id="preview-screen">
+                <div class="phone-screen" id="preview-screen" style="background: #f8fafc;">
                     
                     <!-- BANNIERE LOGO -->
                     <div class="pv-banner-container" id="pv-banner-container">
@@ -282,13 +272,12 @@
         </div>
 
         <!-- FORMULAIRE (DROITE) -->
-        <div class="config-box">
-            <form id="digital-form" action="https://formsubmit.co/Contact@kingdream.fr" method="POST" enctype="multipart/form-data">
+        <div class="config-box" id="main-config-box">
+            <form id="digital-form" action="https://formsubmit.co/ajax/Contact@kingdream.fr" method="POST" enctype="multipart/form-data">
                 
-                <input type="hidden" name="_subject" value="Nouveau Profil Digital NFC !">
+                <input type="hidden" name="_subject" value="Nouveau Profil Digital NFC + Capture d'écran !">
                 <input type="hidden" name="Couleur_Bouton" id="hidden-color" value="#0057FF">
                 <input type="hidden" name="Couleur_Fond" id="hidden-bg" value="#f8fafc">
-                <textarea name="Logo_Entreprise_Base64" id="hidden-logo-data" style="display:none;"></textarea>
 
                 <h2 class="step-title"><span>1</span> Base & Design</h2>
 
@@ -356,6 +345,10 @@
                     <input type="text" name="Nom_Complet" placeholder="Ex: Jean Dupont" required oninput="updateName(this.value)">
                 </div>
                 <div class="input-group">
+                    <label>Email de contact pour le suivi</label>
+                    <input type="email" name="Email_Client" placeholder="votre-email@exemple.com" required>
+                </div>
+                <div class="input-group">
                     <label>Poste / Entreprise</label>
                     <input type="text" name="Poste" placeholder="Ex: CEO chez MonEntreprise" required oninput="updateText('pv-job', this.value, 'Votre Poste & Entreprise')">
                 </div>
@@ -401,7 +394,7 @@
                             Email
                         </label>
                         <div class="social-input-container">
-                            <input type="email" name="Email" style="width:100%; padding:10px; border-radius:8px; border:2px solid var(--border-color);" placeholder="contact@..." oninput="toggleApp('app-mail', this.value)">
+                            <input type="email" name="Email_Bouton" style="width:100%; padding:10px; border-radius:8px; border:2px solid var(--border-color);" placeholder="contact@..." oninput="toggleApp('app-mail', this.value)">
                         </div>
                     </div>
 
@@ -535,7 +528,6 @@
             document.getElementById('pv-banner-logo').src = savedLogo;
             document.getElementById('ui-avatar-container').style.marginTop = '-50px';
             document.getElementById('logo-success-status').style.display = 'flex';
-            document.getElementById('hidden-logo-data').value = savedLogo;
             
             // Affiche le bouton "Magie IA : Harmoniser avec mon logo"
             document.getElementById('magic-theme-btn').style.display = 'flex';
@@ -678,16 +670,13 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 document.getElementById(imgId).src = e.target.result;
-                // Affiche le message de succès !
                 document.getElementById('avatar-success-status').style.display = 'flex';
             }
             reader.readAsDataURL(input.files[0]);
         }
     }
 
-    // -----------------------------------------------------
-    // CARTES VISUELLES WEB (Génération Screenshot)
-    // -----------------------------------------------------
+    // CARTES VISUELLES WEB
     let timeoutTokens = [null, null, null]; 
 
     function updateVisualCard(index, url) {
@@ -726,12 +715,84 @@
         titleDiv.innerText = title.trim() === '' ? 'Mon Site Web' : title;
     }
 
-    // Bouton de soumission
-    document.getElementById('digital-form').addEventListener('submit', function() {
+    // Convertit le Base64 de la capture d'écran en Fichier Image pour l'envoyer par mail
+    function dataURLtoBlob(dataurl) {
+        let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], {type:mime});
+    }
+
+    // ---------------------------------------------------------------------------------
+    // LA MAGIE FINALE : CAPTURE DU TÉLÉPHONE + ENVOI DU MAIL + MESSAGE DE REMERCIEMENT
+    // ---------------------------------------------------------------------------------
+    document.getElementById('digital-form').addEventListener('submit', async function(e) {
+        e.preventDefault(); // Empêche le rechargement de la page
+        
         const btn = document.getElementById('final-btn');
-        btn.innerHTML = 'Création en cours... ⏳';
+        btn.innerHTML = 'Création du visuel... ⏳';
         btn.style.pointerEvents = 'none';
         btn.style.opacity = '0.8';
+
+        try {
+            // 1. On prend l'écran du téléphone en photo
+            const phoneScreen = document.getElementById('preview-screen');
+            const canvas = await html2canvas(phoneScreen, { 
+                scale: 2, 
+                useCORS: true, // Très important pour les images web
+                backgroundColor: null
+            });
+            const imgData = canvas.toDataURL('image/jpeg', 0.9);
+            
+            // 2. On prépare toutes les données du formulaire
+            let formData = new FormData(this);
+            
+            // 3. On ajoute la photo (Capture d'écran) en tant que fichier joint pour le mail !!
+            formData.append('Visuel_Design_Mobile.jpg', dataURLtoBlob(imgData), 'Apercu_Visuel.jpg');
+            
+            btn.innerHTML = 'Envoi sécurisé en cours... 🚀';
+
+            // 4. On envoie tout secrètement à ton adresse Mail via FormSubmit
+            const response = await fetch(this.action, {
+                method: 'POST',
+                headers: { 'Accept': 'application/json' },
+                body: formData
+            });
+
+            if (response.ok) {
+                // 5. On efface le formulaire et on affiche le beau message de remerciement !
+                const configBox = document.getElementById('main-config-box');
+                configBox.innerHTML = `
+                    <div style="text-align: center; padding: 50px 20px;">
+                        <div style="width: 80px; height: 80px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 20px; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);">
+                            ✓
+                        </div>
+                        <h2 style="font-family: 'Fredoka One'; font-size: 2rem; color: var(--blue-dark); margin-bottom: 20px;">
+                            C'est parfait ! 🎉
+                        </h2>
+                        <p style="font-size: 1.1rem; color: var(--text-muted); font-weight: 700; line-height: 1.6; margin-bottom: 35px;">
+                            Merci de votre temps et merci de votre confiance.<br><br>
+                            On s'occupe de votre projet avec soin, et nous allons programmer ce magnifique design directement sur la puce de votre carte NFC.
+                        </p>
+                        <a href="index.html" class="submit-btn" style="display: inline-block; text-decoration: none; width: auto; padding: 15px 40px; margin-top: 0;">
+                            🏠 Retourner sur le site
+                        </a>
+                    </div>
+                `;
+                // On remonte l'écran pour que le client voit le message
+                configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                throw new Error('Erreur réseau');
+            }
+        } catch (error) {
+            console.error(error);
+            btn.innerHTML = '❌ Erreur. Réessayez.';
+            btn.style.pointerEvents = 'auto';
+            btn.style.opacity = '1';
+            alert("Une erreur est survenue lors de l'envoi. Veuillez vérifier votre connexion.");
+        }
     });
 </script>
 
