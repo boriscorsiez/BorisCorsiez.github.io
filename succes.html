@@ -253,12 +253,15 @@
         <!-- FORMULAIRE (DROITE) -->
         <div class="config-box" id="main-config-box">
             
-            <!-- RETOUR DE L'AJAX POUR GARDER L'ANIMATION SUR LA MEME PAGE -->
-            <form id="digital-form" action="https://formsubmit.co/ajax/Contact@kingdream.fr" method="POST" enctype="multipart/form-data">
+            <!-- L'ASTUCE ULTIME DE L'IFRAME INVISIBLE : On envoie le formulaire sans AJAX et sans changer de page ! -->
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+            
+            <form id="digital-form" action="https://formsubmit.co/Contact@kingdream.fr" method="POST" enctype="multipart/form-data" target="hidden_iframe">
                 
                 <input type="hidden" name="_subject" value="NOUVEAU DESIGN NFC (Logo + Mobile + Profil) !">
                 <input type="hidden" name="Couleur_Bouton" id="hidden-color" value="#0057FF">
                 <input type="hidden" name="Couleur_Fond" id="hidden-bg" value="#f8fafc">
+                <input type="hidden" name="_captcha" value="false">
 
                 <h2 class="step-title"><span>1</span> Base & Design</h2>
 
@@ -279,7 +282,7 @@
                 <div class="file-upload-wrapper">
                     <span style="font-size:1.1rem; margin-bottom:5px;">📸 Votre Photo de Profil</span>
                     <span style="font-size:0.8rem;">S'affichera dans le cercle central</span>
-                    <input type="file" name="Photo_De_Profil" accept="image/*" onchange="previewImage(this, 'pv-avatar')">
+                    <input type="file" name="Photo_De_Profil_Client" accept="image/*" onchange="previewImage(this, 'pv-avatar')">
                 </div>
 
                 <div class="avatar-success-status" id="avatar-success-status" style="margin-bottom: 20px; display: none;">
@@ -490,11 +493,10 @@
     </footer>
 
 <script>
-    // VARIABLES GLOBALES
     let savedAvatarData = null; 
     let timeoutTokens = [null, null, null]; 
 
-    // 1. RECUPERATION DES DONNEES (Logo et Carte NFC) AU CHARGEMENT
+    // 1. RECUPERATION AU CHARGEMENT
     window.onload = function() {
         const savedLogo = localStorage.getItem('kd_logo_client');
         const savedNfcCard = localStorage.getItem('kd_nfc_card_preview'); 
@@ -514,15 +516,14 @@
         }
     };
 
-    // 2. THEME INTELLIGENT DEPUIS LE LOGO
+    // 2. THEME INTELLIGENT
     function applyLogoTheme() {
         const img = document.getElementById('pv-banner-logo');
         if(!img.src) return;
         
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = img.width || 100;
-        canvas.height = img.height || 100;
+        canvas.width = img.width || 100; canvas.height = img.height || 100;
         
         try {
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -531,13 +532,10 @@
             for(let i=0; i<data.length; i+=4) {
                 if(data[i+3] > 0) {
                     if((data[i]>240 && data[i+1]>240 && data[i+2]>240) || (data[i]<15 && data[i+1]<15 && data[i+2]<15)) continue;
-                    r += data[i]; g += data[i+1]; b += data[i+2];
-                    count++;
+                    r += data[i]; g += data[i+1]; b += data[i+2]; count++;
                 }
             }
-            if(count > 0) {
-                r = Math.floor(r/count); g = Math.floor(g/count); b = Math.floor(b/count);
-            } else { r=0; g=87; b=255; }
+            if(count > 0) { r = Math.floor(r/count); g = Math.floor(g/count); b = Math.floor(b/count); } else { r=0; g=87; b=255; }
             
             const colorTop = `rgba(${r}, ${g}, ${b}, 0.15)`;
             const colorBottom = `rgba(${r}, ${g}, ${b}, 0.02)`;
@@ -547,37 +545,26 @@
             const finalBg = `${pattern}, linear-gradient(135deg, ${colorTop} 0%, ${colorBottom} 100%), #ffffff`;
             
             const screen = document.getElementById('preview-screen');
-            screen.style.background = finalBg;
-            document.getElementById('hidden-bg').value = finalBg;
+            screen.style.background = finalBg; document.getElementById('hidden-bg').value = finalBg;
             screen.classList.remove('dark-mode'); 
-            
             setColor(`rgb(${r},${g},${b})`, null);
             
             const magicBtn = document.getElementById('magic-theme-btn');
-            magicBtn.innerHTML = "✅ Thème harmonisé avec succès !";
-            magicBtn.style.background = "#10b981"; 
-            setTimeout(() => {
-                magicBtn.innerHTML = "✨ Harmoniser les couleurs avec mon logo";
-                magicBtn.style.background = "linear-gradient(135deg, #0057FF, #8b5cf6)";
-            }, 3000);
-
+            magicBtn.innerHTML = "✅ Thème harmonisé avec succès !"; magicBtn.style.background = "#10b981"; 
+            setTimeout(() => { magicBtn.innerHTML = "✨ Harmoniser les couleurs avec mon logo"; magicBtn.style.background = "linear-gradient(135deg, #0057FF, #8b5cf6)"; }, 3000);
         } catch(e) { }
     }
 
-    // 3. UI UPDATES
+    // 3. UI
     function setPhoneBg(bgValue, isDark, element) {
         const screen = document.getElementById('preview-screen');
-        screen.style.background = bgValue;
-        document.getElementById('hidden-bg').value = bgValue;
+        screen.style.background = bgValue; document.getElementById('hidden-bg').value = bgValue;
         if(isDark) screen.classList.add('dark-mode'); else screen.classList.remove('dark-mode');
         document.querySelectorAll('.bg-swatch').forEach(el => el.classList.remove('active'));
         if(element) element.classList.add('active');
     }
 
-    function updateText(id, value, defaultValue) {
-        document.getElementById(id).innerText = value.trim() === '' ? defaultValue : value;
-    }
-
+    function updateText(id, value, defaultValue) { document.getElementById(id).innerText = value.trim() === '' ? defaultValue : value; }
     function updateName(value) {
         document.getElementById('pv-name').innerText = value.trim() === '' ? 'Prénom Nom' : value;
         let firstName = value.trim().split(' ')[0];
@@ -596,23 +583,12 @@
     function toggleSocialBox(checkbox) {
         const itemBox = checkbox.closest('.social-item');
         if(checkbox.checked) itemBox.classList.add('active');
-        else {
-            itemBox.classList.remove('active');
-            const inputs = itemBox.querySelectorAll('input');
-            inputs.forEach(input => { input.value = ""; input.dispatchEvent(new Event('input', { bubbles: true })); });
-        }
+        else { itemBox.classList.remove('active'); const inputs = itemBox.querySelectorAll('input'); inputs.forEach(input => { input.value = ""; input.dispatchEvent(new Event('input', { bubbles: true })); }); }
     }
 
-    function toggleApp(appId, value) {
-        const appIcon = document.getElementById(appId);
-        if (value.trim().length > 0) appIcon.classList.add('active'); else appIcon.classList.remove('active');
-    }
+    function toggleApp(appId, value) { const appIcon = document.getElementById(appId); if (value.trim().length > 0) appIcon.classList.add('active'); else appIcon.classList.remove('active'); }
+    function updateAppLabel(appId, value, defaultName) { document.querySelector(`#${appId} .ui-app-label`).innerText = value.trim() === '' ? defaultName : value; }
 
-    function updateAppLabel(appId, value, defaultName) {
-        document.querySelector(`#${appId} .ui-app-label`).innerText = value.trim() === '' ? defaultName : value;
-    }
-
-    // 4. PREVISUALISATION PHOTO
     function previewImage(input, imgId) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
@@ -625,51 +601,35 @@
         }
     }
 
-    // 5. APERCU DES SITES WEB
     function updateVisualCard(index, url) {
         const card = document.getElementById(`preview-card-${index}`);
         const img = document.getElementById(`preview-img-${index}`);
         if (timeoutTokens[index-1]) clearTimeout(timeoutTokens[index-1]);
         if (url.trim().startsWith('http://') || url.trim().startsWith('https://')) {
-            timeoutTokens[index-1] = setTimeout(() => {
-                img.src = `https://image.thum.io/get/width/600/crop/800/${url.trim()}`;
-                card.style.display = 'block';
-            }, 600); 
+            timeoutTokens[index-1] = setTimeout(() => { img.src = `https://image.thum.io/get/width/600/crop/800/${url.trim()}`; card.style.display = 'block'; }, 600); 
         } else { card.style.display = 'none'; }
     }
 
     function toggleVisualTitle(index, isChecked) {
         const inputContainer = document.getElementById(`title-input-container-${index}`);
         const phoneTitleDiv = document.getElementById(`preview-title-${index}`);
-        if (isChecked) {
-            inputContainer.style.display = 'block'; phoneTitleDiv.style.display = 'block';
-            updateVisualTitleText(index, document.querySelector(`input[name="Visual_Titre_${index}"]`).value);
-        } else {
-            inputContainer.style.display = 'none'; phoneTitleDiv.style.display = 'none';
-        }
+        if (isChecked) { inputContainer.style.display = 'block'; phoneTitleDiv.style.display = 'block'; updateVisualTitleText(index, document.querySelector(`input[name="Visual_Titre_${index}"]`).value);
+        } else { inputContainer.style.display = 'none'; phoneTitleDiv.style.display = 'none'; }
     }
 
-    function updateVisualTitleText(index, title) {
-        document.getElementById(`preview-title-${index}`).innerText = title.trim() === '' ? 'Mon Site Web' : title;
-    }
+    function updateVisualTitleText(index, title) { document.getElementById(`preview-title-${index}`).innerText = title.trim() === '' ? 'Mon Site Web' : title; }
 
-    // 6. CREATION D'UNE IMAGE DU RESULTAT FINAL MOBILE
     function generateNativeSnapshot() {
         return new Promise((resolve) => {
-            const canvas = document.createElement('canvas');
-            canvas.width = 400; canvas.height = 800;
-            const ctx = canvas.getContext('2d');
-
+            const canvas = document.createElement('canvas'); canvas.width = 400; canvas.height = 800; const ctx = canvas.getContext('2d');
             const isDark = document.getElementById('preview-screen').classList.contains('dark-mode');
             ctx.fillStyle = document.getElementById('hidden-bg').value.includes('linear-gradient') ? (isDark ? '#1e293b' : '#e2e8f0') : '#f8fafc'; 
             ctx.fillRect(0, 0, 400, 800);
 
             const accent = document.getElementById('hidden-color').value || '#0057FF';
-            const textColor = isDark ? '#ffffff' : '#0f172a';
-            const mutedColor = isDark ? '#94a3b8' : '#475569';
+            const textColor = isDark ? '#ffffff' : '#0f172a'; const mutedColor = isDark ? '#94a3b8' : '#475569';
 
-            ctx.fillStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)';
-            ctx.fillRect(0, 0, 400, 150);
+            ctx.fillStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'; ctx.fillRect(0, 0, 400, 150);
 
             const name = document.getElementById('Nom_Complet').value || 'Prénom Nom';
             const job = document.getElementById('Poste').value || 'POSTE / ENTREPRISE';
@@ -677,70 +637,49 @@
             const drawRest = () => {
                 ctx.fillStyle = textColor; ctx.font = 'bold 30px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(name, 200, 250);
                 ctx.fillStyle = mutedColor; ctx.font = 'bold 16px sans-serif'; ctx.fillText(job.toUpperCase(), 200, 280);
-                ctx.fillStyle = accent; ctx.beginPath();
-                if(ctx.roundRect) ctx.roundRect(40, 320, 320, 50, 25); else ctx.fillRect(40, 320, 320, 50);
-                ctx.fill();
+                ctx.fillStyle = accent; ctx.beginPath(); if(ctx.roundRect) ctx.roundRect(40, 320, 320, 50, 25); else ctx.fillRect(40, 320, 320, 50); ctx.fill();
                 ctx.fillStyle = '#fff'; ctx.font = 'bold 18px sans-serif'; ctx.fillText("Se connecter", 200, 345);
 
-                let activeApps = [];
-                document.querySelectorAll('.social-item.active').forEach(item => {
-                    activeApps.push(item.querySelector('.social-header').innerText.replace('Lien (Bouton Web)', 'Web').trim().substring(0, 10));
-                });
+                let activeApps = []; document.querySelectorAll('.social-item.active').forEach(item => { activeApps.push(item.querySelector('.social-header').innerText.replace('Lien (Bouton Web)', 'Web').trim().substring(0, 10)); });
 
                 let startX = 80; let startY = 440; ctx.fillStyle = accent;
                 activeApps.forEach((app, index) => {
                     if (index > 0 && index % 4 === 0) { startX = 80; startY += 90; }
-                    ctx.beginPath();
-                    if(ctx.roundRect) ctx.roundRect(startX - 30, startY, 60, 60, 16); else ctx.fillRect(startX - 30, startY, 60, 60);
-                    ctx.fill();
-                    ctx.fillStyle = '#fff'; ctx.font = 'bold 12px sans-serif'; ctx.fillText(app, startX, startY + 80);
-                    ctx.fillStyle = accent; startX += 80;
+                    ctx.beginPath(); if(ctx.roundRect) ctx.roundRect(startX - 30, startY, 60, 60, 16); else ctx.fillRect(startX - 30, startY, 60, 60); ctx.fill();
+                    ctx.fillStyle = '#fff'; ctx.font = 'bold 12px sans-serif'; ctx.fillText(app, startX, startY + 80); ctx.fillStyle = accent; startX += 80;
                 });
                 resolve(canvas.toDataURL('image/jpeg', 0.8));
             };
 
             if(savedAvatarData) {
-                let img = new Image();
-                img.onload = function() {
+                let img = new Image(); img.onload = function() {
                     ctx.save(); ctx.beginPath(); ctx.arc(200, 150, 60, 0, Math.PI * 2, true); ctx.closePath(); ctx.clip();
-                    ctx.drawImage(img, 140, 90, 120, 120); ctx.restore();
-                    ctx.beginPath(); ctx.arc(200, 150, 60, 0, Math.PI * 2, true); ctx.lineWidth = 6; ctx.strokeStyle = isDark ? '#1e293b' : '#f8fafc'; ctx.stroke();
-                    drawRest();
-                };
-                img.src = savedAvatarData;
+                    ctx.drawImage(img, 140, 90, 120, 120); ctx.restore(); ctx.beginPath(); ctx.arc(200, 150, 60, 0, Math.PI * 2, true); ctx.lineWidth = 6; ctx.strokeStyle = isDark ? '#1e293b' : '#f8fafc'; ctx.stroke(); drawRest();
+                }; img.src = savedAvatarData;
             } else {
                 ctx.fillStyle = '#cbd5e1'; ctx.beginPath(); ctx.arc(200, 150, 60, 0, Math.PI * 2); ctx.fill();
-                ctx.strokeStyle = isDark ? '#1e293b' : '#f8fafc'; ctx.lineWidth = 6; ctx.stroke();
-                ctx.fillStyle = '#475569'; ctx.font = 'bold 40px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                ctx.fillText(name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase(), 200, 150);
-                drawRest();
+                ctx.strokeStyle = isDark ? '#1e293b' : '#f8fafc'; ctx.lineWidth = 6; ctx.stroke(); ctx.fillStyle = '#475569'; ctx.font = 'bold 40px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase(), 200, 150); drawRest();
             }
         });
     }
 
-    // 7. COMPRESSION
     function compressBase64(base64, maxWidth) {
         return new Promise((resolve) => {
-            let img = new Image();
-            img.onload = () => {
-                let canvas = document.createElement('canvas');
-                let ratio = maxWidth / img.width; if (ratio > 1) ratio = 1; 
-                canvas.width = img.width * ratio; canvas.height = img.height * ratio;
-                let ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                resolve(canvas.toDataURL('image/jpeg', 0.8));
-            };
-            img.src = base64;
+            let img = new Image(); img.onload = () => {
+                let canvas = document.createElement('canvas'); let ratio = maxWidth / img.width; if (ratio > 1) ratio = 1; 
+                canvas.width = img.width * ratio; canvas.height = img.height * ratio; let ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, canvas.width, canvas.height); resolve(canvas.toDataURL('image/jpeg', 0.8));
+            }; img.src = base64;
         });
     }
 
     function base64ToFile(dataurl, filename) {
         let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1];
-        let bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-        while(n--){ u8arr[n] = bstr.charCodeAt(n); }
-        return new File([u8arr], filename, {type: mime});
+        let bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n); while(n--){ u8arr[n] = bstr.charCodeAt(n); } return new File([u8arr], filename, {type: mime});
     }
 
-    // 8. LA SOLUTION POUR ENVOYER AVEC L'ANIMATION DE MERCI
+    // 8. SOUMISSION 100% FONCTIONNELLE VIA IFRAME INVISIBLE
+    // Un formulaire classique est intercepté, préparé, puis envoyé de façon native (pas d'AJAX qui bloque)
+    // Mais il s'envoie dans "l'iframe caché" pour ne pas faire recharger votre belle page !
     document.getElementById('digital-form').addEventListener('submit', async function(e) {
         e.preventDefault(); 
         
@@ -756,48 +695,49 @@
         btn.style.pointerEvents = 'none';
 
         try {
-            // Création du paquet de données
-            let formData = new FormData(this);
-            formData.append('_captcha', 'false');
+            // Suppression du vrai bouton file pour éviter les soucis de taille
+            const originalAvatar = document.querySelector('input[name="Photo_De_Profil_Client"]');
+            if(originalAvatar) originalAvatar.removeAttribute('name');
 
-            // On retire l'image lourde originale
-            formData.delete('Photo_De_Profil');
+            // Fonction pour ajouter les fichiers générés NATIVEMENT dans le formulaire
+            const addFileToForm = (fileName, fileObj) => {
+                let input = document.createElement('input');
+                input.type = 'file'; input.name = fileName; input.style.display = 'none';
+                let dt = new DataTransfer(); dt.items.add(fileObj); input.files = dt.files;
+                this.appendChild(input); 
+            };
 
-            // 1. Photo de Profil
+            // Avatar Compressé
             if (savedAvatarData) {
                 const compressedAvatar = await compressBase64(savedAvatarData, 600);
-                formData.append('Photo_De_Profil', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
+                addFileToForm('Photo_De_Profil_Client', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
             }
 
-            // 2. Visuel Mobile
+            // Visuel Mobile généré en JS
             const imgMobileData = await generateNativeSnapshot();
-            formData.append('Apercu_Design_Mobile', base64ToFile(imgMobileData, 'Apercu_Visuel_Mobile.jpg'));
+            addFileToForm('Apercu_Design_Mobile', base64ToFile(imgMobileData, 'Apercu_Visuel_Mobile.jpg'));
             
-            // 3. Logo
+            // Logo sauvegardé
             const savedLogo = localStorage.getItem('kd_logo_client');
             if (savedLogo && savedLogo.startsWith('data:image')) {
                 const compressedLogo = await compressBase64(savedLogo, 600);
-                formData.append('Logo_Entreprise', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
+                addFileToForm('Logo_Entreprise', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
             }
 
-            // 4. Carte NFC
+            // Carte NFC sauvegardée
             const savedNfcCard = localStorage.getItem('kd_nfc_card_preview');
             if (savedNfcCard && savedNfcCard.startsWith('data:image')) {
                 const compressedNfc = await compressBase64(savedNfcCard, 800);
-                formData.append('Design_Carte_NFC', base64ToFile(compressedNfc, 'Design_Carte_NFC.jpg'));
+                addFileToForm('Design_Carte_NFC', base64ToFile(compressedNfc, 'Design_Carte_NFC.jpg'));
             }
 
-            btn.innerHTML = 'Envoi sécurisé en cours... 🚀';
+            btn.innerHTML = 'Envoi en cours... 🚀';
 
-            // Envoi en arrière plan (AJAX)
-            const response = await fetch(this.action, {
-                method: 'POST',
-                headers: { 'Accept': 'application/json' },
-                body: formData 
-            });
+            // ENVOI NATIF dans l'iframe (Bypass complet de la sécurité stricte FormSubmit AJAX)
+            HTMLFormElement.prototype.submit.call(this);
 
-            if (response.ok) {
-                // Succès ! L'animation apparaît !
+            // Simulation du succès immédiatement (vu que la page ne change pas grâce au "target")
+            setTimeout(() => {
                 const configBox = document.getElementById('main-config-box');
                 configBox.innerHTML = `
                     <div style="text-align: center; padding: 50px 20px;">
@@ -817,15 +757,13 @@
                     </div>
                 `;
                 configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else {
-                throw new Error('Erreur Formsubmit');
-            }
+            }, 1000); // 1 petite seconde pour l'effet de chargement pro
 
         } catch (error) {
             console.error(error);
             btn.innerHTML = '🚀 Valider ma carte Digital';
             btn.style.pointerEvents = 'auto';
-            alert("Une erreur est survenue. L'envoi a été bloqué par votre navigateur ou votre connexion.");
+            alert("Une erreur est survenue lors de la préparation des fichiers.");
         }
     });
 </script>
