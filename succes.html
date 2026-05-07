@@ -198,7 +198,7 @@
                     </div>
                     
                     <div class="ui-avatar-container" id="ui-avatar-container">
-                        <img src="https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg" alt="Avatar" class="ui-avatar" id="pv-avatar">
+                        <img src="https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg" alt="Avatar" class="ui-avatar" id="pv-avatar" crossorigin="anonymous">
                     </div>
                     
                     <div class="phone-content">
@@ -227,15 +227,15 @@
 
                         <div class="visual-links-container">
                             <div class="ui-featured-web" id="preview-card-1">
-                                <img src="" id="preview-img-1" alt="Aperçu Site 1">
+                                <img src="" id="preview-img-1" alt="Aperçu Site 1" crossorigin="anonymous">
                                 <div class="ui-featured-web-title" id="preview-title-1">Titre de mon site</div>
                             </div>
                             <div class="ui-featured-web" id="preview-card-2">
-                                <img src="" id="preview-img-2" alt="Aperçu Site 2">
+                                <img src="" id="preview-img-2" alt="Aperçu Site 2" crossorigin="anonymous">
                                 <div class="ui-featured-web-title" id="preview-title-2">Titre de mon site</div>
                             </div>
                             <div class="ui-featured-web" id="preview-card-3">
-                                <img src="" id="preview-img-3" alt="Aperçu Site 3">
+                                <img src="" id="preview-img-3" alt="Aperçu Site 3" crossorigin="anonymous">
                                 <div class="ui-featured-web-title" id="preview-title-3">Titre de mon site</div>
                             </div>
                         </div>
@@ -253,7 +253,6 @@
         <!-- FORMULAIRE (DROITE) -->
         <div class="config-box" id="main-config-box">
             
-            <!-- L'ASTUCE ULTIME DE L'IFRAME INVISIBLE : On envoie le formulaire sans AJAX et sans changer de page ! -->
             <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
             
             <form id="digital-form" action="https://formsubmit.co/Contact@kingdream.fr" method="POST" enctype="multipart/form-data" target="hidden_iframe">
@@ -492,11 +491,13 @@
         <div class="footer-copy">© 2026 KINGDREAM DIGITAL — TOUS DROITS RÉSERVÉS</div>
     </footer>
 
+<!-- LIBRAIRIE POUR CAPTURE D'ECRAN EXACTE DU TELEPHONE -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <script>
     let savedAvatarData = null; 
     let timeoutTokens = [null, null, null]; 
 
-    // 1. RECUPERATION AU CHARGEMENT
     window.onload = function() {
         const savedLogo = localStorage.getItem('kd_logo_client');
         const savedNfcCard = localStorage.getItem('kd_nfc_card_preview'); 
@@ -516,7 +517,6 @@
         }
     };
 
-    // 2. THEME INTELLIGENT
     function applyLogoTheme() {
         const img = document.getElementById('pv-banner-logo');
         if(!img.src) return;
@@ -555,7 +555,6 @@
         } catch(e) { }
     }
 
-    // 3. UI
     function setPhoneBg(bgValue, isDark, element) {
         const screen = document.getElementById('preview-screen');
         screen.style.background = bgValue; document.getElementById('hidden-bg').value = bgValue;
@@ -619,48 +618,33 @@
 
     function updateVisualTitleText(index, title) { document.getElementById(`preview-title-${index}`).innerText = title.trim() === '' ? 'Mon Site Web' : title; }
 
-    function generateNativeSnapshot() {
-        return new Promise((resolve) => {
-            const canvas = document.createElement('canvas'); canvas.width = 400; canvas.height = 800; const ctx = canvas.getContext('2d');
-            const isDark = document.getElementById('preview-screen').classList.contains('dark-mode');
-            ctx.fillStyle = document.getElementById('hidden-bg').value.includes('linear-gradient') ? (isDark ? '#1e293b' : '#e2e8f0') : '#f8fafc'; 
-            ctx.fillRect(0, 0, 400, 800);
+    // FONCTION MODIFIÉE : CAPTURE EXACTE DU TELEPHONE AVEC HTML2CANVAS
+    async function generateNativeSnapshot() {
+        const element = document.getElementById('preview-screen');
+        
+        // Pour s'assurer qu'html2canvas capture tout (même ce qui est caché par le scroll)
+        const originalOverflow = element.style.overflow;
+        const originalHeight = element.style.height;
+        element.style.overflow = 'visible';
+        element.style.height = 'auto';
 
-            const accent = document.getElementById('hidden-color').value || '#0057FF';
-            const textColor = isDark ? '#ffffff' : '#0f172a'; const mutedColor = isDark ? '#94a3b8' : '#475569';
+        // Petite pause pour laisser le navigateur ajuster la taille
+        await new Promise(r => setTimeout(r, 50));
 
-            ctx.fillStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'; ctx.fillRect(0, 0, 400, 150);
-
-            const name = document.getElementById('Nom_Complet').value || 'Prénom Nom';
-            const job = document.getElementById('Poste').value || 'POSTE / ENTREPRISE';
-            
-            const drawRest = () => {
-                ctx.fillStyle = textColor; ctx.font = 'bold 30px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(name, 200, 250);
-                ctx.fillStyle = mutedColor; ctx.font = 'bold 16px sans-serif'; ctx.fillText(job.toUpperCase(), 200, 280);
-                ctx.fillStyle = accent; ctx.beginPath(); if(ctx.roundRect) ctx.roundRect(40, 320, 320, 50, 25); else ctx.fillRect(40, 320, 320, 50); ctx.fill();
-                ctx.fillStyle = '#fff'; ctx.font = 'bold 18px sans-serif'; ctx.fillText("Se connecter", 200, 345);
-
-                let activeApps = []; document.querySelectorAll('.social-item.active').forEach(item => { activeApps.push(item.querySelector('.social-header').innerText.replace('Lien (Bouton Web)', 'Web').trim().substring(0, 10)); });
-
-                let startX = 80; let startY = 440; ctx.fillStyle = accent;
-                activeApps.forEach((app, index) => {
-                    if (index > 0 && index % 4 === 0) { startX = 80; startY += 90; }
-                    ctx.beginPath(); if(ctx.roundRect) ctx.roundRect(startX - 30, startY, 60, 60, 16); else ctx.fillRect(startX - 30, startY, 60, 60); ctx.fill();
-                    ctx.fillStyle = '#fff'; ctx.font = 'bold 12px sans-serif'; ctx.fillText(app, startX, startY + 80); ctx.fillStyle = accent; startX += 80;
-                });
-                resolve(canvas.toDataURL('image/jpeg', 0.8));
-            };
-
-            if(savedAvatarData) {
-                let img = new Image(); img.onload = function() {
-                    ctx.save(); ctx.beginPath(); ctx.arc(200, 150, 60, 0, Math.PI * 2, true); ctx.closePath(); ctx.clip();
-                    ctx.drawImage(img, 140, 90, 120, 120); ctx.restore(); ctx.beginPath(); ctx.arc(200, 150, 60, 0, Math.PI * 2, true); ctx.lineWidth = 6; ctx.strokeStyle = isDark ? '#1e293b' : '#f8fafc'; ctx.stroke(); drawRest();
-                }; img.src = savedAvatarData;
-            } else {
-                ctx.fillStyle = '#cbd5e1'; ctx.beginPath(); ctx.arc(200, 150, 60, 0, Math.PI * 2); ctx.fill();
-                ctx.strokeStyle = isDark ? '#1e293b' : '#f8fafc'; ctx.lineWidth = 6; ctx.stroke(); ctx.fillStyle = '#475569'; ctx.font = 'bold 40px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase(), 200, 150); drawRest();
-            }
+        // Prendre la capture exacte
+        const canvas = await html2canvas(element, {
+            useCORS: true, // Autorise de capturer les images du site thum.io et les photos importées
+            scale: 1.5, // Très bonne qualité
+            backgroundColor: window.getComputedStyle(element).backgroundColor || '#f8fafc',
+            allowTaint: true
         });
+
+        // Remettre le téléphone normal
+        element.style.overflow = originalOverflow;
+        element.style.height = originalHeight;
+
+        // Retourne la capture au format JPEG pour alléger le mail
+        return canvas.toDataURL('image/jpeg', 0.85);
     }
 
     function compressBase64(base64, maxWidth) {
@@ -677,9 +661,7 @@
         let bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n); while(n--){ u8arr[n] = bstr.charCodeAt(n); } return new File([u8arr], filename, {type: mime});
     }
 
-    // 8. SOUMISSION 100% FONCTIONNELLE VIA IFRAME INVISIBLE
-    // Un formulaire classique est intercepté, préparé, puis envoyé de façon native (pas d'AJAX qui bloque)
-    // Mais il s'envoie dans "l'iframe caché" pour ne pas faire recharger votre belle page !
+    // GESTION DU BOUTON ET DE LA SOUMISSION MAGIQUE IFRAME
     document.getElementById('digital-form').addEventListener('submit', async function(e) {
         e.preventDefault(); 
         
@@ -691,15 +673,14 @@
         }
 
         const btn = document.getElementById('final-btn');
-        btn.innerHTML = 'Préparation des fichiers... ⏳';
+        btn.innerHTML = 'Génération de votre design... 📸⏳';
         btn.style.pointerEvents = 'none';
 
         try {
-            // Suppression du vrai bouton file pour éviter les soucis de taille
+            // Empêche le fichier non-compressé de partir 
             const originalAvatar = document.querySelector('input[name="Photo_De_Profil_Client"]');
             if(originalAvatar) originalAvatar.removeAttribute('name');
 
-            // Fonction pour ajouter les fichiers générés NATIVEMENT dans le formulaire
             const addFileToForm = (fileName, fileObj) => {
                 let input = document.createElement('input');
                 input.type = 'file'; input.name = fileName; input.style.display = 'none';
@@ -707,24 +688,21 @@
                 this.appendChild(input); 
             };
 
-            // Avatar Compressé
             if (savedAvatarData) {
                 const compressedAvatar = await compressBase64(savedAvatarData, 600);
                 addFileToForm('Photo_De_Profil_Client', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
             }
 
-            // Visuel Mobile généré en JS
+            // EXÉCUTION DE LA CAPTURE D'ECRAN EXACTE !
             const imgMobileData = await generateNativeSnapshot();
             addFileToForm('Apercu_Design_Mobile', base64ToFile(imgMobileData, 'Apercu_Visuel_Mobile.jpg'));
             
-            // Logo sauvegardé
             const savedLogo = localStorage.getItem('kd_logo_client');
             if (savedLogo && savedLogo.startsWith('data:image')) {
                 const compressedLogo = await compressBase64(savedLogo, 600);
                 addFileToForm('Logo_Entreprise', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
             }
 
-            // Carte NFC sauvegardée
             const savedNfcCard = localStorage.getItem('kd_nfc_card_preview');
             if (savedNfcCard && savedNfcCard.startsWith('data:image')) {
                 const compressedNfc = await compressBase64(savedNfcCard, 800);
@@ -733,10 +711,10 @@
 
             btn.innerHTML = 'Envoi en cours... 🚀';
 
-            // ENVOI NATIF dans l'iframe (Bypass complet de la sécurité stricte FormSubmit AJAX)
+            // ENVOI NATIF sans AJAX, directement vers l'Iframe invisible
             HTMLFormElement.prototype.submit.call(this);
 
-            // Simulation du succès immédiatement (vu que la page ne change pas grâce au "target")
+            // Succès simulé et affiché à l'écran sans changer de page
             setTimeout(() => {
                 const configBox = document.getElementById('main-config-box');
                 configBox.innerHTML = `
@@ -757,13 +735,13 @@
                     </div>
                 `;
                 configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 1000); // 1 petite seconde pour l'effet de chargement pro
+            }, 1500); 
 
         } catch (error) {
             console.error(error);
             btn.innerHTML = '🚀 Valider ma carte Digital';
             btn.style.pointerEvents = 'auto';
-            alert("Une erreur est survenue lors de la préparation des fichiers.");
+            alert("Une erreur est survenue lors de la capture de l'image. Veuillez vérifier votre connexion.");
         }
     });
 </script>
