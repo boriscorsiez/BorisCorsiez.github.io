@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Paiement Sécurisé - KingDream Digital</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { 
+            --blue-main: #0057FF; 
+            --blue-dark: #0036A3; 
+            --yellow: #FCD34D; 
+            --bg-light: #f8fafc; 
+            --text-dark: #0f172a; 
+            --text-muted: #64748b; 
+            --border-color: #e2e8f0;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background: var(--bg-light); color: var(--text-dark); font-family: 'Nunito', sans-serif; -webkit-font-smoothing: antialiased; }
+        
+        /* ─── NAVIGATION (LOGO CENTRÉ) ─── */
+        nav { 
+            background: white; 
+            padding: 0 5%; 
+            height: 80px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
+            overflow: hidden; /* Empêche le logo de dépasser visuellement de la barre */
+        }
+        
+        .nav-logo { display: flex; align-items: center; text-decoration: none; }
+        
+        /* TECHNIQUE DU ZOOM POUR ANNULER L'ESPACE BLANC DE L'IMAGE */
+        .nav-logo img { 
+            height: 80px; 
+            width: auto; 
+            object-fit: contain; 
+            transform: scale(2.5); /* ZOOM ENCORE PLUS FORT (250%) */
+            mix-blend-mode: multiply; /* Assure que le fond blanc de l'image devienne transparent */
+        }
+        
+        .nav-back { 
+            position: absolute; 
+            left: 5%;
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            color: var(--text-muted); 
+            font-weight: 800; 
+            text-decoration: none; 
+            font-size: 0.9rem; 
+            transition: 0.3s; 
+            background: #f1f5f9; 
+            padding: 8px 18px; 
+            border-radius: 50px; 
+            z-index: 10;
+        }
+        .nav-back:hover { background: var(--blue-main); color: white; }
+        .nav-back svg { width: 16px; height: 16px; fill: currentColor; }
+        
+        /* ─── LAYOUT PRINCIPAL ─── */
+        .checkout-wrapper { max-width: 1150px; margin: 50px auto 100px; padding: 0 20px; display: grid; grid-template-columns: 1.3fr 0.9fr; gap: 50px; align-items: start; }
+        
+        h1 { font-family: 'Fredoka One'; font-size: 2.2rem; color: var(--text-dark); margin-bottom: 30px; letter-spacing: 0.5px; }
+        
+        /* ─── COLONNE GAUCHE (FORMULAIRE) ─── */
+        .box { background: white; border-radius: 24px; padding: 35px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.05); margin-bottom: 25px; }
+        
+        .title { font-size: 1.15rem; font-weight: 900; margin-bottom: 25px; display: flex; align-items: center; gap: 12px; color: var(--text-dark); }
+        .title span { background: var(--blue-main); color: white; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.85rem; }
+        
+        label.input-label { display: block; font-size: 0.8rem; font-weight: 800; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        input[type="email"] { width: 100%; padding: 16px 20px; border: 2px solid var(--border-color); border-radius: 14px; font-weight: 700; background: #f8fafc; font-size: 1rem; color: var(--text-dark); outline: none; transition: 0.3s; }
+        input[type="email"]:focus { border-color: var(--blue-main); background: white; box-shadow: 0 0 0 4px rgba(0,87,255,0.1); }
+        
+        /* OPTIONS DE LIVRAISON */
+        .delivery-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .delivery-option { display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 2px solid var(--border-color); border-radius: 16px; cursor: pointer; transition: 0.3s; position: relative; }
+        .delivery-option.active { border-color: var(--blue-main); background: rgba(0,87,255,0.03); box-shadow: 0 4px 15px rgba(0,87,255,0.1); }
+        .delivery-option input { display: none; }
+        
+        .del-info strong { font-size: 1.05rem; font-weight: 800; color: var(--text-dark); display: block; margin-bottom: 6px; }
+        .del-info small { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); display: block; line-height: 1.4; }
+        .del-price { font-family: 'Fredoka One'; font-size: 1.1rem; color: var(--text-dark); white-space: nowrap; margin-left: 15px; }
+
+        .info-notice {
+            background: #f1f5f9;
+            border-left: 4px solid var(--blue-main);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 15px;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+        .info-notice strong { color: var(--text-dark); }
+        
+        /* BOUTON PAIEMENT */
+        .pay-btn { width: 100%; padding: 20px; background: var(--yellow); color: #000; font-family: 'Fredoka One'; font-size: 1.5rem; border-radius: 50px; border: none; cursor: pointer; box-shadow: 0 10px 30px rgba(252, 211, 77, 0.4); margin-top: 10px; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .pay-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(252, 211, 77, 0.5); }
+        
+        .secure-info { text-align: center; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .payment-logos { display: flex; gap: 10px; justify-content: center; align-items: center; }
+        .payment-logos img { height: 24px; object-fit: contain; }
+
+        /* ─── COLONNE DROITE (PANIER & CARTE) ─── */
+        .cart-summary { position: sticky; top: 110px; background: #fff; padding: 40px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.08); border: 1px solid #f1f5f9; }
+        
+        /* PREVIEW CARTE 3D PANIER */
+        .cart-card-preview { perspective: 1000px; width: 100%; height: 200px; display: flex; justify-content: center; align-items: center; margin-bottom: 30px; }
+        .cart-card { 
+            width: 260px; height: 164px; border-radius: 12px; background-size: cover; background-position: center; 
+            transform: rotateY(-15deg) rotateX(10deg); box-shadow: -15px 20px 30px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.2); 
+            display: flex; align-items: center; justify-content: center; position: relative; transition: 0.5s;
+        }
+        .cart-card::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%); border-radius: 12px; pointer-events: none; }
+        .cart-card svg { width: 40px; height: 40px; fill: white; opacity: 0.5; }
+
+        /* TEXTES PANIER */
+        .cart-product-title { font-family: 'Fredoka One'; font-size: 1.4rem; color: var(--text-dark); margin-bottom: 5px; }
+        .cart-mat-badge { display: inline-block; background: #f1f5f9; color: var(--blue-main); font-weight: 800; font-size: 0.75rem; padding: 6px 12px; border-radius: 50px; text-transform: uppercase; margin-bottom: 30px; border: 1px solid #e2e8f0; }
+        
+        .price-row { display: flex; justify-content: space-between; font-weight: 800; margin-bottom: 15px; color: var(--text-muted); font-size: 1.05rem; }
+        .price-row span:last-child { color: var(--text-dark); }
+        .price-row.total { font-family: 'Fredoka One'; font-size: 1.8rem; color: var(--blue-main); margin-top: 20px; padding-top: 20px; border-top: 2px dashed #e2e8f0; }
+
+        @media(max-width: 900px) { 
+            .checkout-wrapper { grid-template-columns: 1fr; flex-direction: column-reverse; display: flex; gap: 30px; margin-top: 30px; } 
+            .cart-summary { position: relative; top: 0; padding: 30px 20px; } 
+            .cart-card { width: 220px; height: 139px; }
+        }
+
+        /* Ajustement Mobile pour la Navbar */
+        @media(max-width: 600px) {
+            .nav-back span { display: none; } 
+            .nav-back { padding: 10px; left: 15px; }
+            .nav-logo img { transform: scale(2.0); } /* ZOOM PLUS FORT SUR MOBILE AUSSI */
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="javascript:history.back()" class="nav-back">
+            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            <span>Retour au Studio</span>
+        </a>
+        <a href="index.html" class="nav-logo">
+            <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream Digital">
+        </a>
+    </nav>
+
+    <main class="checkout-wrapper">
+        
+        <!-- COLONNE GAUCHE (PAIEMENT) -->
+        <div class="checkout-left">
+            <h1>Finaliser ma commande</h1>
+            
+            <form id="payment-form">
+                <!-- ETAPE 1 -->
+                <div class="box">
+                    <h2 class="title"><span>1</span> Vos coordonnées</h2>
+                    <label class="input-label">Adresse e-mail de facturation</label>
+                    <input type="email" id="email-client" placeholder="exemple@entreprise.com" required>
+                </div>
+
+                <!-- ETAPE 2 -->
+                <div class="box">
+                    <h2 class="title"><span>2</span> Mode de livraison</h2>
+                    <div class="delivery-grid">
+                        <label class="delivery-option active">
+                            <input type="radio" name="delivery" value="3.99" checked>
+                            <div class="del-info">
+                                <strong>Livraison à domicile (Suivi)</strong>
+                                <small>Nous créons votre design sur-mesure. Vous serez informé dès que votre carte sera prête et expédiée.</small>
+                            </div>
+                            <span class="del-price">3,99 €</span>
+                        </label>
+                        <label class="delivery-option">
+                            <input type="radio" name="delivery" value="0.00">
+                            <div class="del-info">
+                                <strong>Récupération au dépôt</strong>
+                                <small>Nous créons votre design sur-mesure. Vous serez notifié dès qu'elle sera disponible en agence.</small>
+                            </div>
+                            <span class="del-price" style="color: #10b981;">Gratuit</span>
+                        </label>
+                    </div>
+
+                    <!-- Note concernant l'adresse demandée au paiement -->
+                    <div class="info-notice">
+                        ℹ️ <strong>À noter :</strong> Les informations de livraison complètes (votre adresse) vous seront demandées à l'étape suivante, au moment du paiement par carte bancaire.
+                    </div>
+                </div>
+
+                <!-- ETAPE 3 -->
+                <div class="box" style="border: 2px solid var(--blue-main); box-shadow: 0 10px 40px rgba(0,87,255,0.1);">
+                    <h2 class="title"><span>3</span> Paiement 100% sécurisé</h2>
+                    
+                    <button type="submit" class="pay-btn" id="submit-btn">
+                        Payer <span id="btn-total">38,98 €</span> 
+                        <svg style="width:24px; height:24px;" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                    </button>
+                    
+                    <div class="secure-info">
+                        <span>Vous allez être redirigé vers l'interface chiffrée de Stripe.</span>
+                        <div class="payment-logos">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Apple_Pay_logo.svg/1024px-Apple_Pay_logo.svg.png" alt="Apple Pay">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/1024px-Google_Pay_Logo.svg.png" alt="Google Pay">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Former_Visa_%28company%29_logo.svg/1024px-Former_Visa_%28company%29_logo.svg.png" alt="Visa">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1024px-Mastercard-logo.svg.png" alt="Mastercard">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- COLONNE DROITE (PANIER) -->
+        <div class="checkout-right">
+            <div class="cart-summary">
+                
+                <!-- PREVIEW DE LA CARTE -->
+                <div class="cart-card-preview">
+                    <div class="cart-card" id="cart-visual">
+                        <svg viewBox="0 0 24 24"><path d="M18.8 20.3c-.3 0-.6-.1-.8-.4-.4-.5-.4-1.2.1-1.6 1.7-1.4 2.6-3.4 2.6-5.5s-.9-4.1-2.6-5.5c-.5-.4-.5-1.1-.1-1.6.4-.5 1.1-.5 1.6-.1 2.2 1.8 3.4 4.3 3.4 7.2s-1.2 5.4-3.4 7.2c-.3.2-.5.3-.8.3z"/><path d="M14.9 17.8c-.3 0-.6-.1-.8-.4-.4-.5-.3-1.2.1-1.6 1.1-.9 1.7-2.1 1.7-3.4s-.6-2.5-1.7-3.4c-.5-.4-.5-1.1-.1-1.6.4-.5 1.1-.5 1.6-.1 1.5 1.2 2.3 2.8 2.3 4.9s-.8 3.7-2.3 4.9c-.3.2-.5.3-.8.3z"/><path d="M11.1 15.2c-.3 0-.6-.1-.8-.4-.4-.5-.3-1.2.1-1.6.5-.4.8-1 .8-1.7s-.3-1.2-.8-1.7c-.5-.4-.5-1.1-.1-1.6.4-.5 1.1-.5 1.6-.1 1 1 1.4 2.1 1.4 3.4s-.5 2.4-1.4 3.4c-.3.2-.5.3-.8.3z"/></svg>
+                    </div>
+                </div>
+
+                <div class="cart-product-title">Carte de Visite NFC</div>
+                <div class="cart-mat-badge" id="cart-mat-name">PVC Premium</div>
+                
+                <div class="price-row">
+                    <span>Sous-total</span>
+                    <span id="price-sub">34,99 €</span>
+                </div>
+                <div class="price-row">
+                    <span id="lbl-del">Livraison</span>
+                    <span id="price-del">3,99 €</span>
+                </div>
+                
+                <div class="price-row total">
+                    <span>Total TTC</span>
+                    <span id="summary-total">38,98 €</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<script>
+    const matChoisi = localStorage.getItem('kd_mat_carte') || 'pvc';
+    let cat = 'pvc'; 
+    if (matChoisi.includes('bois')) cat = 'bois'; 
+    if (matChoisi.includes('metal')) cat = 'metal';
+
+    const pricing = {
+        pvc: { 
+            name: "Finition PVC Premium", 
+            base: 34.99, 
+            linkDelivery: "https://buy.stripe.com/fZu5kC2Or1vy8ML0DZ87K01",
+            linkNoDelivery: "https://buy.stripe.com/28E14m60D2zC9QP86r87K00"
+        },
+        bois: { 
+            name: "Finition Bois Écologique", 
+            base: 44.99, 
+            linkDelivery: "https://buy.stripe.com/dRmdR8agT7TW5Az4Uf87K03",
+            linkNoDelivery: "https://buy.stripe.com/9B64gy1Kneik4wvbiD87K02"
+        },
+        metal: { 
+            name: "Finition Métal Brossé Luxe", 
+            base: 54.99, 
+            linkDelivery: "https://buy.stripe.com/6oUfZg3Sv3DG5AzgCX87K05",
+            linkNoDelivery: "https://buy.stripe.com/9B66oG3Svcacgfd72n87K04"
+        }
+    };
+    
+    const orderData = pricing[cat];
+    
+    document.getElementById('cart-mat-name').innerText = orderData.name;
+    document.getElementById('price-sub').innerText = orderData.base.toFixed(2).replace('.', ',') + ' €';
+
+    const cartVisual = document.getElementById('cart-visual');
+    
+    if (cat === 'bois') {
+        cartVisual.style.backgroundImage = "url('https://i.ibb.co/WvHKS309/walnut.png')";
+        cartVisual.style.backgroundColor = "#5c4033";
+    } else if (cat === 'metal') {
+        cartVisual.style.backgroundImage = "none";
+        cartVisual.style.background = "linear-gradient(135deg, #333333, #111111, #000000)"; 
+        if(matChoisi.includes('or')) cartVisual.style.background = "linear-gradient(135deg, #bf953f, #fcf6ba, #b38728)";
+        if(matChoisi.includes('argent')) cartVisual.style.background = "linear-gradient(135deg, #e0e0e0, #ffffff, #9e9e9e)";
+    } else {
+        cartVisual.style.backgroundImage = "none";
+        cartVisual.style.backgroundColor = "#1a1a1a";
+        if(matChoisi.includes('blanc')) { 
+            cartVisual.style.backgroundColor = "#fdfdfd"; 
+            cartVisual.querySelector('svg').style.fill = "#111"; 
+        }
+    }
+
+    const deliveryRadios = document.querySelectorAll('input[name="delivery"]');
+    
+    function updateTotal() {
+        let dCost = 0; 
+        deliveryRadios.forEach(r => { 
+            if(r.checked) { 
+                dCost = parseFloat(r.value); 
+                document.querySelectorAll('.delivery-option').forEach(o => o.classList.remove('active')); 
+                r.parentElement.classList.add('active'); 
+            }
+        });
+        
+        if(dCost === 0) { 
+            document.getElementById('lbl-del').innerText = "Retrait Agence"; 
+            document.getElementById('price-del').innerText = "Gratuit"; 
+            document.getElementById('price-del').style.color = "#10b981";
+        } else { 
+            document.getElementById('lbl-del').innerText = "Livraison Suivie"; 
+            document.getElementById('price-del').innerText = "3,99 €"; 
+            document.getElementById('price-del').style.color = "var(--text-dark)";
+        }
+
+        const tot = orderData.base + dCost; 
+        const totStr = tot.toFixed(2).replace('.', ',') + ' €';
+        document.getElementById('summary-total').innerText = totStr; 
+        document.getElementById('btn-total').innerText = totStr;
+    }
+    
+    deliveryRadios.forEach(r => r.addEventListener('change', updateTotal)); 
+    updateTotal();
+
+    document.getElementById('payment-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        localStorage.setItem('kd_email_client', document.getElementById('email-client').value);
+        
+        const isDeliveryChecked = document.querySelector('input[name="delivery"]:checked').value === "3.99";
+        const finalStripeLink = isDeliveryChecked ? orderData.linkDelivery : orderData.linkNoDelivery;
+
+        const btn = document.getElementById('submit-btn');
+        btn.innerHTML = 'Connexion sécurisée... ⏳';
+        btn.style.opacity = '0.8';
+        btn.style.pointerEvents = 'none';
+        
+        setTimeout(() => {
+            window.location.href = finalStripeLink; 
+        }, 600);
+    });
+</script>
+</body>
+</html>
