@@ -114,20 +114,13 @@
         .pay-btn { width: 100%; padding: 20px; background: var(--yellow); color: #000; font-family: 'Fredoka One'; font-size: 1.5rem; border-radius: 50px; border: none; cursor: pointer; box-shadow: 0 10px 30px rgba(252, 211, 77, 0.4); margin-top: 10px; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; }
         .pay-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(252, 211, 77, 0.5); }
         
-        .secure-info { text-align: center; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .secure-info { text-align: center; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
         
-        /* ICÔNES DE PAIEMENT SÉCURISÉES (SVG INLINE POUR 100% DE COMPATIBILITÉ) */
-        .payment-logos { display: flex; gap: 10px; justify-content: center; align-items: center; margin-top: 5px; flex-wrap: wrap; }
-        .payment-logos .icon-box { 
-            background: white; 
-            padding: 5px 10px; 
-            border-radius: 6px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.06); 
-            border: 1px solid #cbd5e1; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 38px;
+        /* ICÔNES DE PAIEMENT SÉCURISÉES (SVG PUR, SANS CARRÉ BLANC) */
+        .payment-logos { display: flex; gap: 15px; justify-content: center; align-items: center; margin-top: 5px; }
+        .payment-logos svg { 
+            height: 22px; 
+            width: auto;
         }
 
         /* ─── COLONNE DROITE (PANIER & CARTE) ─── */
@@ -163,13 +156,13 @@
         .price-row { display: flex; justify-content: space-between; font-weight: 800; margin-bottom: 15px; color: var(--text-muted); font-size: 1.05rem; }
         .price-row span:last-child { color: var(--text-dark); }
         
-        /* CASE TOTAL TTC : Blanche, bord arrondi, texte noir (Minimaliste & Chic) */
+        /* CASE TOTAL TTC : Blanche, bord arrondi, TOUT en texte normal et noir */
         .price-row.total { 
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: #ffffff; 
-            padding: 20px 25px; 
+            padding: 15px 25px; 
             border-radius: 16px; 
             margin-top: 25px; 
             border: 2px solid var(--border-color);
@@ -177,14 +170,13 @@
         .price-row.total span:first-child { 
             color: var(--text-dark); 
             font-family: 'Nunito', sans-serif;
-            font-size: 1rem;
+            font-size: 1.15rem;
             font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
         .price-row.total span:last-child { 
-            font-family: 'Fredoka One'; 
-            font-size: 1.8rem; 
+            font-family: 'Nunito', sans-serif; 
+            font-size: 1.4rem; 
+            font-weight: 800;
             color: var(--text-dark); 
         }
 
@@ -286,44 +278,31 @@
                     
                     <div class="secure-info">
                         <span>Vous allez être redirigé vers l'interface chiffrée de Stripe.</span>
-                        <!-- ICONES EN "SVG INLINE" = INBLOQUABLES, AFFICHAGE IMMÉDIAT ET HD -->
+                        <!-- ICONES VECTORIELLES PURES = S'AFFICHE 100% DU TEMPS -->
                         <div class="payment-logos">
-                            
                             <!-- CB -->
-                            <div class="icon-box">
-                                <svg viewBox="0 0 45 30" height="24">
-                                    <rect width="45" height="30" rx="4" fill="#0055A4"/>
-                                    <path d="M16.5 22.5c-4.1 0-7.5-3.4-7.5-7.5s3.4-7.5 7.5-7.5c2.6 0 4.9 1.3 6.2 3.3l-2.4 1.8c-1-1.3-2.3-2.1-3.8-2.1-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5c1.5 0 2.8-0.8 3.8-2.1l2.4 1.8c-1.3 2-3.6 3.3-6.2 3.3z" fill="#fff"/>
-                                    <path d="M30 7.5c3.2 0 6 2 7.1 4.9l-2.6 1.1c-0.7-1.8-2.3-3-4.5-3-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5c2.2 0 3.8-1.2 4.5-3l2.6 1.1c-1.1 2.9-3.9 4.9-7.1 4.9-4.1 0-7.5-3.4-7.5-7.5s3.4-7.5 7.5-7.5z" fill="#46A040"/>
-                                </svg>
-                            </div>
-
-                            <!-- VISA -->
-                            <div class="icon-box">
-                                <svg viewBox="0 0 50 16" height="18">
-                                    <path fill="#1434CB" d="M18.3 1.1l-6.3 14H8l-2.8-11.3c-.2-1-.4-1.4-1.1-1.8-1.2-.7-3-1.1-3.9-1.4l.1-.4h6.6c.8 0 1.6.6 1.8 1.5l1.6 8.4L14.6 1.1h3.7zM36.5 10.7c0-3.9-5.5-4.1-5.5-5.9 0-.6.5-1.2 1.8-1.4.6-.1 2.2-.2 3.7.6l.6-3.2c-.8-.3-2-.7-3.3-.7-3.8 0-6.6 2-6.6 5.4 0 2.4 2.2 3.8 4 4.6 1.8.8 2.3 1.4 2.3 2.1 0 1.2-1.4 1.7-2.7 1.8-1.9 0-3.1-.5-4.2-1l-.6 3.3c1 .5 2.6.9 4.3.9 4-.1 6.2-2.1 6.2-5.5zM47.8 15.1h3.6L48 1.1h-3.5c-.7 0-1.3.5-1.6 1.1l-6.2 12.9h3.9l.8-2.4h4.7l.7 2.4zm-3.6-5.5l1.1-3.2 2.1 5.7h-3.2zM24.6 1.1l-3.4 14h-3.4l3.4-14h3.4z"/>
-                                </svg>
-                            </div>
-
-                            <!-- MASTERCARD -->
-                            <div class="icon-box">
-                                <svg viewBox="0 0 50 30" height="22">
-                                    <circle cx="17" cy="15" r="14" fill="#EB001B"/>
-                                    <circle cx="33" cy="15" r="14" fill="#F79E1B"/>
-                                    <path d="M25 26.6c2.4-2.5 3.9-5.9 3.9-8.6 0-4.2-1.5-7.6-3.9-10.2-2.4 2.5-3.9 5.9-3.9 8.6 0 4.2 1.5 7.6 3.9 10.2z" fill="#FF5F00"/>
-                                </svg>
-                            </div>
-
-                            <!-- APPLE PAY -->
-                            <div class="icon-box">
-                                <svg viewBox="0 0 60 25" height="22" fill="#000000">
-                                    <path d="M13.6,11.5c0-3,2.4-4.5,2.5-4.5c-1.4-2-3.5-2.3-4.4-2.4c-1.9-.2-3.7,1.1-4.7,1.1c-1,0-2.5-1.1-4-1.1 c-2,0-3.8,1.1-4.8,2.8c-2.1,3.6-1.1,9.4,.9,12.3c1,1.5,2.2,3.1,3.8,3c1.5-.1,2.1-1,4-1c1.9,0,2.4,1,4,1c1.6,0,2.6-1.5,3.6-2.9 c1.2-1.7,1.7-3.4,1.7-3.5C16.1,16.2,13.6,15.2,13.6,11.5z M10.8,4.7c.8-.9,1.4-2.2,1.3-3.4C11.1,1.4,9.7,2,8.9,2.9 C8.1,3.7,7.5,4.9,7.7,6.1C8.8,6.2,10,5.6,10.8,4.7z"/>
-                                    <path d="M25.7,21V3.8h4.6c1.8,0,3.3,0.4,4.4,1.2c1.2,0.8,1.8,2.1,1.8,3.8c0,1.7-0.6,3.1-1.7,4c-1.1,0.9-2.6,1.3-4.6,1.3h-2.1 V21H25.7z M28.2,12.1h1.9c1,0,1.8-0.2,2.3-0.6c0.5-0.4,0.8-1,0.8-1.8c0-0.7-0.2-1.3-0.7-1.7c-0.5-0.4-1.2-0.6-2.2-0.6h-2V12.1z"/>
-                                    <path d="M43.7,21l-0.5-2.2c-0.7,0.9-1.5,1.5-2.3,1.9c-0.8,0.4-1.8,0.6-2.8,0.6c-1.5,0-2.8-0.5-3.8-1.4 c-0.9-0.9-1.4-2.1-1.4-3.6c0-1.6,0.6-2.8,1.8-3.7c1.2-0.8,3.1-1.3,5.6-1.3h2.8V11c0-0.9-0.3-1.6-0.8-2.1c-0.6-0.5-1.4-0.7-2.6-0.7 c-0.9,0-1.8,0.2-2.7,0.5c-0.9,0.4-1.7,0.8-2.2,1.3l-1.3-2c0.8-0.7,1.8-1.2,2.9-1.5C37.3,6.1,38.6,6,39.9,6c1.9,0,3.4,0.5,4.3,1.4 c1,0.9,1.4,2.3,1.4,4.2V21H43.7z M41,11h-2.5c-1.7,0-2.8,0.3-3.4,0.8c-0.6,0.5-0.9,1.2-0.9,2.1c0,0.8,0.3,1.4,0.8,1.9 c0.5,0.4,1.3,0.7,2.3,0.7c1,0,1.9-0.3,2.6-0.8c0.7-0.6,1.1-1.3,1.1-2.3V11z"/>
-                                    <path d="M57.6,3.8L51.8,18c-0.6,1.4-1.3,2.5-2.2,3.1c-0.9,0.6-2,0.9-3.4,0.9c-0.4,0-0.9,0-1.3-0.1 c-0.4-0.1-0.9-0.2-1.3-0.4l0.6-2.3c0.4,0.1,0.7,0.2,1.1,0.3c0.4,0.1,0.7,0.1,1.1,0.1c0.7,0,1.3-0.2,1.8-0.5 c0.5-0.4,0.9-1.1,1.2-2.1l0.3-0.8L44,3.8h2.8l4,12.3L54.7,3.8H57.6z"/>
-                                </svg>
-                            </div>
-
+                            <svg viewBox="0 0 50 34" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="50" height="34" rx="4" fill="#0055A4"/>
+                                <path d="M19.5 25.5C14.8 25.5 11 21.7 11 17C11 12.3 14.8 8.5 19.5 8.5C22.4 8.5 25.1 10 26.6 12.3L23.9 14.3C22.8 12.8 21.3 11.9 19.5 11.9C16.7 11.9 14.4 14.2 14.4 17C14.4 19.8 16.7 22.1 19.5 22.1C21.2 22.1 22.7 21.2 23.9 19.7L26.6 21.7C25.1 24 22.4 25.5 19.5 25.5Z" fill="white"/>
+                                <path d="M34 8.5C37.6 8.5 40.8 10.8 42 14L39.1 15.2C38.3 13.2 36.5 11.9 34 11.9C31.2 11.9 28.9 14.2 28.9 17C28.9 19.8 31.2 22.1 34 22.1C36.5 22.1 38.3 20.8 39.1 18.8L42 20C40.8 23.2 37.6 25.5 34 25.5C29.3 25.5 25.5 21.7 25.5 17C25.5 12.3 29.3 8.5 34 8.5Z" fill="#46A040"/>
+                            </svg>
+                            <!-- Visa -->
+                            <svg viewBox="0 0 66 22" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24.1 1.5L15.8 20.1H9L5.3 5C5 3.6 4.7 3.1 3.8 2.6C2.2 1.6 -0.2 1 0 0.5H9.5C10.6 0.5 11.7 1.3 12 2.6L14.2 13.8L20.2 1.5H24.1ZM48.2 14.2C48.2 9.1 40.9 8.8 40.9 6.4C40.9 5.6 41.6 4.8 43.6 4.6C44.4 4.5 46.5 4.3 48.5 5.4L49.3 1.1C48.2 0.7 46.6 0.2 44.9 0.2C39.6 0.2 35.9 2.9 35.9 7.4C35.9 10.6 38.8 12.5 41.2 13.6C43.6 14.7 44.3 15.5 44.3 16.4C44.3 18 42.4 18.7 40.7 18.8C38.2 18.8 36.6 18.1 35.1 17.4L34.3 21.8C35.6 22.5 37.7 23 39.9 23C45.6 22.9 48.2 20.2 48.2 14.2ZM63.1 20.1H67.9L63.3 1.5H58.6C57.6 1.5 56.8 2.2 56.4 3L48.2 20.1H53.4L54.4 16.9H60.6L61.5 20.1H63.1ZM55.8 12.8L58.5 5.5L60.5 12.8H55.8ZM32.5 1.5L28 20.1H23.5L28 1.5H32.5Z" fill="#1434CB"/>
+                            </svg>
+                            <!-- Mastercard -->
+                            <svg viewBox="0 0 35 22" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="11" cy="11" r="11" fill="#EB001B"/>
+                                <circle cx="24" cy="11" r="11" fill="#F79E1B"/>
+                                <path d="M17.5 18.9C19.4 17 20.6 14.2 20.6 11C20.6 7.8 19.4 5 17.5 3.1C15.6 5 14.4 7.8 14.4 11C14.4 14.2 15.6 17 17.5 18.9Z" fill="#FF5F00"/>
+                            </svg>
+                            <!-- Apple Pay -->
+                            <svg viewBox="0 0 54 22" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.1 9.8C12.1 7.2 14.2 5.9 14.3 5.9C13 4.2 11.2 3.9 10.4 3.8C8.7 3.6 7.1 4.7 6.2 4.7C5.3 4.7 4 3.8 2.6 3.8C0.8 3.8 -0.8 4.8 -1.7 6.3C-3.6 9.5 -2.7 14.6 -0.9 17.2C0 18.5 1.1 19.9 2.5 19.8C3.8 19.7 4.3 18.9 6 18.9C7.7 18.9 8.1 19.8 9.5 19.8C10.9 19.8 11.8 18.5 12.7 17.2C13.8 15.7 14.3 14.2 14.3 14.1C14.2 14.1 12.1 13.2 12.1 9.8ZM9.6 3.8C10.3 3 10.8 1.8 10.7 0.8C9.7 0.9 8.4 1.4 7.7 2.2C7 2.9 6.5 4 6.7 5.1C7.8 5.2 8.9 4.7 9.6 3.8Z" fill="black"/>
+                                <path d="M25 18.2V3H29C30.6 3 31.9 3.4 32.9 4.1C33.9 4.8 34.4 6 34.4 7.5C34.4 9 33.9 10.2 32.9 11C31.9 11.8 30.6 12.2 28.8 12.2H26.9V18.2H25ZM26.9 10.5H28.6C29.5 10.5 30.2 10.3 30.7 10C31.2 9.6 31.4 9.1 31.4 8.4C31.4 7.8 31.2 7.3 30.7 6.9C30.2 6.5 29.6 6.4 28.7 6.4H26.9V10.5Z" fill="black"/>
+                                <path d="M41.7 18.2L41.3 16.3C40.7 17.1 40 17.6 39.3 18C38.6 18.4 37.7 18.5 36.8 18.5C35.5 18.5 34.4 18.1 33.5 17.3C32.7 16.5 32.2 15.4 32.2 14.1C32.2 12.7 32.7 11.6 33.8 10.8C34.9 10 36.6 9.6 38.8 9.6H41.3V8.8C41.3 8 41 7.4 40.6 7C40.1 6.6 39.4 6.4 38.3 6.4C37.5 6.4 36.7 6.6 35.9 6.9C35.1 7.2 34.4 7.6 33.9 8.1L32.8 6.3C33.5 5.7 34.4 5.3 35.4 5C36.4 4.7 37.6 4.6 38.7 4.6C40.4 4.6 41.7 5 42.5 5.8C43.4 6.6 43.8 7.8 43.8 9.5V18.2H41.7ZM39.3 9.5H37C35.5 9.5 34.5 9.8 34 10.2C33.5 10.6 33.2 11.2 33.2 12C33.2 12.7 33.5 13.2 33.9 13.6C34.4 14 35.1 14.2 36 14.2C36.9 14.2 37.7 13.9 38.3 13.5C39 13 39.4 12.4 39.4 11.5V9.5Z" fill="black"/>
+                                <path d="M54.5 3L49.3 15.6C48.8 16.8 48.2 17.8 47.4 18.3C46.6 18.8 45.6 19.1 44.4 19.1C44 19.1 43.6 19.1 43.2 19C42.8 18.9 42.4 18.8 42 18.6L42.5 16.6C42.8 16.7 43.1 16.8 43.5 16.9C43.9 17 44.2 17 44.6 17C45.2 17 45.7 16.8 46.2 16.5C46.7 16.2 47 15.6 47.3 14.7L47.6 14L41.3 3H43.8L46.9 13.9L50.1 3H54.5Z" fill="black"/>
+                            </svg>
                         </div>
                     </div>
                 </div>
