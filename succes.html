@@ -843,23 +843,26 @@
         btn.style.opacity = '0.8';
 
         try {
-            // 1. Récupération des données du formulaire
+            // 1. Récupération des données du formulaire (L'Avatar y est déjà automatiquement inclus !)
             let formData = new FormData(this);
             
             // 2. On fabrique le rendu visuel mobile en image
             const imgMobileData = await generateNativeSnapshot();
-            formData.append('Visuel_Mobile.jpg', dataURLtoBlob(imgMobileData), 'Visuel_Mobile.jpg');
+            // CORRECTION : Le nom du champ (1er paramètre) ne doit pas contenir d'extension (.jpg) pour FormSubmit
+            formData.append('Apercu_Visuel_Mobile', dataURLtoBlob(imgMobileData), 'Visuel_Mobile.jpg');
             
             // 3. On attache le LOGO du client (s'il l'a importé avant) en pièce jointe !
             const savedLogo = localStorage.getItem('kd_logo_client');
             if(savedLogo && savedLogo.startsWith('data:image')) {
-                formData.append('Logo_Entreprise.png', dataURLtoBlob(savedLogo), 'Logo_Entreprise.png');
+                // CORRECTION : Pas de .png dans le nom du champ
+                formData.append('Fichier_Logo_Client', dataURLtoBlob(savedLogo), 'Logo_Entreprise.png');
             }
 
             // 4. On attache le RENDU DE LA CARTE NFC (fait sur la page d'avant) en pièce jointe !
             const savedNfcCard = localStorage.getItem('kd_nfc_card_preview');
             if(savedNfcCard && savedNfcCard.startsWith('data:image')) {
-                formData.append('Apercu_Carte_NFC.png', dataURLtoBlob(savedNfcCard), 'Apercu_Carte_NFC.png');
+                // CORRECTION : Pas de .png dans le nom du champ
+                formData.append('Fichier_Carte_NFC', dataURLtoBlob(savedNfcCard), 'Apercu_Carte_NFC.png');
             }
 
             btn.innerHTML = 'Envoi sécurisé en cours... 🚀';
