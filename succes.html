@@ -9,11 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Inter:wght@300;400;500;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- LIBRAIRIE POUR PRENDRE LE TELEPHONE EN PHOTO -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
     <style>
         :root { 
+            /* COULEURS OFFICIELLES KINGDREAM */
             --blue-main: #0057FF; 
             --blue-dark: #0036A3; 
             --blue-light: #4285F4; 
@@ -273,9 +271,10 @@
 
         <!-- FORMULAIRE (DROITE) -->
         <div class="config-box" id="main-config-box">
+            <!-- Ajoute ton email dans action="..." ci-dessous -->
             <form id="digital-form" action="https://formsubmit.co/ajax/Contact@kingdream.fr" method="POST" enctype="multipart/form-data">
                 
-                <input type="hidden" name="_subject" value="Nouveau Profil Digital NFC + Capture d'écran !">
+                <input type="hidden" name="_subject" value="Nouveau Profil Digital NFC !">
                 <input type="hidden" name="Couleur_Bouton" id="hidden-color" value="#0057FF">
                 <input type="hidden" name="Couleur_Fond" id="hidden-bg" value="#f8fafc">
 
@@ -295,7 +294,7 @@
                 <div class="file-upload-wrapper">
                     <span style="font-size:1.1rem; margin-bottom:5px;">📸 Votre Photo de Profil</span>
                     <span style="font-size:0.8rem;">S'affichera dans le cercle central</span>
-                    <input type="file" name="Avatar" accept="image/*" onchange="previewImage(this, 'pv-avatar')">
+                    <input type="file" name="Avatar_Fichier" accept="image/*" onchange="previewImage(this, 'pv-avatar')">
                 </div>
 
                 <!-- BOX SUCCES PHOTO DE PROFIL -->
@@ -529,6 +528,13 @@
             document.getElementById('ui-avatar-container').style.marginTop = '-50px';
             document.getElementById('logo-success-status').style.display = 'flex';
             
+            // On sauvegarde le logo secretement pour te l'envoyer
+            let logoInput = document.createElement('input');
+            logoInput.type = 'hidden';
+            logoInput.name = 'Logo_Telecharge_Precedemment_Base64';
+            logoInput.value = savedLogo;
+            document.getElementById('digital-form').appendChild(logoInput);
+
             // Affiche le bouton "Magie IA : Harmoniser avec mon logo"
             document.getElementById('magic-theme-btn').style.display = 'flex';
         } else {
@@ -715,7 +721,94 @@
         titleDiv.innerText = title.trim() === '' ? 'Mon Site Web' : title;
     }
 
-    // Convertit le Base64 de la capture d'écran en Fichier Image pour l'envoyer par mail
+    // ---------------------------------------------------------------------------------
+    // GÉNÉRATION NATIVE D'IMAGE DU TÉLÉPHONE SANS LIBRAIRIE EXTERNE (0 BUG DE DEPLOIEMENT)
+    // ---------------------------------------------------------------------------------
+    function generateNativeSnapshot() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 400;
+        canvas.height = 800;
+        const ctx = canvas.getContext('2d');
+
+        // Fond du téléphone 
+        const isDark = document.getElementById('preview-screen').classList.contains('dark-mode');
+        ctx.fillStyle = document.getElementById('hidden-bg').value.includes('linear-gradient') ? (isDark ? '#1e293b' : '#e2e8f0') : '#f8fafc'; 
+        ctx.fillRect(0, 0, 400, 800);
+
+        // Couleurs
+        const accent = document.getElementById('hidden-color').value || '#0057FF';
+        const textColor = isDark ? '#ffffff' : '#0f172a';
+        const mutedColor = isDark ? '#94a3b8' : '#475569';
+
+        // Fake Logo / Bannière
+        ctx.fillStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)';
+        ctx.fillRect(0, 0, 400, 150);
+
+        // Fake Avatar (Cercle coloré avec initiales)
+        const name = document.querySelector('input[name="Nom_Complet"]').value || 'Prénom Nom';
+        const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        ctx.fillStyle = '#cbd5e1';
+        ctx.beginPath();
+        ctx.arc(200, 150, 60, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.strokeStyle = isDark ? '#1e293b' : '#f8fafc';
+        ctx.lineWidth = 6;
+        ctx.stroke();
+        ctx.fillStyle = '#475569';
+        ctx.font = 'bold 40px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(initials, 200, 150);
+
+        // Noms et Poste
+        ctx.fillStyle = textColor;
+        ctx.font = 'bold 30px sans-serif';
+        ctx.fillText(name, 200, 250);
+
+        const job = document.querySelector('input[name="Poste"]').value || 'POSTE / ENTREPRISE';
+        ctx.fillStyle = mutedColor;
+        ctx.font = 'bold 16px sans-serif';
+        ctx.fillText(job.toUpperCase(), 200, 280);
+
+        // Bouton
+        ctx.fillStyle = accent;
+        ctx.beginPath();
+        ctx.roundRect ? ctx.roundRect(40, 320, 320, 50, 25) : ctx.fillRect(40, 320, 320, 50);
+        ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 18px sans-serif';
+        ctx.fillText("Se connecter", 200, 345);
+
+        // Liste des Apps cochées
+        let activeApps = [];
+        document.querySelectorAll('.social-item.active').forEach(item => {
+            const label = item.querySelector('.social-header').innerText.replace('Lien (Bouton Web)', 'Web').trim();
+            activeApps.push(label.substring(0, 10)); // garde les premiers caractères
+        });
+
+        let startX = 80;
+        let startY = 440;
+        ctx.fillStyle = accent;
+        activeApps.forEach((app, index) => {
+            if (index > 0 && index % 4 === 0) {
+                startX = 80;
+                startY += 90;
+            }
+            ctx.beginPath();
+            ctx.roundRect ? ctx.roundRect(startX - 30, startY, 60, 60, 16) : ctx.fillRect(startX - 30, startY, 60, 60);
+            ctx.fill();
+            
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.fillText(app, startX, startY + 80);
+            
+            ctx.fillStyle = accent;
+            startX += 80;
+        });
+
+        return canvas.toDataURL('image/jpeg', 0.8);
+    }
+
     function dataURLtoBlob(dataurl) {
         let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
             bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -726,35 +819,25 @@
     }
 
     // ---------------------------------------------------------------------------------
-    // LA MAGIE FINALE : CAPTURE DU TÉLÉPHONE + ENVOI DU MAIL + MESSAGE DE REMERCIEMENT
+    // SOUMISSION DU FORMULAIRE ET ENVOI
     // ---------------------------------------------------------------------------------
     document.getElementById('digital-form').addEventListener('submit', async function(e) {
-        e.preventDefault(); // Empêche le rechargement de la page
+        e.preventDefault(); 
         
         const btn = document.getElementById('final-btn');
-        btn.innerHTML = 'Création du visuel... ⏳';
+        btn.innerHTML = 'Création en cours... ⏳';
         btn.style.pointerEvents = 'none';
         btn.style.opacity = '0.8';
 
         try {
-            // 1. On prend l'écran du téléphone en photo
-            const phoneScreen = document.getElementById('preview-screen');
-            const canvas = await html2canvas(phoneScreen, { 
-                scale: 2, 
-                useCORS: true, // Très important pour les images web
-                backgroundColor: null
-            });
-            const imgData = canvas.toDataURL('image/jpeg', 0.9);
+            // Création de l'image de synthèse en natif (0 bug)
+            const imgData = generateNativeSnapshot();
             
-            // 2. On prépare toutes les données du formulaire
             let formData = new FormData(this);
-            
-            // 3. On ajoute la photo (Capture d'écran) en tant que fichier joint pour le mail !!
-            formData.append('Visuel_Design_Mobile.jpg', dataURLtoBlob(imgData), 'Apercu_Visuel.jpg');
+            formData.append('Visuel_Design_Synthese.jpg', dataURLtoBlob(imgData), 'Apercu_Visuel.jpg');
             
             btn.innerHTML = 'Envoi sécurisé en cours... 🚀';
 
-            // 4. On envoie tout secrètement à ton adresse Mail via FormSubmit
             const response = await fetch(this.action, {
                 method: 'POST',
                 headers: { 'Accept': 'application/json' },
@@ -762,7 +845,6 @@
             });
 
             if (response.ok) {
-                // 5. On efface le formulaire et on affiche le beau message de remerciement !
                 const configBox = document.getElementById('main-config-box');
                 configBox.innerHTML = `
                     <div style="text-align: center; padding: 50px 20px;">
@@ -773,15 +855,14 @@
                             C'est parfait ! 🎉
                         </h2>
                         <p style="font-size: 1.1rem; color: var(--text-muted); font-weight: 700; line-height: 1.6; margin-bottom: 35px;">
-                            Merci de votre temps et merci de votre confiance.<br><br>
-                            On s'occupe de votre projet avec soin, et nous allons programmer ce magnifique design directement sur la puce de votre carte NFC.
+                            Merci de votre temps et de votre confiance.<br><br>
+                            Nous prenons en charge votre projet avec soin, et nous allons programmer ce magnifique design directement sur la puce de votre carte NFC.
                         </p>
-                        <a href="index.html" class="submit-btn" style="display: inline-block; text-decoration: none; width: auto; padding: 15px 40px; margin-top: 0;">
+                        <a href="index.html" class="submit-btn" style="display: inline-flex; justify-content: center; align-items: center; text-decoration: none; width: auto; padding: 15px 40px; margin-top: 0;">
                             🏠 Retourner sur le site
                         </a>
                     </div>
                 `;
-                // On remonte l'écran pour que le client voit le message
                 configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else {
                 throw new Error('Erreur réseau');
