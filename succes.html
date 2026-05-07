@@ -54,8 +54,7 @@
         .phone-screen.dark-mode .ui-avatar { border-color: rgba(255,255,255,0.2); }
         
         .pv-banner-container { width: 100%; padding-top: 45px; padding-bottom: 0px; display: none; align-items: center; justify-content: center; position: relative; z-index: 1; }
-        /* AJUSTEMENT : On retire le max-height strict pour laisser le logo grossir jusqu'à 350px */
-        .pv-banner-logo { width: 150px; height: auto; max-height: 250px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); transition: width 0.1s ease-out; }
+        .pv-banner-logo { width: 150px; height: auto; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); transition: width 0.1s ease-out; }
         
         .ui-avatar-container { margin-top: 40px; width: 100%; text-align: center; position: relative; z-index: 2; transition: margin-top 0.1s ease-out; }
         .ui-avatar { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 5px solid rgba(255,255,255,0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: #ccc; transition: border-color 0.4s ease; }
@@ -106,18 +105,57 @@
         .input-group input[type="text"]:focus, .input-group input[type="email"]:focus, .input-group input[type="tel"]:focus, .input-group input[type="url"]:focus, .input-group textarea:focus { border-color: var(--blue-main); background: white; box-shadow: 0 0 0 4px rgba(0,87,255,0.1); }
         .input-group textarea { resize: vertical; min-height: 90px; }
 
-        input[type="range"] { -webkit-appearance: none; width: 100%; background: transparent; }
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 22px; width: 22px; border-radius: 50%; background: var(--blue-main); cursor: pointer; margin-top: -8px; box-shadow: 0 2px 6px rgba(0,87,255,0.4); }
-        input[type="range"]::-webkit-slider-runnable-track { width: 100%; height: 6px; cursor: pointer; background: #cbd5e1; border-radius: 5px; }
+        /* DESIGN MODERNE POUR LES SLIDERS (Jauges Bleues) */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+            margin: 15px 0;
+            cursor: pointer;
+        }
+        input[type="range"]:focus { outline: none; }
+        /* Piste (Chrome/Safari) */
+        input[type="range"]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(to right, var(--blue-main) var(--val, 50%), #e2e8f0 var(--val, 50%));
+            border-radius: 10px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 4px solid var(--blue-main);
+            margin-top: -8px;
+            box-shadow: 0 2px 8px rgba(0,87,255,0.4);
+            transition: transform 0.1s;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+        /* Piste (Firefox) */
+        input[type="range"]::-moz-range-track {
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(to right, var(--blue-main) var(--val, 50%), #e2e8f0 var(--val, 50%));
+            border-radius: 10px;
+        }
+        input[type="range"]::-moz-range-thumb {
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 4px solid var(--blue-main);
+            box-shadow: 0 2px 8px rgba(0,87,255,0.4);
+            transition: transform 0.1s;
+        }
+        input[type="range"]::-moz-range-thumb:hover { transform: scale(1.15); }
 
         .checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 800; color: var(--text-dark); cursor: pointer; margin-top: 10px; }
         .checkbox-label input { width: 18px; height: 18px; accent-color: var(--blue-main); cursor: pointer; }
 
         .logo-success-status, .avatar-success-status { display: none; background: #ecfdf5; border: 2px solid #34d399; color: #065f46; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-weight: 800; font-size: 0.9rem; align-items: center; gap: 10px; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .magic-theme-btn { display: none; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #0057FF, #8b5cf6); color: white; border: none; padding: 15px; border-radius: 12px; font-family: 'Fredoka One'; font-size: 1.1rem; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 25px rgba(0,87,255,0.3); margin-bottom: 20px; }
-        .magic-theme-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0,87,255,0.4); }
 
         .file-upload-wrapper { position: relative; width: 100%; padding: 25px; border: 2px dashed #cbd5e1; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; color: var(--text-muted); font-weight: 800; cursor: pointer; transition: 0.3s; margin-bottom: 10px; text-align: center; }
         .file-upload-wrapper:hover { background: #f1f5f9; border-color: var(--blue-main); color: var(--blue-main); }
@@ -160,37 +198,10 @@
         .footer-copy { font-size:.75rem; color:rgba(255,255,255,0.8); font-weight:800; letter-spacing:1px; }
 
         @media(max-width: 950px) {
-            .studio-wrapper { 
-                grid-template-columns: 1fr; 
-                display: flex; 
-                flex-direction: column; 
-                padding: 15px; 
-                gap: 0;
-            }
-            .phone-container { 
-                position: relative; 
-                top: 0; 
-                width: 100%;
-                height: auto;
-                background: transparent;
-                z-index: 100;
-                margin-bottom: 25px; 
-                display: flex;
-                justify-content: center;
-                padding-top: 10px;
-            }
-            .phone-frame {
-                transform: scale(0.85); 
-                transform-origin: top center;
-                margin-bottom: -108px; 
-            }
-            .config-box { 
-                margin: 0; 
-                padding: 30px 20px; 
-                border-radius: 20px; 
-                position: relative;
-                z-index: 10;
-            }
+            .studio-wrapper { grid-template-columns: 1fr; display: flex; flex-direction: column; padding: 15px; gap: 0; }
+            .phone-container { position: relative; top: 0; width: 100%; height: auto; background: transparent; z-index: 100; margin-bottom: 25px; display: flex; justify-content: center; padding-top: 10px; }
+            .phone-frame { transform: scale(0.85); transform-origin: top center; margin-bottom: -108px; }
+            .config-box { margin: 0; padding: 30px 20px; border-radius: 20px; position: relative; z-index: 10; }
             .social-grid { grid-template-columns: 1fr; }
             nav#navbar { padding: 0 15px; }
             nav#navbar .nav-logo-link img { transform: translateY(-50%) scale(1.6); left: 10px; }
@@ -198,12 +209,8 @@
             .success-header { padding: 40px 15px; margin-bottom: 20px; }
             .success-header h1 { font-size: 1.8rem; }
         }
-        
         @media(max-width: 380px) {
-            .phone-frame {
-                transform: scale(0.75);
-                margin-bottom: -180px;
-            }
+            .phone-frame { transform: scale(0.75); margin-bottom: -180px; }
         }
     </style>
 </head>
@@ -311,27 +318,24 @@
                     <span>Logo de votre entreprise importé avec succès !</span>
                 </div>
                 
+                <!-- Jauges de calibrage stylisées (Fond de couleur progressif bleu) -->
                 <div class="input-group" id="logo-size-container" style="display: none; padding: 20px; background: #f8fafc; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 20px;">
-                    <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
                         Taille du logo
                         <span style="font-size: 0.8rem; color: var(--blue-main); font-weight: 900;"><span id="logo-size-display">150</span>px</span>
                     </label>
-                    <input type="range" id="logo-size-slider" min="50" max="350" value="150" oninput="updateLogoSize(this.value)" style="margin-bottom: 25px;">
+                    <input type="range" id="logo-size-slider" min="50" max="350" value="150" oninput="updateLogoSize(this)" style="margin-bottom: 25px; --val: 33.3%;">
                     
-                    <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; color: var(--text-dark);">
+                    <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; color: var(--text-dark);">
                         Espacement sous le logo (Remonter le profil)
                     </label>
-                    <input type="range" id="logo-space-slider" min="-120" max="40" value="-10" oninput="updateLogoSpace(this.value)">
+                    <input type="range" id="logo-space-slider" min="-120" max="40" value="-10" oninput="updateLogoSpace(this)" style="--val: 68.75%;">
                 </div>
 
                 <div class="logo-success-status" id="carte-success-status" style="border-color: #3b82f6; background: #eff6ff; color: #1d4ed8;">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M21 4H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H3V6h18v12zm-2-8H5v2h14v-2zm0 4H5v2h14v-2z"/></svg>
                     <span>Le design de votre Carte Physique NFC a bien été rattaché.</span>
                 </div>
-
-                <button type="button" class="magic-theme-btn" id="magic-theme-btn" onclick="applyLogoTheme()">
-                    ✨ Harmoniser les couleurs avec mon logo
-                </button>
                 
                 <div class="file-upload-wrapper">
                     <span style="font-size:1.1rem; margin-bottom:5px;">📸 Votre Photo de Profil</span>
@@ -339,7 +343,7 @@
                     <input type="file" name="Photo_De_Profil_Client" accept="image/*" onchange="previewImage(this, 'pv-avatar')">
                 </div>
 
-                <div class="avatar-success-status" id="avatar-success-status" style="margin-bottom: 20px; display: none;">
+                <div class="avatar-success-status" id="avatar-success-status" style="margin-bottom: 20px;">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                     <span>Photo de profil bien importée !</span>
                 </div>
@@ -561,7 +565,6 @@
             document.getElementById('pv-banner-logo').src = savedLogo;
             document.getElementById('ui-avatar-container').style.marginTop = '-10px'; 
             document.getElementById('logo-success-status').style.display = 'flex';
-            document.getElementById('magic-theme-btn').style.display = 'flex';
             document.getElementById('logo-size-container').style.display = 'block'; 
         } else {
             document.getElementById('ui-avatar-container').style.marginTop = '40px';
@@ -572,55 +575,32 @@
         }
     };
 
-    function updateLogoSize(val) {
+    /* Gestion dynamique de la jauge bleue (Taille du Logo) */
+    function updateLogoSize(slider) {
+        const val = slider.value;
         const logo = document.getElementById('pv-banner-logo');
         logo.style.transition = 'none'; 
         logo.style.width = val + 'px';
         document.getElementById('logo-size-display').innerText = val;
+
+        // Calcul du pourcentage pour remplir la jauge en bleu
+        const min = slider.min || 50;
+        const max = slider.max || 350;
+        const percentage = ((val - min) / (max - min)) * 100;
+        slider.style.setProperty('--val', percentage + '%');
     }
 
-    function updateLogoSpace(val) {
+    /* Gestion dynamique de la jauge bleue (Espace) */
+    function updateLogoSpace(slider) {
+        const val = slider.value;
         const avatarContainer = document.getElementById('ui-avatar-container');
         avatarContainer.style.transition = 'none'; 
         avatarContainer.style.marginTop = val + 'px';
-    }
 
-    function applyLogoTheme() {
-        const img = document.getElementById('pv-banner-logo');
-        if(!img.src) return;
-        
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = img.width || 100; canvas.height = img.height || 100;
-        
-        try {
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-            let r=0, g=0, b=0, count=0;
-            for(let i=0; i<data.length; i+=4) {
-                if(data[i+3] > 0) {
-                    if((data[i]>240 && data[i+1]>240 && data[i+2]>240) || (data[i]<15 && data[i+1]<15 && data[i+2]<15)) continue;
-                    r += data[i]; g += data[i+1]; b += data[i+2]; count++;
-                }
-            }
-            if(count > 0) { r = Math.floor(r/count); g = Math.floor(g/count); b = Math.floor(b/count); } else { r=0; g=87; b=255; }
-            
-            const colorTop = `rgba(${r}, ${g}, ${b}, 0.15)`;
-            const colorBottom = `rgba(${r}, ${g}, ${b}, 0.02)`;
-            const hexColor = ((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);
-            
-            const pattern = `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20z' fill='%23${hexColor}' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E")`;
-            const finalBg = `${pattern}, linear-gradient(135deg, ${colorTop} 0%, ${colorBottom} 100%), #ffffff`;
-            
-            const screen = document.getElementById('preview-screen');
-            screen.style.background = finalBg; document.getElementById('hidden-bg').value = finalBg;
-            screen.classList.remove('dark-mode'); 
-            setColor(`rgb(${r},${g},${b})`, null);
-            
-            const magicBtn = document.getElementById('magic-theme-btn');
-            magicBtn.innerHTML = "✅ Thème harmonisé avec succès !"; magicBtn.style.background = "#10b981"; 
-            setTimeout(() => { magicBtn.innerHTML = "✨ Harmoniser les couleurs avec mon logo"; magicBtn.style.background = "linear-gradient(135deg, #0057FF, #8b5cf6)"; }, 3000);
-        } catch(e) { }
+        const min = slider.min || -120;
+        const max = slider.max || 40;
+        const percentage = ((val - min) / (max - min)) * 100;
+        slider.style.setProperty('--val', percentage + '%');
     }
 
     function setPhoneBg(bgValue, isDark, element) {
@@ -668,7 +648,7 @@
         }
     }
 
-    /* MOTEUR DE CAPTURE DE SITE GARANTI (API OFFICIELLE WORDPRESS) */
+    /* MOTEUR DE CAPTURE DE SITE (THUM.IO) AVEC EFFET DE CHARGEMENT */
     function updateVisualCard(index, url) {
         const card = document.getElementById(`preview-card-${index}`);
         const img = document.getElementById(`preview-img-${index}`);
@@ -688,20 +668,24 @@
 
         timeoutTokens[index-1] = setTimeout(() => { 
             card.style.display = 'block'; 
-            img.style.opacity = '0.5'; 
+            
+            // Effet visuel pendant le chargement
+            img.style.opacity = '0.3'; 
             
             img.onerror = function() {
+                // Si le site n'existe pas ou bloque la capture
                 this.src = 'https://via.placeholder.com/600x400/e2e8f0/475569?text=Aper%C3%A7u+indisponible';
                 this.style.opacity = '1';
             };
             
             img.onload = function() {
+                // L'image est arrivée, on la rend totalement visible
                 this.style.opacity = '1';
             }
 
-            // Utilise l'API WordPress MShots (Trés fiable)
-            img.src = `https://s0.wordpress.com/mshots/v1/${encodeURIComponent(cleanUrl)}?w=600`; 
-        }, 600); 
+            // Requête vers Thum.io
+            img.src = `https://image.thum.io/get/width/600/crop/800/${cleanUrl}`; 
+        }, 800); 
     }
 
     function toggleVisualTitle(index, isChecked) {
@@ -713,7 +697,7 @@
 
     function updateVisualTitleText(index, title) { document.getElementById(`preview-title-${index}`).innerText = title.trim() === '' ? 'Mon Site Web' : title; }
 
-    /* GENERATION DU SNAPSHOT (OPTIMISEE POUR LA VITESSE) */
+    /* CAPTURE D'ECRAN DU TELEPHONE */
     async function generateNativeSnapshot() {
         const element = document.getElementById('preview-screen');
         const phoneFrame = document.querySelector('.phone-frame');
@@ -728,7 +712,7 @@
 
         const canvas = await html2canvas(element, {
             useCORS: true, 
-            scale: 1, /* Mis à 1 au lieu de 1.5 pour une exécution quasi-instantanée */
+            scale: 1, 
             backgroundColor: window.getComputedStyle(element).backgroundColor || '#f8fafc',
             allowTaint: true,
             logging: false
@@ -755,8 +739,8 @@
         let bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n); while(n--){ u8arr[n] = bstr.charCodeAt(n); } return new File([u8arr], filename, {type: mime});
     }
 
-    /* VALIDATION SANS LATENCE */
-    document.getElementById('digital-form').addEventListener('submit', async function(e) {
+    /* VALIDATION ZERO-LATENCE (CORRECTION IPHONE) */
+    document.getElementById('digital-form').addEventListener('submit', function(e) {
         e.preventDefault(); 
         
         const nom = document.getElementById('Nom_Complet').value.trim();
@@ -769,48 +753,58 @@
         const btn = document.getElementById('final-btn');
         btn.innerHTML = 'Validation en cours... 🚀';
         btn.style.pointerEvents = 'none';
+        btn.style.opacity = '0.8';
 
-        try {
-            const originalAvatar = document.querySelector('input[name="Photo_De_Profil_Client"]');
-            if(originalAvatar) originalAvatar.removeAttribute('name');
+        // L'utilisation de setTimeout(..., 50) permet à l'interface de se mettre à jour IMMÉDIATEMENT
+        // avant que le navigateur ne se fige pour calculer la capture d'écran.
+        setTimeout(async () => {
+            try {
+                const originalAvatar = document.querySelector('input[name="Photo_De_Profil_Client"]');
+                if(originalAvatar) originalAvatar.removeAttribute('name');
 
-            const addFileToForm = (fileName, fileObj) => {
-                let input = document.createElement('input');
-                input.type = 'file'; input.name = fileName; input.style.display = 'none';
-                let dt = new DataTransfer(); dt.items.add(fileObj); input.files = dt.files;
-                this.appendChild(input); 
-            };
+                const addFileToForm = (fileName, fileObj) => {
+                    let input = document.createElement('input');
+                    input.type = 'file'; input.name = fileName; input.style.display = 'none';
+                    let dt = new DataTransfer(); dt.items.add(fileObj); input.files = dt.files;
+                    document.getElementById('digital-form').appendChild(input); 
+                };
 
-            if (savedAvatarData) {
-                const compressedAvatar = await compressBase64(savedAvatarData, 600);
-                addFileToForm('Photo_De_Profil_Client', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
-            }
+                if (savedAvatarData) {
+                    const compressedAvatar = await compressBase64(savedAvatarData, 600);
+                    addFileToForm('Photo_De_Profil_Client', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
+                }
 
-            const imgMobileData = await generateNativeSnapshot();
-            addFileToForm('Apercu_Design_Mobile', base64ToFile(imgMobileData, 'Apercu_Visuel_Mobile.jpg'));
-            
-            const savedLogo = localStorage.getItem('kd_logo_client');
-            if (savedLogo && savedLogo.startsWith('data:image')) {
-                const compressedLogo = await compressBase64(savedLogo, 600);
-                addFileToForm('Logo_Entreprise', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
-            }
+                // TRY/CATCH SUR LA CAPTURE MOBILE !
+                // Si l'iPhone bloque, le script continue sans faire planter l'envoi du formulaire.
+                try {
+                    const imgMobileData = await generateNativeSnapshot();
+                    addFileToForm('Apercu_Design_Mobile', base64ToFile(imgMobileData, 'Apercu_Visuel_Mobile.jpg'));
+                } catch(canvasErr) {
+                    console.warn("La capture mobile a échoué (sécurité Safari), on continue l'envoi.");
+                }
+                
+                const savedLogo = localStorage.getItem('kd_logo_client');
+                if (savedLogo && savedLogo.startsWith('data:image')) {
+                    const compressedLogo = await compressBase64(savedLogo, 600);
+                    addFileToForm('Logo_Entreprise', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
+                }
 
-            const savedNfcCard = localStorage.getItem('kd_nfc_card_preview');
-            const savedNfcCardVerso = localStorage.getItem('kd_nfc_card_preview_verso');
+                const savedNfcCard = localStorage.getItem('kd_nfc_card_preview');
+                const savedNfcCardVerso = localStorage.getItem('kd_nfc_card_preview_verso');
 
-            if (savedNfcCard && savedNfcCard.startsWith('data:image')) {
-                const compressedNfc = await compressBase64(savedNfcCard, 800);
-                addFileToForm('Design_Carte_NFC', base64ToFile(compressedNfc, 'Design_Carte_NFC.jpg'));
-            }
-            if (savedNfcCardVerso && savedNfcCardVerso.startsWith('data:image')) {
-                const compressedNfcVerso = await compressBase64(savedNfcCardVerso, 800);
-                addFileToForm('Design_Carte_NFC_VERSO', base64ToFile(compressedNfcVerso, 'Design_Carte_NFC_VERSO.jpg'));
-            }
+                if (savedNfcCard && savedNfcCard.startsWith('data:image')) {
+                    const compressedNfc = await compressBase64(savedNfcCard, 800);
+                    addFileToForm('Design_Carte_NFC', base64ToFile(compressedNfc, 'Design_Carte_NFC.jpg'));
+                }
+                if (savedNfcCardVerso && savedNfcCardVerso.startsWith('data:image')) {
+                    const compressedNfcVerso = await compressBase64(savedNfcCardVerso, 800);
+                    addFileToForm('Design_Carte_NFC_VERSO', base64ToFile(compressedNfcVerso, 'Design_Carte_NFC_VERSO.jpg'));
+                }
 
-            HTMLFormElement.prototype.submit.call(this);
+                // ENVOI REEL DU FORMULAIRE
+                HTMLFormElement.prototype.submit.call(document.getElementById('digital-form'));
 
-            /* Affichage du message de succès quasi-immédiat (500ms au lieu de 1500) */
-            setTimeout(() => {
+                // Affichage du message de succès
                 const configBox = document.getElementById('main-config-box');
                 configBox.innerHTML = `
                     <div style="text-align: center; padding: 50px 20px;">
@@ -830,14 +824,13 @@
                     </div>
                 `;
                 configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 500); 
 
-        } catch (error) {
-            console.error(error);
-            btn.innerHTML = '🚀 Valider ma carte Digital';
-            btn.style.pointerEvents = 'auto';
-            alert("Une erreur est survenue lors de la capture de l'image. Veuillez vérifier votre connexion.");
-        }
+            } catch (error) {
+                // En cas de crash total inattendu, on force l'envoi classique
+                console.error(error);
+                HTMLFormElement.prototype.submit.call(document.getElementById('digital-form'));
+            }
+        }, 50); // Le script attend 50ms, ce qui laisse le temps au bouton d'afficher "Validation en cours" !
     });
 </script>
 </body>
