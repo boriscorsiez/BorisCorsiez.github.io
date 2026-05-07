@@ -11,7 +11,6 @@
     
     <style>
         :root { 
-            /* COULEURS OFFICIELLES KINGDREAM */
             --blue-main: #0057FF; 
             --blue-dark: #0036A3; 
             --blue-light: #4285F4; 
@@ -28,14 +27,12 @@
         * { margin:0; padding:0; box-sizing:border-box; }
         body { background: var(--bg-light); color: var(--text-dark); font-family: 'Nunito', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; padding-top: var(--nav-h); }
 
-        /* NAVBAR OFFICIELLE (Avec bouton retour) */
         nav#navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: var(--white); padding: 0 5%; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
         .nav-logo-link { position: relative; display: flex; align-items: center; width: 180px; height: var(--nav-h); text-decoration: none; z-index: 50; }
         .nav-logo-link img { position: absolute; width: 100%; top: 50%; left: 0; transform: translateY(-40%) scale(2.2); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); pointer-events: none; }
         .nav-back-btn { font-weight: 800; font-size: 0.9rem; color: var(--blue-main); text-decoration: none; border: 2px solid var(--blue-main); padding: 8px 20px; border-radius: 50px; transition: 0.3s; background: transparent; display: flex; align-items: center; gap: 8px; }
         .nav-back-btn:hover { background: var(--blue-main); color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,87,255,0.2); }
 
-        /* HEADER DE SUCCES */
         .success-header { background: linear-gradient(160deg, var(--blue-main) 0%, var(--blue-dark) 100%); padding: 60px 20px; text-align: center; margin-bottom: 50px; color: var(--white); position: relative; overflow: hidden; }
         .success-header::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 30px; background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,32L120,42.7C240,53,480,75,720,74.7C960,75,1200,53,1320,42.7L1440,32L1440,120L1320,120C1200,120,960,120,720,120C480,120,240,120,120,120L0,120Z" fill="%23f8faff"/></svg>') no-repeat bottom; background-size: cover; z-index: 1; pointer-events: none; }
         .success-header-inner { position: relative; z-index: 2; }
@@ -43,10 +40,8 @@
         .success-header h1 { font-family: 'Fredoka One'; font-size: 2.8rem; color: var(--yellow); margin-bottom: 15px; text-shadow: 0 4px 15px rgba(0,0,0,0.2); line-height: 1.1; }
         .success-header p { font-size: 1.1rem; font-weight: 600; color: rgba(255,255,255,0.9); max-width: 700px; margin: 0 auto; line-height: 1.6; }
 
-        /* LAYOUT PRINCIPAL */
         .studio-wrapper { max-width: 1300px; margin: 0 auto 100px; padding: 0 20px; display: grid; grid-template-columns: 380px 1fr; gap: 50px; align-items: start; }
 
-        /* PREVIEW TELEPHONE */
         .phone-container { position: sticky; top: calc(var(--nav-h) + 30px); display: flex; justify-content: center; }
         .phone-frame { width: 350px; height: 720px; background: #1a1a1a; border-radius: 50px; padding: 14px; border: 8px solid #333; box-shadow: 0 30px 60px rgba(0,0,0,0.2); position: relative; }
         .phone-notch { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 120px; height: 25px; background: #333; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; z-index: 10; }
@@ -79,6 +74,7 @@
         .ui-icon svg { width: 30px; height: 30px; fill: white; }
         .ui-app-label { font-size: 0.65rem; font-weight: 800; color: #334155; text-align: center; overflow: hidden; text-overflow: ellipsis; width: 100%; white-space: nowrap; transition: color 0.4s; }
 
+        /* DEGRADES D'APPLICATIONS */
         .bg-tel { background: linear-gradient(135deg, #4ade80, #22c55e); }
         .bg-mail { background: linear-gradient(135deg, #38bdf8, #0ea5e9); }
         .bg-insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
@@ -271,10 +267,10 @@
 
         <!-- FORMULAIRE (DROITE) -->
         <div class="config-box" id="main-config-box">
-            <!-- Ajoute ton email dans action="..." ci-dessous -->
+            <!-- Remplace par ton adresse email -->
             <form id="digital-form" action="https://formsubmit.co/ajax/Contact@kingdream.fr" method="POST" enctype="multipart/form-data">
                 
-                <input type="hidden" name="_subject" value="Nouveau Profil Digital NFC !">
+                <input type="hidden" name="_subject" value="NOUVEAU DESIGN NFC (Logo + Mobile + Profil) !">
                 <input type="hidden" name="Couleur_Bouton" id="hidden-color" value="#0057FF">
                 <input type="hidden" name="Couleur_Fond" id="hidden-bg" value="#f8fafc">
 
@@ -286,6 +282,12 @@
                     <span>Logo de votre entreprise importé avec succès !</span>
                 </div>
 
+                <!-- BOX SUCCES CARTE NFC PRECEDENTE -->
+                <div class="logo-success-status" id="carte-success-status" style="border-color: #3b82f6; background: #eff6ff; color: #1d4ed8;">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M21 4H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H3V6h18v12zm-2-8H5v2h14v-2zm0 4H5v2h14v-2z"/></svg>
+                    <span>Le design de votre Carte Physique NFC a bien été rattaché.</span>
+                </div>
+
                 <!-- BOUTON IA LOGO -->
                 <button type="button" class="magic-theme-btn" id="magic-theme-btn" onclick="applyLogoTheme()">
                     ✨ Harmoniser les couleurs avec mon logo
@@ -294,7 +296,7 @@
                 <div class="file-upload-wrapper">
                     <span style="font-size:1.1rem; margin-bottom:5px;">📸 Votre Photo de Profil</span>
                     <span style="font-size:0.8rem;">S'affichera dans le cercle central</span>
-                    <input type="file" name="Avatar_Fichier" accept="image/*" onchange="previewImage(this, 'pv-avatar')">
+                    <input type="file" name="Avatar_Fichier" accept="image/*" onchange="previewImage(this, 'pv-avatar')" required>
                 </div>
 
                 <!-- BOX SUCCES PHOTO DE PROFIL -->
@@ -519,26 +521,23 @@
     </footer>
 
 <script>
-    // 1. GESTION AUTOMATIQUE DU LOGO TÉLÉCHARGÉ DEPUIS LA PAGE PRECEDENTE
+    // 1. GESTION AUTOMATIQUE DES FICHIERS DE LA PAGE PRECEDENTE
     window.onload = function() {
         const savedLogo = localStorage.getItem('kd_logo_client');
+        const savedNfcCard = localStorage.getItem('kd_nfc_card_preview'); // Aperçu carte physique de la page d'avant
+
         if (savedLogo) {
             document.getElementById('pv-banner-container').style.display = 'flex';
             document.getElementById('pv-banner-logo').src = savedLogo;
             document.getElementById('ui-avatar-container').style.marginTop = '-50px';
             document.getElementById('logo-success-status').style.display = 'flex';
-            
-            // On sauvegarde le logo secretement pour te l'envoyer
-            let logoInput = document.createElement('input');
-            logoInput.type = 'hidden';
-            logoInput.name = 'Logo_Telecharge_Precedemment_Base64';
-            logoInput.value = savedLogo;
-            document.getElementById('digital-form').appendChild(logoInput);
-
-            // Affiche le bouton "Magie IA : Harmoniser avec mon logo"
             document.getElementById('magic-theme-btn').style.display = 'flex';
         } else {
             document.getElementById('ui-avatar-container').style.marginTop = '40px';
+        }
+
+        if(savedNfcCard) {
+            document.getElementById('carte-success-status').style.display = 'flex';
         }
     };
 
@@ -613,12 +612,10 @@
         if(element) element.classList.add('active');
     }
 
-    // Textes normaux
     function updateText(id, value, defaultValue) {
         document.getElementById(id).innerText = value.trim() === '' ? defaultValue : value;
     }
 
-    // Gestion du Prénom + Bouton 
     function updateName(value) {
         document.getElementById('pv-name').innerText = value.trim() === '' ? 'Prénom Nom' : value;
         let firstName = value.trim().split(' ')[0];
@@ -629,17 +626,14 @@
         }
     }
 
-    // Couleurs Bouton principal
     function setColor(color, element) {
         document.getElementById('preview-screen').style.setProperty('--ui-accent', color);
         document.getElementById('hidden-color').value = color;
         document.querySelectorAll('.bg-web svg').forEach(svg => svg.style.fill = color);
-        
         document.querySelectorAll('.color-dot').forEach(el => el.classList.remove('active'));
         if(element) element.classList.add('active');
     }
 
-    // Case à cocher des réseaux
     function toggleSocialBox(checkbox) {
         const itemBox = checkbox.closest('.social-item');
         if(checkbox.checked) {
@@ -654,7 +648,6 @@
         }
     }
 
-    // Affichage des Apps tel
     function toggleApp(appId, value) {
         const appIcon = document.getElementById(appId);
         if (value.trim().length > 0) {
@@ -664,33 +657,31 @@
         }
     }
 
-    // Libellé de l'app
     function updateAppLabel(appId, value, defaultName) {
         const label = document.querySelector(`#${appId} .ui-app-label`);
         label.innerText = value.trim() === '' ? defaultName : value;
     }
 
     // Upload photo visage + SUCCESS MESSAGE
+    // Je sauvegarde aussi en Base64 temporaire pour le dessin natif du rendu mobile
+    let savedAvatarData = null; 
     function previewImage(input, imgId) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 document.getElementById(imgId).src = e.target.result;
+                savedAvatarData = e.target.result;
                 document.getElementById('avatar-success-status').style.display = 'flex';
             }
             reader.readAsDataURL(input.files[0]);
         }
     }
 
-    // CARTES VISUELLES WEB
     let timeoutTokens = [null, null, null]; 
-
     function updateVisualCard(index, url) {
         const card = document.getElementById(`preview-card-${index}`);
         const img = document.getElementById(`preview-img-${index}`);
-        
         if (timeoutTokens[index-1]) clearTimeout(timeoutTokens[index-1]);
-
         if (url.trim().startsWith('http://') || url.trim().startsWith('https://')) {
             timeoutTokens[index-1] = setTimeout(() => {
                 img.src = `https://image.thum.io/get/width/600/crop/800/${url.trim()}`;
@@ -704,7 +695,6 @@
     function toggleVisualTitle(index, isChecked) {
         const inputContainer = document.getElementById(`title-input-container-${index}`);
         const phoneTitleDiv = document.getElementById(`preview-title-${index}`);
-        
         if (isChecked) {
             inputContainer.style.display = 'block';
             phoneTitleDiv.style.display = 'block';
@@ -722,91 +712,114 @@
     }
 
     // ---------------------------------------------------------------------------------
-    // GÉNÉRATION NATIVE D'IMAGE DU TÉLÉPHONE SANS LIBRAIRIE EXTERNE (0 BUG DE DEPLOIEMENT)
+    // DESSIN DU RENDU MOBILE NATIVEMENT (Sans librairie externe)
     // ---------------------------------------------------------------------------------
     function generateNativeSnapshot() {
-        const canvas = document.createElement('canvas');
-        canvas.width = 400;
-        canvas.height = 800;
-        const ctx = canvas.getContext('2d');
+        return new Promise((resolve) => {
+            const canvas = document.createElement('canvas');
+            canvas.width = 400;
+            canvas.height = 800;
+            const ctx = canvas.getContext('2d');
 
-        // Fond du téléphone 
-        const isDark = document.getElementById('preview-screen').classList.contains('dark-mode');
-        ctx.fillStyle = document.getElementById('hidden-bg').value.includes('linear-gradient') ? (isDark ? '#1e293b' : '#e2e8f0') : '#f8fafc'; 
-        ctx.fillRect(0, 0, 400, 800);
+            const isDark = document.getElementById('preview-screen').classList.contains('dark-mode');
+            ctx.fillStyle = document.getElementById('hidden-bg').value.includes('linear-gradient') ? (isDark ? '#1e293b' : '#e2e8f0') : '#f8fafc'; 
+            ctx.fillRect(0, 0, 400, 800);
 
-        // Couleurs
-        const accent = document.getElementById('hidden-color').value || '#0057FF';
-        const textColor = isDark ? '#ffffff' : '#0f172a';
-        const mutedColor = isDark ? '#94a3b8' : '#475569';
+            const accent = document.getElementById('hidden-color').value || '#0057FF';
+            const textColor = isDark ? '#ffffff' : '#0f172a';
+            const mutedColor = isDark ? '#94a3b8' : '#475569';
 
-        // Fake Logo / Bannière
-        ctx.fillStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)';
-        ctx.fillRect(0, 0, 400, 150);
+            ctx.fillStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)';
+            ctx.fillRect(0, 0, 400, 150);
 
-        // Fake Avatar (Cercle coloré avec initiales)
-        const name = document.querySelector('input[name="Nom_Complet"]').value || 'Prénom Nom';
-        const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-        ctx.fillStyle = '#cbd5e1';
-        ctx.beginPath();
-        ctx.arc(200, 150, 60, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.strokeStyle = isDark ? '#1e293b' : '#f8fafc';
-        ctx.lineWidth = 6;
-        ctx.stroke();
-        ctx.fillStyle = '#475569';
-        ctx.font = 'bold 40px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(initials, 200, 150);
+            const name = document.querySelector('input[name="Nom_Complet"]').value || 'Prénom Nom';
+            const job = document.querySelector('input[name="Poste"]').value || 'POSTE / ENTREPRISE';
+            
+            // Avatar Placeholder ou Vraie photo
+            const drawRest = () => {
+                ctx.fillStyle = textColor;
+                ctx.font = 'bold 30px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(name, 200, 250);
 
-        // Noms et Poste
-        ctx.fillStyle = textColor;
-        ctx.font = 'bold 30px sans-serif';
-        ctx.fillText(name, 200, 250);
+                ctx.fillStyle = mutedColor;
+                ctx.font = 'bold 16px sans-serif';
+                ctx.fillText(job.toUpperCase(), 200, 280);
 
-        const job = document.querySelector('input[name="Poste"]').value || 'POSTE / ENTREPRISE';
-        ctx.fillStyle = mutedColor;
-        ctx.font = 'bold 16px sans-serif';
-        ctx.fillText(job.toUpperCase(), 200, 280);
+                ctx.fillStyle = accent;
+                ctx.beginPath();
+                ctx.roundRect ? ctx.roundRect(40, 320, 320, 50, 25) : ctx.fillRect(40, 320, 320, 50);
+                ctx.fill();
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 18px sans-serif';
+                ctx.fillText("Se connecter", 200, 345);
 
-        // Bouton
-        ctx.fillStyle = accent;
-        ctx.beginPath();
-        ctx.roundRect ? ctx.roundRect(40, 320, 320, 50, 25) : ctx.fillRect(40, 320, 320, 50);
-        ctx.fill();
-        ctx.fillStyle = '#fff';
-        ctx.font = 'bold 18px sans-serif';
-        ctx.fillText("Se connecter", 200, 345);
+                let activeApps = [];
+                document.querySelectorAll('.social-item.active').forEach(item => {
+                    const label = item.querySelector('.social-header').innerText.replace('Lien (Bouton Web)', 'Web').trim();
+                    activeApps.push(label.substring(0, 10));
+                });
 
-        // Liste des Apps cochées
-        let activeApps = [];
-        document.querySelectorAll('.social-item.active').forEach(item => {
-            const label = item.querySelector('.social-header').innerText.replace('Lien (Bouton Web)', 'Web').trim();
-            activeApps.push(label.substring(0, 10)); // garde les premiers caractères
-        });
+                let startX = 80;
+                let startY = 440;
+                ctx.fillStyle = accent;
+                activeApps.forEach((app, index) => {
+                    if (index > 0 && index % 4 === 0) {
+                        startX = 80;
+                        startY += 90;
+                    }
+                    ctx.beginPath();
+                    ctx.roundRect ? ctx.roundRect(startX - 30, startY, 60, 60, 16) : ctx.fillRect(startX - 30, startY, 60, 60);
+                    ctx.fill();
+                    
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 12px sans-serif';
+                    ctx.fillText(app, startX, startY + 80);
+                    
+                    ctx.fillStyle = accent;
+                    startX += 80;
+                });
 
-        let startX = 80;
-        let startY = 440;
-        ctx.fillStyle = accent;
-        activeApps.forEach((app, index) => {
-            if (index > 0 && index % 4 === 0) {
-                startX = 80;
-                startY += 90;
+                resolve(canvas.toDataURL('image/jpeg', 0.8));
+            };
+
+            // Dessiner l'avatar s'il existe
+            if(savedAvatarData) {
+                let img = new Image();
+                img.onload = function() {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(200, 150, 60, 0, Math.PI * 2, true);
+                    ctx.closePath();
+                    ctx.clip();
+                    ctx.drawImage(img, 140, 90, 120, 120);
+                    ctx.restore();
+                    // Bordure
+                    ctx.beginPath();
+                    ctx.arc(200, 150, 60, 0, Math.PI * 2, true);
+                    ctx.lineWidth = 6;
+                    ctx.strokeStyle = isDark ? '#1e293b' : '#f8fafc';
+                    ctx.stroke();
+                    drawRest();
+                };
+                img.src = savedAvatarData;
+            } else {
+                const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                ctx.fillStyle = '#cbd5e1';
+                ctx.beginPath();
+                ctx.arc(200, 150, 60, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = isDark ? '#1e293b' : '#f8fafc';
+                ctx.lineWidth = 6;
+                ctx.stroke();
+                ctx.fillStyle = '#475569';
+                ctx.font = 'bold 40px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(initials, 200, 150);
+                drawRest();
             }
-            ctx.beginPath();
-            ctx.roundRect ? ctx.roundRect(startX - 30, startY, 60, 60, 16) : ctx.fillRect(startX - 30, startY, 60, 60);
-            ctx.fill();
-            
-            ctx.fillStyle = '#fff';
-            ctx.font = 'bold 12px sans-serif';
-            ctx.fillText(app, startX, startY + 80);
-            
-            ctx.fillStyle = accent;
-            startX += 80;
         });
-
-        return canvas.toDataURL('image/jpeg', 0.8);
     }
 
     function dataURLtoBlob(dataurl) {
@@ -819,7 +832,7 @@
     }
 
     // ---------------------------------------------------------------------------------
-    // SOUMISSION DU FORMULAIRE ET ENVOI
+    // SOUMISSION DU FORMULAIRE ET ENVOI AVEC TOUTES LES PIÈCES JOINTES !
     // ---------------------------------------------------------------------------------
     document.getElementById('digital-form').addEventListener('submit', async function(e) {
         e.preventDefault(); 
@@ -830,14 +843,28 @@
         btn.style.opacity = '0.8';
 
         try {
-            // Création de l'image de synthèse en natif (0 bug)
-            const imgData = generateNativeSnapshot();
-            
+            // 1. Récupération des données du formulaire
             let formData = new FormData(this);
-            formData.append('Visuel_Design_Synthese.jpg', dataURLtoBlob(imgData), 'Apercu_Visuel.jpg');
             
+            // 2. On fabrique le rendu visuel mobile en image
+            const imgMobileData = await generateNativeSnapshot();
+            formData.append('Visuel_Mobile.jpg', dataURLtoBlob(imgMobileData), 'Visuel_Mobile.jpg');
+            
+            // 3. On attache le LOGO du client (s'il l'a importé avant) en pièce jointe !
+            const savedLogo = localStorage.getItem('kd_logo_client');
+            if(savedLogo && savedLogo.startsWith('data:image')) {
+                formData.append('Logo_Entreprise.png', dataURLtoBlob(savedLogo), 'Logo_Entreprise.png');
+            }
+
+            // 4. On attache le RENDU DE LA CARTE NFC (fait sur la page d'avant) en pièce jointe !
+            const savedNfcCard = localStorage.getItem('kd_nfc_card_preview');
+            if(savedNfcCard && savedNfcCard.startsWith('data:image')) {
+                formData.append('Apercu_Carte_NFC.png', dataURLtoBlob(savedNfcCard), 'Apercu_Carte_NFC.png');
+            }
+
             btn.innerHTML = 'Envoi sécurisé en cours... 🚀';
 
+            // 5. On envoie tout en une fois
             const response = await fetch(this.action, {
                 method: 'POST',
                 headers: { 'Accept': 'application/json' },
