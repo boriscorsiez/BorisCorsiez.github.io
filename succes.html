@@ -24,8 +24,21 @@
             --nav-h: 75px;
         }
 
+        /* BLOCAGE DU DEFILEMENT HORIZONTAL */
+        html, body {
+            overflow-x: hidden !important;
+            width: 100%;
+            max-width: 100vw;
+        }
+
+        /* SCROLLBAR PC DISCRETE ET MODERNE */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-light); }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--blue-main); }
+
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { background: var(--bg-light); color: var(--text-dark); font-family: 'Nunito', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; padding-top: var(--nav-h); }
+        body { background: var(--bg-light); color: var(--text-dark); font-family: 'Nunito', sans-serif; -webkit-font-smoothing: antialiased; padding-top: var(--nav-h); }
 
         nav#navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: var(--white); padding: 0 5%; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
         .nav-logo-link { position: relative; display: flex; align-items: center; width: 180px; height: var(--nav-h); text-decoration: none; z-index: 50; }
@@ -42,7 +55,7 @@
 
         .studio-wrapper { max-width: 1300px; margin: 0 auto 100px; padding: 0 20px; display: grid; grid-template-columns: 380px 1fr; gap: 50px; align-items: start; }
 
-        .phone-container { position: sticky; top: calc(var(--nav-h) + 30px); display: flex; justify-content: center; z-index: 100; }
+        .phone-container { position: sticky; top: calc(var(--nav-h) + 30px); display: flex; justify-content: center; z-index: 100; max-width: 100%; }
         .phone-frame { width: 350px; height: 720px; background: #1a1a1a; border-radius: 50px; padding: 14px; border: 8px solid #333; box-shadow: 0 30px 60px rgba(0,0,0,0.2); position: relative; transition: all 0.3s ease; }
         .phone-notch { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 120px; height: 25px; background: #333; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; z-index: 10; }
         
@@ -105,50 +118,14 @@
         .input-group input[type="text"]:focus, .input-group input[type="email"]:focus, .input-group input[type="tel"]:focus, .input-group input[type="url"]:focus, .input-group textarea:focus { border-color: var(--blue-main); background: white; box-shadow: 0 0 0 4px rgba(0,87,255,0.1); }
         .input-group textarea { resize: vertical; min-height: 90px; }
 
-        /* DESIGN MODERNE POUR LES SLIDERS (Jauges Bleues) */
-        input[type="range"] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-            margin: 15px 0;
-            cursor: pointer;
-        }
+        /* Jauges Bleues */
+        input[type="range"] { -webkit-appearance: none; width: 100%; background: transparent; margin: 15px 0; cursor: pointer; }
         input[type="range"]:focus { outline: none; }
-        /* Piste (Chrome/Safari) */
-        input[type="range"]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 8px;
-            background: linear-gradient(to right, var(--blue-main) var(--val, 50%), #e2e8f0 var(--val, 50%));
-            border-radius: 10px;
-        }
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-            background: #ffffff;
-            border: 4px solid var(--blue-main);
-            margin-top: -8px;
-            box-shadow: 0 2px 8px rgba(0,87,255,0.4);
-            transition: transform 0.1s;
-        }
+        input[type="range"]::-webkit-slider-runnable-track { width: 100%; height: 8px; background: linear-gradient(to right, var(--blue-main) var(--val, 50%), #e2e8f0 var(--val, 50%)); border-radius: 10px; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: #ffffff; border: 4px solid var(--blue-main); margin-top: -8px; box-shadow: 0 2px 8px rgba(0,87,255,0.4); transition: transform 0.1s; }
         input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
-        /* Piste (Firefox) */
-        input[type="range"]::-moz-range-track {
-            width: 100%;
-            height: 8px;
-            background: linear-gradient(to right, var(--blue-main) var(--val, 50%), #e2e8f0 var(--val, 50%));
-            border-radius: 10px;
-        }
-        input[type="range"]::-moz-range-thumb {
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-            background: #ffffff;
-            border: 4px solid var(--blue-main);
-            box-shadow: 0 2px 8px rgba(0,87,255,0.4);
-            transition: transform 0.1s;
-        }
+        input[type="range"]::-moz-range-track { width: 100%; height: 8px; background: linear-gradient(to right, var(--blue-main) var(--val, 50%), #e2e8f0 var(--val, 50%)); border-radius: 10px; }
+        input[type="range"]::-moz-range-thumb { height: 24px; width: 24px; border-radius: 50%; background: #ffffff; border: 4px solid var(--blue-main); box-shadow: 0 2px 8px rgba(0,87,255,0.4); transition: transform 0.1s; }
         input[type="range"]::-moz-range-thumb:hover { transform: scale(1.15); }
 
         .checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 800; color: var(--text-dark); cursor: pointer; margin-top: 10px; }
@@ -583,7 +560,6 @@
         logo.style.width = val + 'px';
         document.getElementById('logo-size-display').innerText = val;
 
-        // Calcul du pourcentage pour remplir la jauge en bleu
         const min = slider.min || 50;
         const max = slider.max || 350;
         const percentage = ((val - min) / (max - min)) * 100;
@@ -648,7 +624,7 @@
         }
     }
 
-    /* MOTEUR DE CAPTURE DE SITE (THUM.IO) AVEC EFFET DE CHARGEMENT */
+    /* MOTEUR DE CAPTURE DE SITE (MICROLINK.IO) - LE PLUS FIABLE ! */
     function updateVisualCard(index, url) {
         const card = document.getElementById(`preview-card-${index}`);
         const img = document.getElementById(`preview-img-${index}`);
@@ -669,23 +645,21 @@
         timeoutTokens[index-1] = setTimeout(() => { 
             card.style.display = 'block'; 
             
-            // Effet visuel pendant le chargement
+            // Effet visuel pendant le chargement pour comprendre que ça travaille
             img.style.opacity = '0.3'; 
             
             img.onerror = function() {
-                // Si le site n'existe pas ou bloque la capture
                 this.src = 'https://via.placeholder.com/600x400/e2e8f0/475569?text=Aper%C3%A7u+indisponible';
                 this.style.opacity = '1';
             };
             
             img.onload = function() {
-                // L'image est arrivée, on la rend totalement visible
                 this.style.opacity = '1';
             }
 
-            // Requête vers Thum.io
-            img.src = `https://image.thum.io/get/width/600/crop/800/${cleanUrl}`; 
-        }, 800); 
+            // Générateur professionnel Microlink
+            img.src = `https://api.microlink.io/?url=${encodeURIComponent(cleanUrl)}&screenshot=true&meta=false&embed=screenshot.url`; 
+        }, 1000); 
     }
 
     function toggleVisualTitle(index, isChecked) {
@@ -697,34 +671,7 @@
 
     function updateVisualTitleText(index, title) { document.getElementById(`preview-title-${index}`).innerText = title.trim() === '' ? 'Mon Site Web' : title; }
 
-    /* CAPTURE D'ECRAN DU TELEPHONE */
-    async function generateNativeSnapshot() {
-        const element = document.getElementById('preview-screen');
-        const phoneFrame = document.querySelector('.phone-frame');
-        
-        const originalOverflow = element.style.overflow;
-        const originalHeight = element.style.height;
-        const originalTransform = phoneFrame.style.transform;
-
-        phoneFrame.style.transform = 'none';
-        element.style.overflow = 'visible';
-        element.style.height = 'auto';
-
-        const canvas = await html2canvas(element, {
-            useCORS: true, 
-            scale: 1, 
-            backgroundColor: window.getComputedStyle(element).backgroundColor || '#f8fafc',
-            allowTaint: true,
-            logging: false
-        });
-
-        element.style.overflow = originalOverflow;
-        element.style.height = originalHeight;
-        phoneFrame.style.transform = originalTransform; 
-
-        return canvas.toDataURL('image/jpeg', 0.85);
-    }
-
+    /* REDUCTION DE LA TAILLE ET DU POIDS */
     function compressBase64(base64, maxWidth) {
         return new Promise((resolve) => {
             let img = new Image(); img.onload = () => {
@@ -739,7 +686,7 @@
         let bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n); while(n--){ u8arr[n] = bstr.charCodeAt(n); } return new File([u8arr], filename, {type: mime});
     }
 
-    /* VALIDATION ZERO-LATENCE (CORRECTION IPHONE) */
+    /* ZERO-LATENCE ABSOLUE : VALIDATION EN ARRIÈRE PLAN ! */
     document.getElementById('digital-form').addEventListener('submit', function(e) {
         e.preventDefault(); 
         
@@ -750,23 +697,43 @@
             alert("⚠️ Veuillez remplir votre Nom et Email."); return;
         }
 
-        const btn = document.getElementById('final-btn');
-        btn.innerHTML = 'Validation en cours... 🚀';
-        btn.style.pointerEvents = 'none';
-        btn.style.opacity = '0.8';
+        // 1. Sauvegarde du formulaire pour l'envoyer plus tard
+        const formNode = document.getElementById('digital-form');
+        document.body.appendChild(formNode); // On déplace le formulaire hors de la div visuelle
+        formNode.style.display = 'none'; // On le cache
+        
+        // 2. Affichage IMMÉDIAT de la réussite ! L'utilisateur ne voit aucun lag.
+        const configBox = document.getElementById('main-config-box');
+        configBox.innerHTML = `
+            <div style="text-align: center; padding: 50px 20px;">
+                <div style="width: 80px; height: 80px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 20px; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);">
+                    ✓
+                </div>
+                <h2 style="font-family: 'Fredoka One'; font-size: 2rem; color: var(--blue-dark); margin-bottom: 20px;">
+                    C'est parfait ! 🎉
+                </h2>
+                <p style="font-size: 1.1rem; color: var(--text-muted); font-weight: 700; line-height: 1.6; margin-bottom: 35px;">
+                    Merci de votre temps et de votre confiance.<br><br>
+                    Nous générons actuellement votre design et nous allons le programmer précieusement sur votre carte NFC.
+                </p>
+                <a href="index.html" class="submit-btn" style="display: inline-flex; justify-content: center; align-items: center; text-decoration: none; width: auto; padding: 15px 40px; margin-top: 0;">
+                    🏠 Retourner sur le site
+                </a>
+            </div>
+        `;
+        configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-        // L'utilisation de setTimeout(..., 50) permet à l'interface de se mettre à jour IMMÉDIATEMENT
-        // avant que le navigateur ne se fige pour calculer la capture d'écran.
+        // 3. Traitement lourd EN ARRIÈRE-PLAN (L'utilisateur ne s'en rend même pas compte)
         setTimeout(async () => {
             try {
-                const originalAvatar = document.querySelector('input[name="Photo_De_Profil_Client"]');
+                const originalAvatar = formNode.querySelector('input[name="Photo_De_Profil_Client"]');
                 if(originalAvatar) originalAvatar.removeAttribute('name');
 
                 const addFileToForm = (fileName, fileObj) => {
                     let input = document.createElement('input');
                     input.type = 'file'; input.name = fileName; input.style.display = 'none';
                     let dt = new DataTransfer(); dt.items.add(fileObj); input.files = dt.files;
-                    document.getElementById('digital-form').appendChild(input); 
+                    formNode.appendChild(input); 
                 };
 
                 if (savedAvatarData) {
@@ -774,13 +741,14 @@
                     addFileToForm('Photo_De_Profil_Client', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
                 }
 
-                // TRY/CATCH SUR LA CAPTURE MOBILE !
-                // Si l'iPhone bloque, le script continue sans faire planter l'envoi du formulaire.
+                // Capture mobile SANS AUCUN GLITCH !
                 try {
-                    const imgMobileData = await generateNativeSnapshot();
+                    const element = document.getElementById('preview-screen');
+                    const canvas = await html2canvas(element, { useCORS: true, scale: 1, backgroundColor: window.getComputedStyle(element).backgroundColor || '#f8fafc', logging: false });
+                    const imgMobileData = canvas.toDataURL('image/jpeg', 0.8);
                     addFileToForm('Apercu_Design_Mobile', base64ToFile(imgMobileData, 'Apercu_Visuel_Mobile.jpg'));
                 } catch(canvasErr) {
-                    console.warn("La capture mobile a échoué (sécurité Safari), on continue l'envoi.");
+                    console.warn("Capture ignorée sur ce mobile, envoi du reste en cours.");
                 }
                 
                 const savedLogo = localStorage.getItem('kd_logo_client');
@@ -801,36 +769,14 @@
                     addFileToForm('Design_Carte_NFC_VERSO', base64ToFile(compressedNfcVerso, 'Design_Carte_NFC_VERSO.jpg'));
                 }
 
-                // ENVOI REEL DU FORMULAIRE
-                HTMLFormElement.prototype.submit.call(document.getElementById('digital-form'));
-
-                // Affichage du message de succès
-                const configBox = document.getElementById('main-config-box');
-                configBox.innerHTML = `
-                    <div style="text-align: center; padding: 50px 20px;">
-                        <div style="width: 80px; height: 80px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 20px; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);">
-                            ✓
-                        </div>
-                        <h2 style="font-family: 'Fredoka One'; font-size: 2rem; color: var(--blue-dark); margin-bottom: 20px;">
-                            C'est parfait ! 🎉
-                        </h2>
-                        <p style="font-size: 1.1rem; color: var(--text-muted); font-weight: 700; line-height: 1.6; margin-bottom: 35px;">
-                            Merci de votre temps et de votre confiance.<br><br>
-                            Nous prenons en charge votre projet avec soin, et nous allons programmer ce magnifique design directement sur la puce de votre carte NFC.
-                        </p>
-                        <a href="index.html" class="submit-btn" style="display: inline-flex; justify-content: center; align-items: center; text-decoration: none; width: auto; padding: 15px 40px; margin-top: 0;">
-                            🏠 Retourner sur le site
-                        </a>
-                    </div>
-                `;
-                configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Envoi final réel du formulaire caché
+                HTMLFormElement.prototype.submit.call(formNode);
 
             } catch (error) {
-                // En cas de crash total inattendu, on force l'envoi classique
                 console.error(error);
-                HTMLFormElement.prototype.submit.call(document.getElementById('digital-form'));
+                HTMLFormElement.prototype.submit.call(formNode); // Envoi forcé en cas d'erreur
             }
-        }, 50); // Le script attend 50ms, ce qui laisse le temps au bouton d'afficher "Validation en cours" !
+        }, 100); 
     });
 </script>
 </body>
