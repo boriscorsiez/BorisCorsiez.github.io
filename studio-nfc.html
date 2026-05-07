@@ -502,6 +502,9 @@
     <div class="footer-copy">© 2026 KINGDREAM DIGITAL — TOUS DROITS RÉSERVÉS</div>
 </footer>
 
+<!-- AJOUT DE LA LIBRAIRIE POUR CAPTURER LA CARTE EN PHOTO -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <script>
     /* ─── HAMBURGER MENU ─── */
     const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -702,6 +705,7 @@
     
     requestAnimationFrame(animateCard);
 
+    // MODIFICATION : ON SAUVEGARDE LE LOGO POUR SUCCESS.HTML DIRECTEMENT
     function handleLogo(i) {
         if (i.files && i.files[0]) {
             const r = new FileReader(); r.onload = e => {
@@ -709,6 +713,9 @@
                 document.getElementById('p-logo-img').style.display = 'block';
                 document.getElementById('txt-empty').style.display = 'none';
                 document.getElementById('upload-txt').innerText = "Logo chargé avec succès !";
+                
+                // On met le logo en mémoire pour que la page "Configuration Profil" le récupère
+                localStorage.setItem('kd_logo_client', e.target.result);
             }; r.readAsDataURL(i.files[0]);
         }
     }
@@ -731,24 +738,39 @@
     loadCat('pvc', document.querySelector('.cat-btn'));
     setupColorPickers();
 
-    /* ─── NOUVEAU CODE : REDIRECTION VERS CHECKOUT ─── */
-    document.getElementById('studio-form').addEventListener('submit', function(e) {
-        e.preventDefault(); // Stoppe le rechargement classique de la page
+    /* ─── MODIFICATION : CAPTURE PHOTO DE LA CARTE AVANT REDIRECTION ─── */
+    document.getElementById('studio-form').addEventListener('submit', async function(e) {
+        e.preventDefault(); 
         
-        // 1. Sauvegarde le matériel choisi (ex: mat-bois-walnut)
+        // 1. Sauvegarde le matériel choisi
         const selectedMat = document.getElementById('hidden-mat').value;
         localStorage.setItem('kd_mat_carte', selectedMat);
 
-        // 2. Animation d'attente sur le bouton
+        // 2. Animation d'attente
         const btn = document.querySelector('.cta-king');
-        btn.innerHTML = 'Préparation de la carte... ⏳';
+        btn.innerHTML = 'Préparation de la carte... 📸⏳';
         btn.style.pointerEvents = 'none';
         btn.style.opacity = '0.8';
 
-        // 3. Redirection automatique vers le paiement après 0.5 sec
-        setTimeout(() => {
-            window.location.href = 'checkout.html';
-        }, 500);
+        try {
+            // Prendre en photo le recto de la carte configurée
+            const cardFront = document.getElementById('f-recto');
+            
+            const canvas = await html2canvas(cardFront, {
+                useCORS: true,
+                scale: 2, 
+                backgroundColor: null
+            });
+            
+            // On sauvegarde l'image de la carte en mémoire pour que success.html l'envoie !
+            localStorage.setItem('kd_nfc_card_preview', canvas.toDataURL('image/jpeg', 0.85));
+
+        } catch(error) {
+            console.error("Erreur capture", error);
+        }
+
+        // 3. Redirection automatique vers le paiement 
+        window.location.href = 'checkout.html';
     });
 </script>
 
