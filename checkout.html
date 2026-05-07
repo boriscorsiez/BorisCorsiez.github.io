@@ -20,6 +20,13 @@
             --border-color: #e2e8f0;
         }
 
+        /* VERROUILLAGE MOBILE - EMPÊCHE LE DÉCALAGE A DROITE */
+        html, body {
+            overflow-x: hidden !important;
+            width: 100%;
+            max-width: 100vw;
+        }
+
         * { margin:0; padding:0; box-sizing:border-box; }
         body { background: var(--bg-light); color: var(--text-dark); font-family: 'Nunito', sans-serif; -webkit-font-smoothing: antialiased; }
         
@@ -122,15 +129,16 @@
             width: 260px; height: 164px; border-radius: 12px; background-size: cover; background-position: center; 
             transform: rotateY(-15deg) rotateX(10deg); box-shadow: -15px 20px 30px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.2); 
             display: flex; align-items: center; justify-content: center; position: relative; transition: 0.5s;
-            overflow: hidden; /* Assure que l'image ne dépasse pas des bords arrondis */
+            overflow: hidden; 
         }
         
-        /* La vraie image générée de la carte */
+        /* CORRECTION DU LOGO DÉCENTRÉ : On utilise 'contain' pour respecter l'image originale */
         .cart-card-img {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover;
-            display: none; /* Caché par défaut si aucune image */
+            object-fit: contain; 
+            display: none; 
+            transform: scale(1.02); /* Evite l'apparition de micro-bordures blanches */
         }
 
         .cart-card::after { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%); border-radius: 12px; pointer-events: none; }
@@ -144,17 +152,55 @@
         .price-row span:last-child { color: var(--text-dark); }
         .price-row.total { font-family: 'Fredoka One'; font-size: 1.8rem; color: var(--blue-main); margin-top: 20px; padding-top: 20px; border-top: 2px dashed #e2e8f0; }
 
+        /* ─── OPTIMISATIONS MOBILES ─── */
         @media(max-width: 900px) { 
-            .checkout-wrapper { grid-template-columns: 1fr; flex-direction: column-reverse; display: flex; gap: 30px; margin-top: 30px; } 
+            .checkout-wrapper { 
+                grid-template-columns: 1fr; 
+                flex-direction: column-reverse; 
+                display: flex; 
+                gap: 20px; 
+                margin-top: 20px; 
+                padding: 0 15px; 
+            } 
+            .box { padding: 25px 20px; }
             .cart-summary { position: relative; top: 0; padding: 30px 20px; } 
             .cart-card { width: 220px; height: 139px; }
         }
 
-        /* Ajustement Mobile pour la Navbar */
         @media(max-width: 600px) {
             .nav-back span { display: none; } 
             .nav-back { padding: 10px; left: 15px; }
             .nav-logo img { transform: scale(2.0); } 
+            
+            /* CORRECTION: Empêcher la case livraison de dépasser l'écran */
+            .delivery-option { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .del-price { margin-left: 0; align-self: flex-start; background: white; padding: 4px 12px; border-radius: 8px; border: 1px solid var(--border-color); }
+
+            /* CORRECTION: Un bloc "Total TTC" magnifique et centré sur Mobile */
+            .price-row.total {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                background: rgba(0, 87, 255, 0.04);
+                border: 2px solid var(--blue-main);
+                padding: 20px;
+                border-radius: 16px;
+                margin-top: 20px;
+                text-align: center;
+                gap: 5px;
+            }
+            .price-row.total span:first-child {
+                font-family: 'Nunito', sans-serif;
+                font-size: 0.95rem;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+            .price-row.total span:last-child {
+                font-size: 2.5rem; /* Prix bien gros et visible */
+                color: var(--blue-main);
+            }
         }
     </style>
 </head>
@@ -302,17 +348,15 @@
     const realImg = document.getElementById('cart-real-img');
     const svgIcon = document.getElementById('cart-svg');
     
-    // ON TENTE D'AFFICHER LA VRAIE PHOTO PRISE DANS LE STUDIO
+    // RECUPERATION DU VISUEL EXACT
     const savedCardImage = localStorage.getItem('kd_nfc_card_preview');
     
     if (savedCardImage && savedCardImage.startsWith('data:image')) {
-        // La capture d'écran a fonctionné, on l'affiche et on cache le faux design !
         realImg.src = savedCardImage;
         realImg.style.display = "block";
         svgIcon.style.display = "none";
-        cartVisual.style.background = "transparent"; // Enlève le fond par défaut car la photo l'a déjà
+        cartVisual.style.background = "transparent"; 
     } else {
-        // Sécurité : Si le client a un bug sur son téléphone, on remet le design par défaut
         if (cat === 'bois') {
             cartVisual.style.backgroundImage = "url('https://i.ibb.co/WvHKS309/walnut.png')";
             cartVisual.style.backgroundColor = "#5c4033";
