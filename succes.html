@@ -823,39 +823,7 @@
     }
 
    // ---------------------------------------------------------------------------------
-    // FONCTIONS DE CONVERSION ET COMPRESSION POUR FORMSUBMIT
-    // ---------------------------------------------------------------------------------
-    
-    // Transforme le Base64 en vrai fichier reconnu par les boîtes mail
-    function base64ToFile(dataurl, filename) {
-        let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-        while(n--){ u8arr[n] = bstr.charCodeAt(n); }
-        return new File([u8arr], filename, { type: mime });
-    }
-
-    // Compresse l'image pour éviter que FormSubmit ne bloque le mail s'il est trop lourd (>15Mo)
-    function compressBase64(base64Str, maxWidth = 800) {
-        return new Promise((resolve) => {
-            let img = new Image();
-            img.onload = () => {
-                let canvas = document.createElement('canvas');
-                let ratio = maxWidth / img.width;
-                if (ratio > 1) ratio = 1;
-                canvas.width = img.width * ratio;
-                canvas.height = img.height * ratio;
-                let ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                // Compression JPEG à 80% (Poids très léger, qualité parfaite pour email)
-                resolve(canvas.toDataURL('image/jpeg', 0.8));
-            };
-            img.onerror = () => resolve(base64Str); // Securité
-            img.src = base64Str;
-        });
-    }
-
-    // ---------------------------------------------------------------------------------
-    // SOUMISSION DU FORMULAIRE
+    // SOUMISSION DU FORMULAIRE (CORRIGÉ POUR FORMSUBMIT)
     // ---------------------------------------------------------------------------------
     document.getElementById('digital-form').addEventListener('submit', async function(e) {
         e.preventDefault(); 
@@ -866,39 +834,58 @@
         btn.style.opacity = '0.8';
 
         try {
-            // 1. Désactiver l'input fichier natif pour éviter d'envoyer la photo originale de 10Mo
+            // 1. Désactiver l'input fichier natif pour éviter d'envoyer la photo originale très lourde
             const fileInput = document.querySelector('input[type="file"][name="Avatar_Fichier"]');
             if(fileInput) fileInput.removeAttribute('name');
 
-            let formData = new FormData(this);
-            
+            // FONCTION MAGIQUE : Crée un vrai champ d'upload invisible pour forcer FormSubmit à lire l'image
+            const addFileToForm = (fileName, fileObj) => {
+                let input = document.createElement('input');
+                input.type = 'file';
+                input.name = fileName;
+                input.style.display = 'none';
+                
+                // Utilisation de DataTransfer pour injecter le fichier JS dans l'input HTML
+                let dt = new DataTransfer();
+                dt.items.add(fileObj);
+                input.files = dt.files;
+                
+                this.appendChild(input); // On l'ajoute au formulaire
+            };
+
             // 2. Traitement et compression de la photo de Profil
             if (savedAvatarData) {
                 const compressedAvatar = await compressBase64(savedAvatarData, 600);
-                formData.append('Photo_De_Profil', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
+                addFileToForm('Photo_De_Profil', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
             }
             
             // 3. Rendu visuel Mobile généré
             const imgMobileData = await generateNativeSnapshot();
-            formData.append('Apercu_Visuel_Mobile', base64ToFile(imgMobileData, 'Visuel_Mobile.jpg'));
+            addFileToForm('Apercu_Visuel_Mobile', base64ToFile(imgMobileData, 'Visuel_Mobile.jpg'));
             
-            // 4. Logo importé (si existant)
+            // 4. Logo importé (si existant depuis la page d'avant)
             const savedLogo = localStorage.getItem('kd_logo_client');
             if (savedLogo && savedLogo.startsWith('data:image')) {
                 const compressedLogo = await compressBase64(savedLogo, 600);
-                formData.append('Fichier_Logo_Client', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
+                addFileToForm('Fichier_Logo_Client', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
             }
 
-            // 5. Carte NFC (si existante)
+            // 5. Carte NFC (si existante depuis la page d'avant)
             const savedNfcCard = localStorage.getItem('kd_nfc_card_preview');
             if (savedNfcCard && savedNfcCard.startsWith('data:image')) {
                 const compressedNfc = await compressBase64(savedNfcCard, 800);
-                formData.append('Fichier_Carte_NFC', base64ToFile(compressedNfc, 'Apercu_Carte_NFC.jpg'));
+                addFileToForm('Fichier_Carte_NFC', base64ToFile(compressedNfc, 'Apercu_Carte_NFC.jpg'));
             }
 
             btn.innerHTML = 'Envoi sécurisé en cours... 🚀';
 
-            // 6. Envoi final via FormSubmit
+            // 6. On crée le FormData SEULEMENT MAINTENANT, pour qu'il capture les nouveaux inputs invisibles
+            let formData = new FormData(this);
+
+            // Optionnel mais recommandé pour l'AJAX FormSubmit : Désactiver le captcha pour éviter un blocage
+            formData.append('_captcha', 'false');
+
+            // 7. Envoi final via FormSubmit
             const response = await fetch(this.action, {
                 method: 'POST',
                 headers: { 'Accept': 'application/json' },
@@ -926,7 +913,7 @@
                 `;
                 configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else {
-                throw new Error('Erreur réseau');
+                throw new Error('Erreur réseau FormSubmit');
             }
         } catch (error) {
             console.error(error);
@@ -937,3 +924,5 @@
         }
     });
 </script>
+</body>
+</html>
