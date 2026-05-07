@@ -142,8 +142,6 @@
         .submit-btn:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(252, 211, 77, 0.6); }
         
         .support-text { font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-top: 15px; font-weight: 600; line-height: 1.5; }
-        .support-text a { color: var(--blue-main); font-weight: 800; text-decoration: none; }
-        .support-text a:hover { text-decoration: underline; }
 
         footer { background:var(--blue-main); color:white; padding:50px 5% 100px; text-align:center; position: relative; z-index: 10; border-top: none; }
         .footer-logo-wrap { display:flex; align-items:center; justify-content:center; margin-bottom:30px; height:120px; }
@@ -170,7 +168,7 @@
 <body>
 
     <nav id="navbar">
-        <a href="index.html" class="nav-logo-link" aria-label="KingDream Digital - Accueil">
+        <a href="index.html" class="nav-logo-link">
             <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream Digital Logo">
         </a>
         <a href="index.html" class="nav-back-btn">
@@ -195,22 +193,18 @@
                 <div class="phone-notch"></div>
                 <div class="phone-screen" id="preview-screen" style="background: #f8fafc;">
                     
-                    <!-- BANNIERE LOGO -->
                     <div class="pv-banner-container" id="pv-banner-container">
                         <img src="" alt="Logo" class="pv-banner-logo" id="pv-banner-logo">
                     </div>
                     
-                    <!-- AVATAR -->
                     <div class="ui-avatar-container" id="ui-avatar-container">
                         <img src="https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg" alt="Avatar" class="ui-avatar" id="pv-avatar">
                     </div>
                     
                     <div class="phone-content">
-                        <!-- TEXTES -->
                         <div class="ui-name" id="pv-name">Prénom Nom</div>
                         <div class="ui-job" id="pv-job">Votre Poste & Entreprise</div>
                         
-                        <!-- BOUTON CONNEXION -->
                         <div class="ui-btn" id="pv-btn">
                             <svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                             <span id="pv-btn-text">Se connecter avec moi</span>
@@ -218,7 +212,6 @@
                         
                         <div class="ui-bio" id="pv-bio">Votre biographie ou votre texte de présentation apparaîtra ici.</div>
                         
-                        <!-- GRILLE APPS -->
                         <div class="ui-links-grid">
                             <div class="ui-app" id="app-web"><div class="ui-icon bg-web"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div><span class="ui-app-label">Site Web</span></div>
                             <div class="ui-app" id="app-tel"><div class="ui-icon bg-tel"><svg viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg></div><span class="ui-app-label">Téléphone</span></div>
@@ -232,7 +225,6 @@
                             <div class="ui-app" id="app-calendly"><div class="ui-icon bg-calendly"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg></div><span class="ui-app-label">RDV</span></div>
                         </div>
 
-                        <!-- 3 CARTES APERCU WEB -->
                         <div class="visual-links-container">
                             <div class="ui-featured-web" id="preview-card-1">
                                 <img src="" id="preview-img-1" alt="Aperçu Site 1">
@@ -261,44 +253,42 @@
         <!-- FORMULAIRE (DROITE) -->
         <div class="config-box" id="main-config-box">
             
-            <form id="digital-form" action="https://formsubmit.co/ajax/Contact@kingdream.fr" method="POST" enctype="multipart/form-data" novalidate>
+            <!-- ATTENTION: Ici j'ai retiré le /ajax/ et ajouté _next pour une soumission NATIVE parfaite ! -->
+            <form id="digital-form" action="https://formsubmit.co/Contact@kingdream.fr" method="POST" enctype="multipart/form-data">
                 
                 <input type="hidden" name="_subject" value="NOUVEAU DESIGN NFC (Logo + Mobile + Profil) !">
                 <input type="hidden" name="Couleur_Bouton" id="hidden-color" value="#0057FF">
                 <input type="hidden" name="Couleur_Fond" id="hidden-bg" value="#f8fafc">
+                <input type="hidden" name="_next" value="https://kingdream.fr/merci.html"> <!-- Remplace par la page de ton choix pour éviter de rester bloqué sur Formsubmit -->
 
                 <h2 class="step-title"><span>1</span> Base & Design</h2>
 
-                <!-- BOX SUCCES LOGO -->
                 <div class="logo-success-status" id="logo-success-status">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                     <span>Logo de votre entreprise importé avec succès !</span>
                 </div>
 
-                <!-- BOX SUCCES CARTE NFC PRECEDENTE -->
                 <div class="logo-success-status" id="carte-success-status" style="border-color: #3b82f6; background: #eff6ff; color: #1d4ed8;">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M21 4H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H3V6h18v12zm-2-8H5v2h14v-2zm0 4H5v2h14v-2z"/></svg>
                     <span>Le design de votre Carte Physique NFC a bien été rattaché.</span>
                 </div>
 
-                <!-- BOUTON IA LOGO -->
                 <button type="button" class="magic-theme-btn" id="magic-theme-btn" onclick="applyLogoTheme()">
                     ✨ Harmoniser les couleurs avec mon logo
                 </button>
                 
+                <!-- IMPORTATION PHOTO QUI MARCHE NATIVEMENT -->
                 <div class="file-upload-wrapper">
                     <span style="font-size:1.1rem; margin-bottom:5px;">📸 Votre Photo de Profil</span>
                     <span style="font-size:0.8rem;">S'affichera dans le cercle central</span>
-                    <input type="file" id="Avatar_Fichier_Input" accept="image/*" onchange="previewImage(this, 'pv-avatar')">
+                    <input type="file" id="Avatar_Fichier_Input" name="Photo_De_Profil" accept="image/*" onchange="previewImage(this, 'pv-avatar')">
                 </div>
 
-                <!-- BOX SUCCES PHOTO DE PROFIL -->
                 <div class="avatar-success-status" id="avatar-success-status" style="margin-bottom: 20px; display: none;">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                     <span>Photo de profil bien importée !</span>
                 </div>
 
-                <!-- CHOIX DU FOND -->
                 <div class="input-group">
                     <label>Couleur / Thème du fond d'écran</label>
                     <div class="bg-picker" id="bg-picker-container">
@@ -336,15 +326,15 @@
                 
                 <div class="input-group">
                     <label>Prénom & Nom</label>
-                    <input type="text" id="Nom_Complet" name="Nom_Complet" placeholder="Ex: Jean Dupont" oninput="updateName(this.value)">
+                    <input type="text" id="Nom_Complet" name="Nom_Complet" placeholder="Ex: Jean Dupont" oninput="updateName(this.value)" required>
                 </div>
                 <div class="input-group">
                     <label>Email de contact pour le suivi</label>
-                    <input type="email" id="Email_Client" name="Email_Client" placeholder="votre-email@exemple.com">
+                    <input type="email" id="Email_Client" name="Email_Client" placeholder="votre-email@exemple.com" required>
                 </div>
                 <div class="input-group">
                     <label>Poste / Entreprise</label>
-                    <input type="text" id="Poste" name="Poste" placeholder="Ex: CEO chez MonEntreprise" oninput="updateText('pv-job', this.value, 'Votre Poste & Entreprise')">
+                    <input type="text" id="Poste" name="Poste" placeholder="Ex: CEO chez MonEntreprise" oninput="updateText('pv-job', this.value, 'Votre Poste & Entreprise')" required>
                 </div>
                 <div class="input-group">
                     <label>Courte Biographie / Accroche</label>
@@ -355,7 +345,6 @@
                 
                 <div class="social-grid">
                     
-                    <!-- LIEN EXTERNE BOUSSOLE -->
                     <div class="social-item">
                         <label class="social-header">
                             <input type="checkbox" onchange="toggleSocialBox(this)">
@@ -368,7 +357,6 @@
                         </div>
                     </div>
 
-                    <!-- APPEL -->
                     <div class="social-item">
                         <label class="social-header">
                             <input type="checkbox" onchange="toggleSocialBox(this)">
@@ -380,7 +368,6 @@
                         </div>
                     </div>
 
-                    <!-- EMAIL -->
                     <div class="social-item">
                         <label class="social-header">
                             <input type="checkbox" onchange="toggleSocialBox(this)">
@@ -392,7 +379,6 @@
                         </div>
                     </div>
 
-                    <!-- INSTAGRAM -->
                     <div class="social-item">
                         <label class="social-header">
                             <input type="checkbox" onchange="toggleSocialBox(this)">
@@ -404,7 +390,6 @@
                         </div>
                     </div>
 
-                    <!-- WHATSAPP -->
                     <div class="social-item">
                         <label class="social-header">
                             <input type="checkbox" onchange="toggleSocialBox(this)">
@@ -416,7 +401,6 @@
                         </div>
                     </div>
 
-                    <!-- LINKEDIN -->
                     <div class="social-item">
                         <label class="social-header">
                             <input type="checkbox" onchange="toggleSocialBox(this)">
@@ -428,7 +412,6 @@
                         </div>
                     </div>
 
-                    <!-- CALENDLY / RDV -->
                     <div class="social-item">
                         <label class="social-header">
                             <input type="checkbox" onchange="toggleSocialBox(this)">
@@ -445,7 +428,6 @@
                 <h2 class="step-title"><span>4</span> Aperçus Visuels Automatiques</h2>
                 <p class="subtitle">Entrez l'URL de votre site (ou boutique). Nous générons automatiquement une capture d'écran du site ! Vous pouvez en ajouter jusqu'à 3.</p>
 
-                <!-- CARTE 1 -->
                 <div class="visual-link-box">
                     <div class="input-group" style="margin-bottom:0;">
                         <label>Lien Visuel N°1 (URL)</label>
@@ -460,7 +442,6 @@
                     </div>
                 </div>
 
-                <!-- CARTE 2 -->
                 <div class="visual-link-box">
                     <div class="input-group" style="margin-bottom:0;">
                         <label>Lien Visuel N°2 (URL)</label>
@@ -475,7 +456,6 @@
                     </div>
                 </div>
 
-                <!-- CARTE 3 -->
                 <div class="visual-link-box">
                     <div class="input-group" style="margin-bottom:0;">
                         <label>Lien Visuel N°3 (URL)</label>
@@ -491,7 +471,6 @@
                 </div>
 
                 <button type="submit" class="submit-btn" id="final-btn">🚀 Valider ma carte Digital</button>
-                <p class="support-text">Un problème sur votre design ou une personnalisation vraiment plus personnelle ? <br><a href="mailto:Contact@kingdream.fr">Contactez-nous</a></p>
             </form>
         </div>
     </main>
@@ -502,11 +481,10 @@
             <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream Digital" loading="lazy">
         </div>
         <div class="footer-tagline">L'agence qui transforme votre nom en empire</div>
-        <a href="https://www.instagram.com/kingdream_digital/" target="_blank" rel="noopener noreferrer" class="instagram-link" aria-label="Instagram KingDream Digital">
+        <a href="https://www.instagram.com/kingdream_digital/" target="_blank" class="instagram-link">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
         </a>
         <div class="footer-links">
-            <a href="index.html#contact">Contact</a>
             <a href="mailto:Contact@kingdream.fr">Contact@kingdream.fr</a>
             <a href="tel:+33627205597">06 27 20 55 97</a>
         </div>
@@ -551,7 +529,6 @@
         try {
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
             const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-            
             let r=0, g=0, b=0, count=0;
             for(let i=0; i<data.length; i+=4) {
                 if(data[i+3] > 0) {
@@ -562,9 +539,7 @@
             }
             if(count > 0) {
                 r = Math.floor(r/count); g = Math.floor(g/count); b = Math.floor(b/count);
-            } else {
-                r=0; g=87; b=255; 
-            }
+            } else { r=0; g=87; b=255; }
             
             const colorTop = `rgba(${r}, ${g}, ${b}, 0.15)`;
             const colorBottom = `rgba(${r}, ${g}, ${b}, 0.02)`;
@@ -588,22 +563,15 @@
                 magicBtn.style.background = "linear-gradient(135deg, #0057FF, #8b5cf6)";
             }, 3000);
 
-        } catch(e) {
-            const fallbackBg = `url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='40' stroke='rgba(0,87,255,0.05)' stroke-width='2' fill='none'/%3E%3C/svg%3E"), linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)`;
-            document.getElementById('preview-screen').style.background = fallbackBg;
-            document.getElementById('hidden-bg').value = fallbackBg;
-        }
+        } catch(e) { }
     }
 
-    // 3. MISE A JOUR EN DIRECT DES TEXTES ET BOUTONS
+    // 3. UI UPDATES
     function setPhoneBg(bgValue, isDark, element) {
         const screen = document.getElementById('preview-screen');
         screen.style.background = bgValue;
         document.getElementById('hidden-bg').value = bgValue;
-        
-        if(isDark) screen.classList.add('dark-mode');
-        else screen.classList.remove('dark-mode');
-
+        if(isDark) screen.classList.add('dark-mode'); else screen.classList.remove('dark-mode');
         document.querySelectorAll('.bg-swatch').forEach(el => el.classList.remove('active'));
         if(element) element.classList.add('active');
     }
@@ -615,11 +583,8 @@
     function updateName(value) {
         document.getElementById('pv-name').innerText = value.trim() === '' ? 'Prénom Nom' : value;
         let firstName = value.trim().split(' ')[0];
-        if (firstName) {
-            document.getElementById('pv-btn-text').innerText = `Se connecter avec ${firstName}`;
-        } else {
-            document.getElementById('pv-btn-text').innerText = 'Se connecter avec moi';
-        }
+        if (firstName) document.getElementById('pv-btn-text').innerText = `Se connecter avec ${firstName}`;
+        else document.getElementById('pv-btn-text').innerText = 'Se connecter avec moi';
     }
 
     function setColor(color, element) {
@@ -632,30 +597,21 @@
 
     function toggleSocialBox(checkbox) {
         const itemBox = checkbox.closest('.social-item');
-        if(checkbox.checked) {
-            itemBox.classList.add('active');
-        } else {
+        if(checkbox.checked) itemBox.classList.add('active');
+        else {
             itemBox.classList.remove('active');
             const inputs = itemBox.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.value = "";
-                input.dispatchEvent(new Event('input', { bubbles: true }));
-            });
+            inputs.forEach(input => { input.value = ""; input.dispatchEvent(new Event('input', { bubbles: true })); });
         }
     }
 
     function toggleApp(appId, value) {
         const appIcon = document.getElementById(appId);
-        if (value.trim().length > 0) {
-            appIcon.classList.add('active');
-        } else {
-            appIcon.classList.remove('active');
-        }
+        if (value.trim().length > 0) appIcon.classList.add('active'); else appIcon.classList.remove('active');
     }
 
     function updateAppLabel(appId, value, defaultName) {
-        const label = document.querySelector(`#${appId} .ui-app-label`);
-        label.innerText = value.trim() === '' ? defaultName : value;
+        document.querySelector(`#${appId} .ui-app-label`).innerText = value.trim() === '' ? defaultName : value;
     }
 
     // 4. PREVISUALISATION PHOTO
@@ -681,36 +637,29 @@
                 img.src = `https://image.thum.io/get/width/600/crop/800/${url.trim()}`;
                 card.style.display = 'block';
             }, 600); 
-        } else {
-            card.style.display = 'none'; 
-        }
+        } else { card.style.display = 'none'; }
     }
 
     function toggleVisualTitle(index, isChecked) {
         const inputContainer = document.getElementById(`title-input-container-${index}`);
         const phoneTitleDiv = document.getElementById(`preview-title-${index}`);
         if (isChecked) {
-            inputContainer.style.display = 'block';
-            phoneTitleDiv.style.display = 'block';
-            const inputVal = document.querySelector(`input[name="Visual_Titre_${index}"]`).value;
-            updateVisualTitleText(index, inputVal);
+            inputContainer.style.display = 'block'; phoneTitleDiv.style.display = 'block';
+            updateVisualTitleText(index, document.querySelector(`input[name="Visual_Titre_${index}"]`).value);
         } else {
-            inputContainer.style.display = 'none';
-            phoneTitleDiv.style.display = 'none';
+            inputContainer.style.display = 'none'; phoneTitleDiv.style.display = 'none';
         }
     }
 
     function updateVisualTitleText(index, title) {
-        const titleDiv = document.getElementById(`preview-title-${index}`);
-        titleDiv.innerText = title.trim() === '' ? 'Mon Site Web' : title;
+        document.getElementById(`preview-title-${index}`).innerText = title.trim() === '' ? 'Mon Site Web' : title;
     }
 
-    // 6. CREATION D'UNE IMAGE DU RESULTAT FINAL MOBILE (Pour recevoir la photo en mail)
+    // 6. CREATION D'UNE IMAGE DU RESULTAT FINAL MOBILE
     function generateNativeSnapshot() {
         return new Promise((resolve) => {
             const canvas = document.createElement('canvas');
-            canvas.width = 400;
-            canvas.height = 800;
+            canvas.width = 400; canvas.height = 800;
             const ctx = canvas.getContext('2d');
 
             const isDark = document.getElementById('preview-screen').classList.contains('dark-mode');
@@ -728,109 +677,58 @@
             const job = document.getElementById('Poste').value || 'POSTE / ENTREPRISE';
             
             const drawRest = () => {
-                ctx.fillStyle = textColor;
-                ctx.font = 'bold 30px sans-serif';
-                ctx.textAlign = 'center';
-                ctx.fillText(name, 200, 250);
-
-                ctx.fillStyle = mutedColor;
-                ctx.font = 'bold 16px sans-serif';
-                ctx.fillText(job.toUpperCase(), 200, 280);
-
-                ctx.fillStyle = accent;
-                ctx.beginPath();
-                if(ctx.roundRect) {
-                    ctx.roundRect(40, 320, 320, 50, 25);
-                } else {
-                    ctx.fillRect(40, 320, 320, 50);
-                }
+                ctx.fillStyle = textColor; ctx.font = 'bold 30px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(name, 200, 250);
+                ctx.fillStyle = mutedColor; ctx.font = 'bold 16px sans-serif'; ctx.fillText(job.toUpperCase(), 200, 280);
+                ctx.fillStyle = accent; ctx.beginPath();
+                if(ctx.roundRect) ctx.roundRect(40, 320, 320, 50, 25); else ctx.fillRect(40, 320, 320, 50);
                 ctx.fill();
-                ctx.fillStyle = '#fff';
-                ctx.font = 'bold 18px sans-serif';
-                ctx.fillText("Se connecter", 200, 345);
+                ctx.fillStyle = '#fff'; ctx.font = 'bold 18px sans-serif'; ctx.fillText("Se connecter", 200, 345);
 
                 let activeApps = [];
                 document.querySelectorAll('.social-item.active').forEach(item => {
-                    const label = item.querySelector('.social-header').innerText.replace('Lien (Bouton Web)', 'Web').trim();
-                    activeApps.push(label.substring(0, 10));
+                    activeApps.push(item.querySelector('.social-header').innerText.replace('Lien (Bouton Web)', 'Web').trim().substring(0, 10));
                 });
 
-                let startX = 80;
-                let startY = 440;
-                ctx.fillStyle = accent;
+                let startX = 80; let startY = 440; ctx.fillStyle = accent;
                 activeApps.forEach((app, index) => {
-                    if (index > 0 && index % 4 === 0) {
-                        startX = 80;
-                        startY += 90;
-                    }
+                    if (index > 0 && index % 4 === 0) { startX = 80; startY += 90; }
                     ctx.beginPath();
-                    if(ctx.roundRect){
-                        ctx.roundRect(startX - 30, startY, 60, 60, 16);
-                    } else {
-                        ctx.fillRect(startX - 30, startY, 60, 60);
-                    }
+                    if(ctx.roundRect) ctx.roundRect(startX - 30, startY, 60, 60, 16); else ctx.fillRect(startX - 30, startY, 60, 60);
                     ctx.fill();
-                    
-                    ctx.fillStyle = '#fff';
-                    ctx.font = 'bold 12px sans-serif';
-                    ctx.fillText(app, startX, startY + 80);
-                    
-                    ctx.fillStyle = accent;
-                    startX += 80;
+                    ctx.fillStyle = '#fff'; ctx.font = 'bold 12px sans-serif'; ctx.fillText(app, startX, startY + 80);
+                    ctx.fillStyle = accent; startX += 80;
                 });
-
                 resolve(canvas.toDataURL('image/jpeg', 0.8));
             };
 
             if(savedAvatarData) {
                 let img = new Image();
                 img.onload = function() {
-                    ctx.save();
-                    ctx.beginPath();
-                    ctx.arc(200, 150, 60, 0, Math.PI * 2, true);
-                    ctx.closePath();
-                    ctx.clip();
-                    ctx.drawImage(img, 140, 90, 120, 120);
-                    ctx.restore();
-                    ctx.beginPath();
-                    ctx.arc(200, 150, 60, 0, Math.PI * 2, true);
-                    ctx.lineWidth = 6;
-                    ctx.strokeStyle = isDark ? '#1e293b' : '#f8fafc';
-                    ctx.stroke();
+                    ctx.save(); ctx.beginPath(); ctx.arc(200, 150, 60, 0, Math.PI * 2, true); ctx.closePath(); ctx.clip();
+                    ctx.drawImage(img, 140, 90, 120, 120); ctx.restore();
+                    ctx.beginPath(); ctx.arc(200, 150, 60, 0, Math.PI * 2, true); ctx.lineWidth = 6; ctx.strokeStyle = isDark ? '#1e293b' : '#f8fafc'; ctx.stroke();
                     drawRest();
                 };
                 img.src = savedAvatarData;
             } else {
-                const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-                ctx.fillStyle = '#cbd5e1';
-                ctx.beginPath();
-                ctx.arc(200, 150, 60, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.strokeStyle = isDark ? '#1e293b' : '#f8fafc';
-                ctx.lineWidth = 6;
-                ctx.stroke();
-                ctx.fillStyle = '#475569';
-                ctx.font = 'bold 40px sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(initials, 200, 150);
+                ctx.fillStyle = '#cbd5e1'; ctx.beginPath(); ctx.arc(200, 150, 60, 0, Math.PI * 2); ctx.fill();
+                ctx.strokeStyle = isDark ? '#1e293b' : '#f8fafc'; ctx.lineWidth = 6; ctx.stroke();
+                ctx.fillStyle = '#475569'; ctx.font = 'bold 40px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.fillText(name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase(), 200, 150);
                 drawRest();
             }
         });
     }
 
-    // 7. FONCTIONS DE REDUCTION DU POIDS DES IMAGES POUR EMAIL
+    // 7. COMPRESSION
     function compressBase64(base64, maxWidth) {
         return new Promise((resolve) => {
             let img = new Image();
             img.onload = () => {
                 let canvas = document.createElement('canvas');
-                let ratio = maxWidth / img.width;
-                if (ratio > 1) ratio = 1; 
-                canvas.width = img.width * ratio;
-                canvas.height = img.height * ratio;
-                let ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                let ratio = maxWidth / img.width; if (ratio > 1) ratio = 1; 
+                canvas.width = img.width * ratio; canvas.height = img.height * ratio;
+                let ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                 resolve(canvas.toDataURL('image/jpeg', 0.8));
             };
             img.src = base64;
@@ -844,94 +742,59 @@
         return new File([u8arr], filename, {type: mime});
     }
 
-    // 8. VERIFICATION ET ENVOI FINAL AU CLIC
+    // 8. LA SOLUTION NATIVE POUR ENVOYER AU FORMULAIRE
     document.getElementById('digital-form').addEventListener('submit', async function(e) {
         e.preventDefault(); 
         
-        // --- ETAPE 1 : Verification que le client a bien tout rempli ! ---
         const nom = document.getElementById('Nom_Complet').value.trim();
         const email = document.getElementById('Email_Client').value.trim();
-        const poste = document.getElementById('Poste').value.trim();
-
-        if (nom === '' || email === '' || poste === '' || !savedAvatarData) {
-            alert("⚠️ Veuillez remplir tous les champs obligatoires :\n- Prénom & Nom\n- Email de contact\n- Poste / Entreprise\n- Importer votre Photo de Profil.");
-            return; // On stoppe l'envoi si c'est vide
+        
+        if (!nom || !email) {
+            alert("⚠️ Veuillez remplir votre Nom et Email."); return;
         }
 
-        // --- ETAPE 2 : On commence la création ---
         const btn = document.getElementById('final-btn');
         btn.innerHTML = 'Préparation des fichiers... ⏳';
         btn.style.pointerEvents = 'none';
-        btn.style.opacity = '0.8';
 
         try {
-            // Création du paquet contenant toutes les infos textes
-            let formData = new FormData(this);
-            formData.append('_captcha', 'false'); // Désactive le captcha FormSubmit
+            // Fonction pour ajouter dynamiquement des fichiers au formulaire NATIVEMENT
+            const addFileToForm = (fileName, fileObj) => {
+                let input = document.createElement('input');
+                input.type = 'file'; input.name = fileName; input.style.display = 'none';
+                let dt = new DataTransfer(); dt.items.add(fileObj); input.files = dt.files;
+                this.appendChild(input); 
+            };
 
-            // Compression de la photo de profil importée
-            if (savedAvatarData) {
-                const compressedAvatar = await compressBase64(savedAvatarData, 600);
-                formData.append('Photo_De_Profil_Client', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
-            }
-            
-            // Image finale du téléphone designé
+            // Image du téléphone
             const imgMobileData = await generateNativeSnapshot();
-            formData.append('Apercu_Design_Mobile', base64ToFile(imgMobileData, 'Apercu_Visuel_Mobile.jpg'));
+            addFileToForm('Apercu_Design_Mobile', base64ToFile(imgMobileData, 'Apercu_Visuel_Mobile.jpg'));
             
-            // On récupère le logo si le client l'avait mis sur l'ancienne page
+            // Logo sauvegardé
             const savedLogo = localStorage.getItem('kd_logo_client');
             if (savedLogo && savedLogo.startsWith('data:image')) {
                 const compressedLogo = await compressBase64(savedLogo, 600);
-                formData.append('Logo_Entreprise', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
+                addFileToForm('Logo_Entreprise', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
             }
 
-            // On récupère l'aperçu de la carte NFC de l'ancienne page
+            // Carte NFC sauvegardée
             const savedNfcCard = localStorage.getItem('kd_nfc_card_preview');
             if (savedNfcCard && savedNfcCard.startsWith('data:image')) {
                 const compressedNfc = await compressBase64(savedNfcCard, 800);
-                formData.append('Design_Carte_NFC', base64ToFile(compressedNfc, 'Design_Carte_NFC.jpg'));
+                addFileToForm('Design_Carte_NFC', base64ToFile(compressedNfc, 'Design_Carte_NFC.jpg'));
             }
 
-            btn.innerHTML = 'Envoi sécurisé en cours... 🚀';
+            btn.innerHTML = 'Envoi en cours... 🚀';
 
-            // --- ETAPE 3 : Envoi à votre adresse Email ---
-            const response = await fetch(this.action, {
-                method: 'POST',
-                headers: { 'Accept': 'application/json' },
-                body: formData 
-            });
+            // On retire la fonction d'interception et on force l'envoi NORMAL (sans AJAX)
+            this.onsubmit = null; 
+            this.submit();
 
-            if (response.ok) {
-                // Succès ! On affiche le message de validation à l'écran
-                const configBox = document.getElementById('main-config-box');
-                configBox.innerHTML = `
-                    <div style="text-align: center; padding: 50px 20px;">
-                        <div style="width: 80px; height: 80px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 20px; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);">
-                            ✓
-                        </div>
-                        <h2 style="font-family: 'Fredoka One'; font-size: 2rem; color: var(--blue-dark); margin-bottom: 20px;">
-                            C'est parfait ! 🎉
-                        </h2>
-                        <p style="font-size: 1.1rem; color: var(--text-muted); font-weight: 700; line-height: 1.6; margin-bottom: 35px;">
-                            Merci de votre temps et de votre confiance.<br><br>
-                            Nous prenons en charge votre projet avec soin, et nous allons programmer ce magnifique design directement sur la puce de votre carte NFC.
-                        </p>
-                        <a href="index.html" class="submit-btn" style="display: inline-flex; justify-content: center; align-items: center; text-decoration: none; width: auto; padding: 15px 40px; margin-top: 0;">
-                            🏠 Retourner sur le site
-                        </a>
-                    </div>
-                `;
-                configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else {
-                throw new Error('Erreur réseau');
-            }
         } catch (error) {
             console.error(error);
             btn.innerHTML = '🚀 Valider ma carte Digital';
             btn.style.pointerEvents = 'auto';
-            btn.style.opacity = '1';
-            alert("Une erreur est survenue lors de l'envoi. Veuillez vérifier votre connexion Internet et réessayer.");
+            alert("Une erreur est survenue lors de la création des images.");
         }
     });
 </script>
