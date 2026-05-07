@@ -253,13 +253,12 @@
         <!-- FORMULAIRE (DROITE) -->
         <div class="config-box" id="main-config-box">
             
-            <!-- ATTENTION: Ici j'ai retiré le /ajax/ et ajouté _next pour une soumission NATIVE parfaite ! -->
-            <form id="digital-form" action="https://formsubmit.co/Contact@kingdream.fr" method="POST" enctype="multipart/form-data">
+            <!-- RETOUR DE L'AJAX POUR GARDER L'ANIMATION SUR LA MEME PAGE -->
+            <form id="digital-form" action="https://formsubmit.co/ajax/Contact@kingdream.fr" method="POST" enctype="multipart/form-data">
                 
                 <input type="hidden" name="_subject" value="NOUVEAU DESIGN NFC (Logo + Mobile + Profil) !">
                 <input type="hidden" name="Couleur_Bouton" id="hidden-color" value="#0057FF">
                 <input type="hidden" name="Couleur_Fond" id="hidden-bg" value="#f8fafc">
-                <input type="hidden" name="_next" value="https://kingdream.fr/merci.html"> <!-- Remplace par la page de ton choix pour éviter de rester bloqué sur Formsubmit -->
 
                 <h2 class="step-title"><span>1</span> Base & Design</h2>
 
@@ -277,11 +276,10 @@
                     ✨ Harmoniser les couleurs avec mon logo
                 </button>
                 
-                <!-- IMPORTATION PHOTO QUI MARCHE NATIVEMENT -->
                 <div class="file-upload-wrapper">
                     <span style="font-size:1.1rem; margin-bottom:5px;">📸 Votre Photo de Profil</span>
                     <span style="font-size:0.8rem;">S'affichera dans le cercle central</span>
-                    <input type="file" id="Avatar_Fichier_Input" name="Photo_De_Profil" accept="image/*" onchange="previewImage(this, 'pv-avatar')">
+                    <input type="file" name="Photo_De_Profil" accept="image/*" onchange="previewImage(this, 'pv-avatar')">
                 </div>
 
                 <div class="avatar-success-status" id="avatar-success-status" style="margin-bottom: 20px; display: none;">
@@ -326,15 +324,15 @@
                 
                 <div class="input-group">
                     <label>Prénom & Nom</label>
-                    <input type="text" id="Nom_Complet" name="Nom_Complet" placeholder="Ex: Jean Dupont" oninput="updateName(this.value)" required>
+                    <input type="text" id="Nom_Complet" name="Nom_Complet" placeholder="Ex: Jean Dupont" oninput="updateName(this.value)">
                 </div>
                 <div class="input-group">
                     <label>Email de contact pour le suivi</label>
-                    <input type="email" id="Email_Client" name="Email_Client" placeholder="votre-email@exemple.com" required>
+                    <input type="email" id="Email_Client" name="Email_Client" placeholder="votre-email@exemple.com">
                 </div>
                 <div class="input-group">
                     <label>Poste / Entreprise</label>
-                    <input type="text" id="Poste" name="Poste" placeholder="Ex: CEO chez MonEntreprise" oninput="updateText('pv-job', this.value, 'Votre Poste & Entreprise')" required>
+                    <input type="text" id="Poste" name="Poste" placeholder="Ex: CEO chez MonEntreprise" oninput="updateText('pv-job', this.value, 'Votre Poste & Entreprise')">
                 </div>
                 <div class="input-group">
                     <label>Courte Biographie / Accroche</label>
@@ -742,7 +740,7 @@
         return new File([u8arr], filename, {type: mime});
     }
 
-    // 8. LA SOLUTION NATIVE POUR ENVOYER AU FORMULAIRE
+    // 8. LA SOLUTION POUR ENVOYER AVEC L'ANIMATION DE MERCI
     document.getElementById('digital-form').addEventListener('submit', async function(e) {
         e.preventDefault(); 
         
@@ -758,43 +756,76 @@
         btn.style.pointerEvents = 'none';
 
         try {
-            // Fonction pour ajouter dynamiquement des fichiers au formulaire NATIVEMENT
-            const addFileToForm = (fileName, fileObj) => {
-                let input = document.createElement('input');
-                input.type = 'file'; input.name = fileName; input.style.display = 'none';
-                let dt = new DataTransfer(); dt.items.add(fileObj); input.files = dt.files;
-                this.appendChild(input); 
-            };
+            // Création du paquet de données
+            let formData = new FormData(this);
+            formData.append('_captcha', 'false');
 
-            // Image du téléphone
+            // On retire l'image lourde originale
+            formData.delete('Photo_De_Profil');
+
+            // 1. Photo de Profil
+            if (savedAvatarData) {
+                const compressedAvatar = await compressBase64(savedAvatarData, 600);
+                formData.append('Photo_De_Profil', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
+            }
+
+            // 2. Visuel Mobile
             const imgMobileData = await generateNativeSnapshot();
-            addFileToForm('Apercu_Design_Mobile', base64ToFile(imgMobileData, 'Apercu_Visuel_Mobile.jpg'));
+            formData.append('Apercu_Design_Mobile', base64ToFile(imgMobileData, 'Apercu_Visuel_Mobile.jpg'));
             
-            // Logo sauvegardé
+            // 3. Logo
             const savedLogo = localStorage.getItem('kd_logo_client');
             if (savedLogo && savedLogo.startsWith('data:image')) {
                 const compressedLogo = await compressBase64(savedLogo, 600);
-                addFileToForm('Logo_Entreprise', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
+                formData.append('Logo_Entreprise', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
             }
 
-            // Carte NFC sauvegardée
+            // 4. Carte NFC
             const savedNfcCard = localStorage.getItem('kd_nfc_card_preview');
             if (savedNfcCard && savedNfcCard.startsWith('data:image')) {
                 const compressedNfc = await compressBase64(savedNfcCard, 800);
-                addFileToForm('Design_Carte_NFC', base64ToFile(compressedNfc, 'Design_Carte_NFC.jpg'));
+                formData.append('Design_Carte_NFC', base64ToFile(compressedNfc, 'Design_Carte_NFC.jpg'));
             }
 
-            btn.innerHTML = 'Envoi en cours... 🚀';
+            btn.innerHTML = 'Envoi sécurisé en cours... 🚀';
 
-            // On retire la fonction d'interception et on force l'envoi NORMAL (sans AJAX)
-            this.onsubmit = null; 
-            this.submit();
+            // Envoi en arrière plan (AJAX)
+            const response = await fetch(this.action, {
+                method: 'POST',
+                headers: { 'Accept': 'application/json' },
+                body: formData 
+            });
+
+            if (response.ok) {
+                // Succès ! L'animation apparaît !
+                const configBox = document.getElementById('main-config-box');
+                configBox.innerHTML = `
+                    <div style="text-align: center; padding: 50px 20px;">
+                        <div style="width: 80px; height: 80px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 20px; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);">
+                            ✓
+                        </div>
+                        <h2 style="font-family: 'Fredoka One'; font-size: 2rem; color: var(--blue-dark); margin-bottom: 20px;">
+                            C'est parfait ! 🎉
+                        </h2>
+                        <p style="font-size: 1.1rem; color: var(--text-muted); font-weight: 700; line-height: 1.6; margin-bottom: 35px;">
+                            Merci de votre temps et de votre confiance.<br><br>
+                            Nous prenons en charge votre projet avec soin, et nous allons programmer ce magnifique design directement sur la puce de votre carte NFC.
+                        </p>
+                        <a href="index.html" class="submit-btn" style="display: inline-flex; justify-content: center; align-items: center; text-decoration: none; width: auto; padding: 15px 40px; margin-top: 0;">
+                            🏠 Retourner sur le site
+                        </a>
+                    </div>
+                `;
+                configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                throw new Error('Erreur Formsubmit');
+            }
 
         } catch (error) {
             console.error(error);
             btn.innerHTML = '🚀 Valider ma carte Digital';
             btn.style.pointerEvents = 'auto';
-            alert("Une erreur est survenue lors de la création des images.");
+            alert("Une erreur est survenue. L'envoi a été bloqué par votre navigateur ou votre connexion.");
         }
     });
 </script>
