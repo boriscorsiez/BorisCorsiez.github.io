@@ -53,12 +53,10 @@
         .phone-screen.dark-mode .ui-app-label { color: #f8fafc !important; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
         .phone-screen.dark-mode .ui-avatar { border-color: rgba(255,255,255,0.2); }
         
-        /* Modifié : Fond invisible, pas de bordure, flex pour centrer */
-        .pv-banner-container { width: 100%; padding-top: 50px; padding-bottom: 10px; display: none; align-items: center; justify-content: center; position: relative; z-index: 1; }
-        /* Modifié : On retire la limite de hauteur, largeur modifiable dynamiquement */
+        .pv-banner-container { width: 100%; padding-top: 45px; padding-bottom: 0px; display: none; align-items: center; justify-content: center; position: relative; z-index: 1; }
         .pv-banner-logo { width: 150px; height: auto; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); transition: width 0.1s ease-out; }
         
-        .ui-avatar-container { margin-top: 40px; width: 100%; text-align: center; position: relative; z-index: 2; transition: margin-top 0.3s; }
+        .ui-avatar-container { margin-top: 40px; width: 100%; text-align: center; position: relative; z-index: 2; transition: margin-top 0.1s ease-out; }
         .ui-avatar { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 5px solid rgba(255,255,255,0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: #ccc; transition: border-color 0.4s ease; }
         
         .phone-content { width: 100%; padding: 0 20px 30px; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 5; }
@@ -89,7 +87,7 @@
 
         .visual-links-container { width: 100%; display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
         .ui-featured-web { width: 100%; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.08); display: none; border: 2px solid white; text-decoration: none; position: relative; }
-        .ui-featured-web img { width: 100%; height: 160px; object-fit: cover; object-position: top; display: block; border-bottom: 1px solid #f1f5f9; background: #e2e8f0; }
+        .ui-featured-web img { width: 100%; height: 160px; object-fit: cover; object-position: top; display: block; border-bottom: 1px solid #f1f5f9; background: #e2e8f0; transition: opacity 0.4s ease; }
         .ui-featured-web-title { padding: 12px; font-size: 0.85rem; font-weight: 800; color: #1e293b; text-align: center; display: none; } 
 
         .ui-footer { margin-top: auto; text-align: center; font-size: 0.65rem; color: #94a3b8; font-weight: 700; padding-top: 20px; transition: color 0.4s; }
@@ -107,7 +105,6 @@
         .input-group input[type="text"]:focus, .input-group input[type="email"]:focus, .input-group input[type="tel"]:focus, .input-group input[type="url"]:focus, .input-group textarea:focus { border-color: var(--blue-main); background: white; box-shadow: 0 0 0 4px rgba(0,87,255,0.1); }
         .input-group textarea { resize: vertical; min-height: 90px; }
 
-        /* Style pour le curseur de taille */
         input[type="range"] { -webkit-appearance: none; width: 100%; background: transparent; }
         input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 22px; width: 22px; border-radius: 50%; background: var(--blue-main); cursor: pointer; margin-top: -8px; box-shadow: 0 2px 6px rgba(0,87,255,0.4); }
         input[type="range"]::-webkit-slider-runnable-track { width: 100%; height: 6px; cursor: pointer; background: #cbd5e1; border-radius: 5px; }
@@ -162,12 +159,56 @@
         .footer-copy { font-size:.75rem; color:rgba(255,255,255,0.8); font-weight:800; letter-spacing:1px; }
 
         @media(max-width: 950px) {
-            .studio-wrapper { grid-template-columns: 1fr; flex-direction: column-reverse; display: flex; }
-            .phone-container { position: relative; top: 0; margin-bottom: 30px; }
+            .studio-wrapper { 
+                grid-template-columns: 1fr; 
+                display: flex; 
+                flex-direction: column; 
+                padding: 0; 
+            }
+            .phone-container { 
+                position: sticky; 
+                top: var(--nav-h); 
+                width: 100%;
+                height: 45vh;
+                min-height: 320px;
+                max-height: 420px;
+                background: var(--bg-light);
+                z-index: 100;
+                border-bottom: 1px solid var(--border-color);
+                box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+                margin-bottom: 25px;
+                display: block;
+                overflow: hidden;
+            }
+            .phone-container::after {
+                content: '📱 Aperçu en direct';
+                position: absolute;
+                bottom: 12px;
+                right: 15px;
+                background: var(--blue-main);
+                color: white;
+                font-size: 0.75rem;
+                font-weight: 800;
+                padding: 6px 14px;
+                border-radius: 20px;
+                z-index: 10;
+                box-shadow: 0 4px 10px rgba(0,87,255,0.3);
+                pointer-events: none;
+            }
+            .phone-frame {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 350px !important;
+                height: 720px !important;
+                transform: translate(-50%, -50%) scale(min(0.52, calc((45vh - 30px) / 720)));
+                transform-origin: center center;
+            }
             .social-grid { grid-template-columns: 1fr; }
-            .config-box { padding: 30px 20px; }
+            .config-box { margin: 0 15px 30px; padding: 30px 20px; }
             nav#navbar .nav-logo-link img { transform: translateY(-50%) scale(1.6); }
             .nav-back-btn span { display: none; } 
+            .success-header { padding: 40px 20px; margin-bottom: 0; }
             .success-header h1 { font-size: 2rem; }
         }
     </style>
@@ -257,7 +298,7 @@
             </div>
         </div>
 
-        <!-- FORMULAIRE (DROITE) -->
+        <!-- FORMULAIRE (DROITE / BAS SUR MOBILE) -->
         <div class="config-box" id="main-config-box">
             
             <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
@@ -276,13 +317,18 @@
                     <span>Logo de votre entreprise importé avec succès !</span>
                 </div>
                 
-                <!-- Curseur de taille du logo (Apparaît si logo présent) -->
-                <div class="input-group" id="logo-size-container" style="display: none; padding: 15px; background: #f8fafc; border-radius: 12px; border: 1px solid var(--border-color);">
+                <!-- Ajustements avancés du Logo -->
+                <div class="input-group" id="logo-size-container" style="display: none; padding: 20px; background: #f8fafc; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 20px;">
                     <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         Taille du logo
                         <span style="font-size: 0.8rem; color: var(--blue-main); font-weight: 900;"><span id="logo-size-display">150</span>px</span>
                     </label>
-                    <input type="range" id="logo-size-slider" min="50" max="300" value="150" oninput="updateLogoSize(this.value)">
+                    <input type="range" id="logo-size-slider" min="50" max="280" value="150" oninput="updateLogoSize(this.value)" style="margin-bottom: 25px;">
+                    
+                    <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; color: var(--text-dark);">
+                        Espacement sous le logo (Remonter le profil)
+                    </label>
+                    <input type="range" id="logo-space-slider" min="-120" max="40" value="-10" oninput="updateLogoSpace(this.value)">
                 </div>
 
                 <div class="logo-success-status" id="carte-success-status" style="border-color: #3b82f6; background: #eff6ff; color: #1d4ed8;">
@@ -447,7 +493,7 @@
                 <div class="visual-link-box">
                     <div class="input-group" style="margin-bottom:0;">
                         <label>Lien Visuel N°1 (URL)</label>
-                        <input type="url" name="Visual_URL_1" placeholder="https://votresite.com" oninput="updateVisualCard(1, this.value)">
+                        <input type="url" name="Visual_URL_1" placeholder="votresite.com" oninput="updateVisualCard(1, this.value)">
                     </div>
                     <label class="checkbox-label">
                         <input type="checkbox" onchange="toggleVisualTitle(1, this.checked)">
@@ -461,7 +507,7 @@
                 <div class="visual-link-box">
                     <div class="input-group" style="margin-bottom:0;">
                         <label>Lien Visuel N°2 (URL)</label>
-                        <input type="url" name="Visual_URL_2" placeholder="https://..." oninput="updateVisualCard(2, this.value)">
+                        <input type="url" name="Visual_URL_2" placeholder="votreboutique.fr" oninput="updateVisualCard(2, this.value)">
                     </div>
                     <label class="checkbox-label">
                         <input type="checkbox" onchange="toggleVisualTitle(2, this.checked)">
@@ -475,7 +521,7 @@
                 <div class="visual-link-box">
                     <div class="input-group" style="margin-bottom:0;">
                         <label>Lien Visuel N°3 (URL)</label>
-                        <input type="url" name="Visual_URL_3" placeholder="https://..." oninput="updateVisualCard(3, this.value)">
+                        <input type="url" name="Visual_URL_3" placeholder="portfolio.com" oninput="updateVisualCard(3, this.value)">
                     </div>
                     <label class="checkbox-label">
                         <input type="checkbox" onchange="toggleVisualTitle(3, this.checked)">
@@ -507,7 +553,6 @@
         <div class="footer-copy">© 2026 KINGDREAM DIGITAL — TOUS DROITS RÉSERVÉS</div>
     </footer>
 
-<!-- LIBRAIRIE POUR CAPTURE D'ECRAN EXACTE DU TELEPHONE -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
@@ -521,10 +566,10 @@
         if (savedLogo) {
             document.getElementById('pv-banner-container').style.display = 'flex';
             document.getElementById('pv-banner-logo').src = savedLogo;
-            document.getElementById('ui-avatar-container').style.marginTop = '10px'; // Espacement naturel
+            document.getElementById('ui-avatar-container').style.marginTop = '-10px'; 
             document.getElementById('logo-success-status').style.display = 'flex';
             document.getElementById('magic-theme-btn').style.display = 'flex';
-            document.getElementById('logo-size-container').style.display = 'block'; // Affiche le curseur de taille
+            document.getElementById('logo-size-container').style.display = 'block'; 
         } else {
             document.getElementById('ui-avatar-container').style.marginTop = '40px';
         }
@@ -535,8 +580,16 @@
     };
 
     function updateLogoSize(val) {
-        document.getElementById('pv-banner-logo').style.width = val + 'px';
+        const logo = document.getElementById('pv-banner-logo');
+        logo.style.transition = 'none'; 
+        logo.style.width = val + 'px';
         document.getElementById('logo-size-display').innerText = val;
+    }
+
+    function updateLogoSpace(val) {
+        const avatarContainer = document.getElementById('ui-avatar-container');
+        avatarContainer.style.transition = 'none'; 
+        avatarContainer.style.marginTop = val + 'px';
     }
 
     function applyLogoTheme() {
@@ -622,13 +675,42 @@
         }
     }
 
+    // FONCTION CORRIGÉE POUR LES APERCUS DE SITES AUTOMATIQUES
     function updateVisualCard(index, url) {
         const card = document.getElementById(`preview-card-${index}`);
         const img = document.getElementById(`preview-img-${index}`);
+        
         if (timeoutTokens[index-1]) clearTimeout(timeoutTokens[index-1]);
-        if (url.trim().startsWith('http://') || url.trim().startsWith('https://')) {
-            timeoutTokens[index-1] = setTimeout(() => { img.src = `https://image.thum.io/get/width/600/crop/800/${url.trim()}`; card.style.display = 'block'; }, 600); 
-        } else { card.style.display = 'none'; }
+        
+        let cleanUrl = url.trim();
+        
+        if (cleanUrl === '') {
+            card.style.display = 'none';
+            return;
+        }
+
+        // Si l'utilisateur a oublié le "http", on le rajoute pour que l'API de capture ne bloque pas
+        if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
+            cleanUrl = 'https://' + cleanUrl;
+        }
+
+        timeoutTokens[index-1] = setTimeout(() => { 
+            card.style.display = 'block'; 
+            img.style.opacity = '0.5'; // Effet de chargement
+            
+            // Image de sécurité si la génération échoue
+            img.onerror = function() {
+                this.src = 'https://via.placeholder.com/600x400/e2e8f0/475569?text=Aper%C3%A7u+indisponible';
+                this.style.opacity = '1';
+            };
+            
+            // On remet l'opacité à 100% quand c'est fini de charger
+            img.onload = function() {
+                this.style.opacity = '1';
+            }
+
+            img.src = `https://image.thum.io/get/width/600/crop/800/${cleanUrl}`; 
+        }, 600); 
     }
 
     function toggleVisualTitle(index, isChecked) {
@@ -640,32 +722,31 @@
 
     function updateVisualTitleText(index, title) { document.getElementById(`preview-title-${index}`).innerText = title.trim() === '' ? 'Mon Site Web' : title; }
 
-    // FONCTION MODIFIÉE : CAPTURE EXACTE DU TELEPHONE AVEC HTML2CANVAS
     async function generateNativeSnapshot() {
         const element = document.getElementById('preview-screen');
+        const phoneFrame = document.querySelector('.phone-frame');
         
-        // Pour s'assurer qu'html2canvas capture tout (même ce qui est caché par le scroll)
         const originalOverflow = element.style.overflow;
         const originalHeight = element.style.height;
+        const originalTransform = phoneFrame.style.transform;
+
+        phoneFrame.style.transform = 'none';
         element.style.overflow = 'visible';
         element.style.height = 'auto';
 
-        // Petite pause pour laisser le navigateur ajuster la taille
         await new Promise(r => setTimeout(r, 50));
 
-        // Prendre la capture exacte
         const canvas = await html2canvas(element, {
-            useCORS: true, // Autorise de capturer les images du site thum.io et les photos importées
-            scale: 1.5, // Très bonne qualité
+            useCORS: true, 
+            scale: 1.5, 
             backgroundColor: window.getComputedStyle(element).backgroundColor || '#f8fafc',
             allowTaint: true
         });
 
-        // Remettre le téléphone normal
         element.style.overflow = originalOverflow;
         element.style.height = originalHeight;
+        phoneFrame.style.transform = originalTransform; 
 
-        // Retourne la capture au format JPEG pour alléger le mail
         return canvas.toDataURL('image/jpeg', 0.85);
     }
 
@@ -683,7 +764,6 @@
         let bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n); while(n--){ u8arr[n] = bstr.charCodeAt(n); } return new File([u8arr], filename, {type: mime});
     }
 
-    // GESTION DU BOUTON ET DE LA SOUMISSION MAGIQUE IFRAME
     document.getElementById('digital-form').addEventListener('submit', async function(e) {
         e.preventDefault(); 
         
@@ -699,7 +779,6 @@
         btn.style.pointerEvents = 'none';
 
         try {
-            // Empêche le fichier non-compressé de partir 
             const originalAvatar = document.querySelector('input[name="Photo_De_Profil_Client"]');
             if(originalAvatar) originalAvatar.removeAttribute('name');
 
@@ -715,7 +794,6 @@
                 addFileToForm('Photo_De_Profil_Client', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
             }
 
-            // EXÉCUTION DE LA CAPTURE D'ECRAN EXACTE !
             const imgMobileData = await generateNativeSnapshot();
             addFileToForm('Apercu_Design_Mobile', base64ToFile(imgMobileData, 'Apercu_Visuel_Mobile.jpg'));
             
@@ -733,10 +811,8 @@
 
             btn.innerHTML = 'Envoi en cours... 🚀';
 
-            // ENVOI NATIF sans AJAX, directement vers l'Iframe invisible
             HTMLFormElement.prototype.submit.call(this);
 
-            // Succès simulé et affiché à l'écran sans changer de page
             setTimeout(() => {
                 const configBox = document.getElementById('main-config-box');
                 configBox.innerHTML = `
