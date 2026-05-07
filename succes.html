@@ -74,7 +74,6 @@
         .ui-icon svg { width: 30px; height: 30px; fill: white; }
         .ui-app-label { font-size: 0.65rem; font-weight: 800; color: #334155; text-align: center; overflow: hidden; text-overflow: ellipsis; width: 100%; white-space: nowrap; transition: color 0.4s; }
 
-        /* DEGRADES D'APPLICATIONS */
         .bg-tel { background: linear-gradient(135deg, #4ade80, #22c55e); }
         .bg-mail { background: linear-gradient(135deg, #38bdf8, #0ea5e9); }
         .bg-insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
@@ -94,7 +93,6 @@
         .ui-footer { margin-top: auto; text-align: center; font-size: 0.65rem; color: #94a3b8; font-weight: 700; padding-top: 20px; transition: color 0.4s; }
         .ui-footer strong { color: #475569; font-size: 0.75rem; display: block; margin: 4px 0; font-family: 'Fredoka One'; transition: color 0.4s; }
 
-        /* FORMULAIRE (DROITE) */
         .config-box { background: white; border-radius: 24px; padding: 40px; box-shadow: 0 20px 60px rgba(0,87,255,0.05); border: 1px solid var(--border-color); }
         .step-title { font-family: 'Fredoka One'; font-size: 1.3rem; color: var(--blue-dark); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-light); display: flex; align-items: center; gap: 10px; margin-top: 40px; }
         .step-title:first-child { margin-top: 0; }
@@ -110,7 +108,6 @@
         .checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 800; color: var(--text-dark); cursor: pointer; margin-top: 10px; }
         .checkbox-label input { width: 18px; height: 18px; accent-color: var(--blue-main); cursor: pointer; }
 
-        /* UPLOADS & LOGO STATUS */
         .logo-success-status, .avatar-success-status { display: none; background: #ecfdf5; border: 2px solid #34d399; color: #065f46; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-weight: 800; font-size: 0.9rem; align-items: center; gap: 10px; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -141,7 +138,6 @@
         .visual-link-box:focus-within { border-color: var(--blue-main); background: white; }
         .visual-title-input { display: none; margin-top: 10px; }
 
-        /* BOUTONS ET SUCCES */
         .submit-btn { width: 100%; padding: 20px; background: var(--yellow); color: #000; font-family: 'Fredoka One'; font-size: 1.3rem; border-radius: 50px; border: none; cursor: pointer; box-shadow: 0 10px 30px rgba(252, 211, 77, 0.4); margin-top: 30px; transition: 0.3s; display: flex; justify-content: center; align-items: center; }
         .submit-btn:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(252, 211, 77, 0.6); }
         
@@ -149,7 +145,6 @@
         .support-text a { color: var(--blue-main); font-weight: 800; text-decoration: none; }
         .support-text a:hover { text-decoration: underline; }
 
-        /* FOOTER OFFICIEL */
         footer { background:var(--blue-main); color:white; padding:50px 5% 100px; text-align:center; position: relative; z-index: 10; border-top: none; }
         .footer-logo-wrap { display:flex; align-items:center; justify-content:center; margin-bottom:30px; height:120px; }
         .footer-logo-wrap img { height:100%; width:auto; object-fit:contain; transform: scale(2.2); filter: drop-shadow(0 0 20px rgba(255,255,255,0.4)) brightness(1.3); }
@@ -174,7 +169,6 @@
 </head>
 <body>
 
-    <!-- NAVBAR ÉPURÉE AVEC BOUTON RETOUR -->
     <nav id="navbar">
         <a href="index.html" class="nav-logo-link" aria-label="KingDream Digital - Accueil">
             <img src="https://i.ibb.co/prfskYjT/3-avr-2026-11-56-47.png" alt="KingDream Digital Logo">
@@ -185,7 +179,6 @@
         </a>
     </nav>
 
-    <!-- EN TÊTE FÉLICITATIONS (BLEU KINGDREAM) -->
     <div class="success-header">
         <div class="success-header-inner">
             <div class="success-badge">Commande Confirmée ✅</div>
@@ -267,8 +260,8 @@
 
         <!-- FORMULAIRE (DROITE) -->
         <div class="config-box" id="main-config-box">
-            <!-- Remplace par ton adresse email -->
-            <form id="digital-form" action="https://formsubmit.co/ajax/Contact@kingdream.fr" method="POST" enctype="multipart/form-data">
+            
+            <form id="digital-form" action="https://formsubmit.co/ajax/Contact@kingdream.fr" method="POST" enctype="multipart/form-data" novalidate>
                 
                 <input type="hidden" name="_subject" value="NOUVEAU DESIGN NFC (Logo + Mobile + Profil) !">
                 <input type="hidden" name="Couleur_Bouton" id="hidden-color" value="#0057FF">
@@ -296,7 +289,7 @@
                 <div class="file-upload-wrapper">
                     <span style="font-size:1.1rem; margin-bottom:5px;">📸 Votre Photo de Profil</span>
                     <span style="font-size:0.8rem;">S'affichera dans le cercle central</span>
-                    <input type="file" name="Avatar_Fichier" accept="image/*" onchange="previewImage(this, 'pv-avatar')" required>
+                    <input type="file" id="Avatar_Fichier_Input" accept="image/*" onchange="previewImage(this, 'pv-avatar')">
                 </div>
 
                 <!-- BOX SUCCES PHOTO DE PROFIL -->
@@ -343,15 +336,15 @@
                 
                 <div class="input-group">
                     <label>Prénom & Nom</label>
-                    <input type="text" name="Nom_Complet" placeholder="Ex: Jean Dupont" required oninput="updateName(this.value)">
+                    <input type="text" id="Nom_Complet" name="Nom_Complet" placeholder="Ex: Jean Dupont" oninput="updateName(this.value)">
                 </div>
                 <div class="input-group">
                     <label>Email de contact pour le suivi</label>
-                    <input type="email" name="Email_Client" placeholder="votre-email@exemple.com" required>
+                    <input type="email" id="Email_Client" name="Email_Client" placeholder="votre-email@exemple.com">
                 </div>
                 <div class="input-group">
                     <label>Poste / Entreprise</label>
-                    <input type="text" name="Poste" placeholder="Ex: CEO chez MonEntreprise" required oninput="updateText('pv-job', this.value, 'Votre Poste & Entreprise')">
+                    <input type="text" id="Poste" name="Poste" placeholder="Ex: CEO chez MonEntreprise" oninput="updateText('pv-job', this.value, 'Votre Poste & Entreprise')">
                 </div>
                 <div class="input-group">
                     <label>Courte Biographie / Accroche</label>
@@ -521,10 +514,14 @@
     </footer>
 
 <script>
-    // 1. GESTION AUTOMATIQUE DES FICHIERS DE LA PAGE PRECEDENTE
+    // VARIABLES GLOBALES
+    let savedAvatarData = null; 
+    let timeoutTokens = [null, null, null]; 
+
+    // 1. RECUPERATION DES DONNEES (Logo et Carte NFC) AU CHARGEMENT
     window.onload = function() {
         const savedLogo = localStorage.getItem('kd_logo_client');
-        const savedNfcCard = localStorage.getItem('kd_nfc_card_preview'); // Aperçu carte physique de la page d'avant
+        const savedNfcCard = localStorage.getItem('kd_nfc_card_preview'); 
 
         if (savedLogo) {
             document.getElementById('pv-banner-container').style.display = 'flex';
@@ -541,7 +538,7 @@
         }
     };
 
-    // MAGIE IA : EXTRACTION DE COULEUR ET CRÉATION DE FOND
+    // 2. THEME INTELLIGENT DEPUIS LE LOGO
     function applyLogoTheme() {
         const img = document.getElementById('pv-banner-logo');
         if(!img.src) return;
@@ -574,7 +571,6 @@
             const hexColor = ((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);
             
             const pattern = `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20z' fill='%23${hexColor}' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E")`;
-            
             const finalBg = `${pattern}, linear-gradient(135deg, ${colorTop} 0%, ${colorBottom} 100%), #ffffff`;
             
             const screen = document.getElementById('preview-screen');
@@ -599,7 +595,7 @@
         }
     }
 
-    // CHANGER LE FOND DU TELEPHONE VIA LES PASTILLES
+    // 3. MISE A JOUR EN DIRECT DES TEXTES ET BOUTONS
     function setPhoneBg(bgValue, isDark, element) {
         const screen = document.getElementById('preview-screen');
         screen.style.background = bgValue;
@@ -662,9 +658,7 @@
         label.innerText = value.trim() === '' ? defaultName : value;
     }
 
-    // Upload photo visage + SUCCESS MESSAGE
-    // Je sauvegarde aussi en Base64 temporaire pour le dessin natif du rendu mobile
-    let savedAvatarData = null; 
+    // 4. PREVISUALISATION PHOTO
     function previewImage(input, imgId) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
@@ -677,7 +671,7 @@
         }
     }
 
-    let timeoutTokens = [null, null, null]; 
+    // 5. APERCU DES SITES WEB
     function updateVisualCard(index, url) {
         const card = document.getElementById(`preview-card-${index}`);
         const img = document.getElementById(`preview-img-${index}`);
@@ -711,9 +705,7 @@
         titleDiv.innerText = title.trim() === '' ? 'Mon Site Web' : title;
     }
 
-    // ---------------------------------------------------------------------------------
-    // DESSIN DU RENDU MOBILE NATIVEMENT (Sans librairie externe)
-    // ---------------------------------------------------------------------------------
+    // 6. CREATION D'UNE IMAGE DU RESULTAT FINAL MOBILE (Pour recevoir la photo en mail)
     function generateNativeSnapshot() {
         return new Promise((resolve) => {
             const canvas = document.createElement('canvas');
@@ -732,10 +724,9 @@
             ctx.fillStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)';
             ctx.fillRect(0, 0, 400, 150);
 
-            const name = document.querySelector('input[name="Nom_Complet"]').value || 'Prénom Nom';
-            const job = document.querySelector('input[name="Poste"]').value || 'POSTE / ENTREPRISE';
+            const name = document.getElementById('Nom_Complet').value || 'Prénom Nom';
+            const job = document.getElementById('Poste').value || 'POSTE / ENTREPRISE';
             
-            // Avatar Placeholder ou Vraie photo
             const drawRest = () => {
                 ctx.fillStyle = textColor;
                 ctx.font = 'bold 30px sans-serif';
@@ -748,7 +739,11 @@
 
                 ctx.fillStyle = accent;
                 ctx.beginPath();
-                ctx.roundRect ? ctx.roundRect(40, 320, 320, 50, 25) : ctx.fillRect(40, 320, 320, 50);
+                if(ctx.roundRect) {
+                    ctx.roundRect(40, 320, 320, 50, 25);
+                } else {
+                    ctx.fillRect(40, 320, 320, 50);
+                }
                 ctx.fill();
                 ctx.fillStyle = '#fff';
                 ctx.font = 'bold 18px sans-serif';
@@ -769,7 +764,11 @@
                         startY += 90;
                     }
                     ctx.beginPath();
-                    ctx.roundRect ? ctx.roundRect(startX - 30, startY, 60, 60, 16) : ctx.fillRect(startX - 30, startY, 60, 60);
+                    if(ctx.roundRect){
+                        ctx.roundRect(startX - 30, startY, 60, 60, 16);
+                    } else {
+                        ctx.fillRect(startX - 30, startY, 60, 60);
+                    }
                     ctx.fill();
                     
                     ctx.fillStyle = '#fff';
@@ -783,7 +782,6 @@
                 resolve(canvas.toDataURL('image/jpeg', 0.8));
             };
 
-            // Dessiner l'avatar s'il existe
             if(savedAvatarData) {
                 let img = new Image();
                 img.onload = function() {
@@ -794,7 +792,6 @@
                     ctx.clip();
                     ctx.drawImage(img, 140, 90, 120, 120);
                     ctx.restore();
-                    // Bordure
                     ctx.beginPath();
                     ctx.arc(200, 150, 60, 0, Math.PI * 2, true);
                     ctx.lineWidth = 6;
@@ -822,21 +819,19 @@
         });
     }
 
-   // ---------------------------------------------------------------------------------
-    // FONCTIONS MANQUANTES : COMPRESSION ET CONVERSION DES IMAGES
-    // ---------------------------------------------------------------------------------
+    // 7. FONCTIONS DE REDUCTION DU POIDS DES IMAGES POUR EMAIL
     function compressBase64(base64, maxWidth) {
         return new Promise((resolve) => {
             let img = new Image();
             img.onload = () => {
                 let canvas = document.createElement('canvas');
                 let ratio = maxWidth / img.width;
-                if (ratio > 1) ratio = 1; // Ne pas agrandir si l'image est petite
+                if (ratio > 1) ratio = 1; 
                 canvas.width = img.width * ratio;
                 canvas.height = img.height * ratio;
                 let ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                resolve(canvas.toDataURL('image/jpeg', 0.8)); // Qualité 80%
+                resolve(canvas.toDataURL('image/jpeg', 0.8));
             };
             img.src = base64;
         });
@@ -845,67 +840,70 @@
     function base64ToFile(dataurl, filename) {
         let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1];
         let bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-        while(n--){
-            u8arr[n] = bstr.charCodeAt(n);
-        }
+        while(n--){ u8arr[n] = bstr.charCodeAt(n); }
         return new File([u8arr], filename, {type: mime});
     }
 
-    // ---------------------------------------------------------------------------------
-    // SOUMISSION DU FORMULAIRE (CORRIGÉ POUR FORMSUBMIT)
-    // ---------------------------------------------------------------------------------
+    // 8. VERIFICATION ET ENVOI FINAL AU CLIC
     document.getElementById('digital-form').addEventListener('submit', async function(e) {
         e.preventDefault(); 
         
+        // --- ETAPE 1 : Verification que le client a bien tout rempli ! ---
+        const nom = document.getElementById('Nom_Complet').value.trim();
+        const email = document.getElementById('Email_Client').value.trim();
+        const poste = document.getElementById('Poste').value.trim();
+
+        if (nom === '' || email === '' || poste === '' || !savedAvatarData) {
+            alert("⚠️ Veuillez remplir tous les champs obligatoires :\n- Prénom & Nom\n- Email de contact\n- Poste / Entreprise\n- Importer votre Photo de Profil.");
+            return; // On stoppe l'envoi si c'est vide
+        }
+
+        // --- ETAPE 2 : On commence la création ---
         const btn = document.getElementById('final-btn');
         btn.innerHTML = 'Préparation des fichiers... ⏳';
         btn.style.pointerEvents = 'none';
         btn.style.opacity = '0.8';
 
         try {
-            // 1. Initialiser le FormData avec les champs textes du formulaire
+            // Création du paquet contenant toutes les infos textes
             let formData = new FormData(this);
-            
-            // 2. Désactiver le captcha pour l'AJAX
-            formData.append('_captcha', 'false');
+            formData.append('_captcha', 'false'); // Désactive le captcha FormSubmit
 
-            // 3. Supprimer le fichier original non compressé pour éviter un email trop lourd
-            formData.delete('Avatar_Fichier');
-
-            // 4. Traitement et compression de la photo de Profil
+            // Compression de la photo de profil importée
             if (savedAvatarData) {
                 const compressedAvatar = await compressBase64(savedAvatarData, 600);
-                formData.append('Photo_De_Profil', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
+                formData.append('Photo_De_Profil_Client', base64ToFile(compressedAvatar, 'Avatar_Client.jpg'));
             }
             
-            // 5. Rendu visuel Mobile généré
+            // Image finale du téléphone designé
             const imgMobileData = await generateNativeSnapshot();
-            formData.append('Apercu_Visuel_Mobile', base64ToFile(imgMobileData, 'Visuel_Mobile.jpg'));
+            formData.append('Apercu_Design_Mobile', base64ToFile(imgMobileData, 'Apercu_Visuel_Mobile.jpg'));
             
-            // 6. Logo importé (si existant depuis la page d'avant)
+            // On récupère le logo si le client l'avait mis sur l'ancienne page
             const savedLogo = localStorage.getItem('kd_logo_client');
             if (savedLogo && savedLogo.startsWith('data:image')) {
                 const compressedLogo = await compressBase64(savedLogo, 600);
-                formData.append('Fichier_Logo_Client', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
+                formData.append('Logo_Entreprise', base64ToFile(compressedLogo, 'Logo_Entreprise.jpg'));
             }
 
-            // 7. Carte NFC (si existante depuis la page d'avant)
+            // On récupère l'aperçu de la carte NFC de l'ancienne page
             const savedNfcCard = localStorage.getItem('kd_nfc_card_preview');
             if (savedNfcCard && savedNfcCard.startsWith('data:image')) {
                 const compressedNfc = await compressBase64(savedNfcCard, 800);
-                formData.append('Fichier_Carte_NFC', base64ToFile(compressedNfc, 'Apercu_Carte_NFC.jpg'));
+                formData.append('Design_Carte_NFC', base64ToFile(compressedNfc, 'Design_Carte_NFC.jpg'));
             }
 
             btn.innerHTML = 'Envoi sécurisé en cours... 🚀';
 
-            // 8. Envoi final via FormSubmit en AJAX
+            // --- ETAPE 3 : Envoi à votre adresse Email ---
             const response = await fetch(this.action, {
                 method: 'POST',
                 headers: { 'Accept': 'application/json' },
-                body: formData // On envoie le FormData directement (pas besoin de faux inputs)
+                body: formData 
             });
 
             if (response.ok) {
+                // Succès ! On affiche le message de validation à l'écran
                 const configBox = document.getElementById('main-config-box');
                 configBox.innerHTML = `
                     <div style="text-align: center; padding: 50px 20px;">
@@ -926,14 +924,14 @@
                 `;
                 configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else {
-                throw new Error('Erreur réseau FormSubmit');
+                throw new Error('Erreur réseau');
             }
         } catch (error) {
             console.error(error);
-            btn.innerHTML = '❌ Erreur. Réessayez.';
+            btn.innerHTML = '🚀 Valider ma carte Digital';
             btn.style.pointerEvents = 'auto';
             btn.style.opacity = '1';
-            alert("Une erreur est survenue lors de l'envoi. Veuillez vérifier votre connexion.");
+            alert("Une erreur est survenue lors de l'envoi. Veuillez vérifier votre connexion Internet et réessayer.");
         }
     });
 </script>
