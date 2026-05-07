@@ -53,8 +53,10 @@
         .phone-screen.dark-mode .ui-app-label { color: #f8fafc !important; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
         .phone-screen.dark-mode .ui-avatar { border-color: rgba(255,255,255,0.2); }
         
-        .pv-banner-container { width: 100%; height: 160px; background: rgba(255,255,255,0.7); padding-top: 35px; display: flex; align-items: center; justify-content: center; display: none; backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.4); }
-        .pv-banner-logo { max-width: 80%; max-height: 80px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
+        /* Modifié : Fond invisible, pas de bordure, flex pour centrer */
+        .pv-banner-container { width: 100%; padding-top: 50px; padding-bottom: 10px; display: none; align-items: center; justify-content: center; position: relative; z-index: 1; }
+        /* Modifié : On retire la limite de hauteur, largeur modifiable dynamiquement */
+        .pv-banner-logo { width: 150px; height: auto; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); transition: width 0.1s ease-out; }
         
         .ui-avatar-container { margin-top: 40px; width: 100%; text-align: center; position: relative; z-index: 2; transition: margin-top 0.3s; }
         .ui-avatar { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 5px solid rgba(255,255,255,0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: #ccc; transition: border-color 0.4s ease; }
@@ -101,9 +103,14 @@
         
         .input-group { margin-bottom: 20px; width: 100%; }
         .input-group label { display: block; font-size: 0.85rem; font-weight: 800; color: var(--text-dark); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .input-group input, .input-group textarea { width: 100%; padding: 14px 18px; border: 2px solid var(--border-color); border-radius: 12px; font-weight: 700; background: var(--bg-light); font-size: 1rem; color: var(--text-dark); outline: none; transition: 0.3s; font-family: inherit; }
-        .input-group input:focus, .input-group textarea:focus { border-color: var(--blue-main); background: white; box-shadow: 0 0 0 4px rgba(0,87,255,0.1); }
+        .input-group input[type="text"], .input-group input[type="email"], .input-group input[type="tel"], .input-group input[type="url"], .input-group textarea { width: 100%; padding: 14px 18px; border: 2px solid var(--border-color); border-radius: 12px; font-weight: 700; background: var(--bg-light); font-size: 1rem; color: var(--text-dark); outline: none; transition: 0.3s; font-family: inherit; }
+        .input-group input[type="text"]:focus, .input-group input[type="email"]:focus, .input-group input[type="tel"]:focus, .input-group input[type="url"]:focus, .input-group textarea:focus { border-color: var(--blue-main); background: white; box-shadow: 0 0 0 4px rgba(0,87,255,0.1); }
         .input-group textarea { resize: vertical; min-height: 90px; }
+
+        /* Style pour le curseur de taille */
+        input[type="range"] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 22px; width: 22px; border-radius: 50%; background: var(--blue-main); cursor: pointer; margin-top: -8px; box-shadow: 0 2px 6px rgba(0,87,255,0.4); }
+        input[type="range"]::-webkit-slider-runnable-track { width: 100%; height: 6px; cursor: pointer; background: #cbd5e1; border-radius: 5px; }
 
         .checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 800; color: var(--text-dark); cursor: pointer; margin-top: 10px; }
         .checkbox-label input { width: 18px; height: 18px; accent-color: var(--blue-main); cursor: pointer; }
@@ -267,6 +274,15 @@
                 <div class="logo-success-status" id="logo-success-status">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                     <span>Logo de votre entreprise importé avec succès !</span>
+                </div>
+                
+                <!-- Curseur de taille du logo (Apparaît si logo présent) -->
+                <div class="input-group" id="logo-size-container" style="display: none; padding: 15px; background: #f8fafc; border-radius: 12px; border: 1px solid var(--border-color);">
+                    <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        Taille du logo
+                        <span style="font-size: 0.8rem; color: var(--blue-main); font-weight: 900;"><span id="logo-size-display">150</span>px</span>
+                    </label>
+                    <input type="range" id="logo-size-slider" min="50" max="300" value="150" oninput="updateLogoSize(this.value)">
                 </div>
 
                 <div class="logo-success-status" id="carte-success-status" style="border-color: #3b82f6; background: #eff6ff; color: #1d4ed8;">
@@ -505,9 +521,10 @@
         if (savedLogo) {
             document.getElementById('pv-banner-container').style.display = 'flex';
             document.getElementById('pv-banner-logo').src = savedLogo;
-            document.getElementById('ui-avatar-container').style.marginTop = '-50px';
+            document.getElementById('ui-avatar-container').style.marginTop = '10px'; // Espacement naturel
             document.getElementById('logo-success-status').style.display = 'flex';
             document.getElementById('magic-theme-btn').style.display = 'flex';
+            document.getElementById('logo-size-container').style.display = 'block'; // Affiche le curseur de taille
         } else {
             document.getElementById('ui-avatar-container').style.marginTop = '40px';
         }
@@ -516,6 +533,11 @@
             document.getElementById('carte-success-status').style.display = 'flex';
         }
     };
+
+    function updateLogoSize(val) {
+        document.getElementById('pv-banner-logo').style.width = val + 'px';
+        document.getElementById('logo-size-display').innerText = val;
+    }
 
     function applyLogoTheme() {
         const img = document.getElementById('pv-banner-logo');
