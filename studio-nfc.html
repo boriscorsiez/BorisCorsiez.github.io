@@ -747,54 +747,61 @@
 
         // 2. Animation d'attente
         const btn = document.querySelector('.cta-king');
-        btn.innerHTML = 'Préparation de la carte... 📸⏳';
+        btn.innerHTML = 'Préparation... 📸⏳';
         btn.style.pointerEvents = 'none';
         btn.style.opacity = '0.8';
 
+        // SÉCURITÉ ANTI-BUG: On force la redirection au bout de 2.5 secondes si l'appareil est trop lent
+        const failSafeTimeout = setTimeout(() => {
+            window.location.href = 'checkout.html';
+        }, 2500);
+
         try {
-            // Eléments à capturer
             const cardFront = document.getElementById('f-recto');
             const cardBack = document.getElementById('f-verso');
 
-            // Astuce technique : on remet temporairement les cartes "à plat" et visibles 
-            // pour que html2canvas puisse les photographier même si l'utilisateur regarde la face opposée.
+            // On retire la 3D temporairement pour la photo (évite le plantage sur Safari/Mobile)
             const oldFrontTransform = cardFront.style.transform;
             const oldBackTransform = cardBack.style.transform;
             const oldFrontBfv = cardFront.style.backfaceVisibility;
             const oldBackBfv = cardBack.style.backfaceVisibility;
 
-            cardFront.style.transform = 'rotateY(0deg)';
+            cardFront.style.transform = 'none';
             cardFront.style.backfaceVisibility = 'visible';
-            cardBack.style.transform = 'rotateY(0deg)';
+            cardBack.style.transform = 'none';
             cardBack.style.backfaceVisibility = 'visible';
+
+            // Petite pause pour laisser le CSS s'appliquer
+            await new Promise(r => setTimeout(r, 100));
 
             // Prendre en photo le RECTO
             const canvasFront = await html2canvas(cardFront, {
                 useCORS: true,
-                scale: 2, 
+                scale: 1.5, 
                 backgroundColor: null
             });
-            localStorage.setItem('kd_nfc_card_preview', canvasFront.toDataURL('image/jpeg', 0.85));
+            localStorage.setItem('kd_nfc_card_preview', canvasFront.toDataURL('image/jpeg', 0.8));
 
             // Prendre en photo le VERSO
             const canvasBack = await html2canvas(cardBack, {
                 useCORS: true,
-                scale: 2, 
+                scale: 1.5, 
                 backgroundColor: null
             });
-            localStorage.setItem('kd_nfc_card_preview_verso', canvasBack.toDataURL('image/jpeg', 0.85));
+            localStorage.setItem('kd_nfc_card_preview_verso', canvasBack.toDataURL('image/jpeg', 0.8));
 
-            // Restauration de l'état CSS (optionnel car la page va changer, mais plus propre)
+            // On remet la 3D (Optionnel vu qu'on change de page, mais plus propre)
             cardFront.style.transform = oldFrontTransform;
             cardFront.style.backfaceVisibility = oldFrontBfv;
             cardBack.style.transform = oldBackTransform;
             cardBack.style.backfaceVisibility = oldBackBfv;
 
         } catch(error) {
-            console.error("Erreur capture recto/verso", error);
+            console.error("Erreur de capture, redirection prioritaire.", error);
         }
 
         // 3. Redirection automatique vers le paiement 
+        clearTimeout(failSafeTimeout);
         window.location.href = 'checkout.html';
     });
 </script>
