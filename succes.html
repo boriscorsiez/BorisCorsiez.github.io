@@ -53,7 +53,6 @@
         .phone-screen.dark-mode .ui-app-label { color: #f8fafc !important; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
         .phone-screen.dark-mode .ui-avatar { border-color: rgba(255,255,255,0.2); }
         
-        /* Modifié pour monter le fond jusqu'en haut sans coupure */
         .pv-banner-container { width: 100%; padding-top: 45px; padding-bottom: 0px; display: none; align-items: center; justify-content: center; position: relative; z-index: 1; }
         .pv-banner-logo { width: 150px; height: auto; max-height: 100px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); transition: width 0.1s ease-out; }
         
@@ -169,31 +168,23 @@
                 gap: 0;
             }
             .phone-container { 
-                position: relative; /* Enlève le sticky qui cassait l'écran */
+                position: relative; /* On enlève le sticky pour scroller librement */
                 top: 0; 
                 width: 100%;
                 height: auto;
                 background: transparent;
                 z-index: 100;
-                border: none;
-                box-shadow: none;
-                margin-bottom: 20px;
+                margin-bottom: 25px; /* Espace entre le téléphone et le formulaire */
                 display: flex;
                 justify-content: center;
-                overflow: visible; /* Laisse le téléphone déborder un peu */
                 padding-top: 10px;
             }
             .phone-frame {
-                position: relative;
-                top: 0; left: 0;
-                transform: scale(0.95); /* Mise à l'échelle douce */
+                /* Mise à l'échelle parfaite : lisible, mais compact */
+                transform: scale(0.85); 
                 transform-origin: top center;
-                width: 330px !important;
-                height: 680px !important;
-                margin-bottom: -20px; /* Compense l'espace vide lié au scale */
-                border-width: 6px;
-                border-radius: 40px;
-                box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+                /* On compense l'espace vide créé par le scale pour coller le formulaire en dessous */
+                margin-bottom: -108px; 
             }
             .config-box { 
                 margin: 0; 
@@ -201,21 +192,20 @@
                 border-radius: 20px; 
                 position: relative;
                 z-index: 10;
-                box-shadow: 0 -5px 25px rgba(0,0,0,0.05); /* Ombre douce au-dessus */
             }
             .social-grid { grid-template-columns: 1fr; }
             nav#navbar { padding: 0 15px; }
             nav#navbar .nav-logo-link img { transform: translateY(-50%) scale(1.6); left: 10px; }
             .nav-back-btn span { display: none; } 
-            .success-header { padding: 40px 15px; margin-bottom: 10px; }
+            .success-header { padding: 40px 15px; margin-bottom: 20px; }
             .success-header h1 { font-size: 1.8rem; }
         }
         
-        /* Pour les très petits téléphones (ex: iPhone SE) */
+        /* Pour les très petits écrans (ex: iPhone SE) */
         @media(max-width: 380px) {
             .phone-frame {
-                transform: scale(0.85);
-                margin-bottom: -80px;
+                transform: scale(0.75);
+                margin-bottom: -180px;
             }
         }
     </style>
@@ -248,7 +238,6 @@
                 <div class="phone-notch"></div>
                 <div class="phone-screen" id="preview-screen" style="background: #f8fafc;">
                     
-                    <!-- Conteneur Logo transparent (sans bordure ni fond blanc) -->
                     <div class="pv-banner-container" id="pv-banner-container">
                         <img src="" alt="Logo" class="pv-banner-logo" id="pv-banner-logo">
                     </div>
@@ -325,7 +314,6 @@
                     <span>Logo de votre entreprise importé avec succès !</span>
                 </div>
                 
-                <!-- Ajustements avancés du Logo -->
                 <div class="input-group" id="logo-size-container" style="display: none; padding: 20px; background: #f8fafc; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 20px;">
                     <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         Taille du logo
