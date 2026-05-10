@@ -149,8 +149,14 @@
         .method-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 55px; position: relative; z-index: 5; }
         .method-card { background: var(--white); border: 1px solid rgba(0,87,255,0.08); border-radius: 24px; padding: 40px 25px; text-align: center; box-shadow: var(--shadow-soft); transition: 0.3s ease; }
         .method-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-float); border-color: rgba(0,87,255,0.2); }
-        .method-icon { width: 75px; height: 75px; background: rgba(0,87,255,0.06); color: var(--blue-main); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 22px; transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .method-card:hover .method-icon { background: var(--blue-main); color: var(--white); transform: scale(1.1) rotate(-5deg); box-shadow: 0 10px 20px rgba(0,87,255,0.2); }
+        .method-icon { width: 75px; height: 75px; background: rgba(0,87,255,0.06); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; margin: 0 auto 22px; transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); text-shadow: 0 10px 15px rgba(0,0,0,0.15); }
+        .method-card:hover .method-icon:not(.no-bg-icon) { background: var(--blue-main); transform: scale(1.1) rotate(-5deg); box-shadow: 0 10px 20px rgba(0,87,255,0.2); }
+        
+        /* Spécial Image Carte NFC Method */
+        .method-icon.no-bg-icon { background: transparent; box-shadow: none; pointer-events: none; text-shadow: none; }
+        .method-icon img.custom-img-icon { width: 125%; max-width: none; transform: scale(1.3) rotate(-8deg); filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15)); transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); pointer-events: none; }
+        .method-card:hover .method-icon img.custom-img-icon { transform: scale(1.4) rotate(0deg) translateY(-8px); filter: drop-shadow(0 15px 25px rgba(0,0,0,0.25)); }
+
         .method-title { font-family: 'Fredoka One', cursive; font-size: 1.25rem; color: var(--blue-dark); margin-bottom: 14px; line-height: 1.3; }
         .method-desc { font-size: 0.92rem; color: var(--text-muted); font-weight: 600; line-height: 1.6; }
         .method-conclusion { margin-top: 60px; padding: 45px 30px; background: linear-gradient(135deg, rgba(0,87,255,0.03), rgba(0,54,163,0.05)); border-radius: 24px; border: 1px solid rgba(0,87,255,0.1); position: relative; overflow: hidden; }
@@ -418,7 +424,7 @@
             .main-hero-img { width:110%; max-width:650px; left:50%; transform:translate(-50%,-50%); }
             
             /* Ajustement Tablette - Très grand, très à gauche */
-            .hp-nfc { bottom: 0px; left: calc(50% - 280px); width: 260px; transform:rotate(-8deg); }
+            .hp-nfc { bottom: -20px; left: calc(50% - 280px); width: 280px; transform:rotate(-8deg); }
             .hp-nfc-card { bottom: 120px; left: calc(50% - 380px); width: 200px; transform:rotate(-15deg); }
 
             .service-inner { grid-template-columns:1fr; gap:36px; }
@@ -448,9 +454,9 @@
             .hp-visual { height:260px; margin-top: 40px; }
             .main-hero-img { width: 105%; max-width: 500px; left: 50%; transform: translate(-50%, -50%); }
             
-            /* Ajustement Mobile Classique - TRÈS à gauche, énormes et abaissées */
-            .hp-nfc { width: 180px; bottom: -20px; left: calc(50% - 220px); transform: rotate(-8deg); }
-            .hp-nfc-card { width: 140px; bottom: 60px; left: calc(50% - 260px); top: auto; transform: rotate(-18deg); }
+            /* Ajustement Mobile Classique - PANCARTE PLUS BASSE, CARTE DE VISITE PLUS HAUTE ET À GAUCHE */
+            .hp-nfc { width: 190px; bottom: -45px; left: calc(50% - 220px); transform: rotate(-8deg); z-index: 10; }
+            .hp-nfc-card { width: 150px; bottom: 105px; left: calc(50% - 250px); top: auto; transform: rotate(-18deg); z-index: 12; }
             
             .backlight-glow { width:300px; height:240px; }
             .hp-cta-group { flex-direction:column; align-items:center; }
@@ -517,8 +523,8 @@
             .hp-visual { height:200px; } 
             .main-hero-img { width:110%; }
             /* Ajustement Mobile Petit */
-            .hp-nfc { width: 140px; bottom: -10px; left: calc(50% - 160px); transform: rotate(-6deg); }
-            .hp-nfc-card { width: 110px; bottom: 50px; left: calc(50% - 190px); transform: rotate(-15deg); }
+            .hp-nfc { width: 140px; bottom: -50px; left: calc(50% - 170px); transform: rotate(-6deg); }
+            .hp-nfc-card { width: 110px; bottom: 85px; left: calc(50% - 200px); transform: rotate(-15deg); }
         }
     </style>
 </head>
@@ -594,10 +600,10 @@
                 <!-- ORDINATEUR WEB -->
                 <img src="https://i.ibb.co/jPS5VB5Q/Sans-titre-1.png" class="main-hero-img" alt="Création de sites web premium iMac" loading="eager">
                 
-                <!-- PANCARTE AVIS NFC -->
+                <!-- PANCARTE AVIS NFC (GIGANTESQUE et TRÈS À GAUCHE) -->
                 <img src="https://i.ibb.co/0y1GVsp6/plaue-nfc-KIND-DREAM-removebg-preview.png" class="hp-nfc" alt="Plaque NFC KingDream" loading="eager">
                 
-                <!-- CARTE DE VISITE NFC (Encore plus grande et totalement décalée à gauche) -->
+                <!-- CARTE DE VISITE NFC (GIGANTESQUE et TRÈS À GAUCHE) -->
                 <img src="https://i.ibb.co/wNDcpG2p/Adobe-Express-file-1.png" class="hp-nfc-card" alt="Carte de Visite NFC Transparente" loading="eager">
             </div>
         </div>
@@ -620,23 +626,25 @@
             </p>
 
             <div class="method-grid">
-                <!-- Pilier 1 -->
+                <!-- Pilier 1 : ICÔNE PREMIUM SITE WEB -->
                 <div class="method-card reveal d-4">
-                    <div class="method-icon">💻</div>
+                    <div class="method-icon" style="font-size: 2.8rem; text-shadow: 0 10px 20px rgba(0,0,0,0.15);">💻</div>
                     <h3 class="method-title">1. Site optimisé Google</h3>
                     <p class="method-desc">Un site professionnel conçu pour apparaître sur Google, convertir vos visiteurs en clients et renforcer votre image de marque.</p>
                 </div>
                 
-                <!-- Pilier 2 -->
+                <!-- Pilier 2 : ICÔNE PREMIUM ÉTOILE/AVIS -->
                 <div class="method-card reveal d-5">
-                    <div class="method-icon">⭐</div>
+                    <div class="method-icon" style="font-size: 2.8rem; text-shadow: 0 10px 20px rgba(0,0,0,0.15);">⭐</div>
                     <h3 class="method-title">2. Stratégie d'avis ultra efficace</h3>
                     <p class="method-desc">Grâce à notre plaque NFC et QR Code, vos clients laissent un avis en quelques secondes. Résultat : plus d’avis, une meilleure réputation et visibilité locale.</p>
                 </div>
                 
-                <!-- Pilier 3 -->
+                <!-- Pilier 3 : IMAGE DES CARTES DE VISITE NFC (Pas de SVG, Image avec animation) -->
                 <div class="method-card reveal d-6">
-                    <div class="method-icon">💳</div>
+                    <div class="method-icon no-bg-icon">
+                        <img src="https://i.ibb.co/wNDcpG2p/Adobe-Express-file-1.png" alt="Cartes NFC" class="custom-img-icon" loading="lazy">
+                    </div>
                     <h3 class="method-title">3. Carte de visite NFC 2.0</h3>
                     <p class="method-desc">
                         Une carte digitale innovante qui impressionne vos prospects et permet de partager instantanément : <strong>votre site, vos réseaux, votre contact et votre fiche Google.</strong>
