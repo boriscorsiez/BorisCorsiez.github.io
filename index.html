@@ -119,12 +119,12 @@
         .backlight-glow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:480px; height:380px; background:rgba(255,255,255,0.1); filter:blur(100px); border-radius:50%; z-index:2; pointer-events:none; }
         .main-hero-img { position:absolute; top:50%; left: 50%; transform:translate(-50%,-50%); width: 135%; max-width: 850px; z-index:5; filter:drop-shadow(0 40px 60px rgba(0,0,0,.4)); }
         
-        /* IMAGES FLOTTANTES HERO (Pancarte + Carte NFC - Beaucoup plus grandes et décalées à GAUCHE) */
+        /* IMAGES FLOTTANTES HERO (Pancarte + Carte NFC - VERSION GIGANTESQUE) */
         .hp-nfc-card { 
             position: absolute; 
-            width: 220px; /* Très grande */
-            bottom: 200px; 
-            left: -120px; /* Décalée très à gauche */
+            width: 260px; /* ENCORE PLUS GRANDE */
+            bottom: 160px; 
+            left: -220px; /* DÉCALÉE TRÈS TRÈS À GAUCHE */
             z-index: 15; 
             transform: rotate(-14deg); 
             filter: drop-shadow(0 20px 40px rgba(0,0,0,.4)); 
@@ -134,9 +134,9 @@
         
         .hp-nfc { 
             position: absolute; 
-            width: 250px; /* Très grande */
-            bottom: 30px; 
-            left: 10px; /* Décalée à gauche */
+            width: 320px; /* ÉNORME PANCARTE */
+            bottom: -10px; 
+            left: -80px; /* DÉCALÉE TRÈS À GAUCHE */
             z-index: 12; 
             transform: rotate(-6deg); 
             filter: drop-shadow(0 25px 45px rgba(0,0,0,.5)); 
@@ -417,9 +417,9 @@
             .hp-visual { height:460px; margin-top:30px; }
             .main-hero-img { width:110%; max-width:650px; left:50%; transform:translate(-50%,-50%); }
             
-            /* Ajustement Tablette */
-            .hp-nfc { bottom: 40px; left: calc(50% + 10px); width: 200px; transform:rotate(8deg); }
-            .hp-nfc-card { bottom: 180px; left: calc(50% - 190px); width: 170px; transform:rotate(-15deg); }
+            /* Ajustement Tablette - Très grand, très à gauche */
+            .hp-nfc { bottom: 0px; left: calc(50% - 280px); width: 260px; transform:rotate(-8deg); }
+            .hp-nfc-card { bottom: 120px; left: calc(50% - 380px); width: 200px; transform:rotate(-15deg); }
 
             .service-inner { grid-template-columns:1fr; gap:36px; }
             .service-inner.reverse { direction:ltr; }
@@ -448,9 +448,9 @@
             .hp-visual { height:260px; margin-top: 40px; }
             .main-hero-img { width: 105%; max-width: 500px; left: 50%; transform: translate(-50%, -50%); }
             
-            /* Ajustement Mobile Classique */
-            .hp-nfc { width: 150px; bottom: 20px; left: calc(50% + 10px); transform: rotate(8deg); }
-            .hp-nfc-card { width: 130px; bottom: 130px; left: calc(50% - 140px); top: auto; transform: rotate(-15deg); }
+            /* Ajustement Mobile Classique - TRÈS à gauche, énormes et abaissées */
+            .hp-nfc { width: 180px; bottom: -20px; left: calc(50% - 220px); transform: rotate(-8deg); }
+            .hp-nfc-card { width: 140px; bottom: 60px; left: calc(50% - 260px); top: auto; transform: rotate(-18deg); }
             
             .backlight-glow { width:300px; height:240px; }
             .hp-cta-group { flex-direction:column; align-items:center; }
@@ -517,8 +517,8 @@
             .hp-visual { height:200px; } 
             .main-hero-img { width:110%; }
             /* Ajustement Mobile Petit */
-            .hp-nfc { width: 120px; bottom: 10px; left: calc(50% + 5px); transform: rotate(8deg); }
-            .hp-nfc-card { width: 100px; bottom: 90px; left: calc(50% - 100px); transform: rotate(-15deg); }
+            .hp-nfc { width: 140px; bottom: -10px; left: calc(50% - 160px); transform: rotate(-6deg); }
+            .hp-nfc-card { width: 110px; bottom: 50px; left: calc(50% - 190px); transform: rotate(-15deg); }
         }
     </style>
 </head>
@@ -597,13 +597,13 @@
                 <!-- PANCARTE AVIS NFC -->
                 <img src="https://i.ibb.co/0y1GVsp6/plaue-nfc-KIND-DREAM-removebg-preview.png" class="hp-nfc" alt="Plaque NFC KingDream" loading="eager">
                 
-                <!-- CARTE DE VISITE NFC (Plus grande, glissée beaucoup plus à gauche) -->
+                <!-- CARTE DE VISITE NFC (Encore plus grande et totalement décalée à gauche) -->
                 <img src="https://i.ibb.co/wNDcpG2p/Adobe-Express-file-1.png" class="hp-nfc-card" alt="Carte de Visite NFC Transparente" loading="eager">
             </div>
         </div>
     </header>
 
-    <!-- SECTION MÉTHODE (Directement en dessous du Hero) -->
+    <!-- SECTION MÉTHODE -->
     <section id="notre-methode" class="bg-white-section">
         <div class="section-inner">
             <div class="section-label reveal">// L'Écosystème KingDream</div>
