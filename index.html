@@ -1590,7 +1590,15 @@ hero?.addEventListener("pointerleave",()=>{
   function setActive(i){
     active=i; paused=true;
     items.forEach((el,n)=>el.classList.toggle('touch-active',n===i));
-    render();
+    if(!mqMobile()){
+      const line=desktopBeam.parentElement;
+      const lr=line.getBoundingClientRect();
+      const node=items[i].querySelector('.scanner-node').getBoundingClientRect();
+      const x=node.left + node.width/2 - lr.left - desktopBeam.offsetWidth/2;
+      placeDesktop(x);
+    } else {
+      render();
+    }
   }
   function clearActive(){
     active=-1; paused=false; last=performance.now();
