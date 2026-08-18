@@ -1644,4 +1644,85 @@ hero?.addEventListener("pointerleave",()=>{
   requestAnimationFrame(tick);
 })();
 </script>
+
+<script id="mobile-scanner-final-runtime">
+(function(){
+  function initMobileScanner(){
+    if(window.innerWidth>760) return; // desktop untouched
+    const strip=document.querySelector('.scanner-strip');
+    const items=[...document.querySelectorAll('.scanner-item')];
+    const beam=document.querySelector('.scanner-single-beam');
+    const lines=document.querySelector('.scanner-mobile-lines');
+    const topLine=document.querySelector('.scanner-row-top');
+    const bottomLine=document.querySelector('.scanner-row-bottom');
+    if(!strip||items.length<4||!beam||!lines) return;
+
+    let phase=0;
+    let last=performance.now();
+    let pausedIndex=-1;
+    const speed=1.65; // faster sweep
+    const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+    function metrics(){
+      const sr=strip.getBoundingClientRect();
+      const ns=items.map(el=>el.querySelector('.scanner-node').getBoundingClientRect());
+      const pts=ns.map(r=>({x:r.left+r.width/2-sr.left,y:r.top+r.height/2-sr.top}));
+      return {sr,pts};
+    }
+    function place(x,y){
+      const w=beam.offsetWidth||40,h=beam.offsetHeight||18;
+      beam.style.left=(x-w/2)+'px';
+      beam.style.top=(y-h/2)+'px';
+    }
+    function render(){
+      if(window.innerWidth>760) return;
+      const {pts}=metrics();
+      if(pausedIndex>=0){ place(pts[pausedIndex].x,pts[pausedIndex].y); return; }
+      const left=pts[0].x, right=pts[1].x, top=(pts[0].y+pts[1].y)/2, bottom=(pts[2].y+pts[3].y)/2;
+      const span=Math.max(1,right-left);
+      const p=phase%4;
+      let x,y;
+      if(p<1){ const q=p; x=left+span*q; y=top; }
+      else if(p<2){ const q=p-1; x=right; y=top+(bottom-top)*q; }
+      else if(p<3){ const q=p-2; x=right-span*q; y=bottom; }
+      else { const q=p-3; x=left; y=bottom-(bottom-top)*q; }
+      if(topLine) topLine.style.top=top+'px';
+      if(bottomLine) bottomLine.style.top=bottom+'px';
+      place(x,y);
+    }
+    function tick(now){
+      const dt=Math.min(50,now-last)/1000; last=now;
+      if(pausedIndex<0){ phase=(phase+dt*speed)%4; render(); }
+      requestAnimationFrame(tick);
+    }
+    items.forEach((item,i)=>{
+      item.addEventListener('touchstart',e=>{
+        e.preventDefault();
+        pausedIndex=i;
+        items.forEach((el,n)=>el.classList.toggle('touch-active',n===i));
+        render();
+      },{passive:false});
+      item.addEventListener('click',()=>{
+        if(window.innerWidth<=760){
+          pausedIndex=(pausedIndex===i?-1:i);
+          items.forEach((el,n)=>el.classList.toggle('touch-active',n===pausedIndex));
+          render();
+        }
+      });
+    });
+    document.addEventListener('touchstart',e=>{
+      if(window.innerWidth<=760 && !e.target.closest('.scanner-item')){
+        pausedIndex=-1;
+        items.forEach(el=>el.classList.remove('touch-active'));
+      }
+    },{passive:true});
+    window.addEventListener('resize',()=>{ if(window.innerWidth<=760) render(); });
+    window.addEventListener('orientationchange',()=>setTimeout(render,200));
+    render();
+    requestAnimationFrame(tick);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>setTimeout(initMobileScanner,50));
+  else setTimeout(initMobileScanner,50);
+})();
+</script>
 </body></html>
