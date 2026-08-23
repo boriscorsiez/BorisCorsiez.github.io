@@ -1684,24 +1684,36 @@ IMPORTANT :
 1. Le bloc CSS/HTML/JS ci-dessous est autonome.
 2. Ajoute tout ce fichier juste avant </body> de ton site.
 3. Il ne remplace aucune partie de ton site.
-4. Pour les CGV B2C, renseigne le médiateur de la consommation
+4. Les mentions légales/CGU/CGV/confidentialité sont maintenant
+   dans une fenêtre (modal) ouverte via un petit bouton flottant
+   en bas de l'écran — elles ne s'affichent plus en dur sur la page.
+5. Pour les CGV B2C, renseigne le médiateur de la consommation
    avant de commencer les ventes aux particuliers.
-5. Le régime TVA doit être confirmé dans ton espace professionnel
+6. Le régime TVA doit être confirmé dans ton espace professionnel
    des impôts avant d'utiliser une mention TVA définitive.
 ============================================================ -->
 
 <style>
-#kd-legal{background:#0a0a0a;color:#e8e8e8;padding:70px 6vw;border-top:1px solid rgba(255,255,255,.1)}
-#kd-legal .kd-wrap{max-width:1100px;margin:auto}
-#kd-legal h2{font-size:clamp(30px,4vw,48px);margin:0 0 35px}
-#kd-legal h3{font-size:24px;margin:35px 0 12px;color:#fff}
-#kd-legal p,#kd-legal li{font-size:15px;line-height:1.75;color:#bdbdbd}
-#kd-legal ul{padding-left:22px}
-#kd-legal a{color:#fff;text-decoration:underline}
+/* ---- Bouton flottant "Mentions légales" ---- */
+#kd-legal-open{position:fixed;z-index:9998;right:15px;bottom:15px;background:#111;color:#fff;border:1px solid #555;border-radius:999px;padding:9px 14px;cursor:pointer;font:inherit;font-size:12px;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+#kd-legal-open:hover{border-color:#888}
+
+/* ---- Modal mentions légales ---- */
+#kd-legal-modal{display:none;position:fixed;z-index:100001;inset:0;background:rgba(0,0,0,.75);align-items:center;justify-content:center;padding:18px}
+#kd-legal-modal.open{display:flex}
+#kd-legal-modal .kd-legal-box{background:#0a0a0a;color:#e8e8e8;max-width:1100px;width:100%;max-height:85vh;overflow-y:auto;border-radius:18px;border:1px solid rgba(255,255,255,.12);padding:40px 6vw;position:relative;box-shadow:0 25px 70px rgba(0,0,0,.5)}
+#kd-legal-modal h2{font-size:clamp(26px,4vw,40px);margin:0 0 30px}
+#kd-legal-modal h3{font-size:22px;margin:30px 0 12px;color:#fff}
+#kd-legal-modal p,#kd-legal-modal li{font-size:14.5px;line-height:1.72;color:#bdbdbd}
+#kd-legal-modal ul{padding-left:22px}
+#kd-legal-modal a{color:#fff;text-decoration:underline}
 .kd-legal-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .kd-legal-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px}
 @media(max-width:700px){.kd-legal-grid{grid-template-columns:1fr}}
+#kd-legal-close{position:absolute;top:18px;right:18px;background:#1a1a1a;color:#fff;border:1px solid #444;border-radius:999px;width:36px;height:36px;font-size:16px;cursor:pointer;line-height:1}
+#kd-legal-close:hover{border-color:#888}
 
+/* ---- Bandeau cookies (inchangé) ---- */
 #kd-cookie-banner{position:fixed;z-index:99999;left:18px;right:18px;bottom:18px;background:#111;color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:22px;box-shadow:0 15px 50px rgba(0,0,0,.45);font-family:inherit}
 #kd-cookie-banner p{margin:0 0 16px;line-height:1.55;color:#ddd;font-size:14px}
 .kd-cookie-actions{display:flex;gap:10px;flex-wrap:wrap}
@@ -1716,8 +1728,14 @@ IMPORTANT :
 #kd-cookie-manage{position:fixed;z-index:9998;left:15px;bottom:15px;background:#111;color:#fff;border:1px solid #555;border-radius:999px;padding:9px 13px;cursor:pointer;font:inherit;font-size:12px}
 </style>
 
-<section id="kd-legal" aria-label="Informations légales">
-<div class="kd-wrap">
+<!-- Bouton flottant en bas à droite -->
+<button id="kd-legal-open" type="button">Mentions légales</button>
+
+<!-- Fenêtre modale contenant tout le contenu légal -->
+<div id="kd-legal-modal" aria-label="Informations légales" role="dialog" aria-modal="true">
+<div class="kd-legal-box">
+
+<button id="kd-legal-close" type="button" aria-label="Fermer">✕</button>
 
 <h2>Informations légales</h2>
 
@@ -1888,13 +1906,44 @@ cédés au client sont définis précisément dans le devis ou le contrat.
 
 </div>
 </div>
-</section>
+</div>
 
 
-<!-- ================= BANDEAU COOKIES ================= -->
+<!-- ================= BANDEAU COOKIES + OUVERTURE MODAL LÉGALE ================= -->
 
 <script>
 (function(){
+
+/* ---- Ouverture / fermeture de la fenêtre mentions légales ---- */
+const legalModal=document.getElementById('kd-legal-modal');
+const legalOpenBtn=document.getElementById('kd-legal-open');
+const legalCloseBtn=document.getElementById('kd-legal-close');
+
+function openLegal(){
+legalModal.classList.add('open');
+}
+function closeLegal(){
+legalModal.classList.remove('open');
+}
+
+legalOpenBtn.addEventListener('click',openLegal);
+legalCloseBtn.addEventListener('click',closeLegal);
+
+legalModal.addEventListener('click',function(e){
+if(e.target===legalModal) closeLegal();
+});
+
+document.addEventListener('keydown',function(e){
+if(e.key==='Escape') closeLegal();
+});
+
+window.KingDreamLegal={
+open:openLegal,
+close:closeLegal
+};
+
+
+/* ---- Cookies (inchangé) ---- */
 
 const STORAGE_KEY='kd_cookie_preferences_v1';
 const SIX_MONTHS=180*24*60*60*1000;
@@ -2124,7 +2173,7 @@ style="margin-right:8px"
 >
 
 J’ai pris connaissance de la
-<a href="#kd-legal" style="text-decoration:underline">
+<a href="#" id="kd-rgpd-link" style="text-decoration:underline">
 politique de confidentialité
 </a>
 et comprends que les informations envoyées sont utilisées pour traiter
@@ -2133,6 +2182,14 @@ ma demande.
 `;
 
 form.appendChild(row);
+
+const rgpdLink=row.querySelector('#kd-rgpd-link');
+if(rgpdLink){
+rgpdLink.addEventListener('click',function(e){
+e.preventDefault();
+openLegal();
+});
+}
 
 }
 
