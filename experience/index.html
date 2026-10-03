@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KingDream — Design • Web • Applications • Digital</title>
+<meta name="description" content="KingDream crée des expériences et des outils digitaux pour les entreprises : sites web, applications, logiciels, automatisation et solutions sur mesure.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#03050b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ NAVIGATION ============ -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav-logo" aria-label="KingDream — accueil"><img src="assets/kingdream-logo.png" alt="KingDream Digital"></a>
+  <nav class="nav-links" aria-label="Navigation principale">
+    <a href="#journey">Expérience</a>
+    <a href="#services">Services</a>
+    <a href="#videos">Vidéos</a>
+    <a href="#portfolio">Réalisations</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a href="#contact" class="btn btn-sm nav-cta"><span>Démarrer mon projet</span><i>→</i></a>
+  <button class="nav-burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span></button>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#journey">Expérience</a><a href="#services">Services</a><a href="#videos">Vidéos</a><a href="#portfolio">Réalisations</a><a href="#contact">Contact</a>
+  <a href="#contact" class="btn"><span>Démarrer mon projet</span><i>→</i></a>
+</div>
+
+<main id="top">
+
+<!-- ============ 1. LE PARCOURS : onde IA → icône → app → web → entreprise ============ -->
+<section class="journey" id="journey" aria-label="L'évolution d'un produit digital">
+  <div class="sticky" id="sticky">
+
+    <!-- Hero : le message, tout de suite -->
+    <div class="hero" id="hero">
+      <p class="eyebrow"><span class="dot"></span>Studio digital · France</p>
+      <h1 class="hero-title" aria-label="KingDream">
+        <span class="ht-line">KING<b>DREAM</b></span>
+      </h1>
+      <p class="hero-pillars">Design <i>•</i> Web <i>•</i> Applications <i>•</i> Digital</p>
+      <p class="hero-sub">Nous créons des expériences et des outils digitaux pour les entreprises.</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn"><span>Démarrer mon projet</span><i>→</i></a>
+        <a href="#portfolio" class="btn btn-ghost"><span>Voir nos réalisations</span></a>
+      </div>
+    </div>
+    <div class="scroll-hint" id="scrollHint"><span>Faites défiler</span><i></i></div>
+
+    <!-- Légendes de chaque transformation -->
+    <div class="captions">
+      <article class="cap" data-cap="0">
+        <p class="cap-k">01 — L'onde</p>
+        <h2>Tout commence<br>par une idée.</h2>
+        <p>Une intuition, un besoin, une vision. Nous l'écoutons, la structurons et lui donnons une forme.</p>
+        <ul class="tags"><li>Stratégie</li><li>IA</li><li>Conseil</li></ul>
+      </article>
+      <article class="cap" data-cap="1">
+        <p class="cap-k">02 — L'identité</p>
+        <h2>L'idée prend<br>une forme.</h2>
+        <p>Logo, icône, direction artistique : un univers visuel fort, reconnaissable au premier regard.</p>
+        <ul class="tags"><li>Design</li><li>UI</li><li>Branding</li></ul>
+      </article>
+      <article class="cap" data-cap="2">
+        <p class="cap-k">03 — L'application</p>
+        <h2>Une app<br>qu'on a envie d'ouvrir.</h2>
+        <p>Applications mobiles fluides et intuitives. <em>Touchez l'écran : elle est interactive.</em></p>
+        <ul class="tags"><li>iOS</li><li>Android</li><li>UX</li></ul>
+      </article>
+      <article class="cap" data-cap="3">
+        <p class="cap-k">04 — Le web</p>
+        <h2>Le même produit,<br>sur grand écran.</h2>
+        <p>Sites vitrines, plateformes et applications web rapides, responsive et pensées pour convertir.</p>
+        <ul class="tags"><li>Sites web</li><li>Web apps</li><li>SEO</li></ul>
+      </article>
+      <article class="cap" data-cap="4">
+        <p class="cap-k">05 — L'entreprise</p>
+        <h2>Toute votre activité,<br>connectée.</h2>
+        <p>Logiciels métiers, dashboards, automatisations et infrastructure : vos outils travaillent ensemble.</p>
+        <ul class="tags"><li>Logiciels</li><li>Automatisation</li><li>Cloud</li></ul>
+      </article>
+    </div>
+
+    <!-- Rail de progression -->
+    <ol class="rail" id="rail" aria-hidden="true">
+      <li><i></i><span>Onde</span></li>
+      <li><i></i><span>Icône</span></li>
+      <li><i></i><span>App</span></li>
+      <li><i></i><span>Web</span></li>
+      <li><i></i><span>Entreprise</span></li>
+    </ol>
+
+    <!-- Liens entreprise -->
+    <svg class="links" id="links" aria-hidden="true"></svg>
+
+    <!-- LE produit qui évolue -->
+    <div class="device" id="device">
+      <div class="screen" id="screen">
+
+        <!-- Icône -->
+        <div class="scr scr-icon" data-w="200" data-h="200">
+          <div class="app-icon">
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <defs><linearGradient id="ig" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#bfe9ff"/></linearGradient></defs>
+              <path d="M18 54 C 28 30, 36 30, 44 50 S 60 74, 70 46 S 80 30, 84 40" fill="none" stroke="url(#ig)" stroke-width="7" stroke-linecap="round"/>
+              <circle cx="84" cy="40" r="5" fill="#fff"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Application mobile (interactive) -->
+        <div class="scr scr-app" data-w="320" data-h="660">
+          <div class="app">
+            <div class="app-status"><span>9:41</span><span class="app-isl"></span><span>●●● ▮</span></div>
+            <div class="app-views">
+              <!-- Accueil -->
+              <section class="app-view is-on" data-view="home">
+                <div class="app-head">
+                  <div><p class="muted">Bonsoir,</p><h3>Julie ✦</h3></div>
+                  <div class="avatar">J</div>
+                </div>
+                <div class="app-card">
+                  <p class="muted-l">Votre réservation</p>
+                  <h4>Ce soir · 20:30</h4>
+                  <p>Maison Olivier · 4 personnes</p>
+                  <div class="app-card-row"><span class="pill">Confirmée</span><span class="app-wave"></span></div>
+                </div>
+                <div class="chips"><button class="chip is-on">Menu</button><button class="chip">Vins</button><button class="chip">Desserts</button></div>
+                <ul class="app-list">
+                  <li><span class="thumb t1"></span><div><b>Risotto truffe</b><small>Plat signature</small></div><button class="add" aria-label="Ajouter">+</button></li>
+                  <li><span class="thumb t2"></span><div><b>Saint-Pierre</b><small>Beurre blanc yuzu</small></div><button class="add" aria-label="Ajouter">+</button></li>
+                  <li><span class="thumb t3"></span><div><b>Soufflé chocolat</b><small>Grand cru 70%</small></div><button class="add" aria-label="Ajouter">+</button></li>
+                </ul>
+              </section>
+              <!-- Réserver -->
+              <section class="app-view" data-view="book">
+                <div class="app-head"><div><p class="muted">Nouvelle</p><h3>Réservation</h3></div></div>
+                <p class="app-label">Date</p>
+                <div class="dates">
+                  <button class="date is-on"><small>VEN</small><b>17</b></button><button class="date"><small>SAM</small><b>18</b></button><button class="date"><small>DIM</small><b>19</b></button><button class="date"><small>MAR</small><b>21</b></button>
+                </div>
+                <p class="app-label">Heure</p>
+                <div class="slots">
+                  <button class="slot">19:00</button><button class="slot">19:30</button><button class="slot is-on">20:00</button><button class="slot">20:30</button><button class="slot">21:00</button><button class="slot is-off">21:30</button>
+                </div>
+                <p class="app-label">Couverts</p>
+                <div class="stepper"><button data-step="-1" aria-label="Moins">−</button><b id="covers">2</b><button data-step="1" aria-label="Plus">+</button></div>
+                <button class="app-cta" id="bookBtn">Confirmer la table</button>
+              </section>
+              <!-- Fidélité -->
+              <section class="app-view" data-view="club">
+                <div class="app-head"><div><p class="muted">Club</p><h3>Fidélité</h3></div></div>
+                <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="ring-bg"/><circle cx="60" cy="60" r="50" class="ring-fg" id="ringFg"/></svg><div><b id="pts">740</b><small>/ 1000 pts</small></div></div>
+                <p class="center muted">Plus que 260 points avant votre dîner offert.</p>
+                <label class="toggle"><span>Notifications offres</span><input type="checkbox" checked><i></i></label>
+                <label class="toggle"><span>Rappel de réservation</span><input type="checkbox"><i></i></label>
+              </section>
+            </div>
+            <div class="toast" id="toast">Table réservée ✓</div>
+            <nav class="tabbar">
+              <button class="tab is-on" data-tab="home"><span>⌂</span>Accueil</button>
+              <button class="tab" data-tab="book"><span>◷</span>Réserver</button>
+              <button class="tab" data-tab="club"><span>✦</span>Fidélité</button>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Interface web -->
+        <div class="scr scr-web" data-w="1040" data-h="640">
+          <div class="web">
+            <div class="web-bar"><i></i><i></i><i></i><span class="web-url">🔒 app.maison-olivier.fr/reservations</span></div>
+            <div class="web-body">
+              <aside class="web-side">
+                <div class="web-brand"><span class="mini-icon"></span>Maison Olivier</div>
+                <a class="is-on">◷ Réservations</a><a>⌂ Tableau de bord</a><a>☰ Menu</a><a>☺ Clients</a><a>✉ Campagnes</a>
+                <div class="web-side-card"><small>Ce soir</small><b>92%</b><span>de remplissage</span></div>
+              </aside>
+              <div class="web-main">
+                <div class="web-top"><div><small class="muted">Vendredi 17</small><h3>Réservations du soir</h3></div><button class="web-btn">+ Nouvelle</button></div>
+                <div class="kpis">
+                  <div><small>Couverts</small><b>86</b><em>+12%</em></div>
+                  <div><small>Remplissage</small><b>92%</b><em>+8%</em></div>
+                  <div><small>CA estimé</small><b>4 280 €</b><em>+15%</em></div>
+                  <div><small>Avis</small><b>4.9 ★</b><em>312 avis</em></div>
+                </div>
+                <div class="web-grid">
+                  <div class="floor">
+                    <p class="web-h">Plan de salle <small>cliquez une table</small></p>
+                    <div class="tables" id="tables"></div>
+                  </div>
+                  <div class="timeline">
+                    <p class="web-h">Arrivées</p>
+                    <ul>
+                      <li><b>19:30</b><span>Martin · 2</span><em class="s-ok">Arrivé</em></li>
+                      <li><b>20:00</b><span>Dubois · 6</span><em class="s-ok">Arrivé</em></li>
+                      <li><b>20:30</b><span>Julie R. · 4</span><em class="s-wait">Confirmé</em></li>
+                      <li><b>20:45</b><span>Nguyen · 3</span><em class="s-wait">Confirmé</em></li>
+                      <li><b>21:00</b><span>Laurent · 2</span><em class="s-new">Nouveau</em></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard entreprise -->
+        <div class="scr scr-dash" data-w="1080" data-h="660">
+          <div class="dash">
+            <div class="dash-top">
+              <div class="web-brand"><span class="mini-icon"></span>Groupe Olivier <small>· Pilotage</small></div>
+              <div class="dash-live"><i></i>Temps réel · 3 établissements</div>
+            </div>
+            <div class="dash-kpis">
+              <div><small>Chiffre d'affaires</small><b data-count="186420">186 420 €</b><em>+21% vs N-1</em></div>
+              <div><small>Réservations</small><b data-count="4812">4 812</b><em>+34%</em></div>
+              <div><small>Tâches automatisées</small><b data-count="12940">12 940</b><em>≈ 210 h gagnées</em></div>
+              <div><small>Disponibilité</small><b>99,98%</b><em>Infra cloud</em></div>
+            </div>
+            <div class="dash-grid">
+              <div class="panel chart">
+                <p class="web-h">Activité — 12 mois</p>
+                <svg viewBox="0 0 500 180" preserveAspectRatio="none" class="area">
+                  <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#38e1ff" stop-opacity=".55"/><stop offset="1" stop-color="#38e1ff" stop-opacity="0"/></linearGradient></defs>
+                  <path class="area-fill" d="M0 150 C40 140 60 120 90 124 S150 90 190 96 S250 70 290 74 S350 40 390 46 S450 20 500 14 L500 180 L0 180Z" fill="url(#ag)"/>
+                  <path class="area-line" d="M0 150 C40 140 60 120 90 124 S150 90 190 96 S250 70 290 74 S350 40 390 46 S450 20 500 14" fill="none" stroke="#38e1ff" stroke-width="2.5"/>
+                  <path d="M0 165 C60 160 100 150 150 152 S240 130 300 128 S400 110 500 96" fill="none" stroke="#8b5cff" stroke-width="2" stroke-dasharray="4 5"/>
+                </svg>
+              </div>
+              <div class="panel flow">
+                <p class="web-h">Automatisation</p>
+                <ol class="flow-steps">
+                  <li><i>⚡</i>Nouvelle réservation</li>
+                  <li><i>✉</i>SMS de confirmation</li>
+                  <li><i>☺</i>Fiche client CRM</li>
+                  <li><i>€</i>Facture générée</li>
+                  <li><i>✓</i>Comptabilité synchronisée</li>
+                </ol>
+              </div>
+              <div class="panel sites">
+                <p class="web-h">Établissements</p>
+                <ul>
+                  <li><span>Lyon</span><b style="--v:.92"></b><em>92%</em></li>
+                  <li><span>Aix</span><b style="--v:.78"></b><em>78%</em></li>
+                  <li><span>Marseille</span><b style="--v:.86"></b><em>86%</em></li>
+                </ul>
+              </div>
+              <div class="panel infra">
+                <p class="web-h">Infrastructure</p>
+                <ul><li><i class="ok"></i>API</li><li><i class="ok"></i>Base de données</li><li><i class="ok"></i>Paiements</li><li><i class="ok"></i>Sauvegardes</li></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="laptop-base" id="base"><span></span></div>
+
+    <!-- Modules autour de l'entreprise -->
+    <div class="sat" data-sat="0"><i>☺</i><b>CRM</b><small>12 480 contacts</small></div>
+    <div class="sat" data-sat="1"><i>€</i><b>Facturation</b><small>Auto · 0 retard</small></div>
+    <div class="sat" data-sat="2"><i>⚡</i><b>Automatisation</b><small>38 scénarios actifs</small></div>
+    <div class="sat" data-sat="3"><i>⌘</i><b>API</b><small>Stripe · Google · ERP</small></div>
+    <div class="sat" data-sat="4"><i>☁</i><b>Cloud</b><small>Sécurisé · RGPD</small></div>
+    <div class="sat" data-sat="5"><i>◔</i><b>Analytics</b><small>Décisions en temps réel</small></div>
+
+  </div>
+</section>
+
+<!-- ============ 2. SERVICES ============ -->
+<section class="services" id="services">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow"><span class="dot"></span>Ce que nous créons</p>
+      <h2 class="sec-title">De l'idée<br><span class="grad">à l'outil qui travaille.</span></h2>
+      <p class="sec-sub">Un seul studio pour le design, le développement et l'intelligence de vos outils digitaux.</p>
+    </header>
+    <ol class="svc" id="svc">
+      <li class="svc-row reveal">
+        <span class="svc-n">01</span>
+        <h3>Création de sites web</h3>
+        <div class="svc-more"><div><p>Sites vitrines, landing pages et sites d'entreprise premium. Rapides, responsive, optimisés pour Google et pensés pour transformer vos visiteurs en clients.</p><ul class="tags"><li>Site vitrine</li><li>Refonte</li><li>SEO</li><li>E-commerce</li></ul></div></div>
+        <span class="svc-arrow">↗</span>
+      </li>
+      <li class="svc-row reveal">
+        <span class="svc-n">02</span>
+        <h3>Applications</h3>
+        <div class="svc-more"><div><p>Applications mobiles et web sur mesure : réservation, fidélité, espace client, outils internes. Une expérience fluide sur iPhone, Android et navigateur.</p><ul class="tags"><li>iOS & Android</li><li>Web app</li><li>UX / UI</li></ul></div></div>
+        <span class="svc-arrow">↗</span>
+      </li>
+      <li class="svc-row reveal">
+        <span class="svc-n">03</span>
+        <h3>Logiciels</h3>
+        <div class="svc-more"><div><p>Logiciels métiers adaptés à votre façon de travailler : back-office, CRM, devis & facturation, planning, tableaux de bord.</p><ul class="tags"><li>Back-office</li><li>CRM</li><li>Dashboard</li></ul></div></div>
+        <span class="svc-arrow">↗</span>
+      </li>
+      <li class="svc-row reveal">
+        <span class="svc-n">04</span>
+        <h3>Automatisation</h3>
+        <div class="svc-more"><div><p>Nous connectons vos outils et automatisons les tâches répétitives : e-mails, relances, documents, synchronisations, IA. Vous gagnez des heures chaque semaine.</p><ul class="tags"><li>Workflows</li><li>IA</li><li>API</li></ul></div></div>
+        <span class="svc-arrow">↗</span>
+      </li>
+      <li class="svc-row reveal">
+        <span class="svc-n">05</span>
+        <h3>Solutions sur mesure</h3>
+        <div class="svc-more"><div><p>Un besoin unique ? Nous concevons la solution digitale complète, de la stratégie à l'infrastructure, et nous l'accompagnons dans le temps.</p><ul class="tags"><li>Conseil</li><li>Infrastructure</li><li>Accompagnement</li></ul></div></div>
+        <span class="svc-arrow">↗</span>
+      </li>
+    </ol>
+  </div>
+  <div class="marquee" aria-hidden="true"><div class="marquee-track"><span>Design</span><i>✦</i><span>Web</span><i>✦</i><span>Applications</span><i>✦</i><span>Logiciels</span><i>✦</i><span>Automatisation</span><i>✦</i><span>Digital</span><i>✦</i><span>Design</span><i>✦</i><span>Web</span><i>✦</i><span>Applications</span><i>✦</i><span>Logiciels</span><i>✦</i><span>Automatisation</span><i>✦</i><span>Digital</span><i>✦</i></div></div>
+</section>
+
+<!-- ============ 3. VIDÉOS ============ -->
+<section class="videos" id="videos">
+  <div class="videos-pin">
+    <div class="wrap videos-grid">
+      <header class="videos-copy">
+        <p class="eyebrow"><span class="dot"></span>Démonstrations</p>
+        <h2 class="sec-title">Nos projets,<br><span class="grad">en mouvement.</span></h2>
+        <p class="sec-sub">De vrais projets, filmés tels que vos clients les vivent : sur ordinateur et sur mobile.</p>
+        <ol class="vlist" id="vlist"></ol>
+        <button class="btn btn-ghost" id="vPlay"><span>▶ Regarder en plein écran</span></button>
+      </header>
+      <div class="vstage" id="vstage">
+        <div class="v-laptop">
+          <div class="v-lid"><div class="v-screen" id="vScreen"></div></div>
+          <div class="v-base"></div>
+        </div>
+        <div class="v-phone"><div class="v-phone-screen" id="vPhone"></div></div>
+        <div class="v-badge" id="vBadge"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. PORTFOLIO ============ -->
+<section class="portfolio" id="portfolio">
+  <div class="pf-sticky">
+    <div class="pf-head">
+      <p class="eyebrow"><span class="dot"></span>Réalisations</p>
+      <p class="pf-count"><b id="pfNow">01</b> / <span id="pfTotal">05</span></p>
+    </div>
+    <div class="pf-track" id="pfTrack"></div>
+    <div class="pf-bar"><i id="pfBar"></i></div>
+  </div>
+</section>
+
+<!-- ============ 5. MANIFESTE ============ -->
+<section class="finale" id="finale">
+  <div class="finale-sticky">
+    <div class="finale-lines">
+      <p class="fl" data-fl="0">UNE IDÉE.</p>
+      <p class="fl" data-fl="1">UNE VISION.</p>
+      <p class="fl" data-fl="2">UNE EXPÉRIENCE <span class="grad">DIGITALE.</span></p>
+    </div>
+    <div class="finale-brand" id="finaleBrand">
+      <p class="fb-name">KING<b>DREAM</b></p>
+      <p class="fb-sub">Créons quelque chose d'exceptionnel.</p>
+      <a href="#contact" class="btn btn-xl"><span>Démarrer mon projet</span><i>→</i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <div class="contact-copy reveal">
+      <p class="eyebrow"><span class="dot"></span>Contact</p>
+      <h2 class="sec-title">Parlons de<br><span class="grad">votre projet.</span></h2>
+      <p class="sec-sub">Racontez-nous votre idée. Nous revenons vers vous sous 24 h pour en discuter, sans engagement.</p>
+      <ul class="coords">
+        <li><small>Téléphone</small><a href="tel:+33627205597">06 27 20 55 97</a></li>
+        <li><small>E-mail</small><a href="mailto:contact@kingdream.fr">contact@kingdream.fr</a></li>
+        <li><small>Studio</small><span>La Brillanne · Alpes-de-Haute-Provence<br><em>Rendez-vous sur place ou à distance partout en France</em></span></li>
+      </ul>
+    </div>
+    <form class="form reveal" id="form">
+      <p class="form-k">Votre projet concerne</p>
+      <div class="ptypes" id="ptypes">
+        <button type="button" class="is-on">Site web</button><button type="button">Application</button><button type="button">Logiciel</button><button type="button">Automatisation</button><button type="button">Sur mesure</button>
+      </div>
+      <label class="field"><input name="name" required placeholder=" "><span>Nom / entreprise</span></label>
+      <label class="field"><input name="email" type="email" required placeholder=" "><span>E-mail</span></label>
+      <label class="field"><textarea name="msg" rows="4" required placeholder=" "></textarea><span>Votre idée en quelques mots</span></label>
+      <button class="btn btn-full" type="submit"><span>Démarrer mon projet</span><i>→</i></button>
+      <p class="form-note">Votre demande s'ouvre dans votre messagerie, prête à être envoyée.</p>
+    </form>
+  </div>
+  <footer class="foot wrap">
+    <img src="assets/kingdream-logo.png" alt="KingDream Digital">
+    <p>© <span id="year"></span> KingDream Digital · Design • Web • Applications • Digital</p>
+    <a href="../">Mentions légales</a>
+  </footer>
+</section>
+
+</main>
+
+<!-- Lecteur vidéo plein écran -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-close" id="lbClose" aria-label="Fermer">✕</button>
+  <div class="lb-inner" id="lbInner"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
