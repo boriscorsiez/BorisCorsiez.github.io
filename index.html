@@ -925,9 +925,88 @@ body.intro{overflow:hidden}
 body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
 @media (prefers-reduced-motion:reduce){#intro{display:none}}
 .fstat{font-size:14px;margin-top:16px;color:var(--ink2)}.fstat.err{color:#e30000}
-[data-kd-rgpd]{color:var(--ink2)!important;font-size:13px!important;margin:18px 0 0!important}
-[data-kd-rgpd] a{color:var(--link)}
-#kd-legal-open{display:none!important}
+
+/* ======== CONSENT / LEGAL / COOKIES ======== */
+.consent{display:flex;gap:12px;align-items:flex-start;margin-top:22px;font-size:14px;line-height:1.45;color:var(--ink2);cursor:pointer}
+.consent input{position:absolute;opacity:0;pointer-events:none}
+.consent .cbox{flex:none;width:22px;height:22px;border-radius:7px;box-shadow:inset 0 0 0 1.5px var(--line);display:grid;place-items:center;transition:background .2s,box-shadow .2s;margin-top:-1px}
+.consent .cbox svg{width:12px;height:12px;stroke:#fff;opacity:0;transform:scale(.5);transition:opacity .2s,transform .35s var(--spring)}
+.consent input:checked+.cbox{background:var(--blue);box-shadow:none}
+.consent input:checked+.cbox svg{opacity:1;transform:none}
+.consent input:focus-visible+.cbox{box-shadow:inset 0 0 0 1.5px var(--blue),0 0 0 4px rgba(0,125,250,.3)}
+.consent a{color:var(--link)}
+.ck-banner{position:fixed;z-index:9000;left:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));width:min(420px,calc(100% - 40px));display:flex;gap:16px;align-items:flex-start;padding:20px 22px;border-radius:24px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 0 0 1px rgba(0,0,0,.06),0 30px 60px -20px rgba(0,0,0,.3);transform:translateY(140%);transition:transform .8s var(--spring)}
+.ck-banner.show{transform:none}
+.ck-banner[hidden]{display:flex!important;visibility:hidden}
+.ck-banner.show{visibility:visible}
+.ck-ic{flex:none;width:40px;height:40px;border-radius:12px;background:#fff4d6;color:#c8891b;display:grid;place-items:center}
+.ck-ic svg{width:24px;height:24px}
+.ck-body b{font-size:17px;letter-spacing:-.02em}
+.ck-body p{font-size:14px;line-height:1.45;color:var(--ink2);margin-top:4px}
+.ck-acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px}
+.ck-btn{font-size:14px;font-weight:500;padding:9px 16px;border-radius:99px;background:#e8e8ed;color:var(--ink);transition:background .2s,transform .3s var(--spring)}
+.ck-btn:hover{background:#dcdce1;transform:translateY(-1px)}
+.ck-btn.pri{background:var(--blue);color:#fff}.ck-btn.pri:hover{background:var(--blue-h)}
+.ck-link{font-size:14px;color:var(--link);padding:9px 6px}.ck-link:hover{text-decoration:underline}
+.ck-btn:focus-visible,.ck-link:focus-visible,.lg-tabs button:focus-visible,.lg-close:focus-visible{outline:none;box-shadow:0 0 0 4px rgba(0,125,250,.5)}
+.lg{position:fixed;inset:0;z-index:9500;display:grid;place-items:center;padding:24px;background:rgba(0,0,0,.42);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s}
+.lg[hidden]{display:grid!important}
+.lg.open{opacity:1;visibility:visible}
+.lg-panel{position:relative;width:min(1040px,100%);height:min(720px,calc(100vh - 48px));background:#fff;border-radius:32px;display:grid;grid-template-columns:300px 1fr;overflow:hidden;transform:translateY(40px) scale(.98);transition:transform .6s var(--ease)}
+.lg.open .lg-panel{transform:none}
+.lg-close{position:absolute;top:18px;right:18px;z-index:3;width:36px;height:36px;border-radius:50%;background:#e8e8ed;display:grid;place-items:center}
+.lg-close svg{width:13px;height:13px;stroke:var(--ink2)}
+.lg-side{background:var(--alt);padding:36px 24px;display:flex;flex-direction:column}
+.lg-logo{height:30px;width:auto;align-self:flex-start}
+.lg-side h2{font-size:28px;line-height:1.1;letter-spacing:-.03em;font-weight:700;margin-top:28px}
+.lg-date{font-size:13px;color:var(--ink3);margin-top:6px}
+.lg-tabs{display:flex;flex-direction:column;gap:4px;margin-top:28px}
+.lg-tabs button{text-align:left;font-size:15px;font-weight:500;padding:11px 14px;border-radius:12px;color:var(--ink2);transition:background .2s,color .2s}
+.lg-tabs button:hover{color:var(--ink)}
+.lg-tabs button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.lg-panel>*{min-width:0}
+.lg-main{overflow-y:auto;overflow-x:hidden;padding:48px 56px 56px;-webkit-overflow-scrolling:touch}
+.lg-sec{display:none;max-width:640px}
+.lg-sec.on{display:block;animation:paneIn .5s var(--ease)}
+.lg-sec h3{font-size:36px;line-height:1.08;letter-spacing:-.03em;font-weight:700}
+.lg-sec p{font-size:16px;line-height:1.6;color:var(--ink2);margin-top:16px}
+.lg-lead{font-size:17px!important;color:var(--ink)!important}
+.lg-dl{margin-top:26px;border-top:1px solid #e8e8ed}
+.lg-dl div{display:grid;grid-template-columns:200px 1fr;gap:20px;padding:15px 0;border-bottom:1px solid #e8e8ed}
+.lg-dl dt{font-size:14px;font-weight:600;color:var(--ink)}
+.lg-dl dd{font-size:15px;line-height:1.5;color:var(--ink2)}
+.lg-dl a,.lg-sec a{color:var(--link)}
+.lg-ol{list-style:none;counter-reset:c;margin-top:22px;display:grid;gap:12px}
+.lg-ol li{counter-increment:c;position:relative;padding:18px 20px 18px 58px;border-radius:18px;background:var(--alt);font-size:15px;line-height:1.55;color:var(--ink2)}
+.lg-ol li::before{content:counter(c);position:absolute;left:18px;top:17px;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px;font-weight:700;display:grid;place-items:center}
+.lg-ol b{color:var(--ink)}
+.ck-list{margin-top:24px;border-radius:20px;background:var(--alt);padding:4px 20px}
+.ck-row{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px 0;border-bottom:1px solid #e3e3e8}
+.ck-row:last-child{border:0}
+.ck-row b{font-size:16px}
+.ck-row small{display:block;font-size:13.5px;color:var(--ink2);margin-top:2px}
+.sw{position:relative;flex:none;width:51px;height:31px;cursor:pointer}
+.sw input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.sw i{position:absolute;inset:0;border-radius:16px;background:#e3e3e8;transition:background .3s}
+.sw i::after{content:"";position:absolute;left:2px;top:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.08);transition:transform .35s var(--spring)}
+.sw input:checked+i{background:#34c759}
+.sw input:checked+i::after{transform:translateX(20px)}
+.sw input:disabled+i{opacity:.55}
+.sw input:focus-visible+i{box-shadow:0 0 0 4px rgba(0,125,250,.35)}
+.ck-saved{font-size:14px!important;color:#1a7f37!important;min-height:1em}
+@media (max-width:760px){
+  .lg{padding:0;place-items:end center}
+  .lg-panel{grid-template-columns:1fr;grid-template-rows:auto 1fr;height:calc(100% - 40px);border-radius:28px 28px 0 0}
+  .lg-side{padding:24px 20px 12px}
+  .lg-side h2{font-size:24px;margin-top:16px}.lg-logo{height:24px}
+  .lg-tabs{flex-direction:row;overflow-x:auto;margin:16px -20px 0;padding:0 20px 4px;scrollbar-width:none}
+  .lg-tabs::-webkit-scrollbar{display:none}
+  .lg-tabs button{flex:none;white-space:nowrap;padding:9px 14px;border-radius:99px;font-size:14px}
+  .lg-main{padding:24px 20px 40px}
+  .lg-sec h3{font-size:28px}
+  .lg-dl div{grid-template-columns:1fr;gap:4px}
+  .ck-banner{left:12px;width:calc(100% - 24px);bottom:calc(12px + env(safe-area-inset-bottom,0px));padding:18px}
+}
 </style>
 </head>
 <body>
@@ -1207,6 +1286,7 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
           <div class="field"><input id="fp" name="telephone" type="tel" placeholder=" " autocomplete="tel"><label for="fp">Téléphone (facultatif)</label></div>
           <div class="field full"><textarea id="fm" name="message" placeholder=" " required></textarea><label for="fm">Votre projet en quelques mots</label></div>
         </div>
+        <label class="consent"><input type="checkbox" id="fConsent"><span class="cbox"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>J'accepte que mes informations soient utilisées pour répondre à ma demande, comme décrit dans la <a href="#" data-legal="privacy">politique de confidentialité</a>.</span></label>
         <p class="fstat" id="fStat" aria-live="polite"></p>
         <div class="form-foot"><small>Vos informations servent uniquement à répondre à votre demande. Elles ne sont jamais revendues.</small><button class="btn btn-lg" type="submit">Envoyer ma demande</button></div>
       </div>
@@ -1232,9 +1312,101 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
       <div><h4>KingDream</h4><a href="#pourquoi">Pourquoi nous</a><a href="#realisations">Réalisations</a><a href="#methode">Notre méthode</a></div>
       <div><h4>Contact</h4><a href="#contact">Parlons de votre projet</a><a href="mailto:contact@kingdream-digital.fr">contact@kingdream-digital.fr</a><a href="tel:+33627205597">06 27 20 55 97</a></div>
     </div>
-    <div class="fbot"><span>Copyright © 2026 KingDream Digital. Tous droits réservés.</span><nav><a href="#" data-legal>Mentions légales</a><a href="#" data-legal>Confidentialité</a><a href="#" data-cookies>Gérer les cookies</a></nav><img src="assets/kingdream-logo.png" alt="KingDream Digital"></div>
+    <div class="fbot"><span>Copyright © 2026 KingDream Digital. Tous droits réservés.</span><nav><a href="#" data-legal="mentions">Mentions légales</a><a href="#" data-legal="privacy">Confidentialité</a><a href="#" data-legal="cgv">CGV</a><a href="#" data-legal="cookies">Gérer les cookies</a></nav><img src="assets/kingdream-logo.png" alt="KingDream Digital"></div>
   </div>
 </footer>
+
+<!-- ================= COOKIES ================= -->
+<div class="ck-banner" id="ckBanner" role="dialog" aria-live="polite" aria-label="Cookies" hidden>
+  <div class="ck-ic"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10 4 4 0 01-5-5 4 4 0 01-5-5z" fill="currentColor"/><circle cx="8" cy="10" r="1.4" fill="#fff"/><circle cx="14.5" cy="15" r="1.4" fill="#fff"/><circle cx="9" cy="16" r="1" fill="#fff"/></svg></div>
+  <div class="ck-body">
+    <b>Des cookies, juste ce qu'il faut.</b>
+    <p>Nous n'utilisons que les traceurs nécessaires au fonctionnement du site. Aucun suivi publicitaire sans votre accord.</p>
+    <div class="ck-acts"><button class="ck-btn pri" id="ckAccept">Tout accepter</button><button class="ck-btn" id="ckRefuse">Refuser</button><button class="ck-link" id="ckCustom">Personnaliser</button></div>
+  </div>
+</div>
+
+<!-- ================= LEGAL ================= -->
+<div class="lg" id="legal" role="dialog" aria-modal="true" aria-labelledby="lgTitle" hidden>
+  <div class="lg-panel">
+    <button class="lg-close" id="lgClose" aria-label="Fermer"><svg viewBox="0 0 14 14"><path d="M2 2l10 10M12 2L2 12" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+    <aside class="lg-side">
+      <img src="assets/kingdream-logo.png" alt="KingDream Digital" class="lg-logo">
+      <h2 id="lgTitle">Informations légales</h2>
+      <p class="lg-date">Mises à jour le 3 octobre 2026</p>
+      <nav class="lg-tabs" role="tablist">
+        <button data-t="mentions" class="on">Mentions légales</button>
+        <button data-t="privacy">Confidentialité</button>
+        <button data-t="cookies">Cookies</button>
+        <button data-t="cgu">CGU</button>
+        <button data-t="cgv">CGV</button>
+        <button data-t="pi">Propriété intellectuelle</button>
+      </nav>
+    </aside>
+    <div class="lg-main">
+      <section class="lg-sec on" data-t="mentions">
+        <h3>Mentions légales</h3>
+        <p class="lg-lead">Éditeur du site : Corsiez Boris, entrepreneur individuel sous le régime de la micro-entreprise, exerçant sous le nom commercial KingDream Digital.</p>
+        <dl class="lg-dl">
+          <div><dt>Nom commercial</dt><dd>KingDream Digital</dd></div>
+          <div><dt>Statut</dt><dd>Entrepreneur individuel (micro-entreprise)</dd></div>
+          <div><dt>SIRET</dt><dd>102 486 677 00010</dd></div>
+          <div><dt>SIREN</dt><dd>102 486 677</dd></div>
+          <div><dt>Siège</dt><dd>26 rue de la Liberté<br>04700 La Brillanne, France</dd></div>
+          <div><dt>Téléphone</dt><dd><a href="tel:+33627205597">06 27 20 55 97</a></dd></div>
+          <div><dt>E-mail</dt><dd><a href="mailto:contact@kingdream-digital.fr">contact@kingdream-digital.fr</a></dd></div>
+          <div><dt>Directeur de la publication</dt><dd>Corsiez Boris</dd></div>
+          <div><dt>Hébergeur</dt><dd>GitHub, Inc. (GitHub Pages)<br>88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis</dd></div>
+          <div><dt>TVA</dt><dd>Si le régime de franchise en base est applicable à l'entreprise, les factures portent la mention légale de non-application de TVA correspondante.</dd></div>
+        </dl>
+      </section>
+      <section class="lg-sec" data-t="privacy">
+        <h3>Politique de confidentialité</h3>
+        <dl class="lg-dl">
+          <div><dt>Responsable du traitement</dt><dd>Corsiez Boris / KingDream Digital</dd></div>
+          <div><dt>Données collectées</dt><dd>Via le formulaire de contact : nom, entreprise, e-mail, téléphone et contenu du message lorsqu'ils sont renseignés.</dd></div>
+          <div><dt>Finalité</dt><dd>Répondre aux demandes et assurer les échanges commerciaux.</dd></div>
+          <div><dt>Base légale</dt><dd>Mesures précontractuelles lorsque la demande concerne une prestation, exécution du contrat lorsqu'un client est engagé, ou intérêt légitime pour la gestion courante des échanges, selon le cas.</dd></div>
+          <div><dt>Conservation</dt><dd>Les demandes commerciales sont conservées pendant une durée maximale de 3 ans à compter du dernier contact, sauf obligation légale ou nécessité de conservation plus longue pour la défense des droits. Les données de facturation et de comptabilité sont conservées pendant les durées légales applicables.</dd></div>
+          <div><dt>Sous-traitant d'envoi</dt><dd>Les messages du formulaire sont transmis par le service EmailJS.</dd></div>
+          <div><dt>Vos droits</dt><dd>Accès, rectification, effacement, limitation, opposition et, lorsque applicable, portabilité. Pour les exercer : <a href="mailto:contact@kingdream-digital.fr">contact@kingdream-digital.fr</a>. Vous pouvez également saisir la CNIL.</dd></div>
+        </dl>
+      </section>
+      <section class="lg-sec" data-t="cookies">
+        <h3>Cookies</h3>
+        <p class="lg-lead">Le site utilise uniquement les traceurs strictement nécessaires à son fonctionnement et au maintien de vos préférences. Aucun outil de mesure d'audience, publicité ou suivi non nécessaire n'est activé sans consentement préalable. Vos choix sont conservés pendant 6 mois et modifiables à tout moment ici.</p>
+        <div class="ck-list">
+          <div class="ck-row"><div><b>Nécessaires</b><small>Fonctionnement du site et mémorisation de vos choix. Toujours actifs.</small></div><label class="sw"><input type="checkbox" checked disabled><i></i></label></div>
+          <div class="ck-row"><div><b>Mesure d'audience</b><small>Statistiques anonymes de fréquentation. Aucun outil installé actuellement.</small></div><label class="sw"><input type="checkbox" id="ckAna"><i></i></label></div>
+          <div class="ck-row"><div><b>Marketing</b><small>Publicité et réseaux sociaux. Aucun outil installé actuellement.</small></div><label class="sw"><input type="checkbox" id="ckMkt"><i></i></label></div>
+        </div>
+        <div class="ck-acts"><button class="ck-btn pri" id="ckSave">Enregistrer mes choix</button><button class="ck-btn" id="ckAll">Tout accepter</button></div>
+        <p class="ck-saved" id="ckSaved" aria-live="polite"></p>
+      </section>
+      <section class="lg-sec" data-t="cgu">
+        <h3>Conditions générales d'utilisation</h3>
+        <p>L'accès au site est proposé à titre informatif. L'utilisateur s'engage à utiliser le site conformément aux lois et règlements applicables et à ne pas porter atteinte à son fonctionnement, à sa sécurité ou aux droits de tiers.</p>
+        <p>Les contenus du site, notamment textes, éléments graphiques, logos, visuels, code et identité KingDream Digital, sont protégés par les règles applicables de propriété intellectuelle. Toute reproduction ou réutilisation non autorisée est interdite.</p>
+      </section>
+      <section class="lg-sec" data-t="cgv">
+        <h3>Conditions générales de vente</h3>
+        <ol class="lg-ol">
+          <li><b>Prestations.</b> Les prestations proposées peuvent notamment comprendre la création, refonte, maintenance et optimisation de sites web, ainsi que les services numériques présentés sur le site. Les prestations, prix, délais et livrables sont précisés dans le devis ou la commande acceptée.</li>
+          <li><b>Commande et paiement.</b> La commande devient ferme selon les conditions indiquées au devis. Le paiement, les acomptes, les échéances et les éventuels frais sont ceux prévus dans le devis ou la facture.</li>
+          <li><b>Livrables.</b> Les livrables sont fournis conformément au périmètre convenu. Toute demande supplémentaire ou modification hors périmètre peut faire l'objet d'une facturation complémentaire après accord.</li>
+          <li><b>Consommateurs.</b> Les clients consommateurs bénéficient des droits impératifs prévus par la loi, notamment ceux relatifs au droit de rétractation lorsqu'il est applicable. Lorsqu'une prestation est exécutée avant la fin du délai de rétractation à la demande expresse du consommateur, les règles légales applicables à cette situation s'appliquent.</li>
+          <li><b>Litiges.</b> En cas de litige, le client consommateur doit d'abord adresser une réclamation écrite à KingDream Digital. Il peut ensuite recourir gratuitement au médiateur de la consommation compétent, après avoir effectué une réclamation préalable, conformément aux conditions légales.</li>
+          <li><b>Médiateur de la consommation.</b> À compléter avant les ventes B2C : nom, adresse et coordonnées du médiateur de la consommation auquel l'entreprise a adhéré.</li>
+        </ol>
+      </section>
+      <section class="lg-sec" data-t="pi">
+        <h3>Propriété intellectuelle</h3>
+        <p>Sauf stipulation contraire du devis ou du contrat, les éléments, méthodes, composants, outils, modèles, bibliothèques et savoir-faire préexistants de KingDream Digital restent sa propriété. Les droits éventuellement cédés au client sont définis précisément dans le devis ou le contrat.</p>
+        <p>Crédits photographiques : Unsplash.</p>
+      </section>
+    </div>
+  </div>
+</div>
 
 <a href="#contact" class="fcta" id="fcta">Parlons de votre projet</a>
 
@@ -1449,13 +1621,37 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
   const fcta = $('#fcta'), contact = $('#contact');
   addEventListener('scroll', () => { const c = contact.getBoundingClientRect().top; fcta.classList.toggle('show', scrollY > innerHeight * .9 && c > innerHeight * .8); }, { passive: true });
 
-  /* legal links + RGPD placement (legal block is loaded at the end of the page) */
-  addEventListener('load', () => {
-    const row = document.querySelector('#form [data-kd-rgpd]'), foot = document.querySelector('#form .form-foot');
-    if (row && foot) foot.parentNode.insertBefore(row, $('#fStat'));
-    $$('[data-legal]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); const b = document.getElementById('kd-legal-open'); if (b) b.click(); }));
-    $$('[data-cookies]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); const b = document.getElementById('kd-cookie-manage'); if (b) b.click(); }));
-  });
+  /* ======== COOKIES + LEGAL ======== */
+  (function () {
+    const KEY = 'kd_cookie_preferences_v1', SIX = 182 * 864e5;
+    const read = () => { try { const v = JSON.parse(localStorage.getItem(KEY)); return v && v.expires > Date.now() ? v.prefs : null; } catch (e) { return null; } };
+    const write = prefs => { try { localStorage.setItem(KEY, JSON.stringify({ prefs, expires: Date.now() + SIX })); } catch (e) {} };
+    const banner = $('#ckBanner'), lg = $('#legal'), ana = $('#ckAna'), mkt = $('#ckMkt');
+    const prefs = read();
+    if (prefs) { ana.checked = !!prefs.analytics; mkt.checked = !!prefs.marketing; }
+    function hideBanner() { banner.classList.remove('show'); setTimeout(() => banner.hidden = true, 800); }
+    function save(p, msg) { write(p); ana.checked = p.analytics; mkt.checked = p.marketing; hideBanner(); if (msg) { $('#ckSaved').textContent = msg; setTimeout(() => $('#ckSaved').textContent = '', 2600); } }
+    if (!prefs) {
+      const show = () => { banner.hidden = false; requestAnimationFrame(() => requestAnimationFrame(() => banner.classList.add('show'))); };
+      const wait = () => document.getElementById('intro') ? setTimeout(wait, 400) : setTimeout(show, 900);
+      wait();
+    }
+    $('#ckAccept').addEventListener('click', () => save({ necessary: true, analytics: true, marketing: true }));
+    $('#ckRefuse').addEventListener('click', () => save({ necessary: true, analytics: false, marketing: false }));
+    $('#ckCustom').addEventListener('click', () => openLegal('cookies'));
+    $('#ckSave').addEventListener('click', () => save({ necessary: true, analytics: ana.checked, marketing: mkt.checked }, 'Vos choix sont enregistrés.'));
+    $('#ckAll').addEventListener('click', () => save({ necessary: true, analytics: true, marketing: true }, 'Tous les cookies sont acceptés.'));
+    // legal sheet
+    const tabs = $$('.lg-tabs button'), secs = $$('.lg-sec'); let last;
+    function tab(t) { tabs.forEach(b => b.classList.toggle('on', b.dataset.t === t)); secs.forEach(x => x.classList.toggle('on', x.dataset.t === t)); $('.lg-main').scrollTop = 0; }
+    function openLegal(t) { last = document.activeElement; tab(t || 'mentions'); lg.hidden = false; requestAnimationFrame(() => lg.classList.add('open')); document.body.style.overflow = 'hidden'; $('#lgClose').focus(); }
+    function closeLegal() { lg.classList.remove('open'); document.body.style.overflow = ''; setTimeout(() => lg.hidden = true, 400); if (last) last.focus(); }
+    tabs.forEach(b => b.addEventListener('click', () => tab(b.dataset.t)));
+    $('#lgClose').addEventListener('click', closeLegal);
+    lg.addEventListener('click', e => { if (e.target === lg) closeLegal(); });
+    addEventListener('keydown', e => { if (e.key === 'Escape' && lg.classList.contains('open')) closeLegal(); });
+    $$('[data-legal]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openLegal(a.dataset.legal); }));
+  })();
 
   /* form */
   const form = $('#form');
@@ -1467,7 +1663,7 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
       f.parentNode.classList.toggle('err', bad);
       if (bad && !first) first = f;
     });
-    const rg = form.querySelector('[data-kd-rgpd] input');
+    const rg = $('#fConsent');
     if (!first && rg && !rg.checked) { rg.focus(); $('#fStat').textContent = 'Merci de cocher la case de confidentialité pour envoyer votre demande.'; $('#fStat').className = 'fstat err'; return; }
     if (first) { first.focus(); return; }
     const btn = form.querySelector('button[type=submit]'), stat = $('#fStat');
@@ -1488,542 +1684,7 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>try{emailjs.init({publicKey:"rKyne3AoYIx6m0qUs"});}catch(e){}</script>
-<!-- ============================================================
-KINGDREAM DIGITAL — AJOUTS LÉGAUX / RGPD / COOKIES
-À AJOUTER À TON SITE SANS MODIFIER TON CODE EXISTANT
 
-Informations :
-- Corsiez Boris
-- Micro-entreprise / entrepreneur individuel
-- KingDream Digital
-- SIRET : 102 486 677 00010
-- SIREN : 102 486 677
-- 26 rue de la Liberté, 04700 La Brillanne, France
-- 06 27 20 55 97
-- contact@kingdream-digital.fr
-- Directeur de publication : Corsiez Boris
-- Hébergeur : o2switch
-- Clients : particuliers et professionnels
-
-IMPORTANT :
-1. Le bloc CSS/HTML/JS ci-dessous est autonome.
-2. Ajoute tout ce fichier juste avant </body> de ton site.
-3. Il ne remplace aucune partie de ton site.
-4. Les mentions légales/CGU/CGV/confidentialité sont maintenant
-   dans une fenêtre (modal) ouverte via un petit bouton flottant
-   en bas de l'écran — elles ne s'affichent plus en dur sur la page.
-5. Pour les CGV B2C, renseigne le médiateur de la consommation
-   avant de commencer les ventes aux particuliers.
-6. Le régime TVA doit être confirmé dans ton espace professionnel
-   des impôts avant d'utiliser une mention TVA définitive.
-============================================================ -->
-
-<style>
-/* ---- Bouton flottant "Mentions légales" ---- */
-#kd-legal-open{position:fixed;z-index:9998;right:15px;bottom:15px;background:#111;color:#fff;border:1px solid #555;border-radius:999px;padding:9px 14px;cursor:pointer;font:inherit;font-size:12px;box-shadow:0 8px 22px rgba(0,0,0,.35)}
-#kd-legal-open:hover{border-color:#888}
-
-/* ---- Modal mentions légales ---- */
-#kd-legal-modal{display:none;position:fixed;z-index:100001;inset:0;background:rgba(0,0,0,.75);align-items:center;justify-content:center;padding:18px}
-#kd-legal-modal.open{display:flex}
-#kd-legal-modal .kd-legal-box{background:#0a0a0a;color:#e8e8e8;max-width:1100px;width:100%;max-height:85vh;overflow-y:auto;border-radius:18px;border:1px solid rgba(255,255,255,.12);padding:40px 6vw;position:relative;box-shadow:0 25px 70px rgba(0,0,0,.5)}
-#kd-legal-modal h2{font-size:clamp(26px,4vw,40px);margin:0 0 30px}
-#kd-legal-modal h3{font-size:22px;margin:30px 0 12px;color:#fff}
-#kd-legal-modal p,#kd-legal-modal li{font-size:14.5px;line-height:1.72;color:#bdbdbd}
-#kd-legal-modal ul{padding-left:22px}
-#kd-legal-modal a{color:#fff;text-decoration:underline}
-.kd-legal-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-.kd-legal-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px}
-@media(max-width:700px){.kd-legal-grid{grid-template-columns:1fr}}
-#kd-legal-close{position:absolute;top:18px;right:18px;background:#1a1a1a;color:#fff;border:1px solid #444;border-radius:999px;width:36px;height:36px;font-size:16px;cursor:pointer;line-height:1}
-#kd-legal-close:hover{border-color:#888}
-
-/* ---- Bandeau cookies (inchangé) ---- */
-#kd-cookie-banner{position:fixed;z-index:99999;left:18px;right:18px;bottom:18px;background:#111;color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:22px;box-shadow:0 15px 50px rgba(0,0,0,.45);font-family:inherit}
-#kd-cookie-banner p{margin:0 0 16px;line-height:1.55;color:#ddd;font-size:14px}
-.kd-cookie-actions{display:flex;gap:10px;flex-wrap:wrap}
-.kd-cookie-actions button{border:1px solid rgba(255,255,255,.25);background:#222;color:#fff;padding:11px 16px;border-radius:10px;cursor:pointer;font-weight:700}
-.kd-cookie-actions button.primary{background:#fff;color:#000}
-
-#kd-cookie-settings{display:none;position:fixed;z-index:100000;inset:0;background:rgba(0,0,0,.72);align-items:center;justify-content:center;padding:18px}
-#kd-cookie-settings .box{max-width:620px;width:100%;background:#111;color:#fff;border:1px solid #333;border-radius:18px;padding:26px}
-.kd-cookie-row{display:flex;justify-content:space-between;gap:20px;padding:15px 0;border-bottom:1px solid #292929}
-.kd-cookie-row small{display:block;color:#aaa;margin-top:4px}
-#kd-cookie-settings input{accent-color:#fff}
-#kd-cookie-manage{position:fixed;z-index:9998;left:15px;bottom:15px;background:#111;color:#fff;border:1px solid #555;border-radius:999px;padding:9px 13px;cursor:pointer;font:inherit;font-size:12px}
-</style>
-
-<!-- Bouton flottant en bas à droite -->
-<button id="kd-legal-open" type="button">Mentions légales</button>
-
-<!-- Fenêtre modale contenant tout le contenu légal -->
-<div id="kd-legal-modal" aria-label="Informations légales" role="dialog" aria-modal="true">
-<div class="kd-legal-box">
-
-<button id="kd-legal-close" type="button" aria-label="Fermer">✕</button>
-
-<h2>Informations légales</h2>
-
-<div class="kd-legal-grid">
-
-<div class="kd-legal-card">
-<h3>Mentions légales</h3>
-
-<p><strong>Éditeur du site :</strong> Corsiez Boris, entrepreneur individuel sous le régime de la micro-entreprise, exerçant sous le nom commercial KingDream Digital.</p>
-
-<p>
-<strong>SIRET :</strong> 102 486 677 00010<br>
-<strong>SIREN :</strong> 102 486 677<br>
-<strong>Siège :</strong> 26 rue de la Liberté, 04700 La Brillanne, France<br>
-<strong>Téléphone :</strong> 06 27 20 55 97<br>
-<strong>E-mail :</strong>
-<a href="mailto:contact@kingdream-digital.fr">contact@kingdream-digital.fr</a><br>
-<strong>Directeur de la publication :</strong> Corsiez Boris
-</p>
-
-<p>
-<strong>Hébergeur :</strong> o2switch,
-Chemin des Pardiaux, 63000 Clermont-Ferrand, France.
-</p>
-
-<p>
-<strong>TVA :</strong> si le régime de franchise en base est applicable
-à l'entreprise, les factures portent la mention légale de non-application
-de TVA correspondante.
-</p>
-</div>
-
-
-<div class="kd-legal-card">
-<h3>Politique de confidentialité</h3>
-
-<p><strong>Responsable du traitement :</strong> Corsiez Boris / KingDream Digital.</p>
-
-<p>
-Les données communiquées via le formulaire de contact
-(nom, entreprise, e-mail, téléphone et contenu du message lorsqu'ils
-sont renseignés) sont utilisées pour répondre aux demandes et assurer
-les échanges commerciaux.
-</p>
-
-<p>
-<strong>Base légale :</strong> mesures précontractuelles lorsque la demande
-concerne une prestation, exécution du contrat lorsqu'un client est engagé,
-ou intérêt légitime pour la gestion courante des échanges, selon le cas.
-</p>
-
-<p>
-<strong>Conservation :</strong> les demandes commerciales sont conservées
-pendant une durée maximale de 3 ans à compter du dernier contact,
-sauf obligation légale ou nécessité de conservation plus longue pour
-la défense des droits. Les données de facturation et de comptabilité
-sont conservées pendant les durées légales applicables.
-</p>
-
-<p>
-Vous disposez des droits d'accès, rectification, effacement, limitation,
-opposition et, lorsque applicable, portabilité.
-Pour exercer vos droits :
-<a href="mailto:contact@kingdream-digital.fr">contact@kingdream-digital.fr</a>.
-Vous pouvez également saisir la CNIL.
-</p>
-</div>
-
-
-<div class="kd-legal-card">
-<h3>Politique cookies</h3>
-
-<p>
-Le site utilise uniquement les traceurs strictement nécessaires à son
-fonctionnement et au maintien de vos préférences. Aucun outil de mesure
-d'audience, publicité ou suivi non nécessaire n'est activé par ce code
-sans consentement préalable.
-</p>
-
-<p>
-Lorsqu'un traceur nécessitant un consentement est ajouté ultérieurement
-(analytics, publicité, réseaux sociaux, etc.), il doit être bloqué avant
-consentement et intégré au mécanisme de gestion ci-dessous.
-</p>
-
-<p>
-Les choix cookies sont conservés localement pendant 6 mois.
-Vous pouvez les modifier à tout moment avec le bouton
-« Gérer mes cookies ».
-</p>
-</div>
-
-
-<div class="kd-legal-card">
-<h3>CGU — Conditions générales d'utilisation</h3>
-
-<p>
-L'accès au site est proposé à titre informatif. L'utilisateur s'engage
-à utiliser le site conformément aux lois et règlements applicables et
-à ne pas porter atteinte à son fonctionnement, à sa sécurité ou aux
-droits de tiers.
-</p>
-
-<p>
-Les contenus du site, notamment textes, éléments graphiques, logos,
-visuels, code et identité KingDream Digital, sont protégés par les règles
-applicables de propriété intellectuelle. Toute reproduction ou
-réutilisation non autorisée est interdite.
-</p>
-</div>
-
-
-<div class="kd-legal-card">
-<h3>CGV — Conditions générales de vente</h3>
-
-<p>
-Les prestations proposées peuvent notamment comprendre la création,
-refonte, maintenance et optimisation de sites web, ainsi que les services
-numériques présentés sur le site. Les prestations, prix, délais et livrables
-sont précisés dans le devis ou la commande acceptée.
-</p>
-
-<p>
-La commande devient ferme selon les conditions indiquées au devis.
-Le paiement, les acomptes, les échéances et les éventuels frais sont ceux
-prévus dans le devis ou la facture.
-</p>
-
-<p>
-Les livrables sont fournis conformément au périmètre convenu.
-Toute demande supplémentaire ou modification hors périmètre peut faire
-l'objet d'une facturation complémentaire après accord.
-</p>
-
-<p>
-Les clients consommateurs bénéficient des droits impératifs prévus par
-la loi, notamment ceux relatifs au droit de rétractation lorsqu'il est
-applicable. Lorsqu'une prestation est exécutée avant la fin du délai
-de rétractation à la demande expresse du consommateur, les règles légales
-applicables à cette situation s'appliquent.
-</p>
-
-<p>
-En cas de litige, le client consommateur doit d'abord adresser une
-réclamation écrite à KingDream Digital. Il peut ensuite recourir
-gratuitement au médiateur de la consommation compétent, après avoir
-effectué une réclamation préalable, conformément aux conditions légales.
-</p>
-
-<p>
-<strong>À compléter avant les ventes B2C :</strong>
-indiquer ici le nom, l'adresse et les coordonnées du médiateur de la
-consommation auquel l'entreprise a adhéré.
-</p>
-</div>
-
-
-<div class="kd-legal-card">
-<h3>Propriété intellectuelle</h3>
-
-<p>
-Sauf stipulation contraire du devis ou du contrat, les éléments, méthodes,
-composants, outils, modèles, bibliothèques et savoir-faire préexistants
-de KingDream Digital restent sa propriété. Les droits éventuellement
-cédés au client sont définis précisément dans le devis ou le contrat.
-</p>
-</div>
-
-</div>
-</div>
-</div>
-
-
-<!-- ================= BANDEAU COOKIES + OUVERTURE MODAL LÉGALE ================= -->
-
-<script>
-(function(){
-
-/* ---- Ouverture / fermeture de la fenêtre mentions légales ---- */
-const legalModal=document.getElementById('kd-legal-modal');
-const legalOpenBtn=document.getElementById('kd-legal-open');
-const legalCloseBtn=document.getElementById('kd-legal-close');
-
-function openLegal(){
-legalModal.classList.add('open');
-}
-function closeLegal(){
-legalModal.classList.remove('open');
-}
-
-legalOpenBtn.addEventListener('click',openLegal);
-legalCloseBtn.addEventListener('click',closeLegal);
-
-legalModal.addEventListener('click',function(e){
-if(e.target===legalModal) closeLegal();
-});
-
-document.addEventListener('keydown',function(e){
-if(e.key==='Escape') closeLegal();
-});
-
-window.KingDreamLegal={
-open:openLegal,
-close:closeLegal
-};
-
-
-/* ---- Cookies (inchangé) ---- */
-
-const STORAGE_KEY='kd_cookie_preferences_v1';
-const SIX_MONTHS=180*24*60*60*1000;
-
-function savePrefs(prefs){
-
-localStorage.setItem(
-STORAGE_KEY,
-JSON.stringify({
-prefs:prefs,
-expires:Date.now()+SIX_MONTHS
-})
-);
-
-const banner=document.getElementById('kd-cookie-banner');
-if(banner) banner.remove();
-
-const settings=document.getElementById('kd-cookie-settings');
-if(settings) settings.style.display='none';
-
-}
-
-function getPrefs(){
-
-try{
-
-const data=JSON.parse(
-localStorage.getItem(STORAGE_KEY)||'null'
-);
-
-if(data && data.expires>Date.now()){
-return data.prefs;
-}
-
-localStorage.removeItem(STORAGE_KEY);
-
-}catch(e){}
-
-return null;
-
-}
-
-function showSettings(){
-
-const settings=document.getElementById('kd-cookie-settings');
-
-if(settings){
-settings.style.display='flex';
-}
-
-}
-
-window.KingDreamCookies={
-open:showSettings
-};
-
-const prefs=getPrefs();
-
-if(!prefs){
-
-const banner=document.createElement('div');
-
-banner.id='kd-cookie-banner';
-
-banner.innerHTML=`
-<p>
-<strong>Votre confidentialité compte.</strong><br>
-Nous utilisons les cookies strictement nécessaires au fonctionnement
-du site. Aucun traceur non essentiel n'est activé sans votre consentement.
-Vous pouvez accepter ou refuser aussi facilement et modifier votre choix
-à tout moment.
-</p>
-
-<div class="kd-cookie-actions">
-
-<button class="primary" id="kd-accept">
-Tout accepter
-</button>
-
-<button id="kd-refuse">
-Tout refuser
-</button>
-
-<button id="kd-custom">
-Personnaliser
-</button>
-
-</div>
-`;
-
-document.body.appendChild(banner);
-
-banner.querySelector('#kd-accept').onclick=()=>savePrefs({
-necessary:true,
-analytics:true,
-marketing:true
-});
-
-banner.querySelector('#kd-refuse').onclick=()=>savePrefs({
-necessary:true,
-analytics:false,
-marketing:false
-});
-
-banner.querySelector('#kd-custom').onclick=showSettings;
-
-}
-
-
-const settings=document.createElement('div');
-
-settings.id='kd-cookie-settings';
-
-settings.innerHTML=`
-
-<div class="box">
-
-<h2>Gérer mes cookies</h2>
-
-<p>
-Les cookies nécessaires sont indispensables au fonctionnement du site.
-Les autres catégories restent désactivées par défaut.
-</p>
-
-<div class="kd-cookie-row">
-
-<div>
-<strong>Cookies nécessaires</strong>
-<small>Fonctionnement et sécurité du site.</small>
-</div>
-
-<input type="checkbox" checked disabled>
-
-</div>
-
-
-<div class="kd-cookie-row">
-
-<div>
-<strong>Mesure d’audience</strong>
-<small>
-Désactivée par défaut. Aucun outil d'analyse n'est activé dans cette version.
-</small>
-</div>
-
-<input id="kd-analytics" type="checkbox">
-
-</div>
-
-
-<div class="kd-cookie-row">
-
-<div>
-<strong>Publicité / marketing</strong>
-<small>Désactivée par défaut.</small>
-</div>
-
-<input id="kd-marketing" type="checkbox">
-
-</div>
-
-
-<div class="kd-cookie-actions" style="margin-top:20px">
-
-<button id="kd-save" class="primary">
-Enregistrer mes choix
-</button>
-
-<button id="kd-close">
-Annuler
-</button>
-
-</div>
-
-</div>
-`;
-
-document.body.appendChild(settings);
-
-settings.querySelector('#kd-save').onclick=()=>savePrefs({
-
-necessary:true,
-
-analytics:
-settings.querySelector('#kd-analytics').checked,
-
-marketing:
-settings.querySelector('#kd-marketing').checked
-
-});
-
-settings.querySelector('#kd-close').onclick=()=>{
-settings.style.display='none';
-};
-
-
-const manage=document.createElement('button');
-
-manage.id='kd-cookie-manage';
-
-manage.textContent='Gérer mes cookies';
-
-manage.onclick=showSettings;
-
-document.body.appendChild(manage);
-
-
-/* ================= AJOUT RGPD AU FORMULAIRE ================= */
-
-const form=document.querySelector('form');
-
-if(form && !form.querySelector('[data-kd-rgpd]')){
-
-const row=document.createElement('label');
-
-row.setAttribute('data-kd-rgpd','');
-
-row.style.cssText=
-'display:block;margin:12px 0;font-size:12px;line-height:1.5;color:#aaa';
-
-row.innerHTML=`
-
-<input
-type="checkbox"
-required
-style="margin-right:8px"
->
-
-J’ai pris connaissance de la
-<a href="#" id="kd-rgpd-link" style="text-decoration:underline">
-politique de confidentialité
-</a>
-et comprends que les informations envoyées sont utilisées pour traiter
-ma demande.
-
-`;
-
-form.appendChild(row);
-
-const rgpdLink=row.querySelector('#kd-rgpd-link');
-if(rgpdLink){
-rgpdLink.addEventListener('click',function(e){
-e.preventDefault();
-openLegal();
-});
-}
-
-}
-
-})();
-</script>
-
-<!-- ============================================================
-FIN DES AJOUTS
-============================================================ -->
 
 
 
