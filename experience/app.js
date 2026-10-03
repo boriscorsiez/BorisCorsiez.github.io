@@ -1,61 +1,56 @@
 /* =========================================================
-   KINGDREAM — moteur de l'expérience
-   Le scroll pilote tout : un seul produit évolue
-   onde IA → icône → application → web → entreprise.
+   KINGDREAM — moteur de l'expérience (v2)
+   Le scroll pilote tout : une même forme évolue
+   onde → icône → application → web → entreprise.
    ========================================================= */
 (() => {
 'use strict';
 
 /* ---------------------------------------------------------
-   CONFIGURATION — vos vidéos
+   CONFIGURATION : vos vidéos
    Déposez vos fichiers dans experience/videos/ avec ces noms
    (ou changez les chemins). Tant qu'un fichier est absent,
-   une démo animée du projet est affichée à la place.
+   une démo animée du projet s'affiche à la place.
    --------------------------------------------------------- */
 const VIDEOS = [
-  { title: 'Maison Olivier', kind: 'Site restaurant · réservation', site: 'olivier',
+  { title: 'Maison Olivier', kind: 'Site restaurant et réservation', site: 'olivier',
     desktop: 'videos/projet-1-desktop.mp4', mobile: 'videos/projet-1-mobile.mp4', poster: '' },
-  { title: 'Batir.pro', kind: 'Site entreprise BTP · devis', site: 'batir',
+  { title: 'Batir.pro', kind: 'Site entreprise BTP et devis', site: 'batir',
     desktop: 'videos/projet-2-desktop.mp4', mobile: 'videos/projet-2-mobile.mp4', poster: '' },
-  { title: 'Atelier Nacre', kind: 'Institut beauté · prise de RDV', site: 'nacre',
+  { title: 'Atelier Nacre', kind: 'Institut beauté et prise de RDV', site: 'nacre',
     desktop: 'videos/projet-3-desktop.mp4', mobile: 'videos/projet-3-mobile.mp4', poster: '' },
 ];
 
-/* Réalisations */
+/* Réalisations : couleurs de fond et de texte propres à chaque projet */
 const PROJECTS = [
   { id: 'olivier', name: 'Maison Olivier', cat: 'Restaurant gastronomique', url: 'maison-olivier.fr',
     desc: 'Une identité chaleureuse, une carte mise en scène et un parcours pensé pour donner envie de réserver.',
-    type: 'Site vitrine + réservation', deliv: 'Identité · menu · galerie',
-    accent: '#e8c27a', bg: '#100c08', glow: 'rgba(232,194,122,.45)' },
+    type: 'Site vitrine et réservation', deliv: 'Identité, menu, galerie', bg: '#EDE6DA', fg: '#2A2118' },
   { id: 'batir', name: 'Batir.pro', cat: 'Entreprise BTP', url: 'batir-pro.fr',
     desc: 'Des chantiers exigeants, une équipe locale et une approche claire, du premier devis à la livraison.',
-    type: 'Site entreprise + devis', deliv: 'Preuves · réalisations · devis',
-    accent: '#ffb21a', bg: '#0d0c09', glow: 'rgba(255,178,26,.4)' },
-  { id: 'nacre', name: 'Atelier Nacre', cat: 'Institut beauté & bien-être', url: 'atelier-nacre.fr',
+    type: 'Site entreprise et devis', deliv: 'Preuves, réalisations, devis', bg: '#EFEADF', fg: '#17181C' },
+  { id: 'nacre', name: 'Atelier Nacre', cat: 'Institut beauté et bien-être', url: 'atelier-nacre.fr',
     desc: 'Une expérience douce et premium qui présente les soins, l’expertise et la réservation en quelques secondes.',
-    type: 'Site + prise de RDV', deliv: 'Image de marque · soins · tarifs',
-    accent: '#f0b3ad', bg: '#120a0c', glow: 'rgba(240,179,173,.4)' },
-  { id: 'volt', name: 'Volt 24/7', cat: 'Électricien · dépannage', url: 'volt-urgence.fr',
+    type: 'Site et prise de rendez-vous', deliv: 'Image de marque, soins, tarifs', bg: '#F4E8E4', fg: '#4A2F32' },
+  { id: 'volt', name: 'Volt 24/7', cat: 'Électricien, dépannage', url: 'volt-urgence.fr',
     desc: 'Un site direct et rassurant qui transforme une urgence ou un projet de travaux en appel immédiat.',
-    type: 'Site de conversion', deliv: 'Urgence · services · appel direct',
-    accent: '#ffe14d', bg: '#070b18', glow: 'rgba(255,225,77,.35)' },
-  { id: 'morel', name: 'Lucas Morel', cat: 'Photographe · mode & campagnes', url: 'lucas-morel.photo',
+    type: 'Site de conversion', deliv: 'Urgence, services, appel direct', bg: '#F2EFDC', fg: '#16150F' },
+  { id: 'morel', name: 'Lucas Morel', cat: 'Photographe mode et campagnes', url: 'lucas-morel.photo',
     desc: 'Un portfolio éditorial qui laisse les images parler, avec une navigation minimaliste et une forte direction artistique.',
-    type: 'Portfolio éditorial', deliv: 'Galerie · éditorial · DA',
-    accent: '#e6e6e6', bg: '#080808', glow: 'rgba(255,255,255,.22)' },
+    type: 'Portfolio éditorial', deliv: 'Galerie, éditorial, direction artistique', bg: '#E9E9E6', fg: '#111111' },
 ];
 
 const MINI = {
   olivier: `<div class="mini-site ms-olivier"><div class="ms-nav"><span class="ms-logo">MAISON OLIVIER</span><nav><span>La carte</span><span>Notre histoire</span><span>Galerie</span></nav><span class="ms-btn">RÉSERVER</span></div><div class="ms-hero"><div><p class="ms-k">Restaurant • Cuisine contemporaine</p><h4>Le goût<br>du vrai.</h4><p>Une carte de saison, des produits d'exception et une table où l'on prend le temps.</p></div><div class="ms-img"><div class="ms-tag"><small>MENU DU SOIR</small><b>48 €</b></div></div></div><div class="ms-row"><div></div><div></div><div></div></div></div>`,
   batir: `<div class="mini-site ms-batir"><div class="ms-nav"><span class="ms-logo">BATIR<span>.PRO</span></span><nav><span>Réalisations</span><span>Expertise</span><span>À propos</span></nav><span class="ms-btn">DEVIS GRATUIT</span></div><div class="ms-hero"><div><p class="ms-k">Construction • Rénovation</p><h4>Construire<br>pour durer.</h4><p>Une équipe locale, des chantiers maîtrisés, un interlocuteur unique.</p><div class="ms-stats"><div><b>25+</b><span>ans d'expérience</span></div><div><b>180</b><span>projets livrés</span></div><div><b>4.9</b><span>avis clients</span></div></div></div><div class="ms-img"></div></div><div class="ms-row"><div></div><div></div><div></div></div></div>`,
   nacre: `<div class="mini-site ms-nacre"><div class="ms-nav"><span class="ms-logo">Atelier Nacre</span><nav><span>Soins</span><span>Le studio</span><span>Tarifs</span></nav><span class="ms-btn">PRENDRE RDV</span></div><div class="ms-hero"><div><p class="ms-k">Institut • Beauté & bien-être</p><h4>Votre moment<br>de beauté.</h4><p>Des soins sur mesure dans un cocon pensé pour vous.</p></div><div class="ms-img"></div></div><div class="ms-row"><div></div><div></div><div></div></div></div>`,
-  volt: `<div class="mini-site ms-volt"><div class="ms-nav"><span class="ms-logo">VOLT <span>24/7</span></span><nav><span>Services</span><span>Installations</span><span>Entreprise</span></nav><span class="ms-btn">06 12 34 56 78</span></div><div class="ms-hero"><div><p class="ms-k">Électricien • Dépannage & installation</p><h4>L'électricité<br><span>sans stress.</span></h4><p>Intervention 24 h/24 · 7 j/7. Un appel, on arrive.</p></div><div class="ms-img">⚡</div></div><div class="ms-row"><div></div><div></div><div></div></div></div>`,
+  volt: `<div class="mini-site ms-volt"><div class="ms-nav"><span class="ms-logo">VOLT <span>24/7</span></span><nav><span>Services</span><span>Installations</span><span>Entreprise</span></nav><span class="ms-btn">06 12 34 56 78</span></div><div class="ms-hero"><div><p class="ms-k">Électricien • Dépannage & installation</p><h4>L'électricité<br><span>sans stress.</span></h4><p>Intervention 24 h/24, 7 j/7. Un appel, on arrive.</p></div><div class="ms-img"></div></div><div class="ms-row"><div></div><div></div><div></div></div></div>`,
   morel: `<div class="mini-site ms-morel"><div class="ms-nav"><span class="ms-logo">LUCAS MOREL</span><nav><span>Portfolio</span><span>Éditorial</span><span>À propos</span></nav><span class="ms-btn">CONTACT</span></div><div class="ms-hero"><div><p class="ms-k">Photographe • Mode / Campagnes</p><h4>Images<br>qui restent.</h4><p>Paris · Lyon · International</p></div><div class="ms-img"></div></div><div class="ms-row"><div></div><div></div><div></div></div></div>`,
 };
+const BIG = { olivier: 'Le goût<br>du vrai.', batir: 'Construire<br>pour durer.', nacre: 'Votre moment<br>de beauté.', volt: 'L’électricité<br>sans stress.', morel: 'Images<br>qui restent.' };
 const MINI_M = id => {
   const p = PROJECTS.find(x => x.id === id);
-  const big = { olivier: 'Le goût<br>du vrai.', batir: 'Construire<br>pour durer.', nacre: 'Votre moment<br>de beauté.', volt: 'L’électricité<br>sans stress.', morel: 'Images<br>qui restent.' }[id];
-  return `<div class="mini-m ms-${id}"><span class="mm-logo">${p.name}</span><div class="ms-img"></div><h5>${big}</h5><span class="ms-btn">Découvrir</span></div>`;
+  return `<div class="mini-m ms-${id}"><span class="mm-logo">${p.name}</span><div class="ms-img"></div><h5>${BIG[id]}</h5><span class="ms-btn">Découvrir</span></div>`;
 };
 
 /* ---------------------------------------------------------
@@ -71,7 +66,7 @@ const TAU = Math.PI * 2;
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 let vw = innerWidth, vh = innerHeight, mob = vw < 860;
-const mouse = { x: vw / 2, y: vh / 2, nx: 0, ny: 0, sx: 0, sy: 0 };
+const mouse = { x: -9999, y: -9999, nx: 0, ny: 0, sx: 0, sy: 0 };
 addEventListener('pointermove', e => {
   mouse.x = e.clientX; mouse.y = e.clientY;
   mouse.nx = e.clientX / vw * 2 - 1; mouse.ny = e.clientY / vh * 2 - 1;
@@ -81,46 +76,45 @@ addEventListener('pointermove', e => {
    1. LE PARCOURS
    ========================================================= */
 const journey = $('#journey'), sticky = $('#sticky'), device = $('#device'), screenEl = $('#screen');
-const base = $('#base'), hero = $('#hero'), hint = $('#scrollHint'), rail = $('#rail');
-const caps = $$('.cap'), railItems = $$('#rail li'), sats = $$('.sat');
+const base = $('#base'), hero = $('#hero'), progress = $('#progress'), progressBar = $('#progressBar');
+const caps = $$('.cap'), progLabels = $$('#progress span'), sats = $$('.sat');
 const scrs = ['.scr-icon', '.scr-app', '.scr-web', '.scr-dash'].map(s => {
   const el = $(s); return { el, dw: +el.dataset.w, dh: +el.dataset.h };
 });
 const links = $('#links');
 const dash = $('.dash');
 
-/* fenêtres des légendes (en progression 0→1 du parcours) */
-const CAPS = [[.07, .18], [.18, .31], [.31, .52], [.52, .72], [.72, 1.02]];
+const CAPS = [[.075, .18], [.18, .31], [.31, .52], [.52, .72], [.72, 1.02]];
 
 let KEYS = [], SATPOS = [];
 function buildKeys() {
   vw = innerWidth; vh = innerHeight; mob = vw < 860;
-  const cx0 = vw / 2, cy0 = mob ? vh * .46 : vh * .5;
+  const hx = mob ? vw / 2 : vw * .71, hy = mob ? vh * .37 : vh * .6;
+  const hd = mob ? Math.min(vw * .58, vh * .29) : Math.min(vh * .56, vw * .34, 500);
   const cx = mob ? vw / 2 : vw * .62;
-  const cy = mob ? vh * .41 : vh * .52;
-  const orb = mob ? Math.min(vw * .78, 340) : Math.min(vh * .62, 520);
-  const ic = mob ? 116 : 150;
-  const phH = mob ? Math.min(vh * .5, 540) : Math.min(vh * .74, 660), phW = phH * .485;
+  const cy = mob ? vh * .4 : vh * .5;
+  const orb = mob ? Math.min(vw * .62, vh * .34) : Math.min(vh * .5, 440);
+  const ic = mob ? 112 : 148;
+  const phH = mob ? Math.min(vh * .46, 520) : Math.min(vh * .74, 660), phW = phH * .485;
   const lpW = mob ? vw * .9 : Math.min(vw * .55, 1000), lpH = lpW * .625;
-  const dsW = mob ? vw * .9 : Math.min(vw * .47, 860), dsH = dsW * .61;
-  const lpCy = cy - (mob ? 0 : 10);
+  const dsW = mob ? vw * .9 : Math.min(vw * .46, 840), dsH = dsW * .61;
   const S = (a, b, c, d) => [a, b, c, d];
   KEYS = [
-    { p: 0,    cx: cx0, cy: cy0, w: orb, h: orb, r: orb / 2, bw: 0, dev: 0, orb: 1, s: S(0,0,0,0), base: 0, sat: 0 },
-    { p: .085, cx, cy, w: orb * .82, h: orb * .82, r: orb * .41, bw: 0, dev: 0, orb: 1, s: S(0,0,0,0), base: 0, sat: 0 },
-    { p: .16,  cx, cy, w: ic * 1.5, h: ic * 1.5, r: ic * .55, bw: 0, dev: 0, orb: .8, s: S(0,0,0,0), base: 0, sat: 0 },
-    { p: .205, cx, cy, w: ic, h: ic, r: ic * .23, bw: 0, dev: 1, orb: .25, s: S(1,0,0,0), base: 0, sat: 0 },
-    { p: .27,  cx, cy, w: ic, h: ic, r: ic * .23, bw: 0, dev: 1, orb: .25, s: S(1,0,0,0), base: 0, sat: 0 },
-    { p: .36,  cx, cy, w: phW, h: phH, r: phW * .17, bw: mob ? 7 : 10, dev: 1, orb: .1, s: S(0,1,0,0), base: 0, sat: 0 },
-    { p: .49,  cx, cy, w: phW, h: phH, r: phW * .17, bw: mob ? 7 : 10, dev: 1, orb: .1, s: S(0,1,0,0), base: 0, sat: 0 },
-    { p: .58,  cx, cy: lpCy, w: lpW, h: lpH, r: 14, bw: mob ? 6 : 12, dev: 1, orb: .08, s: S(0,0,1,0), base: 1, sat: 0 },
-    { p: .69,  cx, cy: lpCy, w: lpW, h: lpH, r: 14, bw: mob ? 6 : 12, dev: 1, orb: .08, s: S(0,0,1,0), base: 1, sat: 0 },
-    { p: .79,  cx, cy, w: dsW, h: dsH, r: 20, bw: 1, dev: 1, orb: .12, s: S(0,0,0,1), base: 0, sat: 1 },
-    { p: 1,    cx, cy, w: dsW, h: dsH, r: 20, bw: 1, dev: 1, orb: .12, s: S(0,0,0,1), base: 0, sat: 1 },
+    { p: 0,    cx: hx, cy: hy, w: hd, h: hd, r: hd / 2, bw: 0, dev: 0, orb: 1, blob: 1, s: S(0,0,0,0), base: 0, sat: 0 },
+    { p: .085, cx, cy, w: orb, h: orb, r: orb / 2, bw: 0, dev: 0, orb: 1, blob: 1, s: S(0,0,0,0), base: 0, sat: 0 },
+    { p: .16,  cx, cy, w: ic * 1.35, h: ic * 1.35, r: ic * .5, bw: 0, dev: 0, orb: .55, blob: 1, s: S(0,0,0,0), base: 0, sat: 0 },
+    { p: .205, cx, cy, w: ic, h: ic, r: ic * .23, bw: 0, dev: 1, orb: 0, blob: 1, s: S(1,0,0,0), base: 0, sat: 0 },
+    { p: .27,  cx, cy, w: ic, h: ic, r: ic * .23, bw: 0, dev: 1, orb: 0, blob: 1, s: S(1,0,0,0), base: 0, sat: 0 },
+    { p: .36,  cx, cy, w: phW, h: phH, r: phW * .17, bw: mob ? 7 : 10, dev: 1, orb: 0, blob: 0, s: S(0,1,0,0), base: 0, sat: 0 },
+    { p: .49,  cx, cy, w: phW, h: phH, r: phW * .17, bw: mob ? 7 : 10, dev: 1, orb: 0, blob: 0, s: S(0,1,0,0), base: 0, sat: 0 },
+    { p: .58,  cx, cy: cy - (mob ? 0 : 8), w: lpW, h: lpH, r: 14, bw: mob ? 6 : 12, dev: 1, orb: 0, blob: 0, s: S(0,0,1,0), base: 1, sat: 0 },
+    { p: .69,  cx, cy: cy - (mob ? 0 : 8), w: lpW, h: lpH, r: 14, bw: mob ? 6 : 12, dev: 1, orb: 0, blob: 0, s: S(0,0,1,0), base: 1, sat: 0 },
+    { p: .79,  cx, cy, w: dsW, h: dsH, r: 16, bw: 0, dev: 1, orb: 0, blob: 0, s: S(0,0,0,1), base: 0, sat: 1 },
+    { p: 1,    cx, cy, w: dsW, h: dsH, r: 16, bw: 0, dev: 1, orb: 0, blob: 0, s: S(0,0,0,1), base: 0, sat: 1 },
   ];
   SATPOS = mob
-    ? [[-.62, -1.55], [.02, -1.78], [.64, -1.55], [-.62, 1.55], [.02, 1.78], [.64, 1.55]]
-    : [[-1.1, -.98], [1.06, -.96], [1.2, .02], [-1.12, .8], [1.06, .94], [.02, -1.3]];
+    ? [[-.6, -1.55], [.04, -1.82], [.64, -1.55], [-.6, 1.5], [.04, 1.76], [.64, 1.5]]
+    : [[-1.08, -1.2], [1.06, -1.04], [1.2, .02], [-1.12, 1.06], [1.06, .98], [.02, -1.36]];
 }
 
 function sample(P) {
@@ -129,39 +123,32 @@ function sample(P) {
   const a = KEYS[i], b = KEYS[i + 1];
   const t = ease(range(P, a.p, b.p));
   const o = {};
-  for (const k in a) {
-    if (k === 's') o.s = a.s.map((v, j) => lerp(v, b.s[j], t));
-    else o[k] = lerp(a[k], b[k], t);
-  }
+  for (const k in a) o[k] = k === 's' ? a.s.map((v, j) => lerp(v, b.s[j], t)) : lerp(a[k], b[k], t);
   return o;
 }
 
-let P = 0, Pt = 0, vel = 0, lastY = scrollY;
-let G = null; // géométrie courante (pour le canvas)
-let stickyTop = 0, journeyOn = true;
+let P = 0, vel = 0, lastY = scrollY;
+let G = null, stickyTop = 0, journeyOn = true;
 
 function updateJourney() {
   const r = journey.getBoundingClientRect();
   journeyOn = r.top < vh && r.bottom > 0;
-  Pt = clamp(-r.top / (r.height - vh));
+  const Pt = clamp(-r.top / (r.height - vh));
   P = reduce ? Pt : P + (Pt - P) * .12;
   if (Math.abs(Pt - P) < .00005) P = Pt;
   stickyTop = sticky.getBoundingClientRect().top;
   if (!journeyOn) return;
-
   const g = G = sample(P);
 
   /* hero */
-  const h = range(P, .012, .07);
+  const h = range(P, .01, .065);
   hero.style.opacity = 1 - h;
-  hero.style.transform = `translateY(calc(-50% - ${h * 90}px)) scale(${1 - h * .06})`;
-  hero.style.filter = h > 0 ? `blur(${h * 10}px)` : '';
+  hero.style.transform = `translate3d(0,${-h * 70}px,0)`;
   hero.style.visibility = h >= 1 ? 'hidden' : '';
-  hint.style.opacity = 1 - range(P, 0, .025);
 
-  /* produit : légère rotation 3D au pointeur */
+  /* produit */
   const tilt = g.s[1] + g.s[2] + g.s[3];
-  const ry = mouse.sx * 7 * tilt, rx = -mouse.sy * 5 * tilt;
+  const ry = mouse.sx * 6 * tilt, rx = -mouse.sy * 4 * tilt;
   device.style.width = g.w + 'px';
   device.style.height = g.h + 'px';
   device.style.borderRadius = g.r + 'px';
@@ -182,55 +169,49 @@ function updateJourney() {
   });
   device.classList.toggle('is-live', live);
   dash.classList.toggle('is-play', g.s[3] > .5);
-  if (g.s[3] > .5) startDash(); else stopDash();
+  g.s[3] > .5 ? startDash() : stopDash();
 
-  /* socle de l'ordinateur */
   base.style.opacity = g.base;
   base.style.width = g.w * 1.16 + 'px';
   base.style.transform = `translate3d(${g.cx - g.w * .58}px,${g.cy + g.h / 2 - 2}px,0) scaleX(${lerp(.9, 1, g.base)})`;
 
-  /* modules entreprise */
   let paths = '';
   sats.forEach((el, i) => {
     const k = ease(range(g.sat, i * .08, i * .08 + .55));
     const [ux, uy] = SATPOS[i];
     const x = g.cx + ux * g.w / 2, y = g.cy + uy * g.h / 2;
     el.style.opacity = k;
-    el.style.transform = `translate3d(calc(${x}px - 50%),calc(${y + (1 - k) * 30}px - 50%),0) scale(${lerp(.85, 1, k)})`;
+    el.style.transform = `translate3d(calc(${x}px - 50%),calc(${y + (1 - k) * 24}px - 50%),0)`;
     if (k > .02) {
-      const mx = lerp(g.cx, x, .5) + uy * 20, my = lerp(g.cy, y, .5) - ux * 20;
-      paths += `<path d="M${g.cx} ${g.cy} Q${mx} ${my} ${x} ${y}" style="opacity:${k * .9}"/>`;
+      const mx = lerp(g.cx, x, .5) + uy * 18, my = lerp(g.cy, y, .5) - ux * 18;
+      paths += `<path d="M${g.cx} ${g.cy} Q${mx} ${my} ${x} ${y}" style="opacity:${k * .8}"/>`;
     }
   });
-  links.innerHTML = paths ? LINK_DEFS + paths : '';
+  links.innerHTML = paths;
 
-  /* légendes */
   let stage = -1;
   caps.forEach((c, i) => {
     const [a, b] = CAPS[i];
     const inn = range(P, a, a + .026), out = i === caps.length - 1 ? 1 : 1 - range(P, b - .022, b);
     const op = inn * out;
     c.style.opacity = op;
-    c.style.transform = (mob ? '' : 'translateY(-50%) ') + `translateY(${(1 - inn) * 40 - (1 - out) * 40}px)`;
+    c.style.visibility = op < .01 ? 'hidden' : 'visible';
+    c.style.transform = (mob ? '' : 'translateY(-50%) ') + `translateY(${(1 - inn) * 36 - (1 - out) * 36}px)`;
     c.classList.toggle('is-live', op > .5);
     if (P >= a && P < b) stage = i;
   });
-  rail.classList.toggle('is-on', P > .06 && P < .995);
-  railItems.forEach((li, i) => {
-    li.classList.toggle('is-on', i === stage);
-    li.classList.toggle('is-done', i < stage);
-  });
+  progress.classList.toggle('is-on', P > .06 && P < .995);
+  progressBar.style.width = (range(P, .075, .95) * 100) + '%';
+  progLabels.forEach((s, i) => s.classList.toggle('is-on', i <= stage));
 }
-const LINK_DEFS = '<defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#38e1ff"/><stop offset="1" stop-color="#8b5cff"/></linearGradient></defs>';
 
-/* ----- application mobile interactive ----- */
+/* ----- application interactive ----- */
 (function app() {
-  const views = $$('.app-view'), tabs = $$('.tab');
+  const views = $$('.app-view'), tabs = $$('.tab'), ring = $('#ringFg');
   const show = v => {
     views.forEach(x => x.classList.toggle('is-on', x.dataset.view === v));
     tabs.forEach(x => x.classList.toggle('is-on', x.dataset.tab === v));
-    if (v === 'club') $('#ringFg').style.strokeDashoffset = 314 * (1 - .74);
-    else $('#ringFg').style.strokeDashoffset = 314;
+    ring.style.strokeDashoffset = v === 'club' ? 314 * (1 - .74) : 314;
   };
   tabs.forEach(t => t.addEventListener('click', () => show(t.dataset.tab)));
   const single = sel => $$(sel).forEach(b => b.addEventListener('click', () => {
@@ -253,16 +234,16 @@ const LINK_DEFS = '<defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" 
   });
 })();
 
-/* ----- plan de salle (web) ----- */
+/* ----- plan de salle ----- */
 (function tables() {
   const wrap = $('#tables');
   const st = ['', 'busy', 'res', 'busy', '', 'busy', 'res', 'busy', 'busy', '', 'res', 'busy', 'busy', 'res', '', 'busy', 'busy', ''];
+  const order = ['', 'res', 'busy'];
   st.forEach((s, i) => {
     const b = document.createElement('button');
     b.className = 'tbl ' + s + (i % 4 === 1 ? ' round' : '');
     b.textContent = 'T' + (i + 1);
     b.addEventListener('click', () => {
-      const order = ['', 'res', 'busy'];
       const cur = order.find(o => o && b.classList.contains(o)) || '';
       b.classList.remove('res', 'busy');
       const nx = order[(order.indexOf(cur) + 1) % 3];
@@ -280,9 +261,9 @@ function startDash() {
   if (!dashCounted) {
     dashCounted = true;
     $$('[data-count]').forEach(el => {
-      const end = +el.dataset.count, suf = el.textContent.includes('€') ? ' €' : '', t0 = performance.now();
+      const end = +el.dataset.count, suf = el.dataset.suf || '', t0 = performance.now();
       const tick = now => {
-        const k = ease(clamp((now - t0) / 1600));
+        const k = ease(clamp((now - t0) / 1500));
         el.textContent = Math.round(end * k).toLocaleString('fr-FR') + suf;
         if (k < 1) requestAnimationFrame(tick);
       };
@@ -297,21 +278,14 @@ function startDash() {
 function stopDash() { if (dashTimer) { clearInterval(dashTimer); dashTimer = 0; } }
 
 /* =========================================================
-   CANVAS — l'onde IA, l'aura du produit, la constellation
+   CANVAS : la forme liquide (l'onde)
    ========================================================= */
 const cv = $('#fx'), ctx = cv.getContext('2d');
-let dpr = 1, stars = [], orbDots = [];
+const cv2 = $('#fx2'), ctx2 = cv2.getContext('2d');
+let dpr = 1;
 function sizeCanvas() {
   dpr = Math.min(devicePixelRatio || 1, 2);
-  cv.width = vw * dpr; cv.height = vh * dpr;
-  const n = Math.round(clamp(vw * vh / 16000, 40, 110));
-  stars = Array.from({ length: n }, () => ({
-    x: Math.random() * vw, y: Math.random() * vh, z: .2 + Math.random() * .8,
-    vx: (Math.random() - .5) * .08, vy: (Math.random() - .5) * .08,
-  }));
-  orbDots = Array.from({ length: 70 }, () => ({
-    a: Math.random() * TAU, b: Math.acos(Math.random() * 2 - 1), s: (.15 + Math.random() * .5) * (Math.random() < .5 ? -1 : 1),
-  }));
+  for (const c of [cv, cv2]) { c.width = vw * dpr; c.height = vh * dpr; }
 }
 
 /* point + normale sur un rectangle arrondi (un cercle si r = w/2 = h/2) */
@@ -332,110 +306,83 @@ function rr(u, a, b, r) {
   return [-a + r + d, -b, 0, -1];
 }
 
-const RIB = [
-  [56, 225, 255], [31, 107, 255], [139, 92, 255], [120, 240, 255], [200, 220, 255],
-];
-function drawShape(g, alpha, t, boost) {
-  // g : {cx, cy, w, h, r, orb}
-  const a = g.w / 2, b = g.h / 2, R = Math.min(a, b);
-  const orb = g.orb;
-  const mx = mouse.sx * 16 * orb, my = mouse.sy * 16 * orb;
-  const cx = g.cx + mx, cy = g.cy + my;
-  ctx.save();
-  ctx.globalCompositeOperation = 'lighter';
+function blobPath(c, g, t, amp) {
+  const a = g.w / 2, b = g.h / 2;
+  const mdx = mouse.x - g.cx, mdy = mouse.y - g.cy, md = Math.hypot(mdx, mdy) || 1;
+  const pull = clamp(1 - (md - Math.min(a, b)) / 320) * 26 * g.orb;
+  const M = 150;
+  c.beginPath();
+  for (let i = 0; i <= M; i++) {
+    const u = i / M;
+    const [px, py, nx, ny] = rr(u, a, b, g.r);
+    let d = amp * (Math.sin(u * TAU * 2 + t * .9) * .5 + Math.sin(u * TAU * 3 - t * 1.3 + 1) * .3 + Math.sin(u * TAU * 5 + t * 1.7 + 2) * .2);
+    const dot = (nx * mdx + ny * mdy) / md;
+    if (dot > 0) d += Math.pow(dot, 4) * pull;
+    const x = g.cx + px + nx * d, y = g.cy + py + ny * d;
+    i ? c.lineTo(x, y) : c.moveTo(x, y);
+  }
+  c.closePath();
+}
 
-  // cœur lumineux
-  if (orb > .02) {
-    const gr = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 1.7);
-    gr.addColorStop(0, `rgba(80,160,255,${.32 * orb * alpha})`);
-    gr.addColorStop(.45, `rgba(60,90,255,${.12 * orb * alpha})`);
-    gr.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = gr;
-    ctx.fillRect(cx - R * 1.8, cy - R * 1.8, R * 3.6, R * 3.6);
+function drawBlob(c, g, alpha, t, boost) {
+  if (alpha < .01) return;
+  const R = Math.min(g.w, g.h) / 2;
+  const amp = R * .09 * g.orb * (1 + boost * 1.6);
+  c.save();
+  c.globalAlpha = alpha;
 
-    // particules en orbite (sphère neuronale)
-    for (const p of orbDots) {
-      p.a += p.s * .004;
-      const x = Math.sin(p.b) * Math.cos(p.a + t * .1), z = Math.sin(p.b) * Math.sin(p.a + t * .1), y = Math.cos(p.b);
-      const k = (z + 1.4) / 2.4;
-      ctx.fillStyle = `rgba(170,215,255,${.75 * k * orb * alpha})`;
-      ctx.beginPath(); ctx.arc(cx + x * R * .82, cy + y * R * .82, 1.3 * k + .3, 0, TAU); ctx.fill();
+  // ondes qui se propagent autour
+  if (g.orb > .05) {
+    for (let k = 0; k < 3; k++) {
+      const ph = ((t * .32 + k / 3) % 1);
+      c.beginPath();
+      c.arc(g.cx, g.cy, R * (1.04 + ph * .6), 0, TAU);
+      c.strokeStyle = `rgba(169,130,47,${(1 - ph) * .35 * g.orb})`;
+      c.lineWidth = 1.5;
+      c.stroke();
     }
+  }
 
-    // onde « voix » qui traverse le cœur
+  // la forme pleine, avec son ombre portée
+  blobPath(c, g, t, amp);
+  const gr = c.createLinearGradient(g.cx - R, g.cy - R, g.cx + R, g.cy + R);
+  gr.addColorStop(0, '#EDD293');
+  gr.addColorStop(.55, '#C9A24D');
+  gr.addColorStop(1, '#94701F');
+  c.fillStyle = gr;
+  c.shadowColor = 'rgba(150,112,35,.32)';
+  c.shadowBlur = 70 * (R / 200);
+  c.shadowOffsetY = 34 * (R / 200);
+  c.fill();
+  c.shadowColor = 'transparent';
+
+  // l'onde « voix » à l'intérieur
+  if (g.orb > .02) {
+    c.save();
+    c.clip();
+    const W = R * 1.5;
     for (let j = 0; j < 3; j++) {
-      ctx.beginPath();
-      const W = R * 1.5;
-      for (let i = 0; i <= 80; i++) {
-        const u = i / 80, x = cx - W / 2 + u * W;
+      c.beginPath();
+      for (let i = 0; i <= 90; i++) {
+        const u = i / 90, x = g.cx - W / 2 + u * W;
         const env = Math.pow(Math.sin(Math.PI * u), 2);
-        const y = cy + Math.sin(u * TAU * (2 + j * .6) + t * (2.2 + j * .5)) * R * .22 * env * (1 + boost * 2) * (j === 1 ? -.7 : 1);
-        i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+        const y = g.cy + Math.sin(u * TAU * (1.6 + j * .5) + t * (2 + j * .6)) * R * .2 * env * (1 + boost) * (j === 1 ? -.75 : 1 - j * .2);
+        i ? c.lineTo(x, y) : c.moveTo(x, y);
       }
-      const c = RIB[j];
-      ctx.strokeStyle = `rgba(${c[0]},${c[1]},${c[2]},${.55 * orb * alpha})`;
-      ctx.lineWidth = 1.6;
-      ctx.stroke();
+      c.strokeStyle = `rgba(255,255,255,${(j === 0 ? .95 : .5) * g.orb})`;
+      c.lineWidth = j === 0 ? 2.6 : 1.4;
+      c.lineCap = 'round';
+      c.stroke();
     }
+    c.restore();
   }
-
-  // rubans qui épousent la forme du produit
-  const amp = lerp(4, R * .14, orb) * (1 + boost * 3) + mouseNear(cx, cy, R) * 10;
-  const M = Math.round(clamp((a + b) * .9, 120, 360));
-  for (let j = 0; j < RIB.length; j++) {
-    const f1 = 3 + j, f2 = 5 + j * 2, sp = (j % 2 ? 1 : -1) * (.03 + j * .006);
-    ctx.beginPath();
-    for (let i = 0; i <= M; i++) {
-      const u = i / M;
-      const [px, py, nx, ny] = rr(u + t * sp, a, b, g.r);
-      const d = amp * (Math.sin(u * TAU * f1 + t * (1 + j * .3) + j) * .6 + Math.sin(u * TAU * f2 - t * (.8 + j * .2) + j * 2) * .4)
-        * (.55 + .45 * Math.sin(t * .7 + j)) + (j - 2) * lerp(1.5, R * .03, orb);
-      const x = cx + px + nx * d, y = cy + py + ny * d;
-      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
-    }
-    ctx.closePath();
-    const c = RIB[j];
-    ctx.strokeStyle = `rgba(${c[0]},${c[1]},${c[2]},${.07 * alpha})`;
-    ctx.lineWidth = 7; ctx.stroke();
-    ctx.strokeStyle = `rgba(${c[0]},${c[1]},${c[2]},${(j === 4 ? .35 : .65) * alpha})`;
-    ctx.lineWidth = j === 4 ? .8 : 1.3; ctx.stroke();
-  }
-  ctx.restore();
-}
-function mouseNear(x, y, R) {
-  const d = Math.hypot(mouse.x - x, mouse.y - y);
-  return clamp(1 - (d - R) / 260);
-}
-
-function drawStars(t) {
-  const sy = scrollY;
-  ctx.save();
-  for (const s of stars) {
-    s.x += s.vx; s.y += s.vy;
-    if (s.x < -20) s.x = vw + 20; if (s.x > vw + 20) s.x = -20;
-    s._x = s.x + mouse.sx * 20 * s.z;
-    s._y = ((s.y - sy * .08 * s.z) % vh + vh) % vh + mouse.sy * 20 * s.z;
-  }
-  ctx.lineWidth = .6;
-  for (let i = 0; i < stars.length; i++) {
-    const a = stars[i];
-    for (let j = i + 1; j < stars.length; j++) {
-      const b = stars[j], dx = a._x - b._x, dy = a._y - b._y, d2 = dx * dx + dy * dy;
-      if (d2 < 15000) {
-        ctx.strokeStyle = `rgba(110,160,255,${(1 - d2 / 15000) * .1})`;
-        ctx.beginPath(); ctx.moveTo(a._x, a._y); ctx.lineTo(b._x, b._y); ctx.stroke();
-      }
-    }
-    ctx.fillStyle = `rgba(190,215,255,${.25 + a.z * .45})`;
-    ctx.fillRect(a._x, a._y, a.z * 1.6, a.z * 1.6);
-  }
-  ctx.restore();
+  c.restore();
 }
 
 /* =========================================================
    3. VIDÉOS
    ========================================================= */
-const vSec = $('#videos'), vStage = $('#vstage'), vLaptop = $('.v-laptop'), vPhoneEl = $('.v-phone');
+const vSec = $('#videos'), vLaptop = $('.v-laptop'), vPhoneEl = $('.v-phone');
 const vScreen = $('#vScreen'), vPhone = $('#vPhone'), vList = $('#vlist'), vBadge = $('#vBadge');
 let vIdx = 0, vTimer = 0, vInView = false;
 const V_DUR = 8000;
@@ -449,28 +396,27 @@ VIDEOS.forEach((v, i) => {
 
 function mediaInto(box, src, fallback, poster) {
   box.innerHTML = fallback;
+  box.dataset.real = '';
   if (!src) return;
   const vid = document.createElement('video');
-  Object.assign(vid, { muted: true, loop: true, playsInline: true, autoplay: true, preload: 'auto' });
+  vid.muted = true; vid.loop = true; vid.playsInline = true; vid.autoplay = true; vid.preload = 'auto';
   vid.setAttribute('muted', ''); vid.setAttribute('playsinline', '');
   if (poster) vid.poster = poster;
   vid.addEventListener('loadeddata', () => { box.innerHTML = ''; box.appendChild(vid); vid.play().catch(() => {}); box.dataset.real = '1'; }, { once: true });
-  vid.addEventListener('error', () => { box.dataset.real = ''; }, { once: true });
-  box.dataset.real = '';
   vid.src = src;
 }
 function setVideo(i) {
   vIdx = i;
-  const v = VIDEOS[i], p = PROJECTS.find(x => x.id === v.site) || PROJECTS[0];
+  const v = VIDEOS[i];
   $$('button', vList).forEach((b, j) => {
-    b.classList.remove('is-on'); void b.offsetWidth; // relance la barre
+    b.classList.remove('is-on'); void b.offsetWidth;
     if (j === i) b.classList.add('is-on');
   });
-  mediaInto(vScreen, v.desktop, `<div class="vdemo">${MINI[v.site] || ''}</div><div class="v-overlay-play"><span>▶</span></div>`, v.poster);
-  mediaInto(vPhone, v.mobile, `<div class="vdemo-phone" style="--pbg:linear-gradient(160deg,${p.accent},${p.bg})"><span class="vp-play">▶</span><b>${v.title}</b><small>${v.kind}</small></div>`);
+  mediaInto(vScreen, v.desktop, `<div class="vdemo">${MINI[v.site] || ''}</div><div class="v-play"><span>Regarder la démo</span></div>`, v.poster);
+  mediaInto(vPhone, v.mobile, `<div class="vdemo-phone">${MINI_M(v.site)}</div>`);
   fitMini(vScreen);
   vBadge.textContent = '';
-  setTimeout(() => { vBadge.textContent = vScreen.dataset.real ? '● Démo réelle' : 'Aperçu · vidéo à intégrer'; }, 900);
+  setTimeout(() => { vBadge.textContent = vScreen.dataset.real ? '' : 'Aperçu animé · vidéo à intégrer'; }, 900);
 }
 function restartVTimer() {
   clearInterval(vTimer);
@@ -484,7 +430,7 @@ function openLightbox() {
   const v = VIDEOS[vIdx];
   lbInner.innerHTML = `<div class="lb-empty"><b>${v.title}</b><p>La vidéo de présentation de ce projet s'affichera ici.</p><code>experience/${v.desktop}</code></div>`;
   const vid = document.createElement('video');
-  Object.assign(vid, { controls: true, autoplay: true, playsInline: true });
+  vid.controls = true; vid.autoplay = true; vid.playsInline = true;
   vid.addEventListener('loadeddata', () => { lbInner.innerHTML = ''; lbInner.appendChild(vid); }, { once: true });
   vid.src = v.desktop;
   lb.classList.add('is-open'); lb.setAttribute('aria-hidden', 'false');
@@ -498,29 +444,25 @@ new IntersectionObserver(([e]) => {
   vInView = e.isIntersecting;
   if (vInView && !vScreen.childElementCount) setVideo(0);
   restartVTimer();
-}, { threshold: .25 }).observe(vSec);
+}, { threshold: .2 }).observe(vSec);
 
 function updateVideos() {
   const r = vSec.getBoundingClientRect();
   if (r.top > vh || r.bottom < 0) return;
-  const p = clamp((vh - r.top) / (vh * 1.1));
-  const k = ease(p);
-  vLaptop.style.transform = `rotateX(${(1 - k) * 32 + mouse.sy * 3}deg) rotateY(${mouse.sx * -4}deg) scale(${lerp(.84, 1, k)})`;
-  vPhoneEl.style.transform = `translate3d(0,${(1 - k) * 160}px,0) rotate(${(1 - k) * 8}deg)`;
+  const k = ease(clamp((vh - r.top) / (vh * .9)));
+  vLaptop.style.transform = `rotateX(${(1 - k) * 26}deg) scale(${lerp(.88, 1, k)})`;
+  vPhoneEl.style.transform = `translate3d(0,${(1 - k) * 140}px,0)`;
 }
 
 /* =========================================================
    4. PORTFOLIO
    ========================================================= */
-const pf = $('#portfolio'), pfSticky = $('.pf-sticky'), pfTrack = $('#pfTrack'), pfBar = $('#pfBar'), pfNow = $('#pfNow');
-$('#pfTotal').textContent = String(PROJECTS.length).padStart(2, '0');
-PROJECTS.forEach((p, i) => {
+const pf = $('#portfolio'), pfSticky = $('#pfSticky'), pfTrack = $('#pfTrack'), pfBar = $('#pfBar'), pfNow = $('#pfNow');
+$('#pfTotal').textContent = PROJECTS.length;
+PROJECTS.forEach(p => {
   const s = document.createElement('article');
   s.className = 'pf-slide';
-  s.style.setProperty('--accent', p.accent);
-  s.style.setProperty('--glow', p.glow);
   s.innerHTML = `
-    <span class="pf-bgnum">0${i + 1}</span>
     <div class="pf-info">
       <p class="pf-cat">${p.cat}</p>
       <h3 class="pf-name">${p.name}</h3>
@@ -529,7 +471,7 @@ PROJECTS.forEach((p, i) => {
     </div>
     <div class="pf-visual">
       <div class="pf-browser">
-        <div class="web-bar"><i></i><i></i><i></i><span class="web-url">🔒 ${p.url}</span></div>
+        <div class="web-bar"><i></i><i></i><i></i><span class="web-url">${p.url}</span></div>
         <div class="pf-view">${MINI[p.id]}</div>
       </div>
       <div class="pf-phone"><div>${MINI_M(p.id)}</div></div>
@@ -543,23 +485,23 @@ function updatePortfolio() {
   if (r.top > vh || r.bottom < 0) return;
   const n = PROJECTS.length;
   const p = clamp(-r.top / (r.height - vh));
-  // petites pauses sur chaque projet
-  const raw = p * (n - 1), i0 = Math.floor(raw), f = raw - i0;
-  const held = i0 + ease(range(f, .2, .8));
+  const raw = p * (n - 1), i0 = Math.min(Math.floor(raw), n - 2), f = raw - i0;
+  const held = i0 + ease(range(f, .25, .8));
   pfTrack.style.transform = `translate3d(${-held * vw}px,0,0)`;
   pfBar.style.width = (p * 100) + '%';
   pfSlides.forEach((s, i) => {
     const d = i - held;
-    const vis = s.querySelector('.pf-visual'), info = s.querySelector('.pf-info');
-    vis.style.transform = `translate3d(${d * vw * .25}px,0,0)`;
-    info.style.transform = `translate3d(${d * vw * .08}px,0,0)`;
-    info.style.opacity = 1 - Math.min(Math.abs(d) * 1.4, 1);
+    s.querySelector('.pf-visual').style.transform = `translate3d(${d * vw * .22}px,0,0)`;
+    const info = s.querySelector('.pf-info');
+    info.style.transform = `translate3d(${d * vw * .06}px,0,0)`;
+    info.style.opacity = 1 - Math.min(Math.abs(d) * 1.5, 1);
   });
   const idx = Math.round(held);
   if (idx !== pfIdx) {
     pfIdx = idx;
-    pfNow.textContent = String(idx + 1).padStart(2, '0');
+    pfNow.textContent = idx + 1;
     pfSticky.style.backgroundColor = PROJECTS[idx].bg;
+    pfSticky.style.color = PROJECTS[idx].fg;
   }
 }
 
@@ -571,9 +513,9 @@ function fitMini(scope = document) {
 }
 
 /* =========================================================
-   5. MANIFESTE
+   7. FIN DU PARCOURS
    ========================================================= */
-const fin = $('#finale'), fls = $$('.fl'), fBrand = $('#finaleBrand'), fLines = $('.finale-lines');
+const fin = $('#finale'), fls = $$('.fl'), fBrand = $('#finaleBrand'), fLines = $('#finaleLines');
 let finG = null;
 function updateFinale() {
   const r = fin.getBoundingClientRect();
@@ -581,29 +523,27 @@ function updateFinale() {
   if (r.top > vh || r.bottom < 0) return;
   const p = clamp(-r.top / (r.height - vh));
   fls.forEach((el, i) => {
-    const a = .04 + i * .17;
-    const k = ease(range(p, a, a + .13));
+    const a = .03 + i * .16;
+    const k = ease(range(p, a, a + .12));
     el.style.opacity = k;
-    el.style.transform = `translate3d(0,${(1 - k) * 60}px,0) scale(${lerp(1.12, 1, k)})`;
-    el.style.filter = k < 1 ? `blur(${(1 - k) * 14}px)` : '';
+    el.style.transform = `translate3d(0,${(1 - k) * 70}px,0)`;
   });
-  const out = ease(range(p, .6, .72));
+  const out = ease(range(p, .58, .7));
   fLines.style.opacity = 1 - out;
-  fLines.style.transform = `translateY(-50%) scale(${1 + out * .25})`;
-  fLines.style.filter = out > 0 ? `blur(${out * 12}px)` : '';
-  const br = ease(range(p, .68, .84));
+  fLines.style.transform = `translateY(calc(-50% - ${out * 80}px))`;
+  const br = ease(range(p, .66, .82));
   fBrand.style.opacity = br;
-  fBrand.style.transform = `translate3d(0,${(1 - br) * 50}px,0) scale(${lerp(.9, 1, br)})`;
+  fBrand.style.transform = `translate3d(0,${(1 - br) * 60}px,0)`;
   fBrand.style.pointerEvents = br > .6 ? 'auto' : 'none';
-  // l'onde revient : la boucle est bouclée
-  const top = Math.max(0, r.top) + Math.min(0, r.bottom - vh);
-  const R = Math.min(vw, vh) * lerp(.22, .36, br);
-  const s = range(p, 0, .12) * (1 - range(p, .97, 1));
-  finG = { cx: vw / 2, cy: vh / 2 + top, w: R * 2, h: R * 2, r: R, orb: 1, alpha: s * lerp(.55, .85, br) };
+  // la forme revient : la boucle est bouclée
+  const R = Math.min(vw, vh) * lerp(.14, .2, br);
+  finG = { cx: vw / 2, cy: lerp(vh * .5, vh * .5 - Math.min(vh * .36, 300), br), w: R * 2, h: R * 2, r: R, orb: 1,
+    alpha: range(p, 0, .1) * lerp(.22, 1, br) };
+  if (br > 0) { const s = lerp(1, .38, br); finG.w *= s; finG.h *= s; finG.r *= s; }
 }
 
 /* =========================================================
-   SERVICES — la ligne au centre de l'écran s'ouvre
+   SERVICES, NAV, FORMULAIRE
    ========================================================= */
 const svcRows = $$('.svc-row');
 function updateServices() {
@@ -613,19 +553,18 @@ function updateServices() {
     const d = Math.abs(r.top + r.height / 2 - vh * .5);
     if (r.bottom > 0 && r.top < vh && d < bd) { bd = d; best = row; }
   });
-  svcRows.forEach(row => row.classList.toggle('is-open', row === best && bd < vh * .3));
+  svcRows.forEach(row => row.classList.toggle('is-open', row === best && bd < vh * .25));
 }
 
-/* =========================================================
-   NAV, reveal, formulaire
-   ========================================================= */
-const nav = $('#nav'), navLinks = $$('.nav-links a');
-const navSecs = ['journey', 'services', 'videos', 'portfolio', 'contact'].map(id => document.getElementById(id));
+const nav = $('#nav'), navLinks = $$('.nav-links a'), stickyCta = $('#stickyCta'), contact = $('#contact');
+const navSecs = navLinks.map(a => $(a.getAttribute('href')));
 function updateNav() {
   nav.classList.toggle('is-solid', scrollY > 40);
-  let cur = 0;
-  navSecs.forEach((s, i) => { if (s.getBoundingClientRect().top < vh * .4) cur = i; });
+  let cur = -1;
+  navSecs.forEach((s, i) => { const r = s.getBoundingClientRect(); if (r.top < vh * .4 && r.bottom > vh * .4) cur = i; });
   navLinks.forEach((a, i) => a.classList.toggle('is-on', i === cur));
+  const cr = contact.getBoundingClientRect();
+  stickyCta.classList.toggle('is-on', journey.getBoundingClientRect().bottom < vh * .5 && cr.top > vh * .6);
 }
 const burger = $('#burger'), menu = $('#mobileMenu');
 burger.addEventListener('click', () => {
@@ -634,22 +573,47 @@ burger.addEventListener('click', () => {
 });
 $$('a', menu).forEach(a => a.addEventListener('click', () => { menu.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); }));
 
-const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }), { threshold: .15 });
-$$('.reveal').forEach(el => io.observe(el));
+/* choix du formulaire */
+$$('.choices').forEach(group => {
+  const multi = group.hasAttribute('data-multi');
+  $$('button', group).forEach(b => b.addEventListener('click', () => {
+    if (multi) b.classList.toggle('is-on');
+    else { $$('button', group).forEach(x => x.classList.remove('is-on')); b.classList.add('is-on'); }
+  }));
+});
+/* un lien « Je veux une application » présélectionne le bon type */
+$$('[data-type]').forEach(a => a.addEventListener('click', () => {
+  $$('#ptypes button').forEach(b => b.classList.toggle('is-on', b.textContent === a.dataset.type));
+}));
 
-$$('#ptypes button').forEach(b => b.addEventListener('click', () => b.classList.toggle('is-on')));
-$('#form').addEventListener('submit', e => {
+const form = $('#form'), formError = $('#formError'), formNote = $('#formNote');
+form.addEventListener('submit', e => {
   e.preventDefault();
-  const f = e.target, types = $$('#ptypes .is-on').map(b => b.textContent).join(', ') || 'À définir';
-  const body = `Bonjour KingDream,\n\nProjet : ${types}\n\n${f.msg.value}\n\n${f.name.value}\n${f.email.value}`;
-  location.href = `mailto:contact@kingdream.fr?subject=${encodeURIComponent('Nouveau projet — ' + f.name.value)}&body=${encodeURIComponent(body)}`;
+  const req = [form.name, form.email, form.msg];
+  let ok = true;
+  req.forEach(f => {
+    const bad = !f.value.trim() || (f.type === 'email' && !/^\S+@\S+\.\S+$/.test(f.value));
+    f.classList.toggle('is-bad', bad);
+    if (bad) ok = false;
+  });
+  formError.hidden = ok;
+  if (!ok) return;
+  const pick = id => $$(`#${id} .is-on`).map(b => b.textContent).join(', ') || 'Non précisé';
+  const body = [
+    'Bonjour KingDream,', '',
+    `Projet : ${pick('ptypes')}`, `Budget : ${pick('pbudget')}`, `Démarrage : ${pick('pdelay')}`, '',
+    form.msg.value, '',
+    form.name.value, form.email.value, form.tel.value,
+  ].join('\n');
+  location.href = `mailto:contact@kingdream.fr?subject=${encodeURIComponent('Nouveau projet · ' + form.name.value)}&body=${encodeURIComponent(body)}`;
+  formNote.textContent = 'Votre messagerie s’ouvre avec la demande prête. Vous pouvez aussi nous appeler au 06 27 20 55 97.';
 });
 $('#year').textContent = new Date().getFullYear();
 
 /* =========================================================
    BOUCLE
    ========================================================= */
-let t0 = performance.now();
+const t0 = performance.now();
 function loop(now) {
   const t = reduce ? 0 : (now - t0) / 1000;
   mouse.sx += (mouse.nx - mouse.sx) * .06;
@@ -665,21 +629,18 @@ function loop(now) {
 
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.clearRect(0, 0, vw, vh);
-  drawStars(t);
-  if (journeyOn && G) {
-    const g = { ...G, cy: G.cy + stickyTop };
-    drawShape(g, lerp(.55, 1, G.orb) * lerp(1, .6, 1 - range(P, .012, .07)), t, boost);
-  }
-  if (finG && finG.alpha > .01) drawShape(finG, finG.alpha, t, boost);
+  if (journeyOn && G && G.blob > .01) drawBlob(ctx, { ...G, cy: G.cy + stickyTop }, G.blob, t, boost);
 
+  if (finG) {
+    ctx2.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx2.clearRect(0, 0, vw, vh);
+    drawBlob(ctx2, finG, finG.alpha, t, boost);
+  }
   requestAnimationFrame(loop);
 }
 
 let rz;
-function onResize() {
-  buildKeys(); sizeCanvas(); fitMini();
-}
-addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(onResize, 120); });
+addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { buildKeys(); sizeCanvas(); fitMini(); }, 120); });
 addEventListener('scroll', () => { updateNav(); updateServices(); }, { passive: true });
 
 buildKeys(); sizeCanvas(); fitMini(); updateNav(); updateServices();
