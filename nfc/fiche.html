@@ -117,18 +117,24 @@
         .app-icon {
             width: 60px;
             height: 60px;
-            border-radius: 16px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            border-radius: 13.5px;
+            overflow: hidden;
+            margin-bottom: 6px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.12), 0 4px 10px rgba(0,0,0,0.12);
+            position: relative;
+            transition: transform 0.1s;
         }
-        .phone-app { background: linear-gradient(180deg, #34C759 0%, #28CD41 100%); }
-        .mail-app { background: linear-gradient(180deg, #5AC8FA 0%, #007AFF 100%); }
-        .web-app { background: #ffffff; }
-        .ig-app { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
-        .link-label { font-size: 11px; font-weight: 500; text-align: center; white-space: nowrap; }
+        .app-icon svg { width: 100%; height: 100%; display: block; }
+        .app-icon::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.08);
+            pointer-events: none;
+        }
+        .link-item:active .app-icon { transform: scale(0.92); }
+        .link-label { font-size: 11px; font-weight: 500; color: #1c1c1e; letter-spacing: 0.1px; text-align: center; white-space: nowrap; }
         .website-preview-card {
             width: 90%;
             display: block;
@@ -235,27 +241,27 @@
         <div class="links-grid">
             <a href="tel:+33627205597" class="link-item">
                 <div class="app-icon phone-app">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="32" height="32"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.27c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A19 19 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.27 1.11l-2.18 2.1z"/></svg>
+                    <svg viewBox="0 0 60 60" aria-hidden="true"><defs><linearGradient id="gPhone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5DF877"/><stop offset="1" stop-color="#0BBA2B"/></linearGradient></defs><rect width="60" height="60" fill="url(#gPhone)"/><path fill="#fff" d="M22.6 14.2c-1-.9-2.6-.8-3.5.2l-2.6 2.8c-1.6 1.7-2 4.2-1 6.4 2.6 5.8 6.3 10.9 11 15.2 4.6 4.2 9.9 7.4 15.6 9.4 2.2.8 4.6.2 6.1-1.6l2.4-2.9c.9-1 .8-2.6-.2-3.5l-5.5-4.6c-1-.8-2.4-.8-3.4 0l-2.6 2.2c-.6.5-1.5.6-2.2.2-3.5-2-6.6-4.8-8.9-8.2-.4-.7-.4-1.6.2-2.2l2.4-2.5c.9-1 .9-2.4.1-3.4z"/></svg>
                 </div>
                 <span class="link-label">Téléphone</span>
             </a>
             <a href="mailto:Contact@kingdream.fr" class="link-item">
                 <div class="app-icon mail-app">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="30" height="30"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    <svg viewBox="0 0 60 60" aria-hidden="true"><defs><linearGradient id="gMail" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22C3FF"/><stop offset="1" stop-color="#1A5CF0"/></linearGradient></defs><rect width="60" height="60" fill="url(#gMail)"/><rect x="11" y="17" width="38" height="26" rx="4" fill="#fff"/><path d="M12.5 19.5 30 32.5l17.5-13" fill="none" stroke="#2A8BF7" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M12.5 41 25 30.5M47.5 41 35 30.5" fill="none" stroke="#CFE3FD" stroke-width="1.6" stroke-linecap="round"/></svg>
                 </div>
                 <span class="link-label">Email</span>
             </a>
             <a href="https://www.instagram.com/kingdream_digital/" target="_blank" rel="noopener" class="link-item">
                 <div class="app-icon ig-app">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="32" height="32"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    <svg viewBox="0 0 60 60" aria-hidden="true"><defs><radialGradient id="gIg" cx="0.28" cy="1.07" r="1.25"><stop offset="0" stop-color="#FFDD55"/><stop offset="0.1" stop-color="#FFDD55"/><stop offset="0.5" stop-color="#FF543E"/><stop offset="0.7" stop-color="#C837AB"/><stop offset="1" stop-color="#3A57E8"/></radialGradient></defs><rect width="60" height="60" fill="url(#gIg)"/><rect x="15" y="15" width="30" height="30" rx="9" fill="none" stroke="#fff" stroke-width="3.2"/><circle cx="30" cy="30" r="7.2" fill="none" stroke="#fff" stroke-width="3.2"/><circle cx="38.6" cy="21.4" r="2" fill="#fff"/></svg>
                 </div>
                 <span class="link-label">Instagram</span>
             </a>
             <a href="https://kingdream.fr" target="_blank" rel="noopener" class="link-item">
                 <div class="app-icon web-app">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#007AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="36" height="36"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                    <svg viewBox="0 0 60 60" aria-hidden="true"><defs><linearGradient id="gWebBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#E6E8EC"/></linearGradient><linearGradient id="gWeb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1AD2FF"/><stop offset="1" stop-color="#1E5FEF"/></linearGradient></defs><rect width="60" height="60" fill="url(#gWebBg)"/><circle cx="30" cy="30" r="22" fill="url(#gWeb)"/><g stroke="#fff" stroke-width="0.8" stroke-linecap="round" opacity="0.9"><line x1="30" y1="10.5" x2="30" y2="13.2" transform="rotate(0 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(10 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(20 30 30)"/><line x1="30" y1="10.5" x2="30" y2="13.2" transform="rotate(30 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(40 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(50 30 30)"/><line x1="30" y1="10.5" x2="30" y2="13.2" transform="rotate(60 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(70 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(80 30 30)"/><line x1="30" y1="10.5" x2="30" y2="13.2" transform="rotate(90 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(100 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(110 30 30)"/><line x1="30" y1="10.5" x2="30" y2="13.2" transform="rotate(120 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(130 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(140 30 30)"/><line x1="30" y1="10.5" x2="30" y2="13.2" transform="rotate(150 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(160 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(170 30 30)"/><line x1="30" y1="10.5" x2="30" y2="13.2" transform="rotate(180 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(190 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(200 30 30)"/><line x1="30" y1="10.5" x2="30" y2="13.2" transform="rotate(210 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(220 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(230 30 30)"/><line x1="30" y1="10.5" x2="30" y2="13.2" transform="rotate(240 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(250 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(260 30 30)"/><line x1="30" y1="10.5" x2="30" y2="13.2" transform="rotate(270 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(280 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(290 30 30)"/><line x1="30" y1="10.5" x2="30" y2="13.2" transform="rotate(300 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(310 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(320 30 30)"/><line x1="30" y1="10.5" x2="30" y2="13.2" transform="rotate(330 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(340 30 30)"/><line x1="30" y1="10.5" x2="30" y2="12.2" transform="rotate(350 30 30)"/></g><g transform="rotate(45 30 30)"><path d="M30 12.5 34 30h-8z" fill="#FF3B30"/><path d="M30 47.5 26 30h8z" fill="#fff"/></g><circle cx="30" cy="30" r="1.6" fill="#fff"/></svg>
                 </div>
-                <span class="link-label">Kingdream</span>
+                <span class="link-label">Site web</span>
             </a>
         </div>
 
