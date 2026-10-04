@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>/* intro only on a fresh visit or a reload, never when coming back from another page of the site */
+(function(){try{var n=performance.getEntriesByType('navigation')[0],t=n?n.type:'navigate',r=document.referrer,same=false;try{same=!!r&&new URL(r).origin===location.origin}catch(e){}if(t==='back_forward'||(t!=='reload'&&same))document.documentElement.classList.add('no-intro')}catch(e){}})();</script>
 <title>Agence web près de Manosque (04) : sites, SEO, apps | KingDream Digital</title>
 <meta name="description" content="Agence web près de Manosque : sites internet, applications, SEO local et facture électronique pour les TPE et PME du 04. Devis gratuit, réponse sous 24 h.">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -634,6 +636,7 @@ body.static .scard{position:relative;top:auto}
 body.intro{overflow:hidden}
 body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
 @media (prefers-reduced-motion:reduce){#intro{display:none}}
+.no-intro #intro{display:none!important}
 .fstat{font-size:14px;margin-top:16px;color:var(--ink2)}
 .fstat.err{color:#e30000}
 .consent{display:flex;gap:12px;align-items:flex-start;margin-top:22px;font-size:14px;line-height:1.45;color:var(--ink2);cursor:pointer}
@@ -734,6 +737,37 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
 .sd{margin-top:50px}
 .lg-t{font-size:24px;margin-top:16px}
 .lg-h{font-size:28px}}
+
+.dd-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--ink);opacity:.86;padding:0;transition:opacity .2s,color .2s}
+.dd-btn:hover,.dd-btn[aria-expanded="true"],.dd-btn.is-cur{opacity:1}
+.dd-btn.is-cur{font-weight:600}
+.dd-chev{width:9px;height:6px;transition:transform .35s var(--ease)}
+.dd-btn[aria-expanded="true"] .dd-chev{transform:rotate(180deg)}
+.dd-panel{position:absolute;top:52px;left:0;right:0;background:rgba(255,255,255,.97);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08);box-shadow:0 30px 60px -30px rgba(0,0,0,.25);padding:26px 0 24px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .3s var(--ease),transform .4s var(--ease),visibility 0s .4s}
+.nav.dd-open .dd-panel{opacity:1;visibility:visible;transform:none;transition:opacity .3s var(--ease),transform .4s var(--ease),visibility 0s}
+.nav .dd-panel .wrap{display:block;height:auto}
+.dd-h{font-size:12px;font-weight:600;color:var(--ink3);margin:0 0 12px 12px}
+.dd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.dd-i{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:14px;color:var(--ink);text-decoration:none!important;transition:background .2s}
+.dd-i:hover,.dd-i:focus-visible,.dd-i[aria-current]{background:#f2f2f5}
+.dd-ic{flex:none;width:34px;height:34px;border-radius:10px;background:var(--c);display:grid;place-items:center}
+.dd-ic svg{width:19px;height:19px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dd-tx b{display:block;font-size:14px;font-weight:600;letter-spacing:-.01em;line-height:1.25}
+.dd-tx small{display:block;font-size:12.5px;color:var(--ink2);margin-top:3px;line-height:1.3}
+.dd-i:hover b{color:var(--link)}
+.dd-foot{display:flex;gap:28px;margin:16px 12px 0;padding-top:16px;border-top:1px solid rgba(0,0,0,.07);font-size:13px}
+.dd-foot a{display:inline-flex;align-items:center;gap:5px;color:var(--link)}
+.dd-foot svg{width:6px;height:10px}
+.dd-scrim{position:fixed;inset:0;z-index:99;background:rgba(232,232,237,.4);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility 0s .35s}
+.dd-scrim.on{opacity:1;visibility:visible;transition:opacity .35s var(--ease),visibility 0s}
+.nav-menu{background:#fff;max-height:calc(100vh - 52px);max-height:calc(100dvh - 52px);overflow-y:auto}
+.nav-menu .nm-h{font-size:12px;font-weight:600;color:var(--ink3);margin:14px 0 2px;text-transform:uppercase;letter-spacing:.04em}
+.nav-menu a.nm-s{display:flex;align-items:center;gap:12px;font-size:16px}
+.nav-menu a.nm-s .dd-ic{width:28px;height:28px;border-radius:8px}
+.nav-menu a.nm-s .dd-ic svg{width:16px;height:16px}
+.nav-menu a[aria-current]{font-weight:600}
+@media (max-width:1060px){.dd-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:860px){.dd-panel,.dd-scrim{display:none}}
 </style>
 </head>
 <body>
@@ -751,14 +785,20 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
     <a href="#top" class="brand" aria-label="KingDream Digital, accueil"><img decoding="async" width="480" height="100" src="assets/kingdream-digital-logo.png" alt="KingDream Digital"></a>
     <div class="nav-r">
       <nav class="nav-links" aria-label="Navigation principale">
-        <a href="#solutions">Solutions</a><a href="#pourquoi">Pourquoi nous</a><a href="#realisations">Réalisations</a><a href="#methode">Méthode</a>
+        <button class="dd-btn" id="ddBtn" aria-expanded="false" aria-controls="ddPanel">Services<svg class="dd-chev" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><a href="#realisations">Réalisations</a><a href="#methode">Méthode</a><a href="/creation-site-internet-manosque/">Manosque</a>
       </nav>
       <a href="#contact" class="btn btn-sm">Nous contacter</a>
       <button class="menu-btn" id="menuBtn" aria-label="Ouvrir le menu" aria-expanded="false"><svg viewBox="0 0 12 8"><path d="M1 1.5l5 5 5-5" fill="none" stroke="#1d1d1f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
   </div>
-  <div class="nav-menu" id="navMenu"><a href="#solutions">Solutions</a><a href="#pourquoi">Pourquoi nous</a><a href="#realisations">Réalisations</a><a href="#methode">Méthode</a><a href="#contact">Contact</a></div>
+  <div class="dd-panel" id="ddPanel"><div class="wrap">
+    <p class="dd-h">Nos services</p>
+    <div class="dd-grid"><a class="dd-i" href="/creation-site-internet/" style="--c:var(--kb)"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12.5" rx="2"/><path d="M8.5 20.5h7M12 16.5v4"/></svg></span><span class="dd-tx"><b>Création de sites web</b><small>Vitrine, e-commerce, refonte</small></span></a><a class="dd-i" href="/application-web-mobile/" style="--c:var(--ko)"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.6"/><path d="M10.5 18.5h3"/></svg></span><span class="dd-tx"><b>Applications web et mobiles</b><small>iOS, Android, espaces clients</small></span></a><a class="dd-i" href="/referencement-naturel/" style="--c:var(--kg)"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5l5 5"/></svg></span><span class="dd-tx"><b>Référencement naturel</b><small>Être trouvé sur Google</small></span></a><a class="dd-i" href="/audit-site-internet/" style="--c:#8e44ef"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3.5h6v3H9z"/><path d="M7 5H5v16h14V5h-2"/><path d="M8.8 13.2l2.2 2.2 4.2-4.4"/></svg></span><span class="dd-tx"><b>Audit de site et audit SEO</b><small>Diagnostic et plan d’action</small></span></a><a class="dd-i" href="/securite-site-internet/" style="--c:#1d1d1f"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.2 8.4-7.5 9.8-4.3-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.8 12l2.2 2.2 4.2-4.4"/></svg></span><span class="dd-tx"><b>Sécurité et maintenance</b><small>Protection, sauvegardes, mises à jour</small></span></a><a class="dd-i" href="/automatisation/" style="--c:#f5a300"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 2.5L5 13.5h6.2l-1.2 8L18.5 10.5h-6.2z"/></svg></span><span class="dd-tx"><b>Automatisation</b><small>Moins de tâches répétitives</small></span></a><a class="dd-i" href="/dashboard-sur-mesure/" style="--c:var(--kp)"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20.5h18"/><path d="M6 17V11M10.5 17V6M15 17v-4M19.5 17V8.5"/></svg></span><span class="dd-tx"><b>Dashboards sur mesure</b><small>Vos chiffres en temps réel</small></span></a><a class="dd-i" href="/facturation-electronique/" style="--c:#0a8f9c"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2.5h8.2l4.3 4.3v14.7H6z"/><path d="M14 2.5v4.5h4.5M9 12h6.5M9 15.8h6.5"/></svg></span><span class="dd-tx"><b>Facturation électronique</b><small>Réforme 2026-2027</small></span></a></div>
+    <div class="dd-foot"><a href="/creation-site-internet-manosque/">Votre agence web près de Manosque<svg viewBox="0 0 8 13" aria-hidden="true"><path d="M1.5 1.5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a href="#contact">Demander un devis gratuit<svg viewBox="0 0 8 13" aria-hidden="true"><path d="M1.5 1.5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+  </div></div>
+  <div class="nav-menu" id="navMenu"><p class="nm-h">Services</p><a class="nm-s" href="/creation-site-internet/" style="--c:var(--kb)"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12.5" rx="2"/><path d="M8.5 20.5h7M12 16.5v4"/></svg></span>Création de sites web</a><a class="nm-s" href="/application-web-mobile/" style="--c:var(--ko)"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.6"/><path d="M10.5 18.5h3"/></svg></span>Applications web et mobiles</a><a class="nm-s" href="/referencement-naturel/" style="--c:var(--kg)"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5l5 5"/></svg></span>Référencement naturel</a><a class="nm-s" href="/audit-site-internet/" style="--c:#8e44ef"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3.5h6v3H9z"/><path d="M7 5H5v16h14V5h-2"/><path d="M8.8 13.2l2.2 2.2 4.2-4.4"/></svg></span>Audit de site et audit SEO</a><a class="nm-s" href="/securite-site-internet/" style="--c:#1d1d1f"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.2 8.4-7.5 9.8-4.3-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.8 12l2.2 2.2 4.2-4.4"/></svg></span>Sécurité et maintenance</a><a class="nm-s" href="/automatisation/" style="--c:#f5a300"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 2.5L5 13.5h6.2l-1.2 8L18.5 10.5h-6.2z"/></svg></span>Automatisation</a><a class="nm-s" href="/dashboard-sur-mesure/" style="--c:var(--kp)"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20.5h18"/><path d="M6 17V11M10.5 17V6M15 17v-4M19.5 17V8.5"/></svg></span>Dashboards sur mesure</a><a class="nm-s" href="/facturation-electronique/" style="--c:#0a8f9c"><span class="dd-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2.5h8.2l4.3 4.3v14.7H6z"/><path d="M14 2.5v4.5h4.5M9 12h6.5M9 15.8h6.5"/></svg></span>Facturation électronique</a><p class="nm-h">KingDream Digital</p><a href="#realisations">Réalisations</a><a href="#methode">Notre méthode</a><a href="/creation-site-internet-manosque/">Agence web à Manosque</a><a href="#contact">Contact</a></div>
 </header>
+<div class="dd-scrim" id="ddScrim"></div>
 
 <main id="top">
 <!-- ================= HERO ================= -->
@@ -775,17 +815,17 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
   <div class="stage" id="stage">
     <div class="mbp">
       <div class="mbp-lid"><div class="mbp-screen">
-        <img decoding="async" width="2268" height="134" class="mbp-chrome" src="assets/img/barre-navigateur-macos.webp" srcset="assets/img/barre-navigateur-macos-1134.webp 1134w, assets/img/barre-navigateur-macos.webp 2268w" sizes="(max-width:734px) 92vw, 760px" alt="">
-        <div class="mbp-view"><img decoding="async" width="1512" height="3600" class="rec-mac" src="assets/img/site-vitrine-maison-celeste-ordinateur.webp" srcset="assets/img/site-vitrine-maison-celeste-ordinateur-756.webp 756w, assets/img/site-vitrine-maison-celeste-ordinateur.webp 1512w" sizes="(max-width:734px) 92vw, 760px" alt="Site vitrine d'architecte d'intérieur créé par KingDream Digital, affiché sur ordinateur"></div>
+        <img decoding="async" width="2268" height="134" class="mbp-chrome" src="assets/img/barre-navigateur-macos.png" alt="">
+        <div class="mbp-view"><img decoding="async" width="1800" height="4286" class="rec-mac" src="assets/img/site-vitrine-maison-celeste-ordinateur.jpg" alt="Site vitrine d'architecte d'intérieur créé par KingDream Digital, affiché sur ordinateur"></div>
         <span class="mbp-notch"></span>
       </div></div>
       <div class="mbp-hinge"></div><div class="mbp-base"></div>
     </div>
     <div class="iphone"><i class="k k1"></i><i class="k k2"></i><i class="k k3"></i><i class="k k4"></i>
       <div class="bz"><div class="scr">
-        <img decoding="async" width="1179" height="162" class="ph-status" src="assets/img/barre-statut-ios.webp" srcset="assets/img/barre-statut-ios-589.webp 589w, assets/img/barre-statut-ios.webp 1179w" sizes="220px" alt="">
-        <div class="ph-view"><img decoding="async" width="600" height="4275" class="rec-ph" src="assets/img/site-vitrine-maison-celeste-mobile.webp" srcset="assets/img/site-vitrine-maison-celeste-mobile-400.webp 400w, assets/img/site-vitrine-maison-celeste-mobile.webp 600w" sizes="220px" alt="Version mobile du site vitrine créé par KingDream Digital"></div>
-        <img decoding="async" width="1179" height="372" class="ph-bar" src="assets/img/barre-navigateur-ios.webp" srcset="assets/img/barre-navigateur-ios-589.webp 589w, assets/img/barre-navigateur-ios.webp 1179w" sizes="220px" alt="">
+        <img decoding="async" width="1179" height="162" class="ph-status" src="assets/img/barre-statut-ios.png" alt="">
+        <div class="ph-view"><img decoding="async" width="786" height="5600" class="rec-ph" src="assets/img/site-vitrine-maison-celeste-mobile.jpg" alt="Version mobile du site vitrine créé par KingDream Digital"></div>
+        <img decoding="async" width="1179" height="372" class="ph-bar" src="assets/img/barre-navigateur-ios.png" alt="">
         <span class="island"></span>
       </div></div>
     </div>
@@ -811,29 +851,29 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
     <div class="bento">
       <article class="tile t-web rv dark" style="--tb:var(--kb)">
         <div class="tc"><h3 class="tag">Création de sites web</h3><p class="tt">Des sites qui donnent envie de vous contacter.</p></div>
-        <div class="win"><img decoding="async" width="1400" height="900" src="assets/img/page-projets-site-vitrine.webp" srcset="assets/img/page-projets-site-vitrine-700.webp 700w, assets/img/page-projets-site-vitrine.webp 1400w" sizes="(max-width:734px) 150vw, 900px" alt="Page projets d'un site vitrine conçu par KingDream Digital" loading="lazy"></div>
+        <div class="win"><img decoding="async" width="1400" height="900" src="assets/img/page-projets-site-vitrine.jpg" alt="Page projets d'un site vitrine conçu par KingDream Digital" loading="lazy"></div>
       </article>
       <article class="tile t-app rv d1" style="--tb:var(--ky)">
         <div class="tc"><h3 class="tag">Applications web et mobiles</h3><p class="tt">Votre service, dans leur poche.</p></div>
-        <div class="iphone"><i class="k k1"></i><i class="k k2"></i><i class="k k3"></i><i class="k k4"></i><div class="bz"><div class="scr"><img decoding="async" width="600" height="1301" class="full" src="assets/img/application-mobile-restaurant-accueil.webp" alt="Application mobile de restaurant développée par KingDream Digital : écran d'accueil" loading="lazy"><span class="island"></span></div></div></div>
+        <div class="iphone"><i class="k k1"></i><i class="k k2"></i><i class="k k3"></i><i class="k k4"></i><div class="bz"><div class="scr"><img decoding="async" width="900" height="1951" class="full" src="assets/img/application-mobile-restaurant-accueil.jpg" alt="Application mobile de restaurant développée par KingDream Digital : écran d'accueil" loading="lazy"><span class="island"></span></div></div></div>
       </article>
       <article class="tile t-seo rv dark" style="--tb:var(--kg)">
         <div class="tc"><h3 class="tag">Référencement naturel</h3><p class="tt">Trouvé en premier, par les bons clients.</p></div>
-        <div class="win"><img decoding="async" width="1400" height="996" src="assets/img/rapport-referencement-naturel.webp" srcset="assets/img/rapport-referencement-naturel-700.webp 700w, assets/img/rapport-referencement-naturel.webp 1400w" sizes="(max-width:734px) 190vw, 640px" alt="Rapport de référencement naturel : clics Google et positions des mots-clés" loading="lazy"></div>
+        <div class="win"><img decoding="async" width="2000" height="1422" src="assets/img/rapport-referencement-naturel.jpg" alt="Rapport de référencement naturel : clics Google et positions des mots-clés" loading="lazy"></div>
       </article>
       <article class="tile t-audit rv d1 dark" style="--tb:var(--kp)">
         <div class="tc"><h3 class="tag">Audit de site et audit SEO</h3><p class="tt">Un diagnostic précis. Un plan d'action clair.</p></div>
-        <div class="win"><img decoding="async" width="1400" height="996" src="assets/img/audit-performance-site-internet.webp" srcset="assets/img/audit-performance-site-internet-700.webp 700w, assets/img/audit-performance-site-internet.webp 1400w" sizes="(max-width:734px) 190vw, 680px" alt="Audit de site internet : scores de performance, accessibilité et SEO" loading="lazy"></div>
+        <div class="win"><img decoding="async" width="2000" height="1422" src="assets/img/audit-performance-site-internet.jpg" alt="Audit de site internet : scores de performance, accessibilité et SEO" loading="lazy"></div>
       </article>
       <article class="tile t-sec rv d2 dark" style="--tb:#111113">
         <div class="tc"><h3 class="tag">Sécurité et protection</h3><p class="tt">Protégé, sauvegardé, surveillé. Jour et nuit.</p></div>
-        <div class="win"><img decoding="async" width="1400" height="996" src="assets/img/surveillance-securite-site-internet.webp" srcset="assets/img/surveillance-securite-site-internet-700.webp 700w, assets/img/surveillance-securite-site-internet.webp 1400w" sizes="(max-width:734px) 190vw, 640px" alt="Surveillance de sécurité d'un site internet : disponibilité, pare-feu et sauvegardes" loading="lazy"></div>
+        <div class="win"><img decoding="async" width="2000" height="1422" src="assets/img/surveillance-securite-site-internet.jpg" alt="Surveillance de sécurité d'un site internet : disponibilité, pare-feu et sauvegardes" loading="lazy"></div>
       </article>
       <article class="tile t-auto rv dark" style="--tb:var(--ko)">
         <div class="tc"><h3 class="tag">Automatisation</h3><p class="tt">Les tâches répétitives se font toutes seules.</p></div>
         <div class="iphone" id="lockPhone"><i class="k k1"></i><i class="k k2"></i><i class="k k3"></i><i class="k k4"></i><div class="bz"><div class="scr">
           <div class="lock">
-            <img decoding="async" width="600" height="1301" class="wall" src="assets/img/fond-ecran-iphone.webp" alt="" loading="lazy">
+            <img decoding="async" width="600" height="1301" class="wall" src="assets/img/fond-ecran-iphone.jpg" alt="" loading="lazy">
             <div class="st"><svg viewBox="0 0 18 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="1"/><rect x="4.8" y="5.2" width="3.2" height="6.8" rx="1"/><rect x="9.6" y="2.7" width="3.2" height="9.3" rx="1"/><rect x="14.4" y="0" width="3.2" height="12" rx="1"/></svg><svg viewBox="0 0 16 12"><path d="M0.222 3.722A11 11 0 0 1 15.778 3.722L14.222 5.278A8.8 8.8 0 0 0 1.778 5.278Z"/><path d="M2.909 6.409A7.2 7.2 0 0 1 13.091 6.409L11.536 7.964A5 5 0 0 0 4.464 7.964Z"/><path d="M8 11.5L5.596 9.096A3.4 3.4 0 0 1 10.404 9.096Z"/></svg><svg viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.8" fill="none" stroke="#fff" stroke-opacity=".45"/><rect x="2" y="2" width="17" height="9" rx="2.3"/><path d="M25 4.4v4.2c.8-.3 1.4-1.1 1.4-2.1s-.6-1.8-1.4-2.1z" fill-opacity=".5"/></svg></div>
             <div class="date">vendredi 3 octobre</div>
             <div class="time">9:41</div>
@@ -850,7 +890,7 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
       </article>
       <article class="tile t-dash rv d1" style="--tb:#fff">
         <div class="tc"><h3 class="tag">Dashboards et outils sur mesure</h3><p class="tt">Toute votre activité, en un coup d'œil.</p></div>
-        <div class="win"><img decoding="async" width="1600" height="1000" src="assets/img/dashboard-sur-mesure-pme.webp" srcset="assets/img/dashboard-sur-mesure-pme-800.webp 800w, assets/img/dashboard-sur-mesure-pme.webp 1600w" sizes="(max-width:734px) 230vw, 900px" alt="Dashboard sur mesure pour PME : chiffre d'affaires et indicateurs en temps réel" loading="lazy"></div>
+        <div class="win"><img decoding="async" width="1600" height="1000" src="assets/img/dashboard-sur-mesure-pme.jpg" alt="Dashboard sur mesure pour PME : chiffre d'affaires et indicateurs en temps réel" loading="lazy"></div>
       </article>
       <article class="tile t-fact rv" id="tFact" style="--tb:#fff">
         <div class="tc">
@@ -859,7 +899,7 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
           <p class="tp">Émission et réception au format Factur-X, transmission via une plateforme agréée, archivage et relances automatiques.</p>
           <div class="chips"><span>Factur-X</span><span>UBL</span><span>CII</span><span>Plateforme agréée</span></div>
         </div>
-        <div class="paper"><img decoding="async" width="1000" height="1414" src="assets/img/facture-electronique-factur-x.webp" srcset="assets/img/facture-electronique-factur-x-500.webp 500w, assets/img/facture-electronique-factur-x.webp 1000w" sizes="340px" alt="Facture électronique au format Factur-X transmise via une plateforme agréée" loading="lazy"></div>
+        <div class="paper"><img decoding="async" width="1240" height="1754" src="assets/img/facture-electronique-factur-x.jpg" alt="Facture électronique au format Factur-X transmise via une plateforme agréée" loading="lazy"></div>
         <div class="track">
           <small>Suivi en temps réel</small><h4>Facture FA-2026-0412</h4>
           <ol>
@@ -874,7 +914,7 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
 
     <div class="sd rv">
       <h3 class="sd-h">Le détail de nos prestations</h3>
-      <div class="sd-grid"><div class="sd-card"><h4>Création de sites web</h4><p>Site vitrine, e-commerce ou site métier : des sites rapides, élégants et pensés pour transformer vos visiteurs en clients.</p><ul><li>Design sur mesure, à l'image de votre marque</li><li>Parfait sur mobile, tablette et ordinateur</li><li>Optimisé pour Google dès la mise en ligne</li><li>Simple à mettre à jour, en toute autonomie</li></ul><a class="link" href="/creation-site-internet/">En savoir plus<svg viewBox="0 0 8 13"><path d="M1.5 1.5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div><div class="sd-card"><h4>Applications web et mobiles</h4><p>Applications iOS, Android et web pour réserver, commander, suivre ou fidéliser vos clients.</p><ul><li>Applications iOS et Android</li><li>Espaces clients et outils métiers en ligne</li><li>Paiement, notifications et réservation intégrés</li><li>Publication sur l'App Store et Google Play</li></ul></div><div class="sd-card"><h4>Référencement naturel (SEO)</h4><p>Nous développons durablement votre visibilité sur Google : technique, contenus et notoriété locale.</p><ul><li>Stratégie de mots-clés et contenus</li><li>Optimisation technique et vitesse</li><li>Référencement local et fiche d'établissement Google</li><li>Rapport mensuel clair et chiffré</li></ul><a class="link" href="/referencement-naturel/">En savoir plus<svg viewBox="0 0 8 13"><path d="M1.5 1.5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div><div class="sd-card"><h4>Audit de site et audit SEO</h4><p>Un diagnostic complet de votre site et des recommandations priorisées, chiffrées et compréhensibles.</p><ul><li>Performance, accessibilité et bonnes pratiques</li><li>Analyse SEO technique et éditoriale</li><li>Comparaison avec vos concurrents</li><li>Actions classées par impact</li></ul></div><div class="sd-card"><h4>Sécurité et maintenance</h4><p>Nous protégeons vos sites et vos données contre les attaques, les pannes et les pertes.</p><ul><li>Certificat SSL et pare-feu applicatif</li><li>Sauvegardes quotidiennes et restauration rapide</li><li>Mises à jour de sécurité régulières</li><li>Surveillance 24 h/24 et alertes</li></ul></div><div class="sd-card"><h4>Automatisation des tâches</h4><p>Commandes, factures, relances, e-mails : vos outils travaillent ensemble, sans ressaisie.</p><ul><li>Site, CRM, comptabilité et e-mails connectés</li><li>Relances et notifications automatiques</li><li>Devis, factures et bons de livraison générés seuls</li><li>Moins d'erreurs, plus de temps pour vos clients</li></ul></div><div class="sd-card"><h4>Dashboards et outils sur mesure</h4><p>Des tableaux de bord construits autour de vos chiffres et de votre façon de travailler.</p><ul><li>Indicateurs clés en temps réel</li><li>Données réunies depuis tous vos outils</li><li>Accès sécurisé pour vos équipes</li><li>Exports et rapports automatiques</li></ul></div><div class="sd-card"><h4>Facturation électronique</h4><p>Nous vous rendons conforme à la réforme de la facture électronique, simplement.</p><ul><li>Raccordement à une plateforme agréée</li><li>Factures aux formats Factur-X, UBL ou CII</li><li>Envoi, réception et archivage automatiques</li><li>Relances et suivi des paiements</li></ul><a class="link" href="/facturation-electronique/">En savoir plus<svg viewBox="0 0 8 13"><path d="M1.5 1.5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div>
+      <div class="sd-grid"><div class="sd-card"><h4>Création de sites web</h4><p>Site vitrine, e-commerce ou site métier : des sites rapides, élégants et pensés pour transformer vos visiteurs en clients.</p><ul><li>Design sur mesure, à l'image de votre marque</li><li>Parfait sur mobile, tablette et ordinateur</li><li>Optimisé pour Google dès la mise en ligne</li><li>Simple à mettre à jour, en toute autonomie</li></ul><a class="link" href="/creation-site-internet/">En savoir plus<svg viewBox="0 0 8 13"><path d="M1.5 1.5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div><div class="sd-card"><h4>Applications web et mobiles</h4><p>Applications iOS, Android et web pour réserver, commander, suivre ou fidéliser vos clients.</p><ul><li>Applications iOS et Android</li><li>Espaces clients et outils métiers en ligne</li><li>Paiement, notifications et réservation intégrés</li><li>Publication sur l'App Store et Google Play</li></ul><a class="link" href="/application-web-mobile/">En savoir plus<svg viewBox="0 0 8 13"><path d="M1.5 1.5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div><div class="sd-card"><h4>Référencement naturel (SEO)</h4><p>Nous développons durablement votre visibilité sur Google : technique, contenus et notoriété locale.</p><ul><li>Stratégie de mots-clés et contenus</li><li>Optimisation technique et vitesse</li><li>Référencement local et fiche d'établissement Google</li><li>Rapport mensuel clair et chiffré</li></ul><a class="link" href="/referencement-naturel/">En savoir plus<svg viewBox="0 0 8 13"><path d="M1.5 1.5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div><div class="sd-card"><h4>Audit de site et audit SEO</h4><p>Un diagnostic complet de votre site et des recommandations priorisées, chiffrées et compréhensibles.</p><ul><li>Performance, accessibilité et bonnes pratiques</li><li>Analyse SEO technique et éditoriale</li><li>Comparaison avec vos concurrents</li><li>Actions classées par impact</li></ul><a class="link" href="/audit-site-internet/">En savoir plus<svg viewBox="0 0 8 13"><path d="M1.5 1.5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div><div class="sd-card"><h4>Sécurité et maintenance</h4><p>Nous protégeons vos sites et vos données contre les attaques, les pannes et les pertes.</p><ul><li>Certificat SSL et pare-feu applicatif</li><li>Sauvegardes quotidiennes et restauration rapide</li><li>Mises à jour de sécurité régulières</li><li>Surveillance 24 h/24 et alertes</li></ul><a class="link" href="/securite-site-internet/">En savoir plus<svg viewBox="0 0 8 13"><path d="M1.5 1.5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div><div class="sd-card"><h4>Automatisation des tâches</h4><p>Commandes, factures, relances, e-mails : vos outils travaillent ensemble, sans ressaisie.</p><ul><li>Site, CRM, comptabilité et e-mails connectés</li><li>Relances et notifications automatiques</li><li>Devis, factures et bons de livraison générés seuls</li><li>Moins d'erreurs, plus de temps pour vos clients</li></ul><a class="link" href="/automatisation/">En savoir plus<svg viewBox="0 0 8 13"><path d="M1.5 1.5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div><div class="sd-card"><h4>Dashboards et outils sur mesure</h4><p>Des tableaux de bord construits autour de vos chiffres et de votre façon de travailler.</p><ul><li>Indicateurs clés en temps réel</li><li>Données réunies depuis tous vos outils</li><li>Accès sécurisé pour vos équipes</li><li>Exports et rapports automatiques</li></ul><a class="link" href="/dashboard-sur-mesure/">En savoir plus<svg viewBox="0 0 8 13"><path d="M1.5 1.5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div><div class="sd-card"><h4>Facturation électronique</h4><p>Nous vous rendons conforme à la réforme de la facture électronique, simplement.</p><ul><li>Raccordement à une plateforme agréée</li><li>Factures aux formats Factur-X, UBL ou CII</li><li>Envoi, réception et archivage automatiques</li><li>Relances et suivi des paiements</li></ul><a class="link" href="/facturation-electronique/">En savoir plus<svg viewBox="0 0 8 13"><path d="M1.5 1.5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div>
     </div>
   </div>
 </section>
@@ -888,21 +928,21 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
     <article class="scard" style="--c:#1652f0;--t:#fff;--i:0">
       <div class="sc-txt"><p class="sc-n">01 · Créer</p><h3>Créer.</h3><p>Un site, une application ou un outil conçu sur mesure, parfait sur tous les écrans.</p></div>
       <div class="sc-vis v0">
-        <div class="mbp"><div class="mbp-lid"><div class="mbp-screen"><img decoding="async" width="2268" height="134" class="mbp-chrome" src="assets/img/barre-navigateur-macos.webp" srcset="assets/img/barre-navigateur-macos-1134.webp 1134w, assets/img/barre-navigateur-macos.webp 2268w" sizes="(max-width:734px) 92vw, 760px" alt=""><div class="mbp-view"><img decoding="async" width="1512" height="3600" class="rec-mac" src="assets/img/site-vitrine-maison-celeste-ordinateur.webp" srcset="assets/img/site-vitrine-maison-celeste-ordinateur-756.webp 756w, assets/img/site-vitrine-maison-celeste-ordinateur.webp 1512w" sizes="(max-width:734px) 92vw, 760px" alt="Site vitrine d'architecte d'intérieur créé par KingDream Digital, affiché sur ordinateur" loading="lazy"></div><span class="mbp-notch"></span></div></div><div class="mbp-hinge"></div><div class="mbp-base"></div></div>
-        <div class="iphone "><i class="k k1"></i><i class="k k2"></i><i class="k k3"></i><i class="k k4"></i><div class="bz"><div class="scr"><img decoding="async" width="1179" height="162" class="ph-status" src="assets/img/barre-statut-ios.webp" srcset="assets/img/barre-statut-ios-589.webp 589w, assets/img/barre-statut-ios.webp 1179w" sizes="220px" alt=""><div class="ph-view"><img decoding="async" width="600" height="4275" class="rec-ph" src="assets/img/site-vitrine-maison-celeste-mobile.webp" srcset="assets/img/site-vitrine-maison-celeste-mobile-400.webp 400w, assets/img/site-vitrine-maison-celeste-mobile.webp 600w" sizes="220px" alt="Version mobile du site vitrine créé par KingDream Digital" loading="lazy"></div><img decoding="async" width="1179" height="372" class="ph-bar" src="assets/img/barre-navigateur-ios.webp" srcset="assets/img/barre-navigateur-ios-589.webp 589w, assets/img/barre-navigateur-ios.webp 1179w" sizes="220px" alt=""><span class="island"></span></div></div></div>
+        <div class="mbp"><div class="mbp-lid"><div class="mbp-screen"><img decoding="async" width="2268" height="134" class="mbp-chrome" src="assets/img/barre-navigateur-macos.png" alt=""><div class="mbp-view"><img decoding="async" width="1800" height="4286" class="rec-mac" src="assets/img/site-vitrine-maison-celeste-ordinateur.jpg" alt="Site vitrine d'architecte d'intérieur créé par KingDream Digital, affiché sur ordinateur" loading="lazy"></div><span class="mbp-notch"></span></div></div><div class="mbp-hinge"></div><div class="mbp-base"></div></div>
+        <div class="iphone "><i class="k k1"></i><i class="k k2"></i><i class="k k3"></i><i class="k k4"></i><div class="bz"><div class="scr"><img decoding="async" width="1179" height="162" class="ph-status" src="assets/img/barre-statut-ios.png" alt=""><div class="ph-view"><img decoding="async" width="786" height="5600" class="rec-ph" src="assets/img/site-vitrine-maison-celeste-mobile.jpg" alt="Version mobile du site vitrine créé par KingDream Digital" loading="lazy"></div><img decoding="async" width="1179" height="372" class="ph-bar" src="assets/img/barre-navigateur-ios.png" alt=""><span class="island"></span></div></div></div>
       </div>
     </article>
     <article class="scard" style="--c:#ff5a1f;--t:#fff;--i:1">
       <div class="sc-txt"><p class="sc-n">02 · Optimiser</p><h3>Optimiser.</h3><p>Des pages rapides, accessibles et bien placées sur Google.</p></div>
       <div class="sc-vis v1">
-        <div class="win"><img decoding="async" width="1400" height="996" src="assets/img/audit-performance-site-internet.webp" srcset="assets/img/audit-performance-site-internet-700.webp 700w, assets/img/audit-performance-site-internet.webp 1400w" sizes="(max-width:734px) 190vw, 680px" alt="Audit de site internet : scores de performance, accessibilité et SEO" loading="lazy"></div>
+        <div class="win"><img decoding="async" width="2000" height="1422" src="assets/img/audit-performance-site-internet.jpg" alt="Audit de site internet : scores de performance, accessibilité et SEO" loading="lazy"></div>
         <div class="fcard c1"><div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="rb"/><circle cx="60" cy="60" r="52" class="rf"/></svg><b data-count="98" data-from="54">54</b></div><div><small>Score de performance</small><p>Chargement <b data-time>4,8 s</b></p></div></div>
       </div>
     </article>
     <article class="scard" style="--c:#111113;--t:#fff;--i:2">
       <div class="sc-txt"><p class="sc-n">03 · Sécuriser</p><h3>Sécuriser.</h3><p>Vos sites et vos données protégés, surveillés jour et nuit.</p></div>
       <div class="sc-vis v2">
-        <div class="win"><img decoding="async" width="1400" height="996" src="assets/img/surveillance-securite-site-internet.webp" srcset="assets/img/surveillance-securite-site-internet-700.webp 700w, assets/img/surveillance-securite-site-internet.webp 1400w" sizes="(max-width:734px) 190vw, 640px" alt="Surveillance de sécurité d'un site internet : disponibilité, pare-feu et sauvegardes" loading="lazy"></div>
+        <div class="win"><img decoding="async" width="2000" height="1422" src="assets/img/surveillance-securite-site-internet.jpg" alt="Surveillance de sécurité d'un site internet : disponibilité, pare-feu et sauvegardes" loading="lazy"></div>
         <div class="fcard c2"><span class="shield"><svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5l8-3z"/><path d="M8.5 12.2l2.4 2.4 4.8-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><small>Attaques bloquées</small><b data-count="1284" data-from="0">0</b><p>Disponibilité 99,99 %</p></div></div>
       </div>
     </article>
@@ -913,7 +953,7 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
     <article class="scard" style="--c:#00a86b;--t:#fff;--i:4">
       <div class="sc-txt"><p class="sc-n">05 · Développer</p><h3>Développer.</h3><p>Des chiffres clairs, en temps réel, pour décider et accélérer.</p></div>
       <div class="sc-vis v4">
-        <div class="win"><img decoding="async" width="1600" height="1000" src="assets/img/dashboard-sur-mesure-pme.webp" srcset="assets/img/dashboard-sur-mesure-pme-800.webp 800w, assets/img/dashboard-sur-mesure-pme.webp 1600w" sizes="(max-width:734px) 230vw, 900px" alt="Dashboard sur mesure pour PME : chiffre d'affaires et indicateurs en temps réel" loading="lazy"></div>
+        <div class="win"><img decoding="async" width="1600" height="1000" src="assets/img/dashboard-sur-mesure-pme.jpg" alt="Dashboard sur mesure pour PME : chiffre d'affaires et indicateurs en temps réel" loading="lazy"></div>
         <div class="fcard c4"><small>Chiffre d'affaires</small><b data-count="4412600" data-from="3849000" data-eur>3 849 000 €</b><em>+14,6 %</em><svg viewBox="0 0 260 80" preserveAspectRatio="none"><path class="ca" d="M0 70 C30 66 50 58 80 60 S130 44 160 40 S220 22 260 8" fill="none" stroke-width="4" stroke-linecap="round"/></svg></div>
       </div>
     </article>
@@ -938,24 +978,24 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
       <div class="gt"><small>Site vitrine · Référencement</small><h3>Maison Céleste</h3><p>Architecte d'intérieur à Lyon. Un site à la hauteur de ses projets, désormais en tête des recherches locales.</p></div>
       <div class="gstats"><div><b>×3</b><span>demandes de rendez-vous</span></div><div><b>1<sup>re</sup> place</b><span>sur Google pour ses requêtes clés</span></div><div><b>98/100</b><span>score de performance</span></div></div>
       <div class="gvis">
-        <div class="mbp"><div class="mbp-lid"><div class="mbp-screen"><img decoding="async" width="2268" height="134" class="mbp-chrome" src="assets/img/barre-navigateur-macos.webp" srcset="assets/img/barre-navigateur-macos-1134.webp 1134w, assets/img/barre-navigateur-macos.webp 2268w" sizes="(max-width:734px) 92vw, 760px" alt=""><div class="mbp-view"><img decoding="async" width="1512" height="3600" style="transform:translateY(-35%)" src="assets/img/site-vitrine-maison-celeste-ordinateur.webp" srcset="assets/img/site-vitrine-maison-celeste-ordinateur-756.webp 756w, assets/img/site-vitrine-maison-celeste-ordinateur.webp 1512w" sizes="(max-width:734px) 92vw, 760px" alt="Site vitrine d'architecte d'intérieur créé par KingDream Digital, affiché sur ordinateur" loading="lazy"></div><span class="mbp-notch"></span></div></div><div class="mbp-hinge"></div><div class="mbp-base"></div></div>
-        <div class="iphone"><i class="k k1"></i><i class="k k2"></i><i class="k k3"></i><i class="k k4"></i><div class="bz"><div class="scr"><img decoding="async" width="1179" height="162" class="ph-status" src="assets/img/barre-statut-ios.webp" srcset="assets/img/barre-statut-ios-589.webp 589w, assets/img/barre-statut-ios.webp 1179w" sizes="220px" alt=""><div class="ph-view"><img decoding="async" width="600" height="4275" src="assets/img/site-vitrine-maison-celeste-mobile.webp" srcset="assets/img/site-vitrine-maison-celeste-mobile-400.webp 400w, assets/img/site-vitrine-maison-celeste-mobile.webp 600w" sizes="220px" alt="Version mobile du site vitrine créé par KingDream Digital" loading="lazy"></div><img decoding="async" width="1179" height="372" class="ph-bar" src="assets/img/barre-navigateur-ios.webp" srcset="assets/img/barre-navigateur-ios-589.webp 589w, assets/img/barre-navigateur-ios.webp 1179w" sizes="220px" alt=""><span class="island"></span></div></div></div>
+        <div class="mbp"><div class="mbp-lid"><div class="mbp-screen"><img decoding="async" width="2268" height="134" class="mbp-chrome" src="assets/img/barre-navigateur-macos.png" alt=""><div class="mbp-view"><img decoding="async" width="1800" height="4286" style="transform:translateY(-35%)" src="assets/img/site-vitrine-maison-celeste-ordinateur.jpg" alt="Site vitrine d'architecte d'intérieur créé par KingDream Digital, affiché sur ordinateur" loading="lazy"></div><span class="mbp-notch"></span></div></div><div class="mbp-hinge"></div><div class="mbp-base"></div></div>
+        <div class="iphone"><i class="k k1"></i><i class="k k2"></i><i class="k k3"></i><i class="k k4"></i><div class="bz"><div class="scr"><img decoding="async" width="1179" height="162" class="ph-status" src="assets/img/barre-statut-ios.png" alt=""><div class="ph-view"><img decoding="async" width="786" height="5600" src="assets/img/site-vitrine-maison-celeste-mobile.jpg" alt="Version mobile du site vitrine créé par KingDream Digital" loading="lazy"></div><img decoding="async" width="1179" height="372" class="ph-bar" src="assets/img/barre-navigateur-ios.png" alt=""><span class="island"></span></div></div></div>
       </div>
     </article>
     <article class="gc g2">
       <div class="gt"><small>Application iOS et Android</small><h3>Le Comptoir</h3><p>Bistrot lyonnais. Réservation en trois touches, carte de saison et programme de fidélité.</p></div>
       <div class="gstats"><div><b>62 %</b><span>des réservations passent par l'app</span></div><div><b>−40 %</b><span>de tables non honorées</span></div><div><b>4,8</b><span>note moyenne sur les stores</span></div></div>
       <div class="gvis">
-        <div class="iphone a"><i class="k k1"></i><i class="k k2"></i><i class="k k3"></i><i class="k k4"></i><div class="bz"><div class="scr"><img decoding="async" width="600" height="1301" class="full" src="assets/img/application-mobile-restaurant-accueil.webp" alt="Application mobile de restaurant développée par KingDream Digital : écran d'accueil" loading="lazy"><span class="island"></span></div></div></div>
-        <div class="iphone b"><i class="k k1"></i><i class="k k2"></i><i class="k k3"></i><i class="k k4"></i><div class="bz"><div class="scr"><img decoding="async" width="600" height="1301" class="full" src="assets/img/application-mobile-reservation-restaurant.webp" alt="Application mobile de restaurant : réservation de table en quelques touches" loading="lazy"><span class="island"></span></div></div></div>
+        <div class="iphone a"><i class="k k1"></i><i class="k k2"></i><i class="k k3"></i><i class="k k4"></i><div class="bz"><div class="scr"><img decoding="async" width="900" height="1951" class="full" src="assets/img/application-mobile-restaurant-accueil.jpg" alt="Application mobile de restaurant développée par KingDream Digital : écran d'accueil" loading="lazy"><span class="island"></span></div></div></div>
+        <div class="iphone b"><i class="k k1"></i><i class="k k2"></i><i class="k k3"></i><i class="k k4"></i><div class="bz"><div class="scr"><img decoding="async" width="900" height="1951" class="full" src="assets/img/application-mobile-reservation-restaurant.jpg" alt="Application mobile de restaurant : réservation de table en quelques touches" loading="lazy"><span class="island"></span></div></div></div>
       </div>
     </article>
     <article class="gc g3 dark">
       <div class="gt"><small>Dashboard · Automatisation · E-facture</small><h3>Transports Morel</h3><p>Transporteur régional. Pilotage en temps réel et factures conformes, envoyées et relancées automatiquement.</p></div>
       <div class="gstats"><div><b>−12 jours</b><span>de délai de paiement</span></div><div><b>8 h</b><span>de saisie économisées par semaine</span></div><div><b>100 %</b><span>de factures électroniques conformes</span></div></div>
       <div class="gvis">
-        <div class="mbp"><div class="mbp-lid"><div class="mbp-screen"><img decoding="async" width="1512" height="982" class="mbp-full" src="assets/img/dashboard-pilotage-entreprise-transport.webp" srcset="assets/img/dashboard-pilotage-entreprise-transport-756.webp 756w, assets/img/dashboard-pilotage-entreprise-transport.webp 1512w" sizes="(max-width:734px) 120vw, 760px" alt="Tableau de bord de pilotage d'une entreprise de transport" loading="lazy"><span class="mbp-notch"></span></div></div><div class="mbp-hinge"></div><div class="mbp-base"></div></div>
-        <div class="paper"><img decoding="async" width="1000" height="1414" src="assets/img/facture-electronique-factur-x.webp" srcset="assets/img/facture-electronique-factur-x-500.webp 500w, assets/img/facture-electronique-factur-x.webp 1000w" sizes="340px" alt="Facture électronique au format Factur-X transmise via une plateforme agréée" loading="lazy"></div>
+        <div class="mbp"><div class="mbp-lid"><div class="mbp-screen"><img decoding="async" width="2268" height="1473" class="mbp-full" src="assets/img/dashboard-pilotage-entreprise-transport.jpg" alt="Tableau de bord de pilotage d'une entreprise de transport" loading="lazy"><span class="mbp-notch"></span></div></div><div class="mbp-hinge"></div><div class="mbp-base"></div></div>
+        <div class="paper"><img decoding="async" width="1240" height="1754" src="assets/img/facture-electronique-factur-x.jpg" alt="Facture électronique au format Factur-X transmise via une plateforme agréée" loading="lazy"></div>
       </div>
     </article>
     <article class="gc g4 dark">
@@ -975,11 +1015,11 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
     <p class="intro rv d1" style="margin-top:18px">Simple, transparente, sans surprise. <strong>Vous savez toujours où en est votre projet.</strong></p>
   </div>
   <div class="steps" id="steps">
-    <article class="st-card" style="--i:0"><img decoding="async" width="900" height="600" src="assets/img/methode-echange-client.webp" alt="Premier échange avec le client autour de son projet de site" loading="lazy"><div class="b"><small><span class="sn">1</span>Étape 1</small><h3>Échange</h3><p>Nous écoutons vos objectifs, vos contraintes et votre budget.</p><em>30 min · offert</em></div></article>
-    <article class="st-card" style="--i:1"><img decoding="async" width="900" height="600" src="assets/img/methode-conception-maquettes.webp" alt="Conception des maquettes du site sur tablette" loading="lazy"><div class="b"><small><span class="sn">2</span>Étape 2</small><h3>Conception</h3><p>Parcours, maquettes et devis détaillé, validés avec vous.</p><em>Devis clair et fixe</em></div></article>
-    <article class="st-card" style="--i:2"><img decoding="async" width="900" height="600" src="assets/img/methode-developpement.webp" alt="Développement du site internet" loading="lazy"><div class="b"><small><span class="sn">3</span>Étape 3</small><h3>Développement</h3><p>Nous construisons par étapes, avec des démonstrations régulières.</p><em>Démos à chaque étape</em></div></article>
-    <article class="st-card" style="--i:3"><img decoding="async" width="900" height="600" src="assets/img/methode-mise-en-ligne.webp" alt="Mise en ligne du site sur ordinateur et écran" loading="lazy"><div class="b"><small><span class="sn">4</span>Étape 4</small><h3>Mise en ligne</h3><p>Tests, optimisation et lancement, en toute sécurité.</p><em>Formation incluse</em></div></article>
-    <article class="st-card" style="--i:4"><img decoding="async" width="900" height="600" src="assets/img/methode-suivi-statistiques.webp" alt="Suivi des statistiques de fréquentation du site" loading="lazy"><div class="b"><small><span class="sn">5</span>Étape 5</small><h3>Suivi</h3><p>Maintenance, sécurité et améliorations continues.</p><em>Rapport mensuel</em></div></article>
+    <article class="st-card" style="--i:0"><img decoding="async" width="1350" height="900" src="assets/img/methode-echange-client.jpg" alt="Premier échange avec le client autour de son projet de site" loading="lazy"><div class="b"><small><span class="sn">1</span>Étape 1</small><h3>Échange</h3><p>Nous écoutons vos objectifs, vos contraintes et votre budget.</p><em>30 min · offert</em></div></article>
+    <article class="st-card" style="--i:1"><img decoding="async" width="1350" height="900" src="assets/img/methode-conception-maquettes.jpg" alt="Conception des maquettes du site sur tablette" loading="lazy"><div class="b"><small><span class="sn">2</span>Étape 2</small><h3>Conception</h3><p>Parcours, maquettes et devis détaillé, validés avec vous.</p><em>Devis clair et fixe</em></div></article>
+    <article class="st-card" style="--i:2"><img decoding="async" width="1350" height="900" src="assets/img/methode-developpement.jpg" alt="Développement du site internet" loading="lazy"><div class="b"><small><span class="sn">3</span>Étape 3</small><h3>Développement</h3><p>Nous construisons par étapes, avec des démonstrations régulières.</p><em>Démos à chaque étape</em></div></article>
+    <article class="st-card" style="--i:3"><img decoding="async" width="1350" height="900" src="assets/img/methode-mise-en-ligne.jpg" alt="Mise en ligne du site sur ordinateur et écran" loading="lazy"><div class="b"><small><span class="sn">4</span>Étape 4</small><h3>Mise en ligne</h3><p>Tests, optimisation et lancement, en toute sécurité.</p><em>Formation incluse</em></div></article>
+    <article class="st-card" style="--i:4"><img decoding="async" width="1350" height="900" src="assets/img/methode-suivi-statistiques.jpg" alt="Suivi des statistiques de fréquentation du site" loading="lazy"><div class="b"><small><span class="sn">5</span>Étape 5</small><h3>Suivi</h3><p>Maintenance, sécurité et améliorations continues.</p><em>Rapport mensuel</em></div></article>
   </div>
   </section>
 
@@ -1032,9 +1072,9 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
   <div class="narrow">
     
     <div class="fcols">
-      <div><h4>Services</h4><a href="/creation-site-internet/">Création de site internet</a><a href="/creation-site-internet-manosque/">Création de site à Manosque</a><a href="/referencement-naturel/">Référencement naturel</a><a href="/facturation-electronique/">Facturation électronique</a></div>
-      <div><h4>Solutions</h4><a href="/#solutions">Applications web et mobiles</a><a href="/#solutions">Audit et sécurité</a><a href="/#solutions">Automatisation</a><a href="/#solutions">Dashboards sur mesure</a></div>
-      <div><h4>KingDream Digital</h4><a href="/#realisations">Réalisations</a><a href="/#methode">Notre méthode</a><a href="https://www.instagram.com/kingdream_digital" rel="noopener">Instagram</a></div>
+      <div><h4>Créer</h4><a href="/creation-site-internet/">Création de sites web</a><a href="/application-web-mobile/">Applications web et mobiles</a><a href="/referencement-naturel/">Référencement naturel</a><a href="/audit-site-internet/">Audit de site et audit SEO</a></div>
+      <div><h4>Gérer et protéger</h4><a href="/securite-site-internet/">Sécurité et maintenance</a><a href="/automatisation/">Automatisation</a><a href="/dashboard-sur-mesure/">Dashboards sur mesure</a><a href="/facturation-electronique/">Facturation électronique</a></div>
+      <div><h4>KingDream Digital</h4><a href="/">Accueil</a><a href="/creation-site-internet-manosque/">Agence web à Manosque</a><a href="#realisations">Réalisations</a><a href="#methode">Notre méthode</a><a href="https://www.instagram.com/kingdream_digital" rel="noopener">Instagram</a></div>
       <div><h4>Contact</h4><p class="addr">26 rue de la Liberté<br>04700 La Brillanne<br>près de Manosque (04)</p><a href="tel:+33627205597">06 27 20 55 97</a><a href="mailto:contact@kingdream.fr">contact@kingdream.fr</a></div>
     </div>
     <div class="fbot"><span>Copyright © 2026 KingDream Digital. Tous droits réservés.</span><nav><a href="/mentions-legales/">Mentions légales</a><a href="/confidentialite/">Confidentialité</a><a href="/cgv/">CGV</a><a href="#" data-legal="cookies">Gérer les cookies</a></nav><img decoding="async" width="480" height="100" src="assets/kingdream-digital-logo.png" alt="KingDream Digital"></div>
@@ -1092,7 +1132,7 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
   (function () {
     const el = document.getElementById('intro');
     if (!el) return;
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { el.remove(); return; }
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('no-intro')) { el.remove(); return; }
     document.body.classList.add('intro');
     let done = false, timer = null;
     const logoBox = document.getElementById('iLogo');
@@ -1131,9 +1171,7 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* nav */
-  const nav = $('#nav'), menuBtn = $('#menuBtn');
-  menuBtn.addEventListener('click', () => { const o = nav.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', o); });
-  $$('#navMenu a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+  const nav = $('#nav');
 
   /* reveal */
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12, rootMargin: '0px 0px -60px 0px' });
@@ -1330,5 +1368,6 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
 
 
 
+<script src="assets/js/nav.js" defer></script>
 </body>
 </html>
