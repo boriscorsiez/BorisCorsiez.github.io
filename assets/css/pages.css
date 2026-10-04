@@ -132,6 +132,63 @@ footer{background:var(--alt);font-size:12.5px;line-height:1.4;color:var(--ink2);
 .rels .dd-ic svg{width:20px;height:20px}
 .rels .card h3{font-size:18px}
 .addr{line-height:1.6}
+/* ===== homepage-consistent details ===== */
+:root{--spring:cubic-bezier(.34,1.56,.64,1)}
+/* highlighted words with the hand-drawn underline */
+.hl{position:relative;display:inline-block;color:var(--hc);white-space:nowrap}
+.hl>span{position:relative;z-index:1}
+.scrib svg{position:absolute;left:0;right:0;bottom:-.04em;width:100%;height:.28em;stroke:var(--ky);z-index:0}
+.scrib path{stroke-dasharray:340;stroke-dashoffset:340;animation:draw 1s var(--ease) .5s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+/* coloured stage behind the hero visual */
+.stage{position:relative;margin:56px auto 0;max-width:1100px;border-radius:32px;background:var(--sc);padding:56px 40px 0;overflow:hidden;isolation:isolate}
+.stage::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 50% 0%,rgba(255,255,255,.22),transparent 70%);z-index:-1}
+.stage .shot,.stage .phones,.stage .lockdemo{margin-top:0;margin-bottom:-40px}
+.stage .shot{box-shadow:0 0 0 1px rgba(0,0,0,.08),0 40px 80px -20px rgba(0,0,0,.45)}
+.stage .phones{margin-bottom:-90px}
+.stage .lockdemo{margin-bottom:-60px}
+.stage .shot,.stage .lockdemo{transform:translateY(40px);transition:transform 1.2s var(--ease)}
+.stage.in .shot,.stage.in .lockdemo{transform:none}
+/* ribbons */
+.bands{position:relative;height:230px;overflow:hidden;margin-top:-50px;pointer-events:none}
+.band{position:absolute;left:-10%;right:-10%;padding:16px 0;white-space:nowrap;overflow:hidden}
+.b1{top:60px;background:var(--bc);color:#fff;transform:rotate(-3deg);z-index:2;box-shadow:0 20px 40px -20px rgba(0,0,0,.4)}
+.b2{top:120px;background:var(--bc);transform:rotate(2.5deg)}
+.bt{display:inline-flex;gap:36px;font-size:46px;line-height:1;font-weight:700;letter-spacing:-.035em;will-change:transform}
+.bt i{font-style:normal;display:inline-block;animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bands+.sec{padding-top:40px}
+/* promise figures */
+.promise-sec{padding:70px 0 40px}
+.promise{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.promise div{border-top:3px solid var(--pc);padding-top:24px}
+.promise b{display:block;font-size:56px;line-height:1;font-weight:600;letter-spacing:-.03em;color:var(--pc)}
+.promise p{font-size:16px;color:var(--ink2);margin-top:12px;max-width:230px}
+/* cards & steps */
+.card{transition:transform .5s var(--spring),box-shadow .5s var(--ease)}
+.card:hover{transform:translateY(-4px);box-shadow:0 24px 48px -24px rgba(0,0,0,.25)}
+.card .n{transition:transform .5s var(--spring)}
+.card:hover .n{transform:scale(1.15) rotate(-8deg)}
+.steps li:nth-child(5n+1)::before{background:var(--kb)}.steps li:nth-child(5n+2)::before{background:var(--ko)}.steps li:nth-child(5n+3)::before{background:var(--kg)}.steps li:nth-child(5n+4)::before{background:var(--kp)}
+.checks li{transition:transform .3s var(--ease)}
+/* CTA banner */
+.cta{position:relative;overflow:hidden}
+.cta .wrap{position:relative;z-index:1}
+.cta{padding-bottom:170px}
+.cband{position:absolute;left:0;right:0;bottom:-34px;white-space:nowrap;opacity:.14;pointer-events:none}
+.cband .bt{font-size:150px}
+/* reveal */
+.rv{opacity:0;transform:translateY(34px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.promise .rv{transform:translateY(30px) scale(.85);transition:opacity .8s var(--ease),transform 1s var(--spring)}
+.promise .rv.in{transform:none}
+@media (max-width:734px){
+.stage{border-radius:24px;padding:32px 16px 0;margin-top:40px}
+.bands{height:160px;margin-top:-30px}.b1{top:40px}.b2{top:84px}
+.bt{font-size:28px;gap:20px}.band{padding:11px 0}
+.promise{grid-template-columns:1fr 1fr;gap:34px 20px}.promise b{font-size:40px}.promise p{font-size:14.5px}
+.cband .bt{font-size:80px}.cband{bottom:-16px}.cta{padding-bottom:120px}}
+@media (prefers-reduced-motion:reduce){.scrib path{stroke-dashoffset:0;animation:none}.rv{opacity:1;transform:none}.bt i{animation:none}}
 
 .dd-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--ink);opacity:.86;padding:0;transition:opacity .2s,color .2s}
 .dd-btn:hover,.dd-btn[aria-expanded="true"],.dd-btn.is-cur{opacity:1}
