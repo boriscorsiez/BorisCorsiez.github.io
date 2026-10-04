@@ -154,8 +154,9 @@ footer{background:var(--alt);font-size:12.5px;line-height:1.4;color:var(--ink2);
 .band{position:absolute;left:-10%;right:-10%;padding:16px 0;white-space:nowrap;overflow:hidden}
 .b1{top:60px;background:var(--bc);color:#fff;transform:rotate(-3deg);z-index:2;box-shadow:0 20px 40px -20px rgba(0,0,0,.4)}
 .b2{top:120px;background:var(--bc);transform:rotate(2.5deg)}
-.bt{display:inline-flex;gap:36px;font-size:46px;line-height:1;font-weight:700;letter-spacing:-.035em;will-change:transform}
+.bt{display:inline-flex;gap:36px;font-size:46px;line-height:1;font-weight:700;letter-spacing:-.035em}
 .bt i{font-style:normal;display:inline-block;animation:spin 6s linear infinite}
+.off .bt i{animation:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 .bands+.sec{padding-top:40px}
 /* promise figures */

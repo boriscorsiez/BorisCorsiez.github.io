@@ -10,14 +10,37 @@
     var html = items.map(function (t) { return '<span>' + t + '</span><i>✶</i>'; }).join('');
     bt.innerHTML = html + html + html;
   });
-  if (bts.length && !reduce) {
-    var drift = 0, lastY = scrollY, vel = 0;
-    (function tick() {
+  /* ribbons run on the compositor; scrolling only speeds them up, off-screen ones are paused */
+  if (bts.length && !reduce && bts[0].animate) {
+    var BASE = 30, anims = [], vel = 0, lastY = scrollY, vRaf = 0;
+    var build = function () {
+      anims.forEach(function (a) { a.cancel(); });
+      anims = bts.map(function (bt) {
+        var w = bt.scrollWidth / 3, d = +bt.dataset.s;
+        var kf = d > 0 ? [{ transform: 'translate3d(0,0,0)' }, { transform: 'translate3d(' + (-w) + 'px,0,0)' }] : [{ transform: 'translate3d(' + (-w) + 'px,0,0)' }, { transform: 'translate3d(0,0,0)' }];
+        return bt.animate(kf, { duration: w / BASE * 1000, iterations: Infinity, easing: 'linear' });
+      });
+    };
+    var setRate = function (r) { anims.forEach(function (a) { if (Math.abs(a.playbackRate - r) > .02) { if (a.updatePlaybackRate) a.updatePlaybackRate(r); else a.playbackRate = r; } }); };
+    var velLoop = function () {
       var dy = scrollY - lastY; lastY = scrollY; vel = vel * .9 + dy * .1;
-      drift += 0.5 + Math.abs(vel) * .7;
-      bts.forEach(function (bt) { var w = bt.scrollWidth / 3, d = +bt.dataset.s; var x = -((drift * d % w) + w) % w; bt.style.transform = 'translate3d(' + x + 'px,0,0)'; });
-      requestAnimationFrame(tick);
-    })();
+      setRate(1 + Math.abs(vel) * 1.4);
+      if (Math.abs(vel) > .02 || dy) vRaf = requestAnimationFrame(velLoop); else { vRaf = 0; vel = 0; setRate(1); }
+    };
+    build();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
+    var rb; addEventListener('resize', function () { clearTimeout(rb); rb = setTimeout(build, 150); });
+    addEventListener('scroll', function () { if (!vRaf) vRaf = requestAnimationFrame(velLoop); }, { passive: true });
+    if ('IntersectionObserver' in window) {
+      var bio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          var i = bts.indexOf(e.target.querySelector('.bt'));
+          e.target.classList.toggle('off', !e.isIntersecting);
+          if (anims[i]) { if (e.isIntersecting) anims[i].play(); else anims[i].pause(); }
+        });
+      }, { rootMargin: '100px 0px' });
+      bts.forEach(function (bt) { bio.observe(bt.parentNode); });
+    }
   }
 
   /* reveal on scroll */
