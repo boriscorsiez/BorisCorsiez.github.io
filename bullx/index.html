@@ -2,6 +2,8 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; media-src 'self' blob:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#1a1a24">
@@ -9,7 +11,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>BullX - Premium Darts</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 900; font-display: swap; src: url(/assets/fonts/outfit-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+        @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 900; font-display: swap; src: url(/assets/fonts/outfit-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    </style>
     
     <style>
         /* === DESIGN SYSTEM PREMIUM === */
@@ -357,9 +362,10 @@
     function switchView(id) { document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(id).classList.add('active'); if(id === 'setup-view') renderPlayers(); }
 
     // --- SETUP ---
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     function renderPlayers() {
         const box = document.getElementById('player-list'); box.innerHTML = '';
-        app.players.forEach((p, i) => { box.innerHTML += `<div class="player-row"><span style="color:var(--text-muted); font-weight:800; margin-right:12px;">${i+1}</span><input type="text" value="${p.name}" onchange="app.players[${i}].name = this.value" maxlength="10"> ${app.players.length > 1 ? `<button class="btn-delete" onclick="app.players.splice(${i}, 1); renderPlayers()"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>` : ''}</div>`; });
+        app.players.forEach((p, i) => { box.innerHTML += `<div class="player-row"><span style="color:var(--text-muted); font-weight:800; margin-right:12px;">${i+1}</span><input type="text" value="${esc(p.name)}" onchange="app.players[${i}].name = this.value" maxlength="10"> ${app.players.length > 1 ? `<button class="btn-delete" onclick="app.players.splice(${i}, 1); renderPlayers()"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>` : ''}</div>`; });
     }
     function addPlayer() { if(app.players.length >= 8) return; app.players.push({ id: Date.now(), name: `Joueur ${app.players.length + 1}` }); renderPlayers(); }
     function setGame(mode, btn) { app.gameMode = mode; document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.getElementById('x01-options').classList.toggle('show', mode === 'X01'); }
@@ -437,7 +443,7 @@
         const dash = document.getElementById('mini-dashboard'); dash.innerHTML = '';
         app.players.forEach((pl, i) => {
             let s = app.gameMode === 'LIVES' ? getMiniDotsHTML(pl.lives) : app.gameMode === 'CLOCK' ? "Tgt " + pl.target : pl.score;
-            dash.innerHTML += `<div class="dash-card ${i === app.currentIndex ? 'active' : ''} ${pl.dead ? 'dead' : ''}"><div class="dash-name">${pl.name}</div><div class="dash-score">${pl.dead ? 'OUT' : s}</div></div>`;
+            dash.innerHTML += `<div class="dash-card ${i === app.currentIndex ? 'active' : ''} ${pl.dead ? 'dead' : ''}"><div class="dash-name">${esc(pl.name)}</div><div class="dash-score">${pl.dead ? 'OUT' : s}</div></div>`;
         });
         const activeCard = document.querySelector('.dash-card.active'); if(activeCard) activeCard.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
@@ -450,7 +456,7 @@
     }
     function renderCricketTable() {
         let t = `<thead><tr><th class="c-target">🎯</th>`;
-        app.players.forEach((p, i) => { t += `<th class="${i === app.currentIndex ? 'active-col' : ''}">${p.name}</th>`; });
+        app.players.forEach((p, i) => { t += `<th class="${i === app.currentIndex ? 'active-col' : ''}">${esc(p.name)}</th>`; });
         t += `</tr></thead><tbody>`;
         [20, 19, 18, 17, 16, 15, 25].forEach(tgt => { t += `<tr><td class="c-target">${tgt === 25 ? 'B' : tgt}</td>`; app.players.forEach((p, i) => { t += `<td class="${i === app.currentIndex ? 'active-col' : ''}">${getCricketIcon(p.marks[tgt])}</td>`; }); t += `</tr>`; });
         t += `</tbody><tfoot><tr><td class="c-target">PTS</td>`; app.players.forEach((p, i) => { t += `<td class="${i === app.currentIndex ? 'active-col' : ''}" style="color:var(--accent-gold);">${p.score}</td>`; }); t += `</tr></tfoot>`;

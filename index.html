@@ -2,6 +2,8 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://api.emailjs.com; media-src 'self' blob:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script>/* intro only on a fresh visit or a reload, never when coming back from another page of the site */
 (function(){try{var n=performance.getEntriesByType('navigation')[0],t=n?n.type:'navigate',r=document.referrer,same=false;try{same=!!r&&new URL(r).origin===location.origin}catch(e){}if(t==='back_forward'||(t!=='reload'&&same))document.documentElement.classList.add('no-intro')}catch(e){}})();</script>
@@ -1055,6 +1057,7 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
           <div class="field full"><textarea id="fm" name="message" placeholder=" " required></textarea><label for="fm">Votre projet en quelques mots</label></div>
         </div>
         <label class="consent"><input type="checkbox" id="fConsent"><span class="cbox"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>J'accepte que mes informations soient utilisées pour répondre à ma demande, comme décrit dans la <a href="/confidentialite/">politique de confidentialité</a>.</span></label>
+        <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label for="fw">Ne pas remplir ce champ</label><input id="fw" name="site_web" tabindex="-1" autocomplete="off"></div>
         <p class="fstat" id="fStat" aria-live="polite"></p>
         <div class="form-foot"><small>Vos informations servent uniquement à répondre à votre demande. Elles ne sont jamais revendues.</small><button class="btn btn-lg" type="submit">Envoyer ma demande</button></div>
       </div>
@@ -1402,6 +1405,7 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
     btn.disabled = true; btn.textContent = 'Envoi en cours…'; stat.textContent = ''; stat.className = 'fstat';
     const v = n => (form.querySelector(`[name=${n}]`).value || '').trim();
     const done = () => form.classList.add('sent');
+    if (v('site_web')) { done(); return; } /* champ piège rempli : robot, rien n'est envoyé */
     if (!window.emailjs) { btn.disabled = false; btn.textContent = 'Envoyer ma demande'; stat.textContent = "L'envoi est indisponible pour le moment. Écrivez-nous à contact@kingdream.fr."; stat.className = 'fstat err'; return; }
     emailjs.send('service_hoelqns', 'template_3s8lpo4', {
       from_name: v('nom') + (v('entreprise') ? ' — ' + v('entreprise') : ''),
@@ -1413,7 +1417,7 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
   $$('input,textarea', form).forEach(f => f.addEventListener('input', () => f.parentNode.classList.remove('err')));
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js" integrity="sha384-SALc35EccAf6RzGw4iNsyj7kTPr33K7RoGzYu+7heZhT8s0GZouafRiCg1qy44AS" crossorigin="anonymous"></script>
 <script>try{emailjs.init({publicKey:"rKyne3AoYIx6m0qUs"});}catch(e){}</script>
 
 
