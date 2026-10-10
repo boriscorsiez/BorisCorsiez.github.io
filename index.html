@@ -644,6 +644,7 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
 .no-intro #intro{display:none!important}
 .fstat{font-size:14px;margin-top:16px;color:var(--ink2)}
 .fstat.err{color:#e30000}
+.fstat .mbtn{display:inline-block;margin-top:10px;padding:10px 18px;border-radius:999px;background:var(--kb);color:#fff;font-weight:600;text-decoration:none}
 .consent{display:flex;gap:12px;align-items:flex-start;margin-top:22px;font-size:14px;line-height:1.45;color:var(--ink2);cursor:pointer}
 .consent input{position:absolute;opacity:0;pointer-events:none}
 .consent .cbox{flex:none;width:22px;height:22px;border-radius:7px;box-shadow:inset 0 0 0 1.5px var(--line);display:grid;place-items:center;transition:background .2s,box-shadow .2s;margin-top:-1px}
@@ -1406,13 +1407,23 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
     const v = n => (form.querySelector(`[name=${n}]`).value || '').trim();
     const done = () => form.classList.add('sent');
     if (v('site_web')) { done(); return; } /* champ piège rempli : robot, rien n'est envoyé */
-    if (!window.emailjs) { btn.disabled = false; btn.textContent = 'Envoyer ma demande'; stat.textContent = "L'envoi est indisponible pour le moment. Écrivez-nous à contact@kingdream.fr."; stat.className = 'fstat err'; return; }
+    /* si EmailJS est indisponible, la demande n'est jamais perdue : on propose de l'envoyer par e-mail, déjà rédigée */
+    const fail = err => {
+      if (err) console.warn('Formulaire : échec EmailJS', err.status, err.text);
+      btn.disabled = false; btn.textContent = 'Envoyer ma demande'; stat.className = 'fstat err';
+      const body = 'Nom : ' + v('nom') + (v('entreprise') ? '\nEntreprise : ' + v('entreprise') : '') + '\nE-mail : ' + v('email') + (v('telephone') ? '\nTéléphone : ' + v('telephone') : '') + '\nBesoin : ' + (needs || 'Non précisé') + '\n\n' + v('message');
+      const a = document.createElement('a'); a.className = 'mbtn'; a.textContent = 'Envoyer ma demande par e-mail';
+      a.href = 'mailto:contact@kingdream.fr?subject=' + encodeURIComponent('Demande de projet — ' + v('nom')) + '&body=' + encodeURIComponent(body);
+      stat.textContent = "L'envoi automatique n'a pas fonctionné. Votre demande est prête, il suffit de l'envoyer depuis votre messagerie : ";
+      stat.append(document.createElement('br'), a);
+    };
+    if (!window.emailjs) { fail(); return; }
     emailjs.send('service_hoelqns', 'template_3s8lpo4', {
       from_name: v('nom') + (v('entreprise') ? ' — ' + v('entreprise') : ''),
       from_email: v('email'),
       project: (needs || 'Non précisé') + (v('telephone') ? ' · Tél. ' + v('telephone') : ''),
       message: v('message')
-    }).then(done, () => { btn.disabled = false; btn.textContent = 'Envoyer ma demande'; stat.textContent = "Impossible d'envoyer la demande pour le moment. Réessayez dans un instant ou écrivez-nous à contact@kingdream.fr."; stat.className = 'fstat err'; });
+    }).then(done, fail);
   });
   $$('input,textarea', form).forEach(f => f.addEventListener('input', () => f.parentNode.classList.remove('err')));
 })();
