@@ -1297,7 +1297,13 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
   const fcta = $('#fcta'), contact = $('#contact');
   layout();
   addEventListener('scroll', requestTick, { passive: true });
-  let rzT; addEventListener('resize', () => { clearTimeout(rzT); rzT = setTimeout(() => { layout(); onScroll(); }, 100); });
+  // on phones the address bar hides/shows while scrolling (and the keyboard opens on the form): that fires
+  // "resize" with only the height changing. Re-laying out then changes the page height under the finger,
+  // which froze the scroll and made it jump back up. Only a width change (or a real window resize) re-lays out.
+  const touch = matchMedia('(pointer:coarse)').matches;
+  let rzT, lastW = innerWidth, lastH = innerHeight;
+  const sizeChanged = () => { const w = innerWidth, h = innerHeight, ch = w !== lastW || (!touch && h !== lastH); if (ch) { lastW = w; lastH = h; } return ch; };
+  addEventListener('resize', () => { clearTimeout(rzT); rzT = setTimeout(() => { if (sizeChanged()) { layout(); onScroll(); } }, 100); });
   addEventListener('load', () => { layout(); onScroll(); });
   onScroll();
   if (staticMode) $$('.rv').forEach(el => el.classList.add('in'));
@@ -1331,7 +1337,7 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
   if (!reduce && bands.length && bands[0].animate) {
     buildBands();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(buildBands);
-    let rb; addEventListener('resize', () => { clearTimeout(rb); rb = setTimeout(buildBands, 150); });
+    let rb, bw = innerWidth; addEventListener('resize', () => { clearTimeout(rb); rb = setTimeout(() => { if (innerWidth !== bw) { bw = innerWidth; buildBands(); } }, 150); });
     addEventListener('scroll', () => { if (!vRaf) { lastY = lastY || scrollY; vRaf = requestAnimationFrame(velLoop); } }, { passive: true });
     // pause ribbons that are off screen
     const bio = new IntersectionObserver(es => es.forEach(e => { const i = bands.indexOf(e.target.querySelector('.bt')); e.target.classList.toggle('off', !e.isIntersecting); if (anims[i]) e.isIntersecting ? anims[i].play() : anims[i].pause(); }), { rootMargin: '100px 0px' });
@@ -1387,6 +1393,55 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
     $$('[data-legal]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openLegal(a.dataset.legal); }));
   })();
 
+  /* reply draft sent with each request: Boris only has to read it over and send it */
+  const ADR = "L'adresse de votre site.";
+  const NEEDS = {
+    'Site web': { nom: 'votre site web', court: 'site web', q: ["Si vous en avez déjà un, l'adresse de votre site actuel.", "Ce que le site doit vous apporter en priorité : des appels, des demandes de devis, des réservations, de la vente en ligne…", 'Deux ou trois sites que vous aimez (concurrents ou non), pour cerner le style recherché.', 'Avez-vous déjà un logo, des photos et des textes, ou faut-il les créer ?'] },
+    'Application': { nom: 'votre application', court: 'application', q: ["À qui s'adresse l'application (vos clients, vos équipes…) et ce qu'elle doit permettre de faire.", 'Sur quels supports : iPhone, Android, ordinateur ?', "Utilisez-vous aujourd'hui un outil (tableur, logiciel) qu'elle doit remplacer ou compléter ?"] },
+    'SEO': { nom: 'votre référencement', court: 'référencement', q: [ADR, 'Les recherches sur lesquelles vous aimeriez apparaître sur Google, et la zone visée (Manosque, le 04, la France…).', 'Avez-vous une fiche Google Business Profile ?'] },
+    'Audit': { nom: "l'audit de votre site", court: 'audit', q: [ADR, "Ce qui vous pose question aujourd'hui : lenteur, peu de contacts, mauvaise place sur Google, sécurité…"] },
+    'Sécurité': { nom: 'la sécurité de votre site', court: 'sécurité', q: [ADR, "Si vous le savez, l'outil utilisé pour votre site (WordPress, Wix, sur mesure…).", "Avez-vous constaté un problème (piratage, message d'alerte, lenteur) ou est-ce une démarche de prévention ?"] },
+    'Automatisation': { nom: "l'automatisation de vos tâches", court: 'automatisation', q: ["Les tâches répétitives qui vous prennent le plus de temps aujourd'hui.", 'Les outils que vous utilisez déjà (e-mail, tableur, agenda, logiciel de facturation…).'] },
+    'Dashboard': { nom: 'votre tableau de bord', court: 'tableau de bord', q: ["Les chiffres que vous aimeriez suivre d'un coup d'œil.", "Où se trouvent ces données aujourd'hui (tableur, logiciel de caisse, comptabilité…)."] },
+    'Facturation': { nom: 'votre facturation électronique', court: 'facturation électronique', q: ["Comment vous éditez vos factures aujourd'hui.", 'Le volume approximatif de factures par mois.'] }
+  };
+  function replyDraft(d) {
+    const prenom = d.nom.split(/\s+/)[0] || '';
+    const list = d.besoins.filter(b => NEEDS[b]);
+    const and = a => a.slice(0, -1).join(', ') + (a.length > 1 ? ' et ' : '') + a[a.length - 1];
+    const objet = list.length ? and(list.map(b => NEEDS[b].nom)) : 'votre projet';
+    // the site address is asked once, and at most 6 questions so the e-mail stays short
+    const all = new Set([].concat(...list.map(b => NEEDS[b].q)));
+    if (list.includes('Site web')) all.delete(ADR);
+    const qs = [...all].slice(0, 6);
+    if (!qs.length) qs.push('Votre activité et ce que vous aimeriez mettre en place.');
+    qs.push('Le délai souhaité et, si vous en avez une, l\'enveloppe budgétaire envisagée.');
+    const body = [
+      `Bonjour ${prenom},`,
+      '',
+      "Merci pour votre message et pour l'intérêt que vous portez à KingDream Digital.",
+      '',
+      `J'ai bien pris connaissance de votre demande concernant ${objet}. Pour rappel, voici ce que vous m'avez écrit :`,
+      `« ${d.message} »`,
+      '',
+      'Afin de vous préparer une proposition claire et adaptée, pourriez-vous me préciser :',
+      ...qs.map(q => '- ' + q),
+      '',
+      d.telephone
+        ? `Le plus simple est souvent d'en parler de vive voix : je peux vous appeler au ${d.telephone}. Dites-moi le créneau qui vous arrange.`
+        : "Le plus simple est souvent d'en parler de vive voix : indiquez-moi un numéro et un créneau qui vous arrangent, et je vous appelle.",
+      'Ce premier échange est offert et sans engagement. À la suite, vous recevrez un devis clair et détaillé.',
+      '',
+      'Au plaisir d\'échanger avec vous,',
+      '',
+      'Boris',
+      'KingDream Digital',
+      '06 27 20 55 97 · contact@kingdream.fr',
+      'https://kingdream.fr'
+    ].join('\n');
+    return { subject: `Votre demande${list.length ? ' : ' + and(list.map(b => NEEDS[b].court)) : ''} · KingDream Digital`, body };
+  }
+
   /* form */
   const form = $('#form');
   form.addEventListener('submit', e => {
@@ -1407,12 +1462,19 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
     const done = () => form.classList.add('sent');
     if (v('site_web')) { done(); return; } /* champ piège rempli : robot, rien n'est envoyé */
     if (!window.emailjs) { btn.disabled = false; btn.textContent = 'Envoyer ma demande'; stat.textContent = "L'envoi est indisponible pour le moment. Écrivez-nous à contact@kingdream.fr."; stat.className = 'fstat err'; return; }
+    const draft = replyDraft({ nom: v('nom'), entreprise: v('entreprise'), telephone: v('telephone'), message: v('message'), besoins: $$('input[name=besoin]:checked', form).map(c => c.value) });
     emailjs.send('service_hoelqns', 'template_3s8lpo4', {
       from_name: v('nom') + (v('entreprise') ? ' — ' + v('entreprise') : ''),
       from_email: v('email'),
       project: (needs || 'Non précisé') + (v('telephone') ? ' · Tél. ' + v('telephone') : ''),
-      message: v('message')
-    }).then(done, () => { btn.disabled = false; btn.textContent = 'Envoyer ma demande'; stat.textContent = "Impossible d'envoyer la demande pour le moment. Réessayez dans un instant ou écrivez-nous à contact@kingdream.fr."; stat.className = 'fstat err'; });
+      message: v('message'),
+      // recap + ready-to-send reply (used by the "Nouvelle demande" EmailJS template)
+      name: v('nom'), company: v('entreprise') || '—', phone: v('telephone') || '—', needs: needs || 'Non précisé',
+      sent_at: new Date().toLocaleString('fr-FR', { dateStyle: 'full', timeStyle: 'short' }),
+      reply_subject: draft.subject, reply_body: draft.body,
+      reply_link: 'mailto:' + encodeURIComponent(v('email')) + '?subject=' + encodeURIComponent(draft.subject) + '&body=' + encodeURIComponent(draft.body),
+      reply_gmail: 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(v('email')) + '&su=' + encodeURIComponent(draft.subject) + '&body=' + encodeURIComponent(draft.body)
+    }).then(done,() => { btn.disabled = false; btn.textContent = 'Envoyer ma demande'; stat.textContent = "Impossible d'envoyer la demande pour le moment. Réessayez dans un instant ou écrivez-nous à contact@kingdream.fr."; stat.className = 'fstat err'; });
   });
   $$('input,textarea', form).forEach(f => f.addEventListener('input', () => f.parentNode.classList.remove('err')));
 })();
