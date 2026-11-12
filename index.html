@@ -1050,14 +1050,15 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
           <label><input type="checkbox" name="besoin" value="Facturation"><span>Facturation électronique</span></label>
         </div>
         <div class="fields">
-          <div class="field"><input id="fn" name="nom" placeholder=" " autocomplete="name" required><label for="fn">Prénom et nom</label></div>
-          <div class="field"><input id="fc" name="entreprise" placeholder=" " autocomplete="organization"><label for="fc">Entreprise</label></div>
-          <div class="field"><input id="fe" name="email" type="email" placeholder=" " autocomplete="email" required><label for="fe">Adresse e-mail</label></div>
-          <div class="field"><input id="fp" name="telephone" type="tel" placeholder=" " autocomplete="tel"><label for="fp">Téléphone (facultatif)</label></div>
-          <div class="field full"><textarea id="fm" name="message" placeholder=" " required></textarea><label for="fm">Votre projet en quelques mots</label></div>
+          <div class="field"><input id="fn" name="nom" placeholder=" " autocomplete="name" maxlength="80" required><label for="fn">Prénom et nom</label></div>
+          <div class="field"><input id="fc" name="entreprise" placeholder=" " autocomplete="organization" maxlength="100"><label for="fc">Entreprise</label></div>
+          <div class="field"><input id="fe" name="email" type="email" placeholder=" " autocomplete="email" maxlength="120" required><label for="fe">Adresse e-mail</label></div>
+          <div class="field"><input id="fp" name="telephone" type="tel" placeholder=" " autocomplete="tel" maxlength="25"><label for="fp">Téléphone (facultatif)</label></div>
+          <div class="field full"><textarea id="fm" name="message" placeholder=" " maxlength="3000" required></textarea><label for="fm">Votre projet en quelques mots</label></div>
         </div>
         <label class="consent"><input type="checkbox" id="fConsent"><span class="cbox"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>J'accepte que mes informations soient utilisées pour répondre à ma demande, comme décrit dans la <a href="/confidentialite/">politique de confidentialité</a>.</span></label>
         <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label for="fw">Ne pas remplir ce champ</label><input id="fw" name="site_web" tabindex="-1" autocomplete="off"></div>
+        <div id="fCaptcha" class="captcha" hidden></div>
         <p class="fstat" id="fStat" aria-live="polite"></p>
         <div class="form-foot"><small>Vos informations servent uniquement à répondre à votre demande. Elles ne sont jamais revendues.</small><button class="btn btn-lg" type="submit">Envoyer ma demande</button></div>
       </div>
@@ -1444,6 +1445,77 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
 
   /* form */
   const form = $('#form');
+
+  /* ---- protection anti-spam / anti-phishing du formulaire ----
+     Ces contrôles arrêtent les robots simples et les messages piégés.
+     Ils complètent (sans les remplacer) les réglages du tableau de bord EmailJS :
+     domaines autorisés, reCAPTCHA vérifié par EmailJS, limite d'envoi. */
+  const RECAPTCHA_SITE_KEY = ''; // clé « site » reCAPTCHA v2 ; vide = captcha désactivé
+  const FORM_T0 = Date.now();
+  let humanSignal = false;
+  ['pointerdown', 'keydown', 'touchstart'].forEach(t => form.addEventListener(t, () => { humanSignal = true; }, { passive: true, once: true }));
+
+  // adresses jetables et extensions très utilisées par le spam
+  const DISPOSABLE = ['mailinator.com', 'yopmail.com', 'yopmail.fr', 'guerrillamail.com', 'guerrillamail.net', 'sharklasers.com', 'grr.la', '10minutemail.com', '10minutemail.net', 'temp-mail.org', 'tempmail.com', 'tempmail.net', 'tempmailo.com', 'temp-mail.io', 'throwawaymail.com', 'trashmail.com', 'trashmail.fr', 'getnada.com', 'nada.email', 'dispostable.com', 'maildrop.cc', 'mailnesia.com', 'mintemail.com', 'mohmal.com', 'emailondeck.com', 'fakeinbox.com', 'mailcatch.com', 'spamgourmet.com', 'jetable.org', 'moakt.com', 'tmail.ws', 'tmpmail.org', 'burnermail.io', 'mail.tm', 'emailfake.com', 'fakemail.net', 'mvrht.net', 'mytemp.email', 'inboxkitten.com', 'spambox.us', 'byom.de', 'trbvm.com', 'cuvox.de', 'armyspy.com', 'dayrep.com', 'einrot.com', 'fleckens.hu', 'gustr.com', 'jourrapide.com', 'rhyta.com', 'superrito.com', 'teleworm.us'];
+  const BAD_TLD = ['ru', 'su', 'cn', 'top', 'xyz', 'click', 'icu', 'buzz', 'cyou', 'rest', 'loan', 'win', 'bid', 'work', 'party', 'gq', 'cf', 'tk', 'ml', 'ga', 'zip', 'mov', 'kim', 'country', 'stream', 'download', 'racing', 'review', 'date', 'faith', 'cricket', 'science', 'accountant', 'support', 'monster', 'sbs', 'cfd', 'lol', 'quest'];
+  // raccourcisseurs de liens : ils masquent la vraie destination
+  const SHORTENERS = ['bit.ly', 'tinyurl.com', 't.co', 'goo.gl', 'ow.ly', 'is.gd', 'buff.ly', 'cutt.ly', 'rb.gy', 'shorturl.at', 'tiny.cc', 'rebrand.ly', 'bl.ink', 'lnkd.in', 's.id', 'v.gd', 'qr.ae', 'shorte.st', 'adf.ly', 'linktr.ee', 't.me', 'wa.me', 'telegra.ph'];
+  const SPAM_WORDS = /\b(crypto|bitcoin|btc|usdt|forex|casino|viagra|cialis|porn|sex|escort|loan|lottery|wallet|seed phrase|airdrop|backlinks?|guest post|seo services?|rank (?:your|you) (?:site|website)|western union|gift ?card|inheritance|beneficiary|verify your account|cliquez ici|click here|congratulations|f[ée]licitations.{0,40}gagn)\b/i;
+  const URL_RE = /\b(?:https?:\/\/|hxxps?:\/\/|www\.)[^\s<>"']+|\b[a-z0-9-]{2,}\.(?:com|net|org|fr|eu|io|co|info|biz|me|link|app|site|online|shop|store|live|page|xyz|top|ru|su|cn|click|icu|buzz|ly|gl|gd|cc|ws|ee|ph|id|at|ae|in|to|tk|ml|ga|cf|gq|zip|mov)\b(?:\/[^\s<>"']*)?/gi;
+
+  const URL_ONE = new RegExp(URL_RE.source, 'i');
+  const domainOf = email => (email.split('@')[1] || '').toLowerCase();
+  const tldOf = host => host.split('.').pop();
+  const hostOf = u => { try { return new URL(/^[a-z]+:\/\//i.test(u) ? u.replace(/^hxxp/i, 'http') : 'http://' + u).hostname.toLowerCase().replace(/^www\./, ''); } catch (e) { return ''; } };
+  const clean = t => t.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F​-‏‪-‮⁠-⁤﻿]/g, '').trim();
+
+  function check(d) {
+    // l'e-mail : format strict, pas d'adresse jetable ni d'extension douteuse
+    if (!/^[a-z0-9._%+-]{1,64}@[a-z0-9.-]{1,180}\.[a-z]{2,24}$/i.test(d.email) || /\.\./.test(d.email)) return { field: 'email', msg: 'Merci de vérifier votre adresse e-mail.' };
+    const dom = domainOf(d.email);
+    if (DISPOSABLE.some(x => dom === x || dom.endsWith('.' + x)) || BAD_TLD.includes(tldOf(dom)) || dom.startsWith('xn--') || dom.includes('.xn--'))
+      return { field: 'email', msg: 'Cette adresse e-mail ne peut pas être utilisée. Merci d\'indiquer votre adresse habituelle, ou écrivez-nous à contact@kingdream.fr.' };
+    // aucun lien dans le nom, l'entreprise ou le téléphone
+    if ([d.nom, d.entreprise].some(x => URL_ONE.test(x) || /[<>{}@]/.test(x))) return { field: 'nom', msg: 'Le nom et l\'entreprise ne doivent pas contenir de lien ni de caractère spécial.' };
+    if (d.telephone && !/^[+0-9 ().-]{6,25}$/.test(d.telephone)) return { field: 'telephone', msg: 'Merci de vérifier le numéro de téléphone.' };
+    if (d.nom.length < 2) return { field: 'nom', msg: 'Merci d\'indiquer votre nom.' };
+    if (d.message.length < 10) return { field: 'message', msg: 'Pouvez-vous décrire votre projet en quelques mots de plus ?' };
+    // les liens du message : au plus un, jamais raccourci ni vers une extension douteuse
+    const links = d.message.replace(/\S+@\S+/g, ' ').match(URL_RE) || []; // une adresse e-mail n'est pas un lien
+    const hosts = links.map(hostOf);
+    if (links.length > 1) return { field: 'message', msg: 'Merci de ne laisser qu\'un seul lien au maximum (l\'adresse de votre site, par exemple).' };
+    const shortRe = new RegExp('(?:^|[^a-z0-9.-])(?:' + SHORTENERS.map(x => x.replace(/\./g, '\\.')).join('|') + ')\\/', 'i');
+    if (shortRe.test(d.message) || hosts.some(h => !h || SHORTENERS.includes(h) || BAD_TLD.includes(tldOf(h)) || h.startsWith('xn--') || h.includes('.xn--') || /^\d+\.\d+\.\d+\.\d+$/.test(h)) || /\b(?:data|javascript):/i.test(d.message))
+      return { field: 'message', msg: 'Ce lien ne peut pas être envoyé par le formulaire. Indiquez simplement le nom de votre site, nous le retrouverons.' };
+    // vocabulaire typique du spam et de l'hameçonnage
+    if (SPAM_WORDS.test(d.message + ' ' + d.entreprise)) return { spam: true };
+    // écriture non latine majoritaire (spam international)
+    const letters = (d.message.match(/\p{L}/gu) || []).length, latin = (d.message.match(/\p{Script=Latin}/gu) || []).length;
+    if (letters > 20 && latin / letters < 0.6) return { spam: true };
+    return null;
+  }
+
+  // limite : une demande par minute et trois par jour depuis ce navigateur
+  const RL_KEY = 'kd_form_sends';
+  const readSends = () => { try { return (JSON.parse(localStorage.getItem(RL_KEY)) || []).filter(t => Date.now() - t < 864e5); } catch (e) { return []; } };
+  const writeSends = a => { try { localStorage.setItem(RL_KEY, JSON.stringify(a)); } catch (e) {} };
+  let lastSend = 0;
+  function rateLimited() {
+    const a = readSends(), now = Date.now();
+    if (now - lastSend < 60e3 || (a.length && now - a[a.length - 1] < 60e3)) return 'Votre demande vient d\'être envoyée. Merci de patienter une minute avant d\'en envoyer une autre.';
+    if (a.length >= 3) return 'Vous avez déjà envoyé plusieurs demandes aujourd\'hui. Nous vous répondons sous 24 h ; pour un complément, écrivez-nous à contact@kingdream.fr.';
+    return null;
+  }
+
+  // reCAPTCHA v2 (vérifié côté EmailJS) : chargé uniquement si une clé est renseignée
+  let captchaId = null;
+  if (RECAPTCHA_SITE_KEY) {
+    window.kdCaptchaReady = () => { const box = $('#fCaptcha'); box.hidden = false; captchaId = grecaptcha.render(box, { sitekey: RECAPTCHA_SITE_KEY }); };
+    const sc = document.createElement('script');
+    sc.src = 'https://www.google.com/recaptcha/api.js?onload=kdCaptchaReady&render=explicit&hl=fr';
+    sc.async = true; sc.defer = true; document.head.appendChild(sc);
+  }
+
   form.addEventListener('submit', e => {
     e.preventDefault();
     let first = null;
@@ -1452,35 +1524,58 @@ body.intro .hero,body.intro .hero *{animation-play-state:paused!important}
       f.parentNode.classList.toggle('err', bad);
       if (bad && !first) first = f;
     });
-    const rg = $('#fConsent');
-    if (!first && rg && !rg.checked) { rg.focus(); $('#fStat').textContent = 'Merci de cocher la case de confidentialité pour envoyer votre demande.'; $('#fStat').className = 'fstat err'; return; }
-    if (first) { first.focus(); return; }
     const btn = form.querySelector('button[type=submit]'), stat = $('#fStat');
+    const fail = (msg, field) => { stat.textContent = msg; stat.className = 'fstat err'; if (field) { const f = form.querySelector(`[name=${field}]`); if (f) { f.parentNode.classList.add('err'); f.focus(); } } };
+    const rg = $('#fConsent');
+    if (!first && rg && !rg.checked) { rg.focus(); fail('Merci de cocher la case de confidentialité pour envoyer votre demande.'); return; }
+    if (first) { first.focus(); return; }
+    const v = n => clean(form.querySelector(`[name=${n}]`).value || '');
+    const done = () => form.classList.add('sent');
+    /* robots : champ piège rempli, envoi trop rapide ou sans aucune action humaine. Rien n'est envoyé. */
+    if (v('site_web') || Date.now() - FORM_T0 < 4000 || !humanSignal) { done(); return; }
+    const d = { nom: v('nom'), entreprise: v('entreprise'), email: v('email').toLowerCase(), telephone: v('telephone'), message: v('message') };
+    const pb = check(d);
+    if (pb && pb.spam) { done(); return; } /* spam évident : on ne transmet pas */
+    if (pb) { fail(pb.msg, pb.field); return; }
+    const rl = rateLimited();
+    if (rl) { fail(rl); return; }
+    let captcha = '';
+    if (RECAPTCHA_SITE_KEY) {
+      captcha = window.grecaptcha && captchaId !== null ? grecaptcha.getResponse(captchaId) : '';
+      if (!captcha) { fail('Merci de cocher la case « Je ne suis pas un robot ».'); return; }
+    }
     const needs = $$('input[name=besoin]:checked', form).map(c => c.value).join(', ');
     btn.disabled = true; btn.textContent = 'Envoi en cours…'; stat.textContent = ''; stat.className = 'fstat';
-    const v = n => (form.querySelector(`[name=${n}]`).value || '').trim();
-    const done = () => form.classList.add('sent');
-    if (v('site_web')) { done(); return; } /* champ piège rempli : robot, rien n'est envoyé */
-    if (!window.emailjs) { btn.disabled = false; btn.textContent = 'Envoyer ma demande'; stat.textContent = "L'envoi est indisponible pour le moment. Écrivez-nous à contact@kingdream.fr."; stat.className = 'fstat err'; return; }
-    const draft = replyDraft({ nom: v('nom'), entreprise: v('entreprise'), telephone: v('telephone'), message: v('message'), besoins: $$('input[name=besoin]:checked', form).map(c => c.value) });
-    emailjs.send('service_hoelqns', 'template_3s8lpo4', {
-      from_name: v('nom') + (v('entreprise') ? ' — ' + v('entreprise') : ''),
-      from_email: v('email'),
-      project: (needs || 'Non précisé') + (v('telephone') ? ' · Tél. ' + v('telephone') : ''),
-      message: v('message'),
+    if (!window.emailjs) { btn.disabled = false; btn.textContent = 'Envoyer ma demande'; fail("L'envoi est indisponible pour le moment. Écrivez-nous à contact@kingdream.fr."); return; }
+    const draft = replyDraft({ nom: d.nom, entreprise: d.entreprise, telephone: d.telephone, message: d.message, besoins: $$('input[name=besoin]:checked', form).map(c => c.value) });
+    const params = {
+      from_name: d.nom + (d.entreprise ? ' — ' + d.entreprise : ''),
+      from_email: d.email,
+      project: (needs || 'Non précisé') + (d.telephone ? ' · Tél. ' + d.telephone : ''),
+      message: d.message,
       // recap + ready-to-send reply (used by the "Nouvelle demande" EmailJS template)
-      name: v('nom'), company: v('entreprise') || '—', phone: v('telephone') || '—', needs: needs || 'Non précisé',
+      name: d.nom, company: d.entreprise || '—', phone: d.telephone || '—', needs: needs || 'Non précisé',
       sent_at: new Date().toLocaleString('fr-FR', { dateStyle: 'full', timeStyle: 'short' }),
       reply_subject: draft.subject, reply_body: draft.body,
-      reply_link: 'mailto:' + encodeURIComponent(v('email')) + '?subject=' + encodeURIComponent(draft.subject) + '&body=' + encodeURIComponent(draft.body),
-      reply_gmail: 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(v('email')) + '&su=' + encodeURIComponent(draft.subject) + '&body=' + encodeURIComponent(draft.body)
-    }).then(done,() => { btn.disabled = false; btn.textContent = 'Envoyer ma demande'; stat.textContent = "Impossible d'envoyer la demande pour le moment. Réessayez dans un instant ou écrivez-nous à contact@kingdream.fr."; stat.className = 'fstat err'; });
+      // encoded pieces only: the template builds the mailto/Gmail links itself, with a fixed start
+      to_enc: encodeURIComponent(d.email), reply_subject_enc: encodeURIComponent(draft.subject), reply_body_enc: encodeURIComponent(draft.body),
+      reply_link: 'mailto:' + encodeURIComponent(d.email) + '?subject=' + encodeURIComponent(draft.subject) + '&body=' + encodeURIComponent(draft.body),
+      reply_gmail: 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(d.email) + '&su=' + encodeURIComponent(draft.subject) + '&body=' + encodeURIComponent(draft.body)
+    };
+    if (captcha) params['g-recaptcha-response'] = captcha;
+    emailjs.send('service_hoelqns', 'template_3s8lpo4', params).then(() => {
+      lastSend = Date.now(); const a = readSends(); a.push(lastSend); writeSends(a); done();
+    }, () => {
+      btn.disabled = false; btn.textContent = 'Envoyer ma demande';
+      if (captchaId !== null && window.grecaptcha) grecaptcha.reset(captchaId);
+      fail("Impossible d'envoyer la demande pour le moment. Réessayez dans un instant ou écrivez-nous à contact@kingdream.fr.");
+    });
   });
   $$('input,textarea', form).forEach(f => f.addEventListener('input', () => f.parentNode.classList.remove('err')));
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js" integrity="sha384-SALc35EccAf6RzGw4iNsyj7kTPr33K7RoGzYu+7heZhT8s0GZouafRiCg1qy44AS" crossorigin="anonymous"></script>
-<script>try{emailjs.init({publicKey:"rKyne3AoYIx6m0qUs"});}catch(e){}</script>
+<script>try{emailjs.init({publicKey:"rKyne3AoYIx6m0qUs",limitRate:{id:"kd-contact",throttle:60000}});}catch(e){}</script>
 
 
 
